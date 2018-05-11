@@ -1,0 +1,128 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+  <a class="navbar-brand bg-primary" href="/" style="margin:-18x -5px -8px -8px;">
+    <img height=30px src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_login/images/brm60x60.png">
+  </a>
+  <h5 class="">Batch</h5>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" (click)="onLogoutClick()" style="cursor:pointer;"> Logout </a>
+
+      </li>
+      <li class="nav-item">
+        <a class="nav-link">Help </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+</nav>
+<mat-tab-group>
+  <mat-tab label="Tab 1">
+    <div style="margin:50px;">
+      <legend>Admin's Management</legend>
+      <button (click)="sort()" mat-raised-button>sort</button>
+      <h4>Users</h4>
+      <div class="row">
+
+
+        <mat-card *ngFor="let user of users" class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+              <mat-icon mat-button disabled>how_to_reg</mat-icon>
+            </div>
+
+            <mat-card-title>{{user}}
+
+            </mat-card-title>
+
+            <mat-card-subtitle>user</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="https://loremflickr.com/320/240" alt="Photo of a Shiba Inu">
+          <mat-card-actions>
+
+            <a mat-button>Mark as admin</a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <mat-divider></mat-divider>
+      <h4>Admins</h4>
+      <div class="row" style="max-height:9cm;overflow-x:hidden">
+        <mat-card style="background:rgb(176, 253, 145)" *ngFor="let admin of admins" class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+              <mat-icon mat-button disabled>how_to_reg</mat-icon>
+            </div>
+            <mat-card-title>{{admin}}</mat-card-title>
+            <mat-card-subtitle>admin</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="https://loremflickr.com/220/250" alt="Photo of a Shiba Inu">
+        </mat-card>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Tab 2">
+
+
+    <br>
+
+    <div class="card border-dark">
+      <div class="row " style="margin:0.5cm;">
+
+        <p>Add a new Site</p>
+
+        <mat-form-field class="col-sm-2">
+          <input #site matInput placeholder="Add Site">
+        </mat-form-field>
+        <div class="col-sm-1" style="height:1cm;">
+          <button class="btn btn-primary" (click)="addsite(site.value)">Submit</button>
+        </div>
+
+
+        <div class="col-sm-1 vl"></div>
+
+        <div>Reasons</div>
+        <div>
+          <mat-form-field class="col-sm-4">
+            <mat-select #selectsite placeholder="Select a Site">
+              <mat-option *ngFor="let site of sitemenu" value="{{site}}">
+                {{ site }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <mat-form-field class="col-sm-4">
+            <mat-select #batch placeholder="Select a Batch">
+              <mat-option *ngFor="let batch of batchmenu" value="{{batch}}">
+                {{ batch }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example col-sm-4">
+            <input matInput placeholder="Add Site" #reason>
+          </mat-form-field>
+          <button class="btn btn-primary" (click)="addreason(selectsite.value, batch.value, reason.value)">Submit</button>
+        </div>
+
+      </div>
+
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+<flash-messages></flash-messages>

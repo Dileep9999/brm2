@@ -1,0 +1,20 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .mat-table {
+    overflow: auto;
+   
+  }
+  p{
+    font-size: 14px;
+  }
+  h6{
+    font-family:Arial, Helvetica, sans-serif;
+    margin-right:3.5cm; 
+  }
+  .card{
+    background: white
+  }

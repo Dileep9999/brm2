@@ -1,0 +1,116 @@
+.projectName{
+    padding: 0px 0px 0px 20px;
+    font-size: 21px !important;
+    font-family: AkzidenzGrotesk!important;
+}
+.Header-label{
+    font-size: 13px;
+    font-family: Arial !important;
+    font-weight: bold;
+}
+.Header-span{
+    font-size: 13px;
+    font-family: Arial !important;
+    font-weight: normal;
+}
+.status-br{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 73px;
+    width: 210px;
+}
+.staus-new{
+    font-size: 11px;
+    font-family: ArialMT;
+    text-align: left;
+}
+.staus-Batch{
+    font-size: 12px;
+    font-family: ArialMT;
+    text-align: left;
+    font-style: italic;
+}
+.pilot-br{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 73px;
+    width: 73px;
+    margin-left: 10px;
+}
+.projectIcon{
+    height:40px;
+    width:40px;
+    margin-top: 2px;
+}
+.pilot-br.active .btm-text {
+    background-color:rgb(20, 133, 238);
+    color: #fff;
+    font-size: 13px;
+}
+.btm-text{
+   border-radius: 0px 0px 5px 5px;
+   text-align:center;
+   height:25px;
+   width:100%;
+   background-color: rgb(20, 133, 238);
+   line-height: 25px;
+   position:absolute;
+   left:0px;
+   bottom:0px;
+   cursor:pointer;
+
+}
+.btm-disabled{
+    pointer-events: auto !important;
+    cursor: not-allowed !important;
+    box-shadow: none;
+    opacity: .65;
+}
+
+.tab-header{
+    height: 96px;
+    border-bottom: 1px solid lightgray;
+}
+.header{
+    height: 64px;
+    border-bottom: 1px solid lightgray;
+}
+.book-header{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 692px;
+    width: 943px;
+    margin-left:0px;
+    margin-top: 21px;
+    background-color: white;
+}
+.list{
+    cursor:pointer;
+    text-align:center;
+}
+.mat-option:hover:not(.mat-option-disabled) {
+    background:lightblue;
+}
+.test{
+    background-color: rgb(61, 131, 236);
+}
+.batch-header{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    max-height: 110px;
+    max-width: 292px;
+    margin-top: 20px;
+    background-color: white;
+}
+.batch-br{
+    width: 290px;
+    text-align: left;
+}
+.mat-button-toggle-checked {
+    background-color: lightblue;
+    color: black;
+}
+.mat-button-checked {
+    background-color: lightblue;
+    color: black;
+}
