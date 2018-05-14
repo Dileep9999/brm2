@@ -41,16 +41,20 @@
         <mat-card *ngFor="let user of users" class="example-card">
           <mat-card-header>
             <div mat-card-avatar class="example-header-image">
-              <mat-icon mat-button disabled>how_to_reg</mat-icon>
+              <mat-icon mat-button disabled>account_circle</mat-icon>
             </div>
 
-            <mat-card-title>{{user}}
+            <mat-card-title>{{user.user_id}}
 
             </mat-card-title>
 
-            <mat-card-subtitle>user</mat-card-subtitle>
+            <mat-card-subtitle>{{user.user_type}}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="https://loremflickr.com/320/240" alt="Photo of a Shiba Inu">
+          <!-- <img mat-card-image src="https://loremflickr.com/320/240" alt="Photo of a Shiba Inu"> -->
+          <mat-card-content>
+            <label>{{user.email}}</label>
+            <label>{{user.createdAt}}</label>
+          </mat-card-content>
           <mat-card-actions>
 
             <a mat-button>Mark as admin</a>
@@ -65,10 +69,14 @@
             <div mat-card-avatar class="example-header-image">
               <mat-icon mat-button disabled>how_to_reg</mat-icon>
             </div>
-            <mat-card-title>{{admin}}</mat-card-title>
-            <mat-card-subtitle>admin</mat-card-subtitle>
+            <mat-card-title>{{admin.user_id}}</mat-card-title>
+            <mat-card-subtitle>{{admin.user_type}}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="https://loremflickr.com/220/250" alt="Photo of a Shiba Inu">
+          <!-- <img mat-card-image src="https://loremflickr.com/220/250" alt="Photo of a Shiba Inu"> -->
+          <mat-card-content>
+            <label>{{admin.email}}</label>
+            <label>{{admin.createdAt}}</label>
+          </mat-card-content>
         </mat-card>
       </div>
     </div>

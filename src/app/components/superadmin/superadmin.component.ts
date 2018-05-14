@@ -15,6 +15,7 @@ export class SuperadminComponent implements OnInit {
   selected: String;
   admins: String[] = ['sasank', 'pmp', 'dilip', 'asif', 'sasank', 'pmp', 'dilip', 'asif', 'sasank', 'pmp', 'dilip', 'asif'];
   sitemenu: String[];
+  superadmins: String[];
   batchmenu: String[];
   constructor(
     private authService: AuthService,
@@ -25,10 +26,15 @@ export class SuperadminComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.users.sort();
+    this.users = [];
+    this.admins = [];
+    this.superadmins = [];
     this.sitemenu = [];
-    this.selectsite();
+    // this.selectsite();
     this.batchmenu = ["LAB", "PILOT", "OTHERS"]
+    console.log("aaaa");
+
+    this.getusers();
 
   }
   sort() {
@@ -46,7 +52,19 @@ export class SuperadminComponent implements OnInit {
     this.router.navigate(['/']);
     return false;
   }
+  getusers() {
+    console.log("test");
 
+    this.authService.getusers("USER").subscribe(data => {
+      this.users = data.data;
+    });
+    this.authService.getusers("ADMIN").subscribe(data => {
+      this.admins = data.data;
+    });
+    this.authService.getusers("SUPERADMIN").subscribe(data => {
+      this.superadmins = data.data;
+    });
+  }
 
   addsite(value) {
     let site = {

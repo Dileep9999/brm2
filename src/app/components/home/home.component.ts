@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
 
 
   login() {
+    console.log("Login");
+
     if (!this.userid_email || !this.password) {
       this.loginmessage = 'Enter Username/Password'
     }

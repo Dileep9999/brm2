@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
     // this.value='';
     this.Searchmenu = ['All', 'Simatic Code', 'Formula code', 'Packaging Type', 'Spec num', 'Request Num', 'Request Type'];
     this.Searchvalue = 'All';
-    console.log(this.Searchmenu);
+    // console.log(this.Searchmenu);
 
   }
 

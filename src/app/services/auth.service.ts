@@ -32,7 +32,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/sites', site, { headers: headers })
+    return this.http.post('http://localhost:3000/sites', site, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         if (err.status === 409) {
@@ -69,7 +69,7 @@ export class AuthService {
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/signin', user, { headers: headers })
+    return this.http.post('http://localhost:3000/signin', user, { headers: headers })
       .map(res => res.json());
   }
 
@@ -89,7 +89,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://192.168.0.133:3000/sites', { headers: headers })
+    return this.http.get('http://localhost:3000/sites', { headers: headers })
       .map(res => res.json());
   }
 
@@ -100,8 +100,23 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://192.168.0.133:3000/reasons', { headers: headers })
+    return this.http.get('http://localhost:3000/reasons', { headers: headers })
       .map(res => res.json());
+  }
+  getusers(USER) {
+    console.log(USER);
+
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/users/' + USER, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        console.log(err.status);
+
+        return Observable.throw(err)
+      });
   }
 
 
@@ -110,7 +125,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/reasons', data, { headers: headers })
+    return this.http.post('http://localhost:3000/reasons', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 

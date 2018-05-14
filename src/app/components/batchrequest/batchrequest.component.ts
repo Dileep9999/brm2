@@ -44,7 +44,10 @@ export class BatchrequestComponent implements OnInit {
     this.authService.getsites().subscribe(data => {
       for (let i = 0; i => data.data.length - 1; i++) {
         this.sitemenu.push(data.data[i].site);
+        // console.log(this.sitemenu);
+
       }
+
     });
   }
   toggleColor(sitevalue) {
@@ -95,10 +98,11 @@ export class BatchrequestComponent implements OnInit {
   }
 
   addreasons(sitetype, batchtype) {
-
-
     for (let i = 0; i <= this.reasonsdata.length; i++) {
       if (sitetype === this.reasonsdata[i].site && batchtype === this.reasonsdata[i].batch_type) {
+        if (this.reasonsdata[0] === undefined) {
+          this.reasons = ["NO Reasons For "]
+        }
         this.reasons = this.reasonsdata[i].reason;
       }
     }
@@ -108,11 +112,10 @@ export class BatchrequestComponent implements OnInit {
   loadreasons() {
     this.authService.getreasons().subscribe(data => {
       this.reasonsdata = data.data;
+      // console.log(this.reasonsdata);
+
     });
   }
-
-
-
   equipmentreq() {
     let data = {
       request_id: '',
