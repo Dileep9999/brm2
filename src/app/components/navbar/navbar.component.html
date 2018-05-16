@@ -128,9 +128,9 @@
     <a class="dropdown-toggle" [matMenuTriggerFor]="menu7" style="cursor: pointer;padding-right:22px;">
       <img src="assets/Images/add.png">New</a>
     <mat-menu [overlapTrigger]="false" #menu7="matMenu">
-      <button mat-menu-item (click)="openDialog()">Batch Request</button>
+      <button mat-menu-item (click)="openDialog() ">Batch Request</button>
       <button mat-menu-item (click)="openDialog1()"> Filling Request</button>
-      <button mat-menu-item>Batch RM Order</button>
+      <button mat-menu-item (click)="openDialog2()">Batch RM Order</button>
     </mat-menu>
   </div>
 

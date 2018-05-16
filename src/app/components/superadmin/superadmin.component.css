@@ -9,8 +9,6 @@
   background-size: cover;
 } */
 
- .vl {
-  border-left: 2px solid rgb(92, 94, 92);
-  height: 150px;
-  /* / margin-right:0.5cm; / */
-  }
+.jumbotron{
+  border-style: solid ;
+}

@@ -1,0 +1,82 @@
+<mat-card>
+  <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+    <div class="row">
+      <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+        <div class="row">
+          <div class="projectName">{{br_num}}</div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <label class="Header-label">Submitter:</label>
+            <span class="Header-span">{{authService.user_id}}</span>
+            <label class="Header-label">Department:</label>
+            <span class="Header-span">{{department}}</span>
+          </div>
+          <div class="col-lg-3 col-sm-3 col-xs-3 col-md-3 center-block">
+            <label class="Header-label">Updated:</label>
+            <span class="Header-span">{{updateddate}}</span>
+            <label class="Header-label">Type:</label>
+            <span class="Header-span">Not Selected</span>
+          </div>
+          <div class="col-lg-5 col-sm-5 col-xs-5 col-md-5">
+            <label class="Header-label">Project:</label>
+            <span class="Header-span">{{project}}</span>
+            <label class="Header-label">Work Order Number:</label>
+            <span class="Header-span"></span>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-6" style="margin-top: 10px;">
+        <div class="row">
+          <div class="col-lg-5 col-sm-5 col-xs-5 col-md-5 card border-dark">
+            <div class="row">
+              <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;">
+
+                <circle-progress [percent]="percent" id="circle" [showSubtitle]=false [titleFontSize]=8 [radius]="22" [outerStrokeWidth]="4"
+                  [innerStrokeWidth]="2" [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true" [animationDuration]="800"></circle-progress>
+                <!-- <mat-progress-spinner class="example-margin" style="margin: 20% 10%;" color="warn" [diameter]=45 [value]=18>
+                        </mat-progress-spinner> -->
+              </div>
+              <div class="col-lg-8 col-sm-8 col-xs-8 col-md-8" style="margin-top:15px;padding:0px 5px;">
+                <div class="staus-new">New</div>
+                <div class="staus-Batch">Batch Request Created</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br active" style="padding:0px;">
+            <span>
+              <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">
+            </span>
+            <span class="btm-text">BRM</span>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br" style="padding:0px;">
+            <span>
+              <img class="projectIcon mx-auto d-block disabled" src="assets/Images/comment.jpg">
+            </span>
+            <span class="btm-text btm-disabled">Comment</span>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br" style="padding:0px;">
+            <span>
+              <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">
+            </span>
+            <span class="btm-text btm-disabled">History</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<div class="row header" style="background-color: white;margin-right: 0px;">
+  <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+    <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;background-color: #e6dddd63;">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#filling">Filling</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div id="calender" class="tab-pane active">
+  <span>overview</span>
+</div>

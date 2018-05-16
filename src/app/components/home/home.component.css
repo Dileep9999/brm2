@@ -7,26 +7,26 @@
   max-width: 500px;
   width: 100%;
   }
-  
+
   .example-full-width {
   width: 100%;
   }
 
   ul {
   list-style-type: none;
-  
+
   }
   li{
     font-size: 13px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
-  
+
   .border-style{
-  margin-left:2cm; 
+  margin-left:2cm;
   }
   .container{
     max-width: 1050px;
-   
+
   }
   .example-form-field {
   width: 200px;
@@ -37,29 +37,31 @@
     box-shadow: 0 8px 16px 0 rgba(241, 163, 163, 0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   }
   .example-card {
-    
+    margin: 0.2cm 0.2cm 1cm 0.2cm;
+    text-overflow:ellipsis;overflow:hidden;
     box-shadow: 0 8px 16px 0 rgba(241, 163, 163, 0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     border-radius: 5px;
-    max-width: 240px;
+    max-width: 220px;
     max-height: 220px;
-   
+
   }
   .example-card:hover{
     /* transform: scale(1.1); */
+    cursor: pointer;
   -webkit-box-shadow: 8px 8px 6px 6px #999;
   -moz-box-shadow: 0 8px 6px -6px #999;
-  box-shadow: 0 8px 6px -6px rgb(78, 3, 253);
+  box-shadow: 8px 8px 15px -6px rgb(88, 18, 250);
 
   }
-  
+
   .example-header-image {
     background-image: url('http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png');
 
   }
   .star{
-  margin-left:0.7cm; 
-  
- 
+  margin-left:0.7cm;
+
+
   /* color: rgba(0, 0, 0, 0.138); */
   cursor: pointer;
   }
@@ -83,4 +85,8 @@
   max-height: 500px;
   min-width: 300px;
   overflow: auto;
+}
+.list{
+  padding: 20px;
+
 }

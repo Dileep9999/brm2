@@ -10,17 +10,17 @@
             <label class="Header-label">Submitter:</label>
             <span class="Header-span">{{authService.user_id}}</span>
             <label class="Header-label">Department:</label>
-            <span class="Header-span">Engneered Sol...</span>
+            <span class="Header-span">{{department}}</span>
           </div>
           <div class="col-lg-3 col-sm-3 col-xs-3 col-md-3 center-block">
             <label class="Header-label">Updated:</label>
-            <span class="Header-span">{{d}}</span>
+            <span class="Header-span">{{updateddate}}</span>
             <label class="Header-label">Type:</label>
             <span class="Header-span">Not Selected</span>
           </div>
           <div class="col-lg-5 col-sm-5 col-xs-5 col-md-5">
             <label class="Header-label">Project:</label>
-            <span class="Header-span">Automation_Non_Pro...</span>
+            <span class="Header-span">{{project}}</span>
             <label class="Header-label">Work Order Number:</label>
             <span class="Header-span"></span>
           </div>
@@ -33,8 +33,8 @@
             <div class="row">
               <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;">
 
-                <circle-progress [percent]="percent" id="circle" [showSubtitle]=false [titleFontSize]=8 [radius]="22" [outerStrokeWidth]="4"
-                  [innerStrokeWidth]="2" [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true" [animationDuration]="800"></circle-progress>
+                <circle-progress [percent]=15 id="circle" [showSubtitle]=false [titleFontSize]=8 [radius]="22" [outerStrokeWidth]="4" [innerStrokeWidth]="2"
+                  [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true" [animationDuration]="800"></circle-progress>
                 <!-- <mat-progress-spinner class="example-margin" style="margin: 20% 10%;" color="warn" [diameter]=45 [value]=18>
                 </mat-progress-spinner> -->
               </div>
@@ -115,30 +115,12 @@
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                           <div class="form-control">
-                            <mat-select #site placeholder="Selet Site...">
-
+                            <mat-select #site [(value)]="sitetype" placeholder="Selet Site...">
                               <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
-
                             </mat-select>
                           </div>
                         </div>
-                        <div class="nav col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                          <button href="#site" class="nav-link" data-toggle="tab" mat-icon-button>
-                            <mat-icon>add</mat-icon>
-                          </button>
 
-                        </div>
-                        <div class="tab-content">
-                          <div id="site" class="tab-pane">
-                            <div class="col-sm-12">
-                              <div class="row">
-                                <p class="col-sm-5">Add Site</p>
-                                <input type="text" class="col-sm-4 form-control">
-                                <button mat-raised-button class="col-sm-1">ADD</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
 
 
                       </div>
@@ -174,11 +156,11 @@
                           </div>
                         </div>
                         <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <mat-radio-group #gxptype class="example-radio-group">
-                            <mat-radio-button class="example-radio-button" value="true" color="primary">
+                          <mat-radio-group class="example-radio-group">
+                            <mat-radio-button class="example-radio-button" (click)="gxpvalue=true" value="true" color="primary">
                               Gxp
                             </mat-radio-button>
-                            <mat-radio-button class="example-radio-button" value="false" color="primary">
+                            <mat-radio-button class="example-radio-button" (click)="gxpvalue=0" value="false" color="primary">
                               Not Gxp
                             </mat-radio-button>
                           </mat-radio-group>
@@ -201,7 +183,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select #equipmentreason placeholder="Select Reason For This Batch">
+                                <mat-select [(value)]="reason" placeholder="Select Reason For This Batch">
                                   <mat-option *ngFor="let reason of reasons" value="{{reason}}">{{reason}}</mat-option>
 
                                 </mat-select>
@@ -217,7 +199,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput [matDatepicker]="lab" placeholder="Choose a date">
+                                <input matInput #equipdate [matDatepicker]="lab" placeholder="Choose a date">
                                 <mat-datepicker-toggle matSuffix [for]="lab"></mat-datepicker-toggle>
                                 <mat-datepicker #lab></mat-datepicker>
                               </mat-form-field>
@@ -279,7 +261,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput [matDatepicker]="pilot" #date placeholder="Choose a date">
+                                <input matInput [matDatepicker]="pilot" placeholder="Choose a date">
                                 <mat-datepicker-toggle matSuffix [for]="pilot"></mat-datepicker-toggle>
                                 <mat-datepicker #pilot></mat-datepicker>
                               </mat-form-field>
@@ -339,7 +321,7 @@
               </mat-card>
             </div>
             <div id="calender" class="tab-pane fade">
-              <span>overview</span>
+              <span>calender</span>
             </div>
             <div id="approver" class="tab-pane fade">
               <span>approver</span>
@@ -361,7 +343,7 @@
                 <button mat-raised-button (click)="equipmentreq()" color="primary">
                   <b>Save</b>
                 </button>
-                <button mat-raised-button (click)="equipmentreq(gxptype.value)" color="primary" disabled>
+                <button mat-raised-button (click)="equipmentreq(equipdate.value)" color="primary">
                   <b>Submit</b>
                 </button>
 
@@ -375,11 +357,24 @@
     </div>
   </div>
   <div id="overview" class="tab-pane fade">
-    <span>overview</span>
+    <mat-card>
+      <div class="row">
+        <h4 class="col-sm-8">Review Request</h4>
+        <br>
+        <br>
+        <br>
+
+
+      </div>
+      <div class="row">
+        <h6 class="col-sm-3">Batch Size</h6>
+        <p>50 Kg</p>
+      </div>
+    </mat-card>
   </div>
   <div id="formula" class="tab-pane fade">
 
-    <div class="row" style="margin:0.7cm">
+    <div class="row " id="formula_attributes" style="margin:0.7cm">
       <mat-card class="col-sm-9">
         <div class="row">
           <h4 class="col-sm-8">Formula Attributes</h4>
@@ -390,7 +385,7 @@
           <p class="col-sm-1">Required*</p>
         </div>
         <div class="row">
-          <h6 class="col-sm-3">Lab NoteBook #*</h6>
+          <h6 class="col-sm-3">Lab NoteBook Number*</h6>
           <input class="col-sm-5 form-control" placeholder="Enter Lab Notebook Number">
         </div>
         <br>
@@ -419,7 +414,7 @@
         <div class="row">
           <h6 class="col-sm-3">PR Spec Number*</h6>
           <input class="col-sm-3 form-control" placeholder="Enter PR Number">
-          <a class="col-sm-2">View Spec Document</a>
+          <a href="/" class="col-sm-2">View Spec Document</a>
         </div>
         <br>
         <div class="row">
@@ -430,7 +425,8 @@
         <div class="row">
           <h6 class="col-sm-3">Department</h6>
           <select class="col-sm-5 form-control">
-            <option value="None"></option>
+            <option value="None" selected disabled>Select</option>
+            <option *ngFor="let dept of departments " value="{{dept}}">{{dept}}</option>
           </select>
         </div>
         <br>
@@ -443,9 +439,11 @@
         <br>
 
       </mat-card>
-      <div class="card">
-        AA
-      </div>
+      <mat-card>
+        <button href="#formula_attributes" active>formula</button>
+        <button href="#formula_attributes">order</button>
+
+      </mat-card>
     </div>
 
 

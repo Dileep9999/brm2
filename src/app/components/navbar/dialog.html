@@ -22,11 +22,9 @@
     <div class="col ">
       <h6>Project*</h6>
     </div>
-    <select class="col custom-select">
-      <option selected="">Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+    <select #project (change)="submitenable(project.value,department.value)" class="col custom-select">
+      <option value="None" selected disabled>Select</option>
+      <option *ngFor="let project of projects" value="{{project}}">{{project}}</option>
     </select>
   </div>
   <br>
@@ -34,16 +32,15 @@
     <div class="col">
       <h6>Department*</h6>
     </div>
-    <select class="col custom-select">
-      <option selected="">Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+
+    <select #department (change)="submitenable(project.value,$event.target.value) " class="col custom-select">
+      <option value="None" selected disabled>select</option>
+      <option *ngFor="let department of departments" value="{{department}}">{{department}}</option>
     </select>
   </div>
   <br>
   <div class="ml-auto" style="margin-left:20px; width: 200px">
     <button class="btn" (click)="onNoClick()">Cancel</button>
-    <button class="btn btn-primary" (click)="router.navigate(['batchrequest']) && onNoClick()" style="margin-left:20px;">Submit</button>
+    <button class="btn btn-primary" (click)="onNoClick()" (click)="submit()" style="margin-left:20px;" [disabled]="btndisabled">Submit</button>
   </div>
 </div>

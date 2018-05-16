@@ -1,0 +1,43 @@
+<div style="margin:50px;">
+  <legend>New Request</legend>
+
+  <br>
+
+  <div class="row">
+    <div class="col ">
+      <h6>Request Type</h6>
+    </div>
+    <input class="col form-control" placeholder="FILLING REQUEST" disabled>
+  </div>
+
+  <br>
+  <br>
+
+
+
+  <div class="row form-group">
+    <div class="col ">
+      <h6>Project*</h6>
+    </div>
+    <select #project (change)="submitenable(project.value,department.value)" class="col custom-select">
+      <option value="None" selected disabled>Select</option>
+      <option *ngFor="let project of projects" value="{{project}}">{{project}}</option>
+    </select>
+  </div>
+  <br>
+  <div class="row form-group">
+    <div class="col">
+      <h6>Department*</h6>
+    </div>
+
+    <select #department (change)="submitenable(project.value,$event.target.value) " class="col custom-select">
+      <option value="None" selected disabled>Select</option>
+      <option *ngFor="let department of departments" value="{{department}}">{{department}}</option>
+    </select>
+  </div>
+  <br>
+  <div class="ml-auto" style="margin-left:20px; width: 200px">
+    <button class="btn" (click)="onNoClick()">Cancel</button>
+    <button class="btn btn-primary" (click)="onNoClick()" style="margin-left:20px;">Submit</button>
+  </div>
+</div>

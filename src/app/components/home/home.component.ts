@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   password: String;
   typemenu: String[];
   manufacturingdatemenu: String[];
-  sitemenu: String[];
+  sitemenu: String[] = JSON.parse(localStorage.getItem("sites"));
   statusmenu: String[];
   legalproductcategory: String[];
   projectmenu: String[];
@@ -26,18 +26,46 @@ export class HomeComponent implements OnInit {
   partnermenu: String[];
   filteritems: String[];
   Tile: boolean;
+  requests: String[];
+  loader: boolean = true;
+  departments: String[];
+  no_of_BR: any;
+  columnDefs = [
+    { headerName: 'Request Number', field: 'request_id' },
+    { headerName: 'Project Name', field: 'project' },
+    { headerName: 'Request For', field: 'requestfor' },
+    { headerName: 'Submitter', field: 'createdBy' },
+    { headerName: 'Created Date', field: 'createdAt' },
+    { headerName: 'Status', field: 'status' },
+    // { headerName: 'Manufacturing Date', field: 'manufacturedate' },
+    // { headerName: 'Batch Number', field: 'batchnumber' },
+    // { headerName: 'Site', field: 'site' },
+    // { headerName: 'Actions', field: 'actions' }
+  ];
+
+  rowData = [
+    { request_id: 'Toyota', pname: 'Celica', requestfor: "approver", submitter: "gjhm" },
+    { make: 'Ford', model: 'Mondeo', price: 32000, cost: 50 },
+    { make: 'Porsche', model: 'Boxter', price: 72000, cost: 50 }
+  ];
 
 
   constructor(public authService: AuthService,
     public http: Http,
     public router: Router) {
 
+
   }
   ngOnInit() {
-    this.Tile = true;
-    this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
+    this.requests = [];
+    this.departments = [];
     this.sitemenu = [];
+    this.projectmenu = [];
+    this.Tile = true;
+    this.loadrequests();
     this.sitemenuload();
+    this.projectloadanddept();
+    this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
     this.statusmenu = ['Cancelled', 'Complete', 'COnfirmed', 'Filled', 'New', 'Ready for Filling', 'Reserved', 'Sample Released', 'Submitted', 'Weighed'];
     this.legalproductcategory = ['Cosmetic', 'Drug'];
     this.partnermenu = ['BRM Partner'];
@@ -46,10 +74,46 @@ export class HomeComponent implements OnInit {
 
   }
 
+  loadrequests() {
+    this.authService.getallrequests().subscribe(data => {
+      this.requests = data.data;
+      console.log(this.requests);
+      this.rowData = data.data;
+      this.loader = false;
+      this.no_of_BR = data.data.length;
+    });
+  }
+
+
   sitemenuload() {
     this.authService.getsites().subscribe(data => {
-      for (let i = 0; i => data.data.length - 1; i++) {
+      for (let i = 0; i <= data.data.length - 1; i++) {
         this.sitemenu.push(data.data[i].site);
+      }
+      localStorage.setItem('sites', JSON.stringify(this.sitemenu));
+
+    });
+  }
+
+
+  projectloadanddept() {
+
+    this.authService.getprojects().subscribe(data => {
+      if (data.success) {
+        console.log(data.data.length);
+        for (let i = 0; i <= data.data.length - 1; i++) {
+          this.projectmenu.push(data.data[i].project);
+        }
+        localStorage.setItem('projects', JSON.stringify(this.projectmenu));
+      }
+    });
+    this.authService.getdepartments().subscribe(data => {
+      if (data.success) {
+        console.log(data.data.length);
+        for (let i = 0; i <= data.data.length - 1; i++) {
+          this.departments.push(data.data[i].department);
+        }
+        localStorage.setItem('departments', JSON.stringify(this.departments));
       }
     });
   }
@@ -78,9 +142,9 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/su']);
       } else
         if (data.success) {
-          console.log(data.user.email);
-          console.log(data.user.user_id);
-          console.log(data.user.user_type);
+          this.loadrequests();
+          this.sitemenuload();
+          this.projectloadanddept();
           this.user_id = data.user.user_id;
           this.authService.getUserdata(data.user.email, data.user.user_id, data.user.user_type);
           this.authService.storeUserData(data.token, data.user.user_id, data.user.user_type);

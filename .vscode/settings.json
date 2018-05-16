@@ -12,5 +12,6 @@
     "eslint.autoFixOnSave": true,
     "workbench.startupEditor": "newUntitledFile",
     "editor.cursorBlinking": "solid",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "git.ignoreLimitWarning": true
 }

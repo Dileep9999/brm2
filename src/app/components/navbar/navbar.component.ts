@@ -60,6 +60,17 @@ export class NavbarComponent implements OnInit {
 
     });
   }
+  openDialog2(): void {
+    let dialogRef = this.dialog.open(Rmrequest, {
+      width: '750px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+    });
+  }
   openDialog1(): void {
     let dialogRef = this.dialog.open(DialogOverview, {
       width: '750px',
@@ -71,6 +82,7 @@ export class NavbarComponent implements OnInit {
 
     });
   }
+
   gotoprefrences() {
     this.router.navigate(['/prefrence'])
   }
@@ -80,14 +92,61 @@ export class NavbarComponent implements OnInit {
   templateUrl: 'dialog.html',
 })
 export class DialogOverviewExampleDialog {
+  projects: String[];
+  departments: String[];
+  project: String;
+  department: String;
+  a: String = JSON.parse(localStorage.getItem("projects"));
+  btndisabled: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
     private router: Router,
+    public authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  ngOnInit() {
+    this.projects = [];
+    this.departments = [];
+    this.getProjects();
+    this.getDepartments();
+    console.log(this.projects);
+
+  }
+  submitenable(value, value1) {
+    console.log(value, value1);
+    this.project = value;
+    this.department = value1;
+    if (this.project !== "None" && this.department !== "None") {
+      this.btndisabled = false;
+    }
+
+  }
+  submit() {
+    this.authService.redirecttobatch(this.project, this.department);
+
+  }
+
+  getDepartments() {
+    this.departments = JSON.parse(localStorage.getItem('departments'));
+    // this.authService.getdepartments().subscribe(data => {
+    //   for (let i = 0; i <= data.data.length; i++) {
+    //     this.departments.push(data.data[i].department)
+    //   }
+    // });
+  }
+
+  getProjects() {
+    this.projects = JSON.parse(localStorage.getItem("projects"));
+    // this.authService.getprojects().subscribe(data => {
+    //   for (let i = 0; i <= data.data.length; i++) {
+    //     this.projects.push(data.data[i].project)
+    //   }
+    // });
   }
 
 }
@@ -97,13 +156,117 @@ export class DialogOverviewExampleDialog {
   templateUrl: 'fillingreq.html',
 })
 export class DialogOverview {
+  projects: String[];
+  departments: String[];
+  project: String;
+  department: String;
+
+  btndisabled: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<DialogOverview>,
+    private router: Router,
+    public authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+
+  ngOnInit() {
+    this.projects = [];
+    this.departments = [];
+    this.getProjects();
+    this.getDepartments();
+
+
+  }
+
+
+  submitenable(value, value1) {
+
+    this.project = value;
+    localStorage.setItem('project', value);
+    localStorage.setItem('department', value1);
+
+
+
+    this.department = value1;
+    if (this.project !== "None" && this.department !== "None") {
+      this.btndisabled = false;
+    }
+
+  }
+  getDepartments() {
+    this.authService.getdepartments().subscribe(data => {
+      for (let i = 0; i <= data.data.length; i++) {
+        this.departments.push(data.data[i].department)
+      }
+    });
+  }
+  getProjects() {
+    this.authService.getprojects().subscribe(data => {
+      for (let i = 0; i <= data.data.length; i++) {
+        this.projects.push(data.data[i].project)
+      }
+    });
+  }
+
+
+}
+
+
+
+@Component({
+  selector: 'dialog-overview-rm',
+  templateUrl: 'rm.html',
+})
+
+export class Rmrequest {
+  projects: String[];
+  departments: String[];
+  project: String;
+  department: String;
+
+  btndisabled: boolean = true;
+
+
+  constructor(
+    public dialogRef: MatDialogRef<Rmrequest>,
+    private router: Router,
+    public authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  ngOnInit() {
+    this.projects = [];
+    this.departments = [];
+
+
+
+  }
+  submit() {
+    this.router.navigate(['/rm']);
+  }
+
+
+  submitenable(value, value1) {
+
+    this.project = value;
+    localStorage.setItem('project', value);
+    localStorage.setItem('department', value1);
+
+
+
+    this.department = value1;
+    if (this.project !== "None" && this.department !== "None") {
+      this.btndisabled = false;
+    }
+
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
+
 @Component({
   selector: 'app-batchrequest',
   templateUrl: './batchrequest.component.html',
@@ -17,38 +18,48 @@ export class BatchrequestComponent implements OnInit {
   newColor7 = false;
   sitemenu: String[];
   br_num: String;
-  date: Date = new Date();
-  month = this.date.getMonth();
-  today = this.date.getDay();
-  year = this.date.getFullYear();
-  d = this.today + '-' + this.month + '-' + this.year;
+  updateddate: String;
+  month: number;
+  day: number;
+  year: number;
   percent: number = 15;
   legalproductcatagory: String;
   batchtype: String;
   reasons: String[];
   reasonsdata: any;
   sitetype: String;
+  project: String;
+  department: String;
+  reason: String;
+  gxpvalue: boolean = true;
+  departments: String[];
+  projects: String[];
+
+  date: String;
   constructor(public authService: AuthService) { }
 
   ngOnInit() {
     this.reasons = [];
-
+    this.departments = JSON.parse(localStorage.getItem('departments'));
+    this.projects = JSON.parse(localStorage.getItem('projects'));
     this.sitemenu = [];
     this.sitemenuload();
-    this.date = new Date();
-    this.br_num = 'BR' + '-' + this.year + '-' + '0000' + (0 + 7);
     this.loadreasons();
+    this.newrequest();
+  }
+
+  newrequest() {
+    this.authService.submitnewreq().subscribe(data => {
+      this.br_num = data.data.request_id;
+      this.year = data.data.lastModified.slice(0, 4);
+      this.month = data.data.lastModified.slice(5, 7);
+      this.day = data.data.lastModified.slice(8, 10);
+      this.updateddate = this.year + '/' + this.month + '/' + this.day;
+    });
   }
 
   sitemenuload() {
-    this.authService.getsites().subscribe(data => {
-      for (let i = 0; i => data.data.length - 1; i++) {
-        this.sitemenu.push(data.data[i].site);
-        // console.log(this.sitemenu);
-
-      }
-
-    });
+    this.sitemenu = JSON.parse(localStorage.getItem('sites'));
   }
   toggleColor(sitevalue) {
     this.newColor = !this.newColor;
@@ -109,26 +120,45 @@ export class BatchrequestComponent implements OnInit {
   }
 
 
+
+
   loadreasons() {
     this.authService.getreasons().subscribe(data => {
       this.reasonsdata = data.data;
-      // console.log(this.reasonsdata);
+
 
     });
   }
-  equipmentreq() {
+
+
+  equipmentreq(date) {
+
+
+
+
     let data = {
-      request_id: '',
+      request_id: this.br_num,
       site: this.sitetype,
       batch_type: this.batchtype,
       legal_product_category: this.legalproductcatagory,
-      reason_for_this_batch: '',
-      gxp: '',
+      reason_for_this_batch: this.reason,
+      gxp: this.gxpvalue,
       bench_id: 'bench_1',
-      request_date: '',
-      approver: '',
-      falg: "submit"
+      request_date: date,
+      approver: localStorage.getItem('user_id'),
+      flag: "submit"
     }
+
+
+    this.authService.equipmentrequest(data).subscribe(data => {
+      if (data.success) {
+        console.log('Submitted success');
+      }
+      else {
+        console.log("Not Submitted");
+      }
+    });
+
   }
 
 }

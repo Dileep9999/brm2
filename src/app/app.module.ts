@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
-import { NavbarComponent, DialogOverviewExampleDialog, DialogOverview } from './components/navbar/navbar.component';
+import { NavbarComponent, DialogOverviewExampleDialog, DialogOverview, Rmrequest } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
@@ -37,6 +37,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AgGridModule } from "ag-grid-angular/main";
+import { RmrequestComponent } from './components/rmrequest/rmrequest.component';
+import { FillingreqComponent } from './components/fillingreq/fillingreq.component';
 
 
 
@@ -45,8 +48,10 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'prefrence', component: PrefrenceComponent },
-  { path: 'batchrequest', component: BatchrequestComponent },
-  { path: 'su', component: SuperadminComponent }
+  { path: 'batchrequest', component: BatchrequestComponent, canActivate: [AuthGuard] },
+  { path: 'su', component: SuperadminComponent },
+  { path: 'filling', component: FillingreqComponent },
+  { path: 'rm', component: RmrequestComponent }
 ]
 
 @NgModule({
@@ -60,6 +65,10 @@ const appRoutes: Routes = [
     PrefrenceComponent,
     BatchrequestComponent,
     SuperadminComponent,
+    RmrequestComponent,
+    Rmrequest,
+    FillingreqComponent
+
 
 
   ],
@@ -102,9 +111,10 @@ const appRoutes: Routes = [
       animationDuration: 300,
 
     }),
-    MatTabsModule
+    MatTabsModule,
+    AgGridModule.withComponents([HomeComponent])
   ],
-  entryComponents: [DialogOverviewExampleDialog, DialogOverview],
+  entryComponents: [DialogOverviewExampleDialog, DialogOverview, Rmrequest],
 
   providers: [ValidateService, AuthService, AuthGuard],
   bootstrap: [AppComponent]

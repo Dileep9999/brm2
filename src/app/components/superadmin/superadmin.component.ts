@@ -17,6 +17,8 @@ export class SuperadminComponent implements OnInit {
   sitemenu: String[];
   superadmins: String[];
   batchmenu: String[];
+  productmenu: String[];
+  loader: boolean = false;
   constructor(
     private authService: AuthService,
     public snackBar: MatSnackBar,
@@ -30,15 +32,11 @@ export class SuperadminComponent implements OnInit {
     this.admins = [];
     this.superadmins = [];
     this.sitemenu = [];
-    // this.selectsite();
-    this.batchmenu = ["LAB", "PILOT", "OTHERS"]
-    console.log("aaaa");
-
+    this.batchmenu = ["LAB", "PILOT", "OTHERS"];
+    this.productmenu = ["Cosmetic", "Drug"];
     this.getusers();
+    this.selectsite();
 
-  }
-  sort() {
-    this.users.sort();
   }
 
 
@@ -53,11 +51,14 @@ export class SuperadminComponent implements OnInit {
     return false;
   }
   getusers() {
-    console.log("test");
-
     this.authService.getusers("USER").subscribe(data => {
-      this.users = data.data;
+      if (data.success) {
+        this.users = data.data;
+        this.loader = true;
+      }
+
     });
+
     this.authService.getusers("ADMIN").subscribe(data => {
       this.admins = data.data;
     });
@@ -68,19 +69,85 @@ export class SuperadminComponent implements OnInit {
 
   addsite(value) {
     let site = {
-
       site: value
     }
-
     this.authService.addsite(site).subscribe(data => {
       console.log(data.message);
       if (data.success) {
-        this.snackBar.open(value, 'ok', { duration: 2000 });
+        this.selectsite();
+        this.snackBar.open(value + ' added', 'ok', { duration: 2000 });
       } else {
         this.snackBar.open('Please re-add Site', 'ok', { duration: 2000 });
       }
     });
+  }
 
+  adddpt(value) {
+    let department = {
+      department: value
+    }
+    this.authService.adddpt(department).subscribe(data => {
+      console.log(data.message);
+      if (data.success) {
+
+        this.snackBar.open(value, 'ok', { duration: 2000 });
+      } else {
+        this.snackBar.open('Please re-add department', 'ok', { duration: 2000 });
+      }
+    });
+  }
+
+  addpc(value) {
+    let pc = {
+      packing_code: value
+    }
+    this.authService.addpc(pc).subscribe(data => {
+      console.log(data.message);
+      if (data.success) {
+
+        this.snackBar.open('added', 'ok', { duration: 2000 });
+      } else {
+        this.snackBar.open('Please re-add department', 'ok', { duration: 2000 });
+      }
+    });
+  }
+
+
+  addbench(site, batch, product, bench) {
+    let data = {
+      site: site,
+      batch_type: batch,
+      legal_product_category: product,
+      bench: [bench]
+    }
+    console.log(data)
+    this.authService.addbench(data).subscribe(data => {
+      console.log(data.message);
+      if (data.success) {
+
+        this.snackBar.open('added', 'ok', { duration: 2000 });
+      } else {
+        this.snackBar.open('Please re-add bench', 'ok', { duration: 2000 });
+      }
+    });
+  }
+
+  addeqpt(site, batch, equipment) {
+    let data = {
+      site: site,
+      batch_type: batch,
+      equipment_list: [equipment]
+    }
+    console.log(data)
+    this.authService.addeqpt(data).subscribe(data => {
+      console.log(data.message);
+      if (data.success) {
+
+        this.snackBar.open('added', 'ok', { duration: 2000 });
+      } else {
+        this.snackBar.open('Please re-add bench', 'ok', { duration: 2000 });
+      }
+    });
   }
 
   selectsite() {
@@ -103,6 +170,29 @@ export class SuperadminComponent implements OnInit {
         this.snackBar.open('added', 'ok', { duration: 2000 });
       } else {
         this.snackBar.open('Please re-add Site', 'ok', { duration: 3000 });
+      }
+    });
+  }
+
+  makeasadmin(user) {
+    this.authService.makeasadmin(user).subscribe(data => {
+      if (data.success) {
+        for (let i = 0; i <= this.users.length; i++) {
+          if (user === this.users[i]) {
+            this.users.splice(i, 1)
+          }
+        }
+      }
+    });
+  }
+  removefromadmin(admin) {
+    this.authService.removefromadmin(admin).subscribe(data => {
+      if (data.success) {
+        for (let i = 0; i <= this.admins.length; i++) {
+          if (admin === this.admins[i]) {
+            this.users.splice(i, 1)
+          }
+        }
       }
     });
   }

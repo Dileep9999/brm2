@@ -1,0 +1,73 @@
+.header{
+  height: 64px;
+  border-bottom: 1px solid lightgray;
+ }
+ .projectName{
+  padding: 0px 0px 0px 20px;
+  font-size: 21px !important;
+  font-family: AkzidenzGrotesk!important;
+ }
+ .Header-label{
+  font-size: 13px;
+  font-family: Arial !important;
+  font-weight: bold;
+ }
+ .Header-span{
+  font-size: 13px;
+  font-family: Arial !important;
+  font-weight: normal;
+ }
+ .staus-new{
+  font-size: 11px;
+  font-family: ArialMT;
+  text-align: left;
+ }
+ .staus-Batch{
+  font-size: 12px;
+  font-family: ArialMT;
+  text-align: left;
+  font-style: italic;
+ }
+ .projectIcon{
+  height:40px;
+  width:40px;
+  margin-top: 2px;
+ }
+ .pilot-br.active .btm-text {
+  background-color:lightblue;
+  color: #fff;
+  font-size: 13px;
+ }
+ .btm-text{
+  border-radius: 0px 0px 5px 5px;
+  text-align:center;
+  height:25px;
+  width:100%;
+  background-color: lightgray;
+  line-height: 25px;
+  position:absolute;
+  left:0px;
+  bottom:0px;
+  cursor:pointer;
+ }
+ .btm-disabled{
+  pointer-events: auto !important;
+  cursor: not-allowed !important;
+  box-shadow: none;
+  opacity: .65;
+ }
+ .pilot-br{
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 73px;
+  width: 73px;
+  margin-left: 10px;
+ }
+ .pilot-br:hover .btm-disabled {
+  background-color: #ddd;
+  color: #2D86C2;
+ }
+ .header{
+  height: 64px;
+  border-bottom: 1px solid lightgray;
+ }

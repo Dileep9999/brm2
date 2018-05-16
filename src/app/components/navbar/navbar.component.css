@@ -2,11 +2,11 @@
   /* -webkit-box-shadow: 0 8px 6px -6px #999; */
   /* -moz-box-shadow: 0 8px 6px -6px #999;
   box-shadow: 0 8px 6px -6px rgb(78, 3, 253); */
-  border-bottom: 5px solid rgb(8, 64, 248);
-  
+  border-bottom: 3px solid rgb(8, 64, 248);
+
   }
   .logo-top{
-  
+
   }
   li{
   list-style: none;
@@ -20,7 +20,7 @@
   }
   .close:hover{
     color: rgb(10, 10, 10);
-    
+
    }
    .module{
      outline-color: black;
@@ -31,7 +31,7 @@
     max-height:17px;margin-left:-15px;margin-top:-17px;
     animation: shake 0.5s;
     animation-iteration-count: 3s;
-  
+
    }
    @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -47,4 +47,3 @@
     100% { transform: translate(1px, -2px) rotate(-1deg); }
   }
 
-  

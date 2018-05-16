@@ -4,16 +4,25 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor (private authService:AuthService, private router:Router){
+  constructor(private authService: AuthService, private router: Router) {
 
   }
 
   canActivate() {
-    if(this.authService.loggedIn()) {
+    if (this.authService.loggedIn()) {
       return true;
     } else {
       this.router.navigate(['/']);
       return false;
     }
   }
+  redirect() {
+    if (this.authService.project === undefined) {
+      this.router.navigate(['/batchrequest']);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }
