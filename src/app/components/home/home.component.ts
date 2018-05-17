@@ -139,6 +139,8 @@ export class HomeComponent implements OnInit {
 
     this.authService.authenticateUser(user).subscribe(data => {
       if (data.user.user_type === 'SUPERADMIN') {
+        this.authService.getUserdata(data.user.email, data.user.user_id, data.user.user_type);
+        this.authService.storeUserData(data.token, data.user.user_id, data.user.user_type);
         this.router.navigate(['/su']);
       } else
         if (data.success) {

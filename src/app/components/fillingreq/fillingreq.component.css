@@ -1,3 +1,7 @@
+.header{
+  height: 64px;
+  border-bottom: 1px solid lightgray;
+}
 .projectName{
   padding: 0px 0px 0px 20px;
   font-size: 21px !important;
@@ -13,12 +17,6 @@
   font-family: Arial !important;
   font-weight: normal;
 }
-.status-br{
-  border: 1px solid black;
-  border-radius: 5px;
-  height: 73px;
-  width: 210px;
-}
 .staus-new{
   font-size: 11px;
   font-family: ArialMT;
@@ -30,20 +28,13 @@
   text-align: left;
   font-style: italic;
 }
-.pilot-br{
-  border: 1px solid black;
-  border-radius: 5px;
-  height: 73px;
-  width: 73px;
-  margin-left: 10px;
-}
 .projectIcon{
   height:40px;
   width:40px;
   margin-top: 2px;
 }
 .pilot-br.active .btm-text {
-  background-color:rgb(20, 133, 238);
+  background-color:lightblue;
   color: #fff;
   font-size: 13px;
 }
@@ -52,13 +43,12 @@
  text-align:center;
  height:25px;
  width:100%;
- background-color: rgb(20, 133, 238);
+ background-color: lightgray;
  line-height: 25px;
  position:absolute;
  left:0px;
  bottom:0px;
  cursor:pointer;
-
 }
 .btm-disabled{
   pointer-events: auto !important;
@@ -66,39 +56,26 @@
   box-shadow: none;
   opacity: .65;
 }
-
-.tab-header{
-  height: 96px;
-  border-bottom: 1px solid lightgray;
+.pilot-br{
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 73px;
+  width: 73px;
+  margin-left: 10px;
+}
+.pilot-br:hover .btm-disabled {
+  background-color: #ddd;
+  color: #2D86C2;
 }
 .header{
   height: 64px;
   border-bottom: 1px solid lightgray;
 }
-.book-header{
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  height: 692px;
-  width: 943px;
-  margin-left:0px;
-  margin-top: 21px;
-  background-color: white;
-}
-.list{
-  cursor:pointer;
-  text-align:center;
-}
-.mat-option:hover:not(.mat-option-disabled) {
-  background:rgb(107, 140, 247);
-}
-.test{
-  background-color: rgb(61, 131, 236);
-}
 .batch-header{
   border: 1px solid lightgray;
   border-radius: 5px;
-  max-height: 110px;
-  max-width: 292px;
+  height: 146px;
+  width: 291px;
   margin-top: 20px;
   background-color: white;
 }
@@ -113,4 +90,7 @@
 .mat-button-checked {
   background-color: lightblue;
   color: black;
+}
+.test{
+  background-color:#007bff
 }

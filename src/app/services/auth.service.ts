@@ -22,6 +22,7 @@ export class AuthService {
   user_email: String;
   project: String;
   department: String;
+  host:String="http://localhost:3000/";
 
   constructor(private http: Http,
     public router: Router,
@@ -249,7 +250,6 @@ export class AuthService {
 
   getusers(USER) {
     console.log(USER);
-
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);
@@ -264,11 +264,15 @@ export class AuthService {
   }
 
   makeasadmin(user) {
+    console.log(user);
+
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/admins/grant/' + user, { headers: headers })
+
+    console.log(headers);
+
+    return this.http.post('http://localhost:3000/admins/grant/' + user, '', { headers: headers })
       .map(res => res.json())
   }
   removefromadmin(user) {
@@ -276,7 +280,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/admins/revoke/' + user, { headers: headers })
+    return this.http.post('http://localhost:3000/admins/revoke/' + user, '', { headers: headers })
       .map(res => res.json())
   }
 

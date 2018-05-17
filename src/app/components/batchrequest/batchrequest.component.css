@@ -97,8 +97,8 @@
 .batch-header{
     border: 1px solid lightgray;
     border-radius: 5px;
-    max-height: 110px;
-    max-width: 292px;
+    height: 110px;
+    width: 292px;
     margin-top: 20px;
     background-color: white;
 }
@@ -113,4 +113,12 @@
 .mat-button-checked {
     background-color: lightblue;
     color: black;
+}
+.formula_header{
+    height: 73px;
+    width: 236px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: white;
 }

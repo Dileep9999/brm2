@@ -22,7 +22,7 @@
     <div class="col ">
       <h6>Project*</h6>
     </div>
-    <select #project (change)="submitenable(project.value,department.value)" class="col custom-select">
+    <select #project (change)="submitenable(project.value,department.value)" style="max-height:2cm;" class="col custom-select">
       <option value="None" selected disabled>Select</option>
       <option *ngFor="let project of projects" value="{{project}}">{{project}}</option>
     </select>

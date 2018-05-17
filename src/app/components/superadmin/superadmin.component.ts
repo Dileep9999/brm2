@@ -37,6 +37,7 @@ export class SuperadminComponent implements OnInit {
     this.getusers();
     this.selectsite();
 
+
   }
 
 
@@ -47,8 +48,8 @@ export class SuperadminComponent implements OnInit {
   }
   onLogoutClick() {
     this.authService.logout();
-    this.router.navigate(['/']);
-    return false;
+    // this.router.navigate(['/']);
+
   }
   getusers() {
     this.authService.getusers("USER").subscribe(data => {
@@ -176,23 +177,17 @@ export class SuperadminComponent implements OnInit {
 
   makeasadmin(user) {
     this.authService.makeasadmin(user).subscribe(data => {
+      console.log(data);
+
       if (data.success) {
-        for (let i = 0; i <= this.users.length; i++) {
-          if (user === this.users[i]) {
-            this.users.splice(i, 1)
-          }
-        }
+        this.getusers();
       }
     });
   }
   removefromadmin(admin) {
     this.authService.removefromadmin(admin).subscribe(data => {
       if (data.success) {
-        for (let i = 0; i <= this.admins.length; i++) {
-          if (admin === this.admins[i]) {
-            this.users.splice(i, 1)
-          }
-        }
+        this.getusers();
       }
     });
   }

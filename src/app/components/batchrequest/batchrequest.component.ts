@@ -16,6 +16,9 @@ export class BatchrequestComponent implements OnInit {
   newColor5 = false;
   newColor6 = false;
   newColor7 = false;
+  filling = true;
+  plan = false;
+  partner = false;
   sitemenu: String[];
   br_num: String;
   updateddate: String;
@@ -34,6 +37,7 @@ export class BatchrequestComponent implements OnInit {
   gxpvalue: boolean = true;
   departments: String[];
   projects: String[];
+  equipments: String[];
 
   date: String;
   constructor(public authService: AuthService) { }
@@ -62,50 +66,131 @@ export class BatchrequestComponent implements OnInit {
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
   }
   toggleColor(sitevalue) {
-    this.newColor = !this.newColor;
+    // this.newColor = !this.newColor;
+    if (this.newColor = true) {
+      this.newColor = true;
+    }
+    else {
+      this.newColor = !this.newColor;
+    }
     this.newColor1 = false;
     this.newColor2 = false;
     this.batchtype = 'LAB';
     this.addreasons(sitevalue, this.batchtype);
   }
   toggleColor1(sitevalue) {
-    this.newColor1 = !this.newColor1;
+    // this.newColor1 = !this.newColor1;
+    if (this.newColor1 = true) {
+      this.newColor1 = true;
+    }
+    else {
+      this.newColor1 = !this.newColor1;
+    }
     this.newColor = false;
     this.newColor2 = false;
     this.batchtype = 'PILOT';
     this.addreasons(sitevalue, this.batchtype);
   }
   toggleColor2(sitevalue) {
-    this.newColor2 = !this.newColor2;
+    // this.newColor2 = !this.newColor2;
+    if (this.newColor2 = true) {
+      this.newColor2 = true;
+    }
+    else {
+      this.newColor2 = !this.newColor2;
+    }
     this.newColor = false;
     this.newColor1 = false;
     this.batchtype = 'OTHERS';
     this.addreasons(sitevalue, this.batchtype);
   }
   toggleColor3() {
-    this.newColor3 = !this.newColor3;
+    // this.newColor3 = !this.newColor3;
+    if (this.newColor3 = true) {
+      this.newColor3 = true;
+    }
+    else {
+      this.newColor3 = !this.newColor3;
+    }
     this.newColor4 = false;
     this.legalproductcatagory = 'DRUG';
   }
   toggleColor4() {
-    this.newColor4 = !this.newColor4;
+    // this.newColor4 = !this.newColor4;
+    if (this.newColor4 = true) {
+      this.newColor4 = true;
+    }
+    else {
+      this.newColor4 = !this.newColor4;
+    }
     this.newColor3 = false;
     this.legalproductcatagory = 'COSMETIC'
   }
   toggleColor5() {
-    this.newColor5 = !this.newColor5;
+    // this.newColor5 = !this.newColor5;
+    if (this.newColor5 = true) {
+      this.newColor5 = true;
+    }
+    else {
+      this.newColor5 = !this.newColor5;
+    }
     this.newColor6 = false;
     this.newColor7 = false;
   }
   toggleColor6() {
-    this.newColor6 = !this.newColor6;
+    // this.newColor6 = !this.newColor6;
+    if (this.newColor6 = true) {
+      this.newColor6 = true;
+    }
+    else {
+      this.newColor6 = !this.newColor6;
+    }
     this.newColor5 = false;
     this.newColor7 = false;
   }
   toggleColor7() {
-    this.newColor7 = !this.newColor7;
+    // this.newColor7 = !this.newColor7;
+    if (this.newColor7 = true) {
+      this.newColor7 = true;
+    }
+    else {
+      this.newColor7 = !this.newColor7;
+    }
     this.newColor6 = false;
     this.newColor5 = false;
+  }
+  filling1() {
+    // this.filling=!this.filling;
+    if (this.filling = true) {
+      this.filling = true;
+    }
+    else {
+      this.filling = !this.filling;
+    }
+    this.plan = false;
+    this.partner = false;
+  }
+  plan1() {
+    //
+    if (this.plan = true) {
+      this.plan = true;
+    }
+    else {
+      this.plan = !this.plan;
+    }
+    this.filling = false;
+    this.partner = false;
+  }
+  partner1() {
+    // this.partner=!this.partner;
+    if (this.partner = true) {
+      this.partner = true;
+    }
+    else {
+      this.partner = !this.partner;
+    }
+    this.filling = false;
+    this.plan = false;
   }
 
   addreasons(sitetype, batchtype) {

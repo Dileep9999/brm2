@@ -71,3 +71,33 @@
   height: 64px;
   border-bottom: 1px solid lightgray;
  }
+ .header{
+    height: 64px;
+    border-bottom: 1px solid lightgray;
+}
+.batch-header{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 109px;
+    width: 291px;
+    margin-top: 20px;
+    background-color: white;
+}
+.batch-br{
+    width: 290px;
+    text-align: left;
+}
+.mat-button-toggle-checked {
+    background-color: lightblue;
+    color: black;
+}
+.mat-button-checked {
+    background-color: lightblue;
+    color: black;
+}
+.test{
+    background-color:#007bff
+}
+.font{
+    font-size:14px;
+}
