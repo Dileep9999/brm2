@@ -321,7 +321,20 @@
               </mat-card>
             </div>
             <div id="calender" class="tab-pane fade">
-              <span>calender</span>
+
+
+
+              <a (click)="loadevents()"> loadevents</a>
+              <p>Display event : {{displayEvent | json}}</p>
+              <div class="edit" *ngIf="calendarOptions">
+                <ng-fullcalendar #ucCalendar (eventDrop)="updateEvent($event.detail)" (eventResize)="updateEvent($event.detail)" (dayClick)="dayClick($event.detail)"
+                  [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (clickButton)="clickButton($event.detail)"
+                  [(eventsModel)]="events"></ng-fullcalendar>
+              </div>
+
+
+
+
             </div>
             <div id="approver" class="tab-pane fade">
               <span>approver</span>

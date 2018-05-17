@@ -2,6 +2,10 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~ag-grid/dist/styles/ag-grid.css";
 @import "~ag-grid/dist/styles/ag-theme-balham.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+@import "~fullcalendar/dist/fullcalendar.min.css";
+
 
 body{
     background: rgb(233, 231, 231);

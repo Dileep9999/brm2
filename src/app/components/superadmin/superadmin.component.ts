@@ -68,15 +68,31 @@ export class SuperadminComponent implements OnInit {
     });
   }
 
+  addreason(site1, batch1, reason) {
+    let data = {
+      site: site1,
+      batch_type: batch1,
+      reason: [reason]
+    }
+    console.log(data);
+
+    this.authService.addreasons(data).subscribe(data => {
+      if (data.success) {
+        this.snackBar.open('added', 'ok', { duration: 2000 });
+      } else {
+        this.snackBar.open('Please re-add Site', 'ok', { duration: 3000 });
+      }
+    });
+  }
   addsite(value) {
-    let site = {
+    let data = {
       site: value
     }
-    this.authService.addsite(site).subscribe(data => {
+    this.authService.addsite(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
         this.selectsite();
-        this.snackBar.open(value + ' added', 'ok', { duration: 2000 });
+        this.snackBar.open(value, 'ok', { duration: 2000 });
       } else {
         this.snackBar.open('Please re-add Site', 'ok', { duration: 2000 });
       }
@@ -84,10 +100,11 @@ export class SuperadminComponent implements OnInit {
   }
 
   adddpt(value) {
-    let department = {
+    let data = {
       department: value
     }
-    this.authService.adddpt(department).subscribe(data => {
+    console.log(data)
+    this.authService.adddpt(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
 
@@ -99,25 +116,42 @@ export class SuperadminComponent implements OnInit {
   }
 
   addpc(value) {
-    let pc = {
-      packing_code: value
+    let data = {
+      packagingcode: value
     }
-    this.authService.addpc(pc).subscribe(data => {
+    console.log(data)
+    this.authService.addpc(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
 
         this.snackBar.open('added', 'ok', { duration: 2000 });
       } else {
-        this.snackBar.open('Please re-add department', 'ok', { duration: 2000 });
+        this.snackBar.open('Please re-add packaging-code', 'ok', { duration: 2000 });
+      }
+    });
+  }
+
+  addproject(value) {
+    let data = {
+      project: value
+    }
+    console.log(data)
+    this.authService.addproject(data).subscribe(data => {
+      console.log(data.message);
+      if (data.success) {
+
+        this.snackBar.open('added', 'ok', { duration: 2000 });
+      } else {
+        this.snackBar.open('Please re-add project', 'ok', { duration: 2000 });
       }
     });
   }
 
 
-  addbench(site, batch, product, bench) {
+  addbench(site3, batch2, product, bench) {
     let data = {
-      site: site,
-      batch_type: batch,
+      site: site3,
+      batch_type: batch2,
       legal_product_category: product,
       bench: [bench]
     }
@@ -146,7 +180,7 @@ export class SuperadminComponent implements OnInit {
 
         this.snackBar.open('added', 'ok', { duration: 2000 });
       } else {
-        this.snackBar.open('Please re-add bench', 'ok', { duration: 2000 });
+        this.snackBar.open('Please re-add equipment', 'ok', { duration: 2000 });
       }
     });
   }
@@ -157,22 +191,6 @@ export class SuperadminComponent implements OnInit {
         this.sitemenu.push(data.data[i].site);
       }
     })
-  }
-  addreason(site, batch, reason) {
-    let data = {
-      site: site,
-      batch_type: batch,
-      reason: [reason]
-    }
-    console.log(data);
-
-    this.authService.addreasons(data).subscribe(data => {
-      if (data.success) {
-        this.snackBar.open('added', 'ok', { duration: 2000 });
-      } else {
-        this.snackBar.open('Please re-add Site', 'ok', { duration: 3000 });
-      }
-    });
   }
 
   makeasadmin(user) {

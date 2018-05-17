@@ -7,6 +7,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
+import "rxjs/add/observable/of";
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router'
 
@@ -22,12 +23,73 @@ export class AuthService {
   user_email: String;
   project: String;
   department: String;
-  host:String="http://localhost:3000/";
+  host: String = "http://localhost:3000/";
+
+  public getEvents(): Observable<any> {
+    const dateObj = new Date();
+    const yearMonth = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1);
+    let data: any = [{
+      title: 'All Day Event',
+      start: yearMonth + '-01'
+    },
+    {
+      title: 'Long Event',
+      start: yearMonth + '-07',
+      end: yearMonth + '-10'
+    },
+    {
+      id: 999,
+      title: 'Repeating Event',
+      start: yearMonth + '-09T16:00:00'
+    },
+    {
+      id: 999,
+      title: 'Repeating Event',
+      start: yearMonth + '-16T16:00:00'
+    },
+    {
+      title: 'Conference',
+      start: yearMonth + '-11',
+      end: yearMonth + '-13'
+    },
+    {
+      title: 'Meeting',
+      start: yearMonth + '-12T10:30:00',
+      end: yearMonth + '-12T12:30:00'
+    },
+    {
+      title: 'Lunch',
+      start: yearMonth + '-12T12:00:00'
+    },
+    {
+      title: 'Meeting',
+      start: yearMonth + '-12T14:30:00'
+    },
+    {
+      title: 'Happy Hour',
+      start: yearMonth + '-12T17:30:00'
+    },
+    {
+      title: 'Dinner',
+      start: yearMonth + '-12T20:00:00'
+    },
+    {
+      title: 'Birthday Party',
+      start: yearMonth + '-13T07:00:00'
+    },
+    {
+      title: 'Click for Google',
+      url: 'http://google.com/',
+      start: yearMonth + '-17'
+    }];
+    return Observable.of(data);
+  }
 
   constructor(private http: Http,
     public router: Router,
     public flashmessage: FlashMessagesService,
     public snackBar: MatSnackBar
+
   ) {
     //this.isDev = true;  // Change to false before deployment
 
@@ -53,22 +115,7 @@ export class AuthService {
   }
 
 
-  addsite(site) {
-    let headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/sites', site, { headers: headers })
-      .map(res => res.json())
-      .catch((err) => {
-        if (err.status === 409) {
-          this.flashmessage.show('Already Exits', { cssClass: 'alert-danger', timeout: 3000 });
-        } else {
-          this.flashmessage.show('Please Add site', { cssClass: 'alert-danger', timeout: 3000 });
-        }
-        return Observable.throw('')
-      });
-  }
+
 
   storeUserData(token, user_id1, user_type) {
     localStorage.setItem('user_type', user_type);
@@ -83,85 +130,6 @@ export class AuthService {
     this.router.navigate(['/batchrequest']);
 
   }
-
-
-
-  adddpt(data) {
-    let headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/departments', data, { headers: headers })
-      .map(res => res.json())
-      .catch((err) => {
-
-        if (err.status === 409) {
-          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
-        } else {
-          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
-        }
-        return Observable.throw(err)
-      });
-  }
-
-  addbench(data) {
-
-    let headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/Benches', data, { headers: headers })
-      .map(res => res.json())
-      .catch((err) => {
-
-        if (err.status === 409) {
-          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
-        } else {
-          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
-        }
-        return Observable.throw(err)
-      });
-
-  }
-
-  addeqpt(data) {
-    let headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/equipment', data, { headers: headers })
-      .map(res => res.json())
-      .catch((err) => {
-
-        if (err.status === 409) {
-          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
-        } else {
-          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
-        }
-        return Observable.throw(err)
-      });
-
-  }
-
-  addpc(data) {
-    let headers = new Headers();
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/packagingCodes', data, { headers: headers })
-      .map(res => res.json())
-      .catch((err) => {
-
-        if (err.status === 409) {
-          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
-        } else {
-          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
-        }
-        return Observable.throw(err)
-      });
-
-  }
-
 
 
 
@@ -289,7 +257,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/reasons', data, { headers: headers })
+    return this.http.post('http://192.168.0.133:3000/reasons', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -301,6 +269,119 @@ export class AuthService {
         return Observable.throw(err)
       });
   }
+
+  addproject(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://192.168.0.133:3000/projects', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+
+        if (err.status === 409) {
+          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
+        } else {
+          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
+  }
+
+  addsite(site) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://192.168.0.133:3000/sites', site, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        if (err.status === 409) {
+          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
+        } else {
+          this.snackBar.open('Please Add site', 'ok', { duration: 3000 });
+        }
+        return Observable.throw('')
+      });
+  }
+
+  adddpt(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://192.168.0.133:3000/departments', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+
+        if (err.status === 409) {
+          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
+        } else {
+          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
+  }
+
+  addbench(data) {
+
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://192.168.0.133:3000/benches', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+
+        if (err.status === 409) {
+          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
+        } else {
+          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
+
+  }
+
+  addeqpt(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://192.168.0.133:3000/equipment', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+
+        if (err.status === 409) {
+          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
+        } else {
+          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
+
+  }
+
+  addpc(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://192.168.0.133:3000/packagingCodes', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+
+        if (err.status === 409) {
+          this.snackBar.open('Already Exits', 'ok', { duration: 3000 });
+        } else {
+          this.snackBar.open('Please add all fields', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
+
+  }
+
+
 
 
 

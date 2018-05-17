@@ -40,7 +40,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AgGridModule } from "ag-grid-angular/main";
 import { RmrequestComponent } from './components/rmrequest/rmrequest.component';
 import { FillingreqComponent } from './components/fillingreq/fillingreq.component';
-
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 
 
@@ -101,6 +101,7 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatProgressSpinnerModule,
     MatRadioModule,
+    FullCalendarModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

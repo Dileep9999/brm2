@@ -83,45 +83,48 @@
       </div>
     </div>
   </mat-tab>
-  <mat-tab label="Tab 2">
-
-
+  <mat-tab label="Create Site">
     <br>
-
     <div class="row jumbotron">
       <h5 class="col-sm-3">Create Site</h5>
       <mat-form-field class="col-sm-3">
-        <input #site matInput placeholder="Add Site"> </mat-form-field>
+        <input matInput placeholder="Add Site" #site> </mat-form-field>
       <div class="col-sm-2" style="height:1cm;">
         <button class="btn btn-primary" (click)="addsite(site.value)">Create</button>
       </div>
     </div>
+  </mat-tab>
+  <mat-tab label="Create reason">
     <br>
     <div class="jumbotron">
-      <h5 class="row" style=" ">Create Reason</h5>
+      <h5 class="row" style=" ">Create a Reason</h5>
       <mat-form-field class="col-sm-3 ">
-        <mat-select #selectsite placeholder="Select a Site ">
+        <mat-select #site1 placeholder="Select a Site ">
           <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="col-sm-3 ">
-        <mat-select #batch placeholder="Select a Batch ">
+        <mat-select #batch1 placeholder="Select a Batch ">
           <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="example col-sm-3 ">
         <input matInput placeholder="Add Reason " #reason> </mat-form-field>
-      <button class="btn btn-primary " (click)="addreason(selectsite.value, batch.value, reason.value) ">Create</button>
+      <button class="btn btn-primary " (click)="addreason(site1.value, batch1.value, reason.value) ">Create</button>
     </div>
+  </mat-tab>
+  <mat-tab label="Create Department">
     <br>
     <div class="row jumbotron ">
       <h5 class="col-sm-3 ">Create Department</h5>
       <mat-form-field class="col-sm-3 ">
-        <input #department matInput placeholder="Create Department "> </mat-form-field>
+        <input #department matInput placeholder="Create Department"> </mat-form-field>
       <div class="col-sm-2 " style="height:1cm; ">
-        <button class="btn btn-primary " (click)="adddpt(department.value) ">Create</button>
+        <button class="btn btn-primary " (click)="adddpt(department.value)">Create</button>
       </div>
     </div>
+  </mat-tab>
+  <mat-tab label="Create Project">
     <br>
     <div class="row jumbotron ">
       <h5 class="col-sm-3 ">Create Project</h5>
@@ -131,63 +134,69 @@
         <button class="btn btn-primary " (click)="addproject(project.value) ">Create</button>
       </div>
     </div>
+  </mat-tab>
+  <mat-tab label="Create Bench">
     <br>
-
     <div class="row jumbotron ">
       <h5 class="col-sm-3 ">Create a Bench</h5>
       <br>
       <div class="row">
         <mat-form-field class="col-sm-2">
-          <mat-select #selectsite placeholder="Select a Site ">
-            <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
+          <mat-select placeholder="Select a Site" #site3>
+            <mat-option *ngFor="let site of sitemenu " value="{{site}}"> {{site}} </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="col-sm-3">
-          <mat-select #batch placeholder="Select a Batch ">
-            <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
+          <mat-select #batch2 placeholder="Select a Batch ">
+            <mat-option *ngFor="let batch of batchmenu " value="{{batch}}"> {{batch}} </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="col-sm-4">
           <mat-select #product placeholder="Legal Product Category ">
-            <mat-option *ngFor="let product of productmenu " value="{{product}} "> {{ product }} </mat-option>
+            <mat-option *ngFor="let product of productmenu " value="{{product}}"> {{ product}} </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="col-sm-2">
           <input #bench matInput placeholder="Create Bench"> </mat-form-field>
         <div class="col-sm-1 " style="height:1cm; ">
-          <button class="btn btn-primary " (click)="addbench(selectsite.value,batch.value,product.value,bench.value) ">Create</button>
+          <button class="btn btn-primary " (click)="addbench(site3.value,batch2.value, product.value, bench.value) ">Create</button>
         </div>
 
       </div>
     </div>
+  </mat-tab>
+  <mat-tab label="Create Equipment">
     <br>
-
     <div class="jumbotron">
       <h5 class="row" style=" ">Create Equipment</h5>
       <mat-form-field class="col-sm-3 ">
-        <mat-select #selectsite placeholder="Select a Site ">
-          <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
+        <mat-select placeholder="Select a Site" #site9>
+          <mat-option *ngFor="let site of sitemenu " value="{{site}}">{{ site }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="col-sm-3 ">
-        <mat-select #batch placeholder="Select a Batch ">
-          <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
+        <mat-select placeholder="Select a Batch" #batch7>
+          <mat-option *ngFor="let batch of batchmenu " value="{{batch}}"> {{ batch }} </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="example col-sm-3 ">
         <input matInput placeholder="Add Equipment " #equipment> </mat-form-field>
-      <button class="btn btn-primary " (click)="addeqpt(selectsite.value, batch.value, equipment.value) ">Create</button>
+      <button class="btn btn-primary " (click)="addeqpt(site9.value, batch7.value, equipment.value) ">Create</button>
     </div>
+  </mat-tab>
+  <mat-tab label="Create Packaging Code">
     <br>
     <div class="row jumbotron ">
-      <h5 class="col-sm-3 ">Create Packing Code</h5>
-      <mat-form-field class="col-sm-3 ">
-        <input #pc matInput placeholder="Create Packing Code"> </mat-form-field>
-      <div class="col-sm-2 " style="height:1cm; ">
+      <h5 class="col-sm-3">Create Packaging Code</h5>
+      <mat-form-field class="col-sm-3">
+        <input matInput placeholder="Create Packing Code" #pc> </mat-form-field>
+      <div class="col-sm-2 " style="height:1cm;">
         <button class="btn btn-primary " (click)="addpc(pc.value)">Create</button>
       </div>
     </div>
   </mat-tab>
+
+
 
 </mat-tab-group>
 

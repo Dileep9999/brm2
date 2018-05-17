@@ -11,4 +11,7 @@
 
 .jumbotron{
   border-style: solid ;
+  max-width: 30cm;
+  margin: 1cm;
+  align-items: center;
 }
