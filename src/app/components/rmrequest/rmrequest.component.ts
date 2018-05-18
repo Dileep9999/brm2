@@ -37,14 +37,34 @@ export class RmrequestComponent implements OnInit {
   batch_unit: String = "KG";
   batch_type: String;
   pr_number: number;
+  rm_num: String;
 
   constructor(
     public authService: AuthService
   ) { }
   ngOnInit() {
-
+    this.project = this.authService.project;
+    this.department = this.authService.department;
+    this.newrequest();
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
   }
+
+
+  newrequest() {
+    this.authService.submitnewreq("BATCH RM ORDER").subscribe(data => {
+      console.log(data);
+
+      this.rm_num = data.data.request_id;
+      this.year = data.data.lastModified.slice(0, 4);
+      this.month = data.data.lastModified.slice(5, 7);
+      this.day = data.data.lastModified.slice(8, 10);
+      this.updateddate = this.year + '/' + this.month + '/' + this.day;
+    });
+  }
+
+
+
+
   fattribute1() {
     if (this.fattribute = true) {
       this.fattribute = true;
@@ -143,7 +163,7 @@ export class RmrequestComponent implements OnInit {
 
   submit() {
     let data = {
-      request_id: "",
+      request_id: this.rm_num,
       formula_id: this.formula_id,
       bath_size: this.batch_size,
       batch_unit: this.batch_unit,
@@ -159,7 +179,7 @@ export class RmrequestComponent implements OnInit {
       project: this.project,
       department: this.department,
       manufacturing_date: this.mfgdate,
-      request_type: "BATCH REQUEST",
+      request_type: "BATCH RM ORDER",
       flag: "submit",
       confirm_flag: true
     }
@@ -169,7 +189,7 @@ export class RmrequestComponent implements OnInit {
 
   save() {
     let data = {
-      request_id: "",
+      request_id: this.rm_num,
       formula_id: this.formula_id,
       bath_size: this.batch_size,
       batch_unit: this.batch_unit,
@@ -185,7 +205,7 @@ export class RmrequestComponent implements OnInit {
       project: this.project,
       department: this.department,
       manufacturing_date: this.mfgdate,
-      request_type: "BATCH REQUEST",
+      request_type: "BATCH RM ORDER",
       flag: "save",
       confirm_flag: false
 

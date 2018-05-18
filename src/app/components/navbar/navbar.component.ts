@@ -196,18 +196,21 @@ export class DialogOverview {
 
   }
   getDepartments() {
-    this.authService.getdepartments().subscribe(data => {
-      for (let i = 0; i <= data.data.length; i++) {
-        this.departments.push(data.data[i].department)
-      }
-    });
+    this.departments = JSON.parse(localStorage.getItem('departments'));
+    // this.authService.getdepartments().subscribe(data => {
+    //   for (let i = 0; i <= data.data.length; i++) {
+    //     this.departments.push(data.data[i].department)
+    //   }
+    // });
   }
+
   getProjects() {
-    this.authService.getprojects().subscribe(data => {
-      for (let i = 0; i <= data.data.length; i++) {
-        this.projects.push(data.data[i].project)
-      }
-    });
+    this.projects = JSON.parse(localStorage.getItem("projects"));
+    // this.authService.getprojects().subscribe(data => {
+    //   for (let i = 0; i <= data.data.length; i++) {
+    //     this.projects.push(data.data[i].project)
+    //   }
+    // });
   }
   submit() {
     console.log('submit');
@@ -247,23 +250,40 @@ export class Rmrequest {
   ngOnInit() {
     this.projects = [];
     this.departments = [];
+    this.getProjects();
+    this.getDepartments();
 
 
 
   }
+
   submit() {
-    this.router.navigate(['/rm']);
+    console.log('submit');
+    this.authService.redirecttoRM(this.project, this.department);
+    this.dialogRef.close();
   }
 
+
+  getDepartments() {
+    this.departments = JSON.parse(localStorage.getItem('departments'));
+    // this.authService.getdepartments().subscribe(data => {
+    //   for (let i = 0; i <= data.data.length; i++) {
+    //     this.departments.push(data.data[i].department)
+    //   }
+    // });
+  }
+
+  getProjects() {
+    this.projects = JSON.parse(localStorage.getItem("projects"));
+    // this.authService.getprojects().subscribe(data => {
+    //   for (let i = 0; i <= data.data.length; i++) {
+    //     this.projects.push(data.data[i].project)
+    //   }
+    // });
+  }
 
   submitenable(value, value1) {
-
     this.project = value;
-    localStorage.setItem('project', value);
-    localStorage.setItem('department', value1);
-
-
-
     this.department = value1;
     if (this.project !== "None" && this.department !== "None") {
       this.btndisabled = false;

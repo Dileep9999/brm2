@@ -35,7 +35,7 @@ export class SuperadminComponent implements OnInit {
     console.log(filterValue);
     for (let i = 0; i <= this.sitemenu.length; i++) {
       if (this.sitemenu[i] === filterValue) {
-        this.add = false;
+        this.add = true;
       }
     }
 

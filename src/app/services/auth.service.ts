@@ -139,6 +139,15 @@ export class AuthService {
 
   }
 
+  redirecttoRM(project, department) {
+    console.log('redirect');
+
+    this.project = project;
+    this.department = department;
+    this.router.navigate(['/rm']);
+
+  }
+
 
 
 
