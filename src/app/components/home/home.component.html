@@ -1,62 +1,4 @@
 <div>
-  <div *ngIf="!authService.loggedIn()">
-    <br>
-
-    <div *ngIf="!authService.loggedIn()" class="container">
-      <div class="card border-info" style="background:#FFFF;">
-        <div class="row" style="margin-top:1.5cm;">
-
-          <div class="jumbotron col-sm-4 col-md-6" style="background:#4e84f8;width:450px;margin-left:1cm;">
-            <div class="pa-header-bg" style="margin: 10px 0 0 10px; text-align: center; font-size: 20px;">
-              <span class="logo-new"></span>
-              <span style="font-size:28px;color:rgb(248, 241, 241);">
-                <img height="100px" class="logo-top" src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_login/images/brm60x60.png"
-                />BATCH</span>
-            </div>
-          </div>
-          <div class="form col-md-4">
-            <legend>Login</legend>
-            <label>Username:</label>
-            <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="userid_email" placeholder="UserName">
-            <label for="exampleInputPassword1">Password:</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="password" placeholder="Password" (keydown)="enterlogin($event)">
-            <br>
-            <button class="loginbutton" (click)="login()" mat-raised-button>Log In</button>
-            <p class="text-danger">{{loginmessage}}</p>
-          </div>
-        </div>
-        <div class="col-md-12 pa-font-hyperlink" style="text-align:center">
-          <ul class="row" style="display:inline-flex">
-            <li class="col-md">
-              <a href="https://pmf.psso.its.jnj.com/pmf/ForgottenPassword/Login.html" target="_blank" style="color:blue" title="Forgot Password">Forgot Password</a>
-              <span style="padding:10px">|</span>
-            </li>
-            <li class="col-md">
-              <a href="https://myapps.psso.its.jnj.com/hs/VPN.jsp" target="_blank" style="color:blue" title="COMPASS Remote Access">COMPASS Remote Access
-              </a>
-              <span style="padding:10px">|</span>
-            </li>
-            <li class="col-md">
-              <a href="https://pmf.psso.its.jnj.com/pmf/Registration.html" target="_blank" style="color:blue" title="Partner Self-Registration">Partner Self-Registration
-              </a>
-              <span style="padding:10px">|</span>
-            </li>
-            <li class="col-md">
-              <a href="https://myapps.psso.its.jnj.com/hs/" target="_blank" style="color:blue" title="Help &amp; Support">Help &amp; Support</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-12 warning" style="margin-bottom: 1.5cm;text-align:justify;font-size:12px;">
-          <b>WARNING NOTICE:</b> This system is restricted solely to Johnson &amp; Johnson users for legitimate business only.
-          The actual or attempted unauthorized access, use or modification of this system is strictly prohibited by Johnson
-          &amp; Johnson. Unauthorized users are subject to Company disciplinary proceedings and/or criminal and civil penalties
-          under state, federal or other applicable domestic and foreign laws. The use of this system may be monitored and
-          recorded for administrative and security reasons. If such monitoring and/or recordings reveal possible evidence
-          of criminal activity, Johnson &amp; Johnson may provide the evidence of such monitoring to law enforcement officials.
-          (c) Information Technology Shared Services, a Division of Johnson &amp; Johnson Services, Inc. 2018</div>
-      </div>
-    </div>
-  </div>
 
 
   <div *ngIf="authService.loggedIn()">
@@ -195,12 +137,17 @@
 
 
     <h5>My Batch Requests ({{no_of_BR}})</h5>
-    <ag-grid-angular *ngIf="!Tile" style="height:250px;" class="ag-theme-balham list" enableColResize="true" [enableSorting]="true"
-      [enableFilter]="true" [rowData]="requests" [columnDefs]="columnDefs">
+    <ag-grid-angular *ngIf="!Tile" style="height:300px;" class="ag-theme-balham list" enableColResize="true" [enableSorting]="true"
+      [enableFilter]="true" [rowData]="batchrequests" [columnDefs]="columnDefs">
     </ag-grid-angular>
 
 
-    <mat-spinner *ngIf="loader" style="margin-left:12cm;"></mat-spinner>
+    <div class="lds-ellipsis" *ngIf="loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
 
     <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:14cm;margin-left:1cm;">
 
@@ -225,56 +172,15 @@
     <br>
     <h5>My Filling Requests ({{no_of_FR}})</h5>
     <br>
-    <table class="table table-hover" style="height:100px;overflow:auto" *ngIf="!Tile">
-      <thead>
-        <tr>
-          <th scope="col">Type</th>
-          <th scope="col">Column heading</th>
-          <th scope="col">Column heading</th>
-          <th scope="col">Column heading</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="table-light">
-          <th scope="row">Active</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Default</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Primary</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Secondary</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Success</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Danger</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-
-      </tbody>
-    </table>
-
+    <div class="lds-ellipsis" *ngIf="loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <ag-grid-angular *ngIf="!Tile" style="height:300px;" class="ag-theme-balham list" enableColResize="true" [enableSorting]="true"
+      [enableFilter]="true" [rowData]="fillingrequests" [columnDefs]="columnDefs">
+    </ag-grid-angular>
     <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:10cm;margin-left:1cm;">
 
       <mat-card *ngFor="let request of fillingrequests" class="example-card">
@@ -298,55 +204,15 @@
     <br>
     <h5>My RM Requests ({{no_of_RM}})</h5>
     <br>
-    <table class="table table-hover" style="height:100px;overflow:auto" *ngIf="!Tile">
-      <thead>
-        <tr>
-          <th scope="col">Type</th>
-          <th scope="col">Column heading</th>
-          <th scope="col">Column heading</th>
-          <th scope="col">Column heading</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="table-light">
-          <th scope="row">Active</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Default</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Primary</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Secondary</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Success</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="table-light">
-          <th scope="row">Danger</th>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-
-      </tbody>
-    </table>
+    <div class="lds-ellipsis" *ngIf="loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <ag-grid-angular *ngIf="!Tile" style="height:300px;" class="ag-theme-balham list" enableColResize="true" [enableSorting]="true"
+      [enableFilter]="true" [rowData]="RMrequests" [columnDefs]="columnDefs">
+    </ag-grid-angular>
 
 
     <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:10cm;margin-left:1cm;">

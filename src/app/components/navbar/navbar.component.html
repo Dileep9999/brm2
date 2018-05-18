@@ -84,11 +84,14 @@
         <a class="nav-link" class="nav-link dropdown-toggle" style="cursor:pointer;font-size:14px;" data-toggle="dropdown" [matMenuTriggerFor]="Requestor"
           *ngIf="authService.loggedIn()">
           <b>
-            {{authService.user_id|uppercase}}</b>
+            <img height="25px" *ngIf="authService.user_type=='ADMIN'" src="assets/Images/admin.png"> {{authService.user_id| uppercase}}</b>
         </a>
         <mat-menu [overlapTrigger]="false" #Requestor="matMenu">
+          <button (click)="router.navigate(['/su'])" *ngIf="authService.user_type=='ADMIN'" mat-menu-item>
+            <mat-icon>how_to_reg</mat-icon>ADMIN</button>
           <button (click)="gotoprefrences()" mat-menu-item>
             <mat-icon>settings</mat-icon>Prefrences</button>
+
           <a mat-menu-item (click)="onLogoutClick()" href="#">
             <mat-icon>exit_to_app</mat-icon>Log out</a>
         </mat-menu>

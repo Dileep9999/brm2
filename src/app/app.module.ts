@@ -41,11 +41,13 @@ import { AgGridModule } from "ag-grid-angular/main";
 import { RmrequestComponent } from './components/rmrequest/rmrequest.component';
 import { FillingreqComponent } from './components/fillingreq/fillingreq.component';
 import { FullCalendarModule } from 'ng-fullcalendar';
+import { LoginComponent } from './components/login/login.component';
 
 
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'prefrence', component: PrefrenceComponent },
   { path: 'batchrequest', component: BatchrequestComponent, canActivate: [AuthGuard] },
@@ -67,7 +69,8 @@ const appRoutes: Routes = [
     SuperadminComponent,
     RmrequestComponent,
     Rmrequest,
-    FillingreqComponent
+    FillingreqComponent,
+    LoginComponent
 
 
 

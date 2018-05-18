@@ -1,0 +1,12 @@
+ul {
+  list-style-type: none;
+
+  }
+  li{
+    font-size: 13px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  .container{
+    max-width: 1050px;
+
+  }
