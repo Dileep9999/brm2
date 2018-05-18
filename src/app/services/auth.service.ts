@@ -248,6 +248,15 @@ export class AuthService {
       });
   }
 
+  submitrmrequest(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/rmrequest', data, { headers: headers })
+      .map(res => res.json())
+  }
+
   makeasadmin(user) {
     console.log(user);
 

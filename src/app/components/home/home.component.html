@@ -223,7 +223,7 @@
       <br>
     </div>
     <br>
-    <h5>My Filling Requests (12)</h5>
+    <h5>My Filling Requests ({{no_of_FR}})</h5>
     <br>
     <table class="table table-hover" style="height:100px;overflow:auto" *ngIf="!Tile">
       <thead>
@@ -296,7 +296,7 @@
       <br>
     </div>
     <br>
-    <h5>My Order Requests (12)</h5>
+    <h5>My RM Requests ({{no_of_RM}})</h5>
     <br>
     <table class="table table-hover" style="height:100px;overflow:auto" *ngIf="!Tile">
       <thead>
@@ -349,22 +349,26 @@
     </table>
 
 
-    <mat-card class="example-card" *ngIf="Tile">
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>OR-2017-00001</mat-card-title>
-        <mat-icon id="star" class="star" (click)="starcolor()">star</mat-icon>
-        <mat-card-subtitle>GxP Lab Batch</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          PROJECT:Automation...
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
+    <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:10cm;margin-left:1cm;">
 
-      </mat-card-actions>
-    </mat-card>
+      <mat-card *ngFor="let request of RMrequests" class="example-card">
+        <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
+        <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
+        <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
+        <div style="font-size:13px;">project:{{request.project}}</div>
+        <div class="progress" style="max-height:8px;">
+          <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+        </div>
+        <div title="Status:{{request.status}}" class="text-sm-auto" style="font-size:13px;">{{request.status}}</div>
+        <div style="font-size:13px;">Submitter:{{request.createdBy}} </div>
+        <div style="font-size:13px;">Mfg.Date:21/52/</div>
+        <div class="row" style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer;">
+          <i class="col-sm-1 fa fa-file-pdf-o fa"></i>
+          <mat-icon class="col-sm-1">print</mat-icon>
+        </div>
+      </mat-card>
+      <br>
+    </div>
   </div>
 </div>
 

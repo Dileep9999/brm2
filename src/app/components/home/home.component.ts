@@ -87,7 +87,12 @@ export class HomeComponent implements OnInit {
           this.batchrequests.push(data.data[i]);
         } else if (data.data[i].request_type === 'FILLING REQUEST') {
           this.fillingrequests.push(data.data[i]);
-        } else {
+        }
+        else if (data.data[i].request_type === 'BATCH RM ORDER') {
+          this.RMrequests.push(data.data[i]);
+        }
+
+        else {
           this.RMrequests.push(data.data[i]);
         }
       }

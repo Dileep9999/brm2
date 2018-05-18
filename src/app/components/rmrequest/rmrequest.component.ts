@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Http } from '@angular/http';
+import "rxjs/add/operator/catch";
 
 @Component({
   selector: 'app-rmrequest',
@@ -39,8 +41,10 @@ export class RmrequestComponent implements OnInit {
   pr_number: number;
   rm_num: String;
 
+
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    public http: Http,
   ) { }
   ngOnInit() {
     this.project = this.authService.project;
@@ -211,6 +215,10 @@ export class RmrequestComponent implements OnInit {
 
     }
     console.log(data);
+    this.authService.submitrmrequest(data).subscribe(data => {
+      console.log(data.data.message);
+
+    });
 
   }
 

@@ -221,7 +221,7 @@
                           <label>PR Spec Number</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="PR123456">
+                          <input [(ngModel)]="pr_number" [ngModelOptions]="{standalone: true}" class="form-control" type="text" placeholder="PR123456">
                         </div>
                         <div class="col-sm-3">
                           <a href="">View Spec Document</a>
