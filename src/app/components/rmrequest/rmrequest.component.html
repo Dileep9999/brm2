@@ -107,9 +107,9 @@
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                           <div class="form-control">
-                            <mat-select #site [(value)]="sitetype" placeholder="Selet Site...">
-                              <mat-option value="a">VDR</mat-option>
-                              <mat-option value="b">SJC</mat-option>
+                            <mat-select [(value)]="sitetype" placeholder="Selet Site...">
+                              <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
+
                             </mat-select>
                           </div>
                         </div>
@@ -119,7 +119,7 @@
                     <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                       <div class="row">
                         <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Legal Product Category*</label>
+                          <label>Batch Type*</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                           <div class="btn-group">
@@ -151,7 +151,7 @@
                           <label>Lab Notebook Number*</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="19545-168">
+                          <input class="form-control" [(ngModel)]="labnotebook" [ngModelOptions]="{standalone: true}" type="text" placeholder="19545-168">
                         </div>
                       </div>
                     </div>
@@ -162,7 +162,7 @@
                           <label>Formula</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="#####">
+                          <input class="form-control" [(ngModel)]="formula_id" [ngModelOptions]="{standalone: true}" type="text" placeholder="#####">
                         </div>
                       </div>
                     </div>
@@ -183,8 +183,8 @@
                         <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
                           <label>Description</label>
                         </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <label>Healthy white sodium</label>
+                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                          <textarea class="form-control" type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" placeholder="Add Formula Description"></textarea>
                         </div>
                       </div>
                     </div>
@@ -195,7 +195,11 @@
                           <label>Manufacturing Date*</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="DD-MMM-YYYY">
+                          <mat-form-field>
+                            <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
+                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                            <mat-datepicker #dp></mat-datepicker>
+                          </mat-form-field>
                         </div>
                       </div>
                     </div>
@@ -206,12 +210,7 @@
                           <label>Project</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-select [(value)]="project" placeholder="Selet Site...">
-                              <mat-option value="a">VDR</mat-option>
-                              <mat-option value="b">SJC</mat-option>
-                            </mat-select>
-                          </div>
+                          <input class="form-control dropdown-toggle" type="text" [value]="project" disabled placeholder="Enter Project Name">
                         </div>
                       </div>
                     </div>
@@ -250,9 +249,9 @@
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                           <div class="form-control">
-                            <mat-select [(value)]="department" placeholder="Selet Site...">
-                              <mat-option value="a">VDR</mat-option>
-                              <mat-option value="b">SJC</mat-option>
+                            <mat-select placeholder="{{depaartment}}">
+                              <mat-option value="{{department}}" disabled>{{department}}</mat-option>
+
                             </mat-select>
                           </div>
                         </div>
@@ -266,10 +265,16 @@
                           <label>Batch Size*</label>
                         </div>
                         <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                          <input class="form-control" style="width:1.8cm;" type="number" placeholder="1">
+                          <input [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" class="form-control" style="width:1.8cm;" type="number"
+                            placeholder="1">
                         </div>
                         <div class="col-sm-5">
-                          <button mat-raised-button class="dropdown-toggle">KG</button>
+                          <button class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="kg">{{batch_unit}}</button>
+                          <div class="dropdown-menu" aria-labelledby="kg">
+                            <a (click)="batch_unit='KG'" class="dropdown-item">KG</a>
+                            <a (click)="batch_unit='G'" class="dropdown-item">G</a>
+                            <a (click)="batch_unit='OZ'" class="dropdown-item">OZ</a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -372,8 +377,8 @@
             <div>
               <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
                 <mat-button-toggle value="bold">Cancel Request</mat-button-toggle>
-                <mat-button-toggle value="italic">Save</mat-button-toggle>
-                <mat-button-toggle value="underline">Submit</mat-button-toggle>
+                <mat-button-toggle (click)="save()" value="italic">Save</mat-button-toggle>
+                <mat-button-toggle (click)="submit()" value="underline">Submit</mat-button-toggle>
               </mat-button-toggle-group>
             </div>
           </div>

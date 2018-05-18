@@ -20,7 +20,6 @@ export class SuperadminComponent implements OnInit {
   batchmenu: String[];
   productmenu: String[];
   sitedata: String[];
-  dileep: string = "";
   add: boolean = true;
 
   loader: boolean = false;
@@ -34,10 +33,12 @@ export class SuperadminComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
     console.log(filterValue);
-
-    if (filterValue != this.dataSource.filter) {
-      this.add = false;
+    for (let i = 0; i <= this.sitemenu.length; i++) {
+      if (this.sitemenu[i] === filterValue) {
+        this.add = false;
+      }
     }
+
   }
 
 

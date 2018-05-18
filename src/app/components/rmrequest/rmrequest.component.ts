@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-rmrequest',
@@ -19,8 +20,30 @@ export class RmrequestComponent implements OnInit {
   drug = false;
   cosmetic = false;
   project: String;
-  constructor() { }
+  fr_num: String;
+  updateddate: String;
+  month: number;
+  day: number;
+  year: number;
+  percent: number = 15;
+  sitemenu: String[];
+  mfgdate: String;
+  projects = JSON.parse(localStorage.getItem('projects'));
+  departments = JSON.parse(localStorage.getItem('departments'));
+  labnotebook: String;
+  description: String;
+  formula_id: String;
+  batch_size: number;
+  batch_unit: String = "KG";
+  batch_type: String;
+  pr_number: number;
+
+  constructor(
+    public authService: AuthService
+  ) { }
   ngOnInit() {
+
+    this.sitemenu = JSON.parse(localStorage.getItem('sites'));
   }
   fattribute1() {
     if (this.fattribute = true) {
@@ -54,6 +77,7 @@ export class RmrequestComponent implements OnInit {
     this.material = false;
   }
   flab1() {
+    this.batch_type = "LAB"
     if (this.flab = true) {
       this.flab = true;
     }
@@ -64,6 +88,7 @@ export class RmrequestComponent implements OnInit {
     this.GxP = false;
   }
   fpilot1() {
+    this.batch_type = "PILOT"
     if (this.fpilot = true) {
       this.fpilot = true;
     }
@@ -74,6 +99,7 @@ export class RmrequestComponent implements OnInit {
     this.GxP = false;
   }
   GxP1() {
+    this.batch_type = "GXP BATCH"
     if (this.GxP = true) {
       this.GxP = true;
     }
@@ -105,4 +131,68 @@ export class RmrequestComponent implements OnInit {
     this.drug = false;
     this.legal_product_category = "COSMETIC";
   }
+  formatdatemfg(date: Date) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    this.mfgdate = year + '-' + month + '-' + day;
+    console.log(this.mfgdate);
+
+  }
+
+
+  submit() {
+    let data = {
+      request_id: "",
+      formula_id: this.formula_id,
+      bath_size: this.batch_size,
+      batch_unit: this.batch_unit,
+      lab_note_book_number: this.labnotebook,
+      raw_material: [],
+      site: this.sitetype,
+      batch_type: this.batch_type,
+      legal_product_category: this.legal_product_category,
+      formula_status: "new",
+      formula_description: this.description,
+      formula_pr_number: this.pr_number,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.mfgdate,
+      request_type: "BATCH REQUEST",
+      flag: "submit",
+      confirm_flag: true
+    }
+    console.log(data);
+  }
+
+
+  save() {
+    let data = {
+      request_id: "",
+      formula_id: this.formula_id,
+      bath_size: this.batch_size,
+      batch_unit: this.batch_unit,
+      lab_note_book_number: this.labnotebook,
+      raw_material: [],
+      site: this.sitetype,
+      batch_type: this.batch_type,
+      legal_product_category: this.legal_product_category,
+      formula_status: "new",
+      formula_description: this.description,
+      formula_pr_number: this.pr_number,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.mfgdate,
+      request_type: "BATCH REQUEST",
+      flag: "save",
+      confirm_flag: false
+
+    }
+    console.log(data);
+
+  }
+
+
 }
