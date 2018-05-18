@@ -54,13 +54,15 @@ export class BatchrequestComponent implements OnInit {
         eventLimit: false,
         header: {
 
-          left: 'prev,next',
+          left: 'month,agendaWeek,agendaDay,listMonth',
           center: 'title ',
-          right: 'month,agendaWeek,agendaDay,listMonth'
+          right: 'prev,title,next'
         },
         events: data
       };
     });
+    this.project = this.authService.project;
+    this.department = this.authService.department;
     this.reasons = [];
     this.departments = JSON.parse(localStorage.getItem('departments'));
     this.projects = JSON.parse(localStorage.getItem('projects'));
@@ -71,7 +73,8 @@ export class BatchrequestComponent implements OnInit {
   }
 
   newrequest() {
-    this.authService.submitnewreq().subscribe(data => {
+    let request_type = "BATCH REQUEST"
+    this.authService.submitnewreq(request_type).subscribe(data => {
       this.br_num = data.data.request_id;
       this.year = data.data.lastModified.slice(0, 4);
       this.month = data.data.lastModified.slice(5, 7);

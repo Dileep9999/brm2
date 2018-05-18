@@ -55,6 +55,7 @@
     "@types/hammerjs": "^2.0.35",
     "@types/jasmine": "^2.8.7",
     "@types/jasminewd2": "~2.0.2",
+    "@types/jquery": "^3.2.7",
     "@types/node": "^6.0.109",
     "codelyzer": "^4.3.0",
     "jasmine-core": "~2.8.0",

@@ -4,6 +4,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatSnackBar } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-superadmin',
@@ -18,7 +19,29 @@ export class SuperadminComponent implements OnInit {
   superadmins: String[];
   batchmenu: String[];
   productmenu: String[];
+  sitedata: String[];
+  dileep: string = "";
+  add: boolean = true;
+
   loader: boolean = false;
+  displayedColumns = ['site', 'createdAt'];
+  dataSource = new MatTableDataSource();
+
+  applyFilter(filterValue: string) {
+    console.log(filterValue);
+
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+    console.log(filterValue);
+
+    if (filterValue != this.dataSource.filter) {
+      this.add = false;
+    }
+  }
+
+
+
   constructor(
     private authService: AuthService,
     public snackBar: MatSnackBar,
@@ -36,6 +59,8 @@ export class SuperadminComponent implements OnInit {
     this.productmenu = ["Cosmetic", "Drug"];
     this.getusers();
     this.selectsite();
+
+
 
 
   }
@@ -187,6 +212,11 @@ export class SuperadminComponent implements OnInit {
 
   selectsite() {
     this.authService.getsites().subscribe(data => {
+      console.log(data);
+      this.dataSource.data = data.data;
+      this.sitedata = data.data;
+      console.log(this.sitedata);
+
       for (let i = 0; i => data.data.length - 1; i++) {
         this.sitemenu.push(data.data[i].site);
       }
@@ -210,3 +240,11 @@ export class SuperadminComponent implements OnInit {
     });
   }
 }
+
+export interface Element {
+  createdAt: string;
+  site: string;
+
+}
+
+// const ELEMENT_DATA: Element[] = ;

@@ -11,7 +11,29 @@
 
 .jumbotron{
   border-style: solid ;
-  max-width: 30cm;
-  margin: 1cm;
-  align-items: center;
+  /* max-width: 30cm; */
+  /* margin: 1cm; */
+  /* align-items: center; */
+}
+/* Structure */
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 19cm;
+
+}
+
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
 }

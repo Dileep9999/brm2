@@ -26,10 +26,14 @@ export class HomeComponent implements OnInit {
   partnermenu: String[];
   filteritems: String[];
   Tile: boolean;
-  requests: String[];
+  batchrequests: String[];
+  fillingrequests: String[];
+  RMrequests: String[];
   loader: boolean = true;
   departments: String[];
   no_of_BR: any;
+  no_of_FR: any;
+  no_of_RM: any;
   columnDefs = [
     { headerName: 'Request Number', field: 'request_id' },
     { headerName: 'Project Name', field: 'project' },
@@ -57,7 +61,9 @@ export class HomeComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.requests = [];
+    this.batchrequests = [];
+    this.fillingrequests = [];
+    this.RMrequests = [];
     this.departments = [];
     this.sitemenu = [];
     this.projectmenu = [];
@@ -76,11 +82,23 @@ export class HomeComponent implements OnInit {
 
   loadrequests() {
     this.authService.getallrequests().subscribe(data => {
-      this.requests = data.data;
-      console.log(this.requests);
-      this.rowData = data.data;
+      for (let i = 0; i <= data.data.length - 1; i++) {
+        if (data.data[i].request_type === 'BATCH REQUEST') {
+          this.batchrequests.push(data.data[i]);
+        } else if (data.data[i].request_type === 'FILLING REQUEST') {
+          this.fillingrequests.push(data.data[i]);
+        } else {
+          this.RMrequests.push(data.data[i]);
+        }
+      }
+
+      console.log(this.batchrequests);
+      console.log(this.fillingrequests);
       this.loader = false;
-      this.no_of_BR = data.data.length;
+      this.no_of_BR = this.batchrequests.length;
+      this.no_of_FR = this.fillingrequests.length;
+      this.no_of_RM = this.RMrequests.length;
+
     });
   }
 

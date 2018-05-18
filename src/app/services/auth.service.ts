@@ -130,14 +130,22 @@ export class AuthService {
     this.router.navigate(['/batchrequest']);
 
   }
+  redirecttofilling(project, department) {
+    console.log('redirect');
+
+    this.project = project;
+    this.department = department;
+    this.router.navigate(['/filling']);
+
+  }
 
 
 
 
-  submitnewreq() {
+  submitnewreq(requesttype) {
 
     let data = {
-      request_type: "BATCH REQUEST",
+      request_type: requesttype,
       project: this.project,
       department: this.department
     }

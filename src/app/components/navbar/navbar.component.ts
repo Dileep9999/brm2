@@ -188,10 +188,6 @@ export class DialogOverview {
   submitenable(value, value1) {
 
     this.project = value;
-    localStorage.setItem('project', value);
-    localStorage.setItem('department', value1);
-
-
 
     this.department = value1;
     if (this.project !== "None" && this.department !== "None") {
@@ -212,6 +208,12 @@ export class DialogOverview {
         this.projects.push(data.data[i].project)
       }
     });
+  }
+  submit() {
+    console.log('submit');
+
+    this.authService.redirecttofilling(this.project, this.department);
+    this.dialogRef.close();
   }
 
 

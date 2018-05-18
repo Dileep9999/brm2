@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Jsonp } from '@angular/http';
 
 @Component({
   selector: 'app-fillingreq',
@@ -19,15 +21,127 @@ export class FillingreqComponent implements OnInit {
   storage = false;
   bulk = false;
   condition = false;
+  fr_num: String;
+  updateddate: String;
+  month: number;
+  day: number;
+  year: number;
+  percent: number = 15;
   legal_product_category: String;
   filling_type: String;
   remaining_bulk: String;
   batch_type: String;
-
-  constructor() { }
+  project: String;
+  department: String;
+  user_id = localStorage.getItem('user_id');
+  sitemenu: String[];
+  sitetype: String;
+  mfgdate: String;
+  projects = JSON.parse(localStorage.getItem('projects'));
+  departments = JSON.parse(localStorage.getItem('departments'));
+  labnotebook: String;
+  batch_num: String;
+  formula_id: String;
+  gxpvalue: String;
+  duedate: String;
+  description: String;
+  constructor(
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.project = this.authService.project;
+    this.department = this.authService.department;
+    this.newrequest();
+    this.sitemenu = JSON.parse(localStorage.getItem('sites'));
+
+
   }
+
+  save() {
+
+
+
+    let data = {
+      request_id: this.fr_num,
+      site: this.sitetype,
+      batch_type: this.batch_type,
+      legal_product_category: this.legal_product_category,
+      lab_notebook_number: this.labnotebook,
+      formula_id: this.formula_id,
+      formula_status: "NEW",
+      filling_type: this.filling_type,
+      remaining_bulk: this.remaining_bulk,
+      gxp: this.gxpvalue,
+      batch_number: this.batch_num,
+      manufacturing_site: this.sitetype,
+      due_date: this.duedate,
+      not_applicable_flag: true,
+      packaging_type: [],
+      formula_description: this.description,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.mfgdate,
+      request_type: "FILLING REQUEST",
+      flag: 'save'
+
+    }
+    console.log(data);
+
+  }
+  submit() {
+    let data = {
+      request_id: this.fr_num,
+      site: this.sitetype,
+      batch_type: this.batch_type,
+      legal_product_category: this.legal_product_category,
+      lab_notebook_number: this.labnotebook,
+      formula_id: this.formula_id,
+      formula_status: "NEW",
+      filling_type: this.filling_type,
+      remaining_bulk: this.remaining_bulk,
+      gxp: this.gxpvalue,
+      batch_number: this.batch_num,
+      manufacturing_site: this.sitetype,
+      due_date: this.duedate,
+      not_applicable_flag: true,
+      packaging_type: [],
+      formula_description: this.description,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.mfgdate,
+      request_type: "FILLING REQUEST",
+      flag: 'save'
+
+    }
+    console.log(data);
+
+
+  }
+
+  formatdatemfg(date: Date) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    this.mfgdate = year + '-' + month + '-' + day;
+    console.log(this.mfgdate);
+
+  }
+
+  formatduedate(date: Date) {
+    console.log(date);
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    this.duedate = year + '-' + month + '-' + day;
+    console.log(this.duedate);
+
+  }
+
+
   filling1() {
     // this.filling=!this.filling;
     if (this.filling = true) {
@@ -165,7 +279,7 @@ export class FillingreqComponent implements OnInit {
       this.bulk = !this.bulk;
     }
     this.condition = false;
-    this.filling_type = "BULK";
+    this.filling_type = "BULK FILLING";
   }
   condition1() {
     // this.condition=!this.condition;
@@ -177,6 +291,24 @@ export class FillingreqComponent implements OnInit {
     }
     this.bulk = false;
     this.filling_type = "RE-CONDITIONING";
+  }
+
+
+
+
+
+
+  newrequest() {
+    this.authService.submitnewreq("FILLING REQUEST").subscribe(data => {
+      console.log(data);
+
+      this.fr_num = data.data.request_id;
+
+      this.year = data.data.lastModified.slice(0, 4);
+      this.month = data.data.lastModified.slice(5, 7);
+      this.day = data.data.lastModified.slice(8, 10);
+      this.updateddate = this.year + '/' + this.month + '/' + this.day;
+    });
   }
 
 }
