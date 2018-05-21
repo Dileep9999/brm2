@@ -49,7 +49,10 @@ export class BatchrequestComponent implements OnInit {
   equipments: String[];
   equipmentdata: any;
   optionalequip: any;
-  date: String;
+  date: any;
+  approvers: String[];
+
+
   constructor(public authService: AuthService) { }
 
 
@@ -83,6 +86,28 @@ export class BatchrequestComponent implements OnInit {
     this.loadreasons();
     this.newrequest();
     this.getequipments();
+  }
+
+  getusers() {
+    this.authService.getusers("USER").subscribe(data => {
+      if (data.success) {
+        for (let i = 0; i <= data.data.length; i++) {
+          if
+          (data.data[i].approver_permission) {
+            this.approvers.push(data.data[i].user_id)
+          }
+        }
+
+      }
+
+    });
+
+    this.authService.getusers("ADMIN").subscribe(data => {
+
+    });
+    this.authService.getusers("SUPERADMIN").subscribe(data => {
+
+    });
   }
 
   newrequest() {
@@ -267,6 +292,18 @@ export class BatchrequestComponent implements OnInit {
 
 
 
+  formatdatemfg(date: Date) {
+    console.log(date);
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    this.date = year + '-' + month + '-' + day;
+    console.log(this.date);
+
+  }
+
+
 
   addequipmentstolist() {
     console.log(this.equipmentdata[2].site, this.sitetype);
@@ -284,6 +321,8 @@ export class BatchrequestComponent implements OnInit {
 
 
   equipmentreq(date) {
+    console.log(this.date);
+
 
     let data = {
       request_id: this.br_num,
@@ -292,11 +331,15 @@ export class BatchrequestComponent implements OnInit {
       legal_product_category: this.legalproductcatagory,
       reason_for_this_batch: this.reason.value,
       gxp: this.gxpvalue,
-      bench_id: 'bench_1',
-      request_date: date,
-      approver: localStorage.getItem('user_id'),
-      flag: "submit"
+      bench_id: 'bench 1',
+      request_date: this.date,
+      approver: 'asifali',
+      flag: "save",
+
+
     }
+    console.log(data);
+
 
 
     this.authService.equipmentrequest(data).subscribe(data => {

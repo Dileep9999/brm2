@@ -33,40 +33,55 @@
               <p style="font-size:13px;">Site</p>
             </div>
             <div class="col-sm-7">
-              <select style="max-height:0.8cm;max-width:2.8cm;font-size:11px;" class="custom-select" [(value)]="sitetype">
+              <select style="max-height:0.8cm;max-width:3.1cm;font-size:11px;" class="custom-select" [(value)]="sitetype">
                 <option selected="None" selected disabled>select menu</option>
                 <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
               </select>
             </div>
           </div>
         </div>
-
-
-
-
-      </div>
-
-      <div class="col-sm-3">
-        <label style="font-size:12px;">Legal Product Category*</label>
-      </div>
-      <div class="col-sm-8">
-        <div class="btn-group">
-          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
-          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+        <div class="col-sm-2">
+          <div class="row">
+            <div class="col-sm-1">
+              <p style="font-size:13px;">Type</p>
+            </div>
+            <div class="col-sm-7">
+              <select style="max-height:0.8cm;max-width:3.1cm;font-size:11px;" class="custom-select" [(value)]="sitetype">
+                <option selected="None" selected disabled>select menu</option>
+                <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
 
-      <br>
+    </div>
 
-      <div class="col-sm-8">
-        <div class="btn-group nav">
-          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
-          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
-          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': other}" (click)="other1()">Others</button>
-        </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-3">
+      <label style="font-size:12px;"></label>
+    </div>
+    <label style="font-size:12px;">Legal Product Category*</label>
+    <div class="col-sm-3">
+      <div class="btn-group">
+        <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
+        <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
       </div>
+    </div>
 
+
+    <br>
+    <label style="font-size:12px;">Batch Type*</label>
+    <div class="col-sm-4">
+
+      <div class="btn-group nav">
+        <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
+        <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
+        <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': other}" (click)="other1()">Others</button>
+      </div>
     </div>
   </div>
 </mat-card>
@@ -281,7 +296,7 @@
     <h6>Request Content</h6>
     <div class="col-sm-6">
       <p>RM code for formula table</p>
-      <mat-radio-group [(ngModel)]="forula_req_contents">
+      <mat-radio-group [(ngModel)]="formula_req_contents">
         <mat-radio-button style="padding-right:30px;" color="primary" value="true">Spec #</mat-radio-button>
         <mat-radio-button color="primary" value="false">SAP #</mat-radio-button>
       </mat-radio-group>

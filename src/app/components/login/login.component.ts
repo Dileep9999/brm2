@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
           this.user_id = data.user.user_id;
           this.authService.getUserdata(data.user.email, data.user.user_id, data.user.user_type);
           this.authService.storeUserData(data.token, data.user.user_id, data.user.user_type);
-
+          localStorage.setItem('prefrences', JSON.stringify(data.data.prefrences));
         } else {
           this.loginmessage = 'Invalid Credentilas';
         }

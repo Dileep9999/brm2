@@ -152,7 +152,16 @@
     <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:14cm;margin-left:1cm;">
 
       <mat-card *ngFor="let request of batchrequests" class="example-card">
-        <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
+        <div class="row">
+          <img height="35px" src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png">
+          <div class="col" style="max-width:4cm; text-overflow:ellipsis;overflow:hidden;">
+            <a style="font-size:15px;color:rgb(77, 73, 73)">{{request.request_id}}</a>
+          </div>
+          <div>
+            <!-- <mat-icon class="star" (click)="starcolor()" [color]="color">grade</mat-icon> -->
+            <i class="fa fa-star-o"></i>
+          </div>
+        </div>
         <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
         <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
         <div style="font-size:13px;">project:{{request.project}}</div>
@@ -221,7 +230,7 @@
         <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
         <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
         <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
-        <div style="font-size:13px;">project:{{request.project}}</div>
+        <div style="font-size:13px;max-width:2cm;">project:{{request.project}}</div>
         <div class="progress" style="max-height:8px;">
           <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
         </div>

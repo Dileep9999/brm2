@@ -11,11 +11,9 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 })
 
 export class HomeComponent implements OnInit {
-  user_id: String;
-  loginmessage: String;
-  userid_email: String;
+
   color: String;
-  password: String;
+
   typemenu: String[];
   manufacturingdatemenu: String[];
   sitemenu: String[] = JSON.parse(localStorage.getItem("sites"));
@@ -41,16 +39,10 @@ export class HomeComponent implements OnInit {
     { headerName: 'Submitter', field: 'createdBy' },
     { headerName: 'Created Date', field: 'createdAt' },
     { headerName: 'Status', field: 'status' },
-    // { headerName: 'Manufacturing Date', field: 'manufacturedate' },
-    // { headerName: 'Batch Number', field: 'batchnumber' },
-    // { headerName: 'Site', field: 'site' },
-    // { headerName: 'Actions', field: 'actions' }
+
   ];
 
   rowData = [
-    { request_id: 'Toyota', pname: 'Celica', requestfor: "approver", submitter: "gjhm" },
-    { make: 'Ford', model: 'Mondeo', price: 32000, cost: 50 },
-    { make: 'Porsche', model: 'Boxter', price: 72000, cost: 50 }
   ];
 
 
@@ -138,46 +130,6 @@ export class HomeComponent implements OnInit {
         }
         localStorage.setItem('departments', JSON.stringify(this.departments));
       }
-    });
-  }
-
-  enterlogin(event) {
-    if (event.key === 'Enter') {
-      this.login();
-    }
-  }
-
-
-
-  login() {
-    console.log("Login");
-
-    if (!this.userid_email || !this.password) {
-      this.loginmessage = 'Enter Username/Password'
-    }
-    let user = {
-      userid_email: this.userid_email,
-      password: this.password
-    }
-
-    this.authService.authenticateUser(user).subscribe(data => {
-      if (data.user.user_type === 'SUPERADMIN') {
-        this.authService.getUserdata(data.user.email, data.user.user_id, data.user.user_type);
-        this.authService.storeUserData(data.token, data.user.user_id, data.user.user_type);
-        this.router.navigate(['/su']);
-      } else
-        if (data.success) {
-          this.loadrequests();
-          this.sitemenuload();
-          this.projectloadanddept();
-          this.user_id = data.user.user_id;
-          this.authService.getUserdata(data.user.email, data.user.user_id, data.user.user_type);
-          this.authService.storeUserData(data.token, data.user.user_id, data.user.user_type);
-
-        } else {
-          this.loginmessage = 'Invalid Credentilas';
-        }
-
     });
   }
 

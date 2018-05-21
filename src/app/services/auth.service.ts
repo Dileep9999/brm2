@@ -414,7 +414,28 @@ export class AuthService {
 
   }
 
+  getfav() {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/favourites/REQUEST_ID', { headers: headers })
+      .map(res => res.json());
+  }
 
+  addfav(num) {
+    let data =
+      {
+        favourite_type: "REQUEST_ID",
+        favourites: num
+      }
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/favourites', data, { headers: headers })
+      .map(res => res.json());
+  }
 
 
 
@@ -426,6 +447,17 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     return this.http.get('/profile', { headers: headers })
+      .map(res => res.json());
+  }
+
+
+
+  getprefrences() {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/preferences', { headers: headers })
       .map(res => res.json());
   }
 

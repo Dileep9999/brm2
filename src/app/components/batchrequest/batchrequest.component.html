@@ -210,7 +210,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput #equipdate [matDatepicker]="lab" placeholder="Choose a date">
+                                <input matInput #equipdate ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="lab" placeholder="Choose a date">
                                 <mat-datepicker-toggle matSuffix [for]="lab"></mat-datepicker-toggle>
                                 <mat-datepicker #lab></mat-datepicker>
                               </mat-form-field>
@@ -333,7 +333,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput [matDatepicker]="others" placeholder="Choose a date">
+                                <input matInput ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="others" placeholder="Choose a date">
                                 <mat-datepicker-toggle matSuffix [for]="others"></mat-datepicker-toggle>
                                 <mat-datepicker #others></mat-datepicker>
                               </mat-form-field>
@@ -357,7 +357,9 @@
               <div class="edit" *ngIf="calendarOptions">
                 <ng-fullcalendar #ucCalendar (eventDrop)="updateEvent($event.detail)" (eventResize)="updateEvent($event.detail)" (dayClick)="dayClick($event.detail)"
                   [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (clickButton)="clickButton($event.detail)"
-                  [(eventsModel)]="events"></ng-fullcalendar>
+                  [(eventsModel)]="events">
+                </ng-fullcalendar>
+
               </div>
 
 
@@ -365,7 +367,17 @@
 
             </div>
             <div id="approver" class="tab-pane fade">
-              <span>approver</span>
+              <mat-card>
+                <div class="row">
+                  <label class="col-sm-3">Approver</label>
+                  <div class="col-sm-6 form-control">
+                    <mat-select [(value)]="approver">
+                      <mat-option selected disabled>None</mat-option>
+                      <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+              </mat-card>
             </div>
           </div>
         </div>
@@ -1203,13 +1215,13 @@
             <button mat-button class="batch-br" data-toggle="tab" href="#fplan" [ngClass]="{'test':plan}" (click)="plan1()">Filling Plan</button>
             <button mat-button class="batch-br" data-toggle="tab" href="#ppartner" [ngClass]="{'test':partner}" (click)="partner1()">Packaging Partner</button>
             <br>
-            <div>
+            <!-- <div>
               <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
                 <mat-button-toggle value="bold">Cancel Request</mat-button-toggle>
                 <mat-button-toggle value="italic">Save</mat-button-toggle>
                 <mat-button-toggle value="underline">Submit</mat-button-toggle>
               </mat-button-toggle-group>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

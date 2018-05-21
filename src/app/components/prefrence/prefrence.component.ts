@@ -36,7 +36,7 @@ export class PrefrenceComponent implements OnInit {
   fr_req_check: boolean = true;
   gxpvalue: boolean;
   myreq: String;
-  forula_req_contents: boolean;
+  formula_req_contents: boolean;
 
 
 
@@ -47,6 +47,16 @@ export class PrefrenceComponent implements OnInit {
   ngOnInit() {
     this.checked = true;
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
+  }
+  getprefrence() {
+    this.authService.getprefrences().subscribe(data => {
+      if (data.success) {
+        this.formula_req_contents = data.data.formula_request_contents;
+        this.sitetype = data.data.site;
+
+
+      }
+    });
   }
 
   save() {
