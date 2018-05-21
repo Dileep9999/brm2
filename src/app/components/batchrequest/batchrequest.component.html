@@ -148,11 +148,11 @@
                         <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
                           <div class="btn-group nav">
                             <button type="button" class="btn card border-dark nav-link" style="max-height:1cm;" href="#lab" data-toggle="tab" [ngClass]="{'test': newColor}"
-                              (click)="toggleColor(site.value)">Lab</button>
+                              (click)="toggleColor()">Lab</button>
                             <button type="button" class="btn card border-dark nav-link" style="max-height:1cm;" href="#pilot" data-toggle="tab" [ngClass]="{'test': newColor1}"
-                              (click)="toggleColor1(site.value)">Pilot</button>
+                              (click)="toggleColor1()">Pilot</button>
                             <button type="button" class="btn card border-dark  nav-link" style="max-height:1cm;" href="#other" data-toggle="tab" [ngClass]="{'test': newColor2}"
-                              (click)="toggleColor2(site.value)">Others</button>
+                              (click)="toggleColor2()">Others</button>
                           </div>
                         </div>
                         <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
@@ -181,12 +181,23 @@
                             <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
                               <label>Reason For This Batch*:</label>
                             </div>
-                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                            <div class="col-sm-8 col-lg-8 col-md-8 col-xs-8">
                               <div class="form-control">
-                                <mat-select [(value)]="reason" placeholder="Select Reason For This Batch">
+
+                                <mat-select placeholder="Reasons" [formControl]="reason" multiple>
+                                  <mat-select-trigger>
+                                    {{reason.value ? reason.value[0] : ''}}
+                                    <span *ngIf="reason.value?.length > 1" class="example-additional-selection">
+                                      (+{{reason.value.length - 1}} others)
+                                    </span>
+                                  </mat-select-trigger>
+                                  <mat-option *ngFor="let reason1 of reasons" value="{{reason1}}">{{reason1}}</mat-option>
+                                </mat-select>
+
+                                <!-- <mat-select [(value)]="reason" placeholder="Select Reason For This Batch">
                                   <mat-option *ngFor="let reason of reasons" value="{{reason}}">{{reason}}</mat-option>
 
-                                </mat-select>
+                                </mat-select> -->
                               </div>
                             </div>
                           </div>
@@ -195,7 +206,7 @@
                         <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                           <div class="row">
                             <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                              <label>Date*:</label>
+                              <label (click)="test()">Date*:</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
@@ -217,7 +228,7 @@
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
                                 <mat-select placeholder="Select Equipment">
-                                  <mat-option value="a">no values</mat-option>
+                                  <mat-option *ngFor="let equipment of equipments" value="{{equipment}}">{{equipment}}</mat-option>
                                 </mat-select>
                               </div>
                             </div>
@@ -232,7 +243,7 @@
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
                                 <mat-select placeholder="Select Optional Equipment">
-                                  <mat-option value="a">no values</mat-option>
+                                  <mat-option *ngFor="let equipment of optionalequip" value="{{equipment}}">{{equipment}}</mat-option>
                                 </mat-select>
                               </div>
                             </div>
@@ -246,9 +257,17 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select placeholder="select Reason For This Batch">
-                                  <mat-option value="a">None</mat-option>
+
+                                <mat-select placeholder="Reasons" [formControl]="reason" multiple>
+                                  <mat-select-trigger>
+                                    {{reason.value ? reason.value[0] : ''}}
+                                    <span *ngIf="reason.value?.length > 1" class="example-additional-selection">
+                                      (+{{reason.value.length - 1}} others)
+                                    </span>
+                                  </mat-select-trigger>
+                                  <mat-option *ngFor="let reason1 of reasons" value="{{reason1}}">{{reason1}}</mat-option>
                                 </mat-select>
+
                               </div>
                             </div>
                           </div>
@@ -292,8 +311,17 @@
                               <label>Reason For This Batch*:</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <label for="exampleTextarea" placeholder="Reason"></label>
-                              <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                              <mat-form-field class="form-control">
+                                <mat-select placeholder="Reasons" [formControl]="reason" multiple>
+                                  <mat-select-trigger>
+                                    {{reason.value ? reason.value[0] : ''}}
+                                    <span *ngIf="reason.value?.length > 1" class="example-additional-selection">
+                                      (+{{reason.value.length - 1}} others)
+                                    </span>
+                                  </mat-select-trigger>
+                                  <mat-option *ngFor="let reason1 of reasons" value="{{reason1}}">{{reason1}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
                             </div>
                           </div>
                         </div>

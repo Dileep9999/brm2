@@ -113,7 +113,14 @@ export class AuthService {
     return this.http.post('http://localhost:3000/equipmentRequests', data, { headers: headers })
       .map(res => res.json());
   }
-
+  getequipments() {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/equipment', { headers: headers })
+      .map(res => res.json());
+  }
 
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-prefrence',
@@ -26,11 +27,62 @@ export class PrefrenceComponent implements OnInit {
   pilot = false;
   other = false;
   batch_type: String;
-  constructor(public router: Router) { }
+  projects = JSON.parse(localStorage.getItem('projects'));
+  departments = JSON.parse(localStorage.getItem('departments'));
+  sitemenu: String[];
+  sitetype: String;
+  bm_req_check: boolean = true;
+  rm_req_check: boolean = true;
+  fr_req_check: boolean = true;
+  gxpvalue: boolean;
+  myreq: String;
+  forula_req_contents: boolean;
+
+
+
+  constructor(
+    public authService: AuthService,
+    public router: Router) { }
 
   ngOnInit() {
     this.checked = true;
+    this.sitemenu = JSON.parse(localStorage.getItem('sites'));
   }
+
+  save() {
+    let data = {
+      calender_view_request_type: this.calender_view,
+      calender_view_site: this.sitetype,
+      calender_view_legal_product_category: "COSMETIC",
+      calender_view_batch_type: "LAB",
+      home_view_my_request_batch_request: this.bm_req_check,
+      home_view_my_request_filling_request: this.fr_req_check,
+      home_view_my_request_rm_request: this.rm_req_check,
+      request_filter_mode: this.mode,
+      request_filter_view: this.view,
+      request_filter_my_requests: this.myreq,
+      request_filter_filter_gxp: false,
+      request_filter_filter_batch_type: ["PILOT", "LAB"],
+      request_filter_filter_manufacturing_date: ["2018-05-14", "2018-05-13"],
+      request_filter_filter_site: ["VJC", "SJC"],
+      request_filter_filter_legal_product_category: ["COSMETIC"],
+      request_filter_filter_status: ["NEW"],
+      request_filter_filter_project: ["Project 3"],
+      request_filter_filter_partner: ["dileep"],
+      request_contents_site: "VJC",
+      request_contents_legal_product_category: "COSMETIC",
+      request_contents_batch_type: "PILOT",
+      formula_request_contents: "SPEC NUMBER"
+    }
+    this.authService
+  }
+
+
+
+
+
+
+
   batch1() {
     if (this.batch = true) {
       this.batch = true;
@@ -40,6 +92,7 @@ export class PrefrenceComponent implements OnInit {
     }
     this.batchrm = false;
     this.calender_view = "BATCH"
+
   }
   batchrm1() {
     if (this.batchrm = true) {

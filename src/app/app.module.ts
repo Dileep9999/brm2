@@ -42,6 +42,7 @@ import { RmrequestComponent } from './components/rmrequest/rmrequest.component';
 import { FillingreqComponent } from './components/fillingreq/fillingreq.component';
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { LoginComponent } from './components/login/login.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -116,7 +117,8 @@ const appRoutes: Routes = [
 
     }),
     MatTabsModule,
-    AgGridModule.withComponents([HomeComponent])
+    AgGridModule.withComponents([HomeComponent]),
+    MatAutocompleteModule
   ],
   entryComponents: [DialogOverviewExampleDialog, DialogOverview, Rmrequest],
 

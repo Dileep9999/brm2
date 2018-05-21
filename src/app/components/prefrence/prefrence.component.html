@@ -2,262 +2,289 @@
 <mat-divider></mat-divider>
 <div class="row flex-row-reverse" style="margin:0.4cm;">
   <div class="col-sm-4 float-left">
-    <button mat-raised-button (click)="router.navigate(['/prefrence'])" class="col-sm-1" color="primary"><mat-icon>undo</mat-icon>Undo</button>
-    <button mat-raised-button  class="col-sm-1"  color="primary">Save</button>
-    <button mat-raised-button (click)="router.navigate(['/'])" class="col-sm-1 btn-primary" color="primary" ><mat-icon>home</mat-icon>Home</button>
+    <button mat-raised-button (click)="router.navigate(['/prefrence'])" class="col-sm-1" color="primary">
+      <mat-icon>undo</mat-icon>Undo</button>
+    <button mat-raised-button class="col-sm-1" color="primary">Save</button>
+    <button mat-raised-button (click)="router.navigate(['/'])" class="col-sm-1 btn-primary" color="primary">
+      <mat-icon>home</mat-icon>Home</button>
   </div>
 </div>
 <mat-card>
   <div class="row">
-   <div class="col-sm-12">
-     <div class="row">
-      <div class="col-sm-3"> 
-        <h6>Calender View</h6>
-      </div>
-   <!-- </div>
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <h6>Calender View</h6>
+        </div>
+        <!-- </div>
   </div> -->
-  <br>
-   <div class="col-sm-2">
-    <div class="row">
-     <div class="btn-group" role="group" aria-label="Basic example">
-        <button mat-raised-button [ngClass]="{'test': batch}" (click)="batch1()" style="max-height:0.8cm;font-size:11px;;">Batch</button>
-        <button mat-raised-button [ngClass]="{'test': batchrm}" (click)="batchrm1()"  style="max-height:0.8cm;font-size:11px;">Batch RM Order</button>
+        <br>
+        <div class="col-sm-2">
+          <div class="row">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button mat-raised-button [ngClass]="{'test': batch}" (click)="batch1()" style="max-height:0.8cm;font-size:11px;;">Batch</button>
+              <button mat-raised-button [ngClass]="{'test': batchrm}" (click)="batchrm1()" style="max-height:0.8cm;font-size:11px;">Batch RM Order</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="row">
+            <div class="col-sm-1">
+              <p style="font-size:13px;">Site</p>
+            </div>
+            <div class="col-sm-7">
+              <select style="max-height:0.8cm;max-width:2.8cm;font-size:11px;" class="custom-select" [(value)]="sitetype">
+                <option selected="None" selected disabled>select menu</option>
+                <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+
       </div>
-    </div>
-   </div>   
-    <div class="col-sm-2">
-     <div class="row">
-      <div class="col-sm-1">
-        <p style="font-size:13px;">Site</p>
+
+      <div class="col-sm-3">
+        <label style="font-size:12px;">Legal Product Category*</label>
       </div>
-      <div class="col-sm-7">  
-        <select style="max-height:0.8cm;max-width:2.8cm;font-size:11px;" class="custom-select">
-           <option selected="">select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>  
-      </div>  
+      <div class="col-sm-8">
+        <div class="btn-group">
+          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
+          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+        </div>
+      </div>
+
+
+      <br>
+
+      <div class="col-sm-8">
+        <div class="btn-group nav">
+          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
+          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
+          <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': other}" (click)="other1()">Others</button>
+        </div>
+      </div>
+
     </div>
-    <div class="col-sm-4">
-        <div class="row">
-         <div class="col-sm-1">
-           <p style="font-size:13px;">Type</p>
-         </div>
-         <div class="col-sm-7"> 
-           <select style="max-height:0.8cm;max-width:2.8cm;font-size:11px;" class="custom-select">
-             <option selected="">select menu</option>
-             <option value="1">One</option>
-             <option value="2">Two</option>
-             <option value="3">Three</option>
-           </select>
-          </div>  
-         </div>  
-       </div>
-   </div>
   </div>
-</div>  
 </mat-card>
 <mat-divider></mat-divider>
 <mat-card>
-    <div class="col-sm-12">
-      <div class="row">
-          <div class="col-sm-2">
-            <div class="row">
-              <h6>Home View</h6>
-          </div>
-        </div> 
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="row">
+          <h6>Home View</h6>
+        </div>
+      </div>
       <div class="col-sm-8">
         <div class="row">
           <h6>My Requests</h6>
         </div>
         <br>
         <div class="row">
-        <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="checked">Batch Requests</mat-checkbox>
-        <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [checked]="true">Filling Requests</mat-checkbox>
-        <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary">Batch RM Requests</mat-checkbox>
-       </div>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" ([ngModel])="bm_req_check" [checked]="bm_req_check">Batch Requests</mat-checkbox>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" ([ngModel])="rm_req_check" [checked]="rm_req_check">Filling Requests</mat-checkbox>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" ([ngModel])="fr_req_check" [checked]="fr_req_check">Batch RM Requests</mat-checkbox>
+        </div>
       </div>
- </div> 
-</div>   
-  </mat-card>   
-  <mat-divider></mat-divider>
-  <mat-card>
-    <div class="col-sm-12">
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="row">
-            <h6>Request Fiiters</h6>
-          </div>
-        </div>   
-        <div class="col-sm-3" style="margin-left: -133px;">
-          <div class="row">
-            <div class="col-sm-3"> 
-              <p class="text-center">Mode</p> 
-                <div class="btn-group-vertical card border-dark" style="max-width:1.2cm;"data-toggle="buttons">
-                    <button  class="btn text-center"  [ngClass]="{'test': tile}" (click)="tile1()" id='Tile'style="font-size:11px;" value="Tile" (click)=tiletoggle($event.target.value)>Tile</button>
-                    <button class="btn text-center" id='List'  [ngClass]="{'test': list}" (click)="list1()" style="font-size:11px;"  value="List" (click)=tiletoggle($event.target.value)>List</button>
-                </div>     
-              </div>
-              <div class="col-sm-5">
-                <p class="text-center">View</p>
-                  <div class="btn-group-vertical card border-dark" >
-                    <button style="font-size:10px;text-overflow:ellipsis;overflow:hidden;" [ngClass]="{'test':request}" (click)="request1()" class="btn " >MyRequest</button>
-                    <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden;" [ngClass]="{'test': favorites}" (click)="favorites1()" class="btn ">Favorites</button>
-                    <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden;" [ngClass]="{'test': allrequets}" (click)="allrequests1()" class="btn ">AllRequests</button>
-                  </div> 
-              </div>
-            </div>     
-          </div>
-          <div class="col-sm-3" style="margin-left: -36px;">
-            <div class="row">
-              <div class="col-sm-5">
-                <p style="font-size:11px;">My Requests</p>
-              </div>
+    </div>
+  </div>
+</mat-card>
+<mat-divider></mat-divider>
+<mat-card>
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="row">
+          <h6>Request Fiiters</h6>
+        </div>
+      </div>
+      <div class="col-sm-3" style="margin-left: -133px;">
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="text-center">Mode</p>
+            <div class="btn-group-vertical card border-dark" style="max-width:1.2cm;" data-toggle="buttons">
+              <button class="btn text-center" [ngClass]="{'test': tile}" (click)="tile1()" id='Tile' style="font-size:11px;" value="Tile"
+                (click)=tiletoggle($event.target.value)>Tile</button>
+              <button class="btn text-center" id='List' [ngClass]="{'test': list}" (click)="list1()" style="font-size:11px;" value="List"
+                (click)=tiletoggle($event.target.value)>List</button>
             </div>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-center">View</p>
+            <div class="btn-group-vertical card border-dark">
+              <button style="font-size:10px;text-overflow:ellipsis;overflow:hidden;" [ngClass]="{'test':request}" (click)="request1()"
+                class="btn ">MyRequest</button>
+              <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden;" [ngClass]="{'test': favorites}" (click)="favorites1()"
+                class="btn ">Favorites</button>
+              <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden;" [ngClass]="{'test': allrequets}" (click)="allrequests1()"
+                class="btn ">AllRequests</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3" style="margin-left: -36px;">
+        <div class="row">
+          <div class="col-sm-5">
+            <p style="font-size:11px;">My Requests</p>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <mat-radio-group [(ngModel)]="myreq">
+              <mat-radio-button style="font-size:11px;" color="primary" value="1">All active Requests I'm involved in</mat-radio-button>
+              <mat-radio-button style="font-size:11px;" color="primary" value="OPEN TASK">All active Request with my open task</mat-radio-button>
+            </mat-radio-group>
             <br>
-            <div class="row">
-              <div class="col-sm-6">
-                <mat-checkbox style="font-size:11px;">All active Requests I'm involved in</mat-checkbox>
-                <mat-checkbox style="font-size:11px;"> All active Request with my open task</mat-checkbox>
-              </div>
-            </div>
+            <mat-radio-group [(ngModel)]="gxpvalue">
+              <mat-radio-button style="font-size:11px;" color="primary" value="true">GXP</mat-radio-button>
+              <mat-radio-button style="font-size:11px;" color="primary" value="false">Not GXP</mat-radio-button>
+            </mat-radio-group>
+
           </div>
-          <div class="col-sm-4" style="margin-left: -80px;">
-            <div class="row">
-              <div class="col-sm-5">
-                   <p style="font-size:11px;">Filters</p>
-              </div>
-            </div>
-           <br>
-          <div class="row">
-            <div class="col-sm-4"> 
-              <div class="d-sm-inline-flex" style="margin-left:37px;">
-                <div>
-                  <img class="btn" id="type" data-toggle="dropdown" style="margin-left:5px;" src="assets/Images/pilot-batch.png">  
-                    <a  class="btn" style="font-size:11px;">Type</a>
-                      <div class="dropdown-menu"  aria-labelledby="type">
-                        <div style="max-height:5cm;overflow-y:scroll" >
-                           <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
-                        </div>
-                      </div>
-                  </div>
-                  <div>
-                    <img class="btn" id="manufacturingdate" style="margin-left:23px;" data-toggle="dropdown" src="assets/Images/creation-date.png">
-                    <a class="btn" style="font-size:11px;" id="dropdownMenuButton" data-toggle="dropdown" >Manufacturing<br>Date</a>
-                    <div class="dropdown-menu"  aria-labelledby="manufacturingdate">
-                       <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
-                    </div>
-                  </div>
-                  <div>
-                    <img class="btn"  id="site" data-toggle="dropdown" src="assets/Images/sm_region.png" >
-                    <a class="btn" style="font-size:11px;">Site</a>
-                    <div class="dropdown-menu"  aria-labelledby="site">
-                      <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(type)">{{site}}</a>
-                    </div>
-                  </div>
-                  <div>
-                    <img class="btn"  id="leaglproducts" data-toggle="dropdown" style="margin-left:23px;" src="assets/Images/gfo.png" >
-                    <a class="btn" style="font-size:11px;">Legal Product <br>Category</a>
-                    <div class="dropdown-menu"  aria-labelledby="legalproducts">
-                       <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct)">{{legalproduct}}</a>
-                    </div>
-                  </div>
-                  <div>
-                    <img class="btn"  id="status" data-toggle="dropdown" style="margin-left:5px" src=" assets/Images/status.png">
-                    <a class="btn" style="font-size:12px;">Status</a>
-                    <div class="dropdown-menu"  aria-labelledby="status">
-                      <div  style="max-height:4.5cm;overflow-y:scroll">
-                        <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status)">{{status}}</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <img class="btn" id="project" data-toggle="dropdown" style="margin-left:7px;" src="assets/Images/project.png" >
-                    <a class="btn" style="font-size:11px;">Project</a>
-                    <div class="dropdown-menu"  aria-labelledby="project">
-                      <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(project)">{{project}}</a>
-                    </div>
-                  </div>
-                  <div>
-                    <img class="btn"  id="partner" data-toggle="dropdown" style="margin-left:9px;" src="assets/Images/partner.png" >
-                    <a class="btn" style="font-size:11px;">Partner</a>
-                    <div class="dropdown-menu"  aria-labelledby="partner">
-                      <a class="dropdown-item" *ngFor="let partner of partnermenu" (click)="appendtofilteritems(partner)">{{partner}}</a>
-                    </div>
+        </div>
+      </div>
+      <div class="col-sm-4" style="margin-left: -80px;">
+        <div class="row">
+          <div class="col-sm-5">
+            <p style="font-size:11px;">Filters</p>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="d-sm-inline-flex" style="margin-left:37px;">
+              <div>
+                <img class="btn" id="type" data-toggle="dropdown" style="margin-left:5px;" src="assets/Images/pilot-batch.png">
+                <a class="btn" style="font-size:11px;">Type</a>
+                <div class="dropdown-menu" aria-labelledby="type">
+                  <div style="max-height:5cm;overflow-y:scroll">
+                    <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
                   </div>
                 </div>
-              </div>  
+              </div>
+              <div>
+                <img class="btn" id="manufacturingdate" style="margin-left:23px;" data-toggle="dropdown" src="assets/Images/creation-date.png">
+                <a class="btn" style="font-size:11px;" id="dropdownMenuButton" data-toggle="dropdown">Manufacturing
+                  <br>Date</a>
+                <div class="dropdown-menu" aria-labelledby="manufacturingdate">
+                  <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
+                </div>
+              </div>
+              <div>
+                <img class="btn" id="site" data-toggle="dropdown" src="assets/Images/sm_region.png">
+                <a class="btn" style="font-size:11px;">Site</a>
+                <div class="dropdown-menu" aria-labelledby="site">
+                  <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(type)">{{site}}</a>
+                </div>
+              </div>
+              <div>
+                <img class="btn" id="leaglproducts" data-toggle="dropdown" style="margin-left:23px;" src="assets/Images/gfo.png">
+                <a class="btn" style="font-size:11px;">Legal Product
+                  <br>Category</a>
+                <div class="dropdown-menu" aria-labelledby="legalproducts">
+                  <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct)">{{legalproduct}}</a>
+                </div>
+              </div>
+              <div>
+                <img class="btn" id="status" data-toggle="dropdown" style="margin-left:5px" src=" assets/Images/status.png">
+                <a class="btn" style="font-size:12px;">Status</a>
+                <div class="dropdown-menu" aria-labelledby="status">
+                  <div style="max-height:4.5cm;overflow-y:scroll">
+                    <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status)">{{status}}</a>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <img class="btn" id="project" data-toggle="dropdown" style="margin-left:7px;" src="assets/Images/project.png">
+                <a class="btn" style="font-size:11px;">Project</a>
+                <div class="dropdown-menu" aria-labelledby="project">
+                  <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(project)">{{project}}</a>
+                </div>
+              </div>
+              <div>
+                <img class="btn" id="partner" data-toggle="dropdown" style="margin-left:9px;" src="assets/Images/partner.png">
+                <a class="btn" style="font-size:11px;">Partner</a>
+                <div class="dropdown-menu" aria-labelledby="partner">
+                  <a class="dropdown-item" *ngFor="let partner of partnermenu" (click)="appendtofilteritems(partner)">{{partner}}</a>
+                </div>
+              </div>
             </div>
-          </div>  
+          </div>
+        </div>
       </div>
     </div>
-  </mat-card>
-  <mat-divider></mat-divider>
+  </div>
+</mat-card>
+<mat-divider></mat-divider>
 <mat-card>
-    <div class="col-sm-12">
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="row">
-           <h6>Request Contents</h6>
-          </div> 
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="row">
+          <h6>Request Contents</h6>
         </div>
-        
-          <div class="col-sm-9">
-              <div class="row">
-                <div class="col-sm-10">
-                  <div class="row">
-             <div class="col-sm-3">
-                <label style="font-size:12px;">Site*</label>
-             </div>
-             <div class="col-sm-8">
-                <div class="form-control" style="width: 128px;">
-                    <mat-select placeholder="Selet Site..." > 
-                      <mat-option value="a">VDR</mat-option>
-                      <mat-option value="b">SJC</mat-option>
-                    </mat-select>
-                  </div>
-             </div>
-            <br>
-            <br>
-            <div class="col-sm-3">
-                <label style="font-size:12px;">Legal Product Category*</label>
-            </div>
-            <div class="col-sm-8">
-                <div class="btn-group">
-                    <button mat-raised-button style="font-size:11px;"  [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
-                    <button mat-raised-button style="font-size:11px;"  [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
-                  </div>
-            </div>
-            <br>
-            <br>
-            <div class="col-sm-3">
-                <label style="font-size:12px;">Batch Type*</label>
-            </div>
-            <div class="col-sm-8">
-                <div class="btn-group nav">
-                    <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
-                    <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
-                    <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': other}" (click)="other1()">Others</button>
-                 </div>  
-            </div>
-          </div>
-          </div>  
-          </div>
-        </div>
-     </div>   
-   </div>     
- </mat-card>
- <mat-divider></mat-divider>
- <mat-card>
-    <div class="row" style="margin:0.4cm;">
-        <h6>Request Content</h6>
-        <div class="col-sm-6">
-          <p>RM code for formula table</p>
-          <mat-checkbox style="font-size:12px;margin-right:30px;">All active Requests I'm involved in</mat-checkbox>
-          <mat-checkbox style="font-size:12px;"> All active Request with my open task</mat-checkbox>
-        </div>
-    </div>
-    </mat-card>
+      </div>
 
+      <div class="col-sm-9">
+        <div class="row">
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-sm-3">
+                <label style="font-size:12px;">Site*</label>
+              </div>
+              <div class="col-sm-8">
+                <div class="form-control" style="width: 128px;">
+                  <mat-select placeholder="Selet Site...">
+                    <mat-option value="None" selected disabled>select</mat-option>
+                    <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
+                  </mat-select>
+                </div>
+              </div>
+              <br>
+              <br>
+              <div class="col-sm-3">
+                <label style="font-size:12px;">Legal Product Category*</label>
+              </div>
+              <div class="col-sm-8">
+                <div class="btn-group">
+                  <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
+                  <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+                </div>
+              </div>
+              <br>
+              <br>
+              <div class="col-sm-3">
+                <label style="font-size:12px;">Batch Type*</label>
+              </div>
+              <div class="col-sm-8">
+                <div class="btn-group nav">
+                  <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
+                  <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
+                  <button mat-raised-button style="font-size:11px;" [ngClass]="{'test': other}" (click)="other1()">Others</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<mat-divider></mat-divider>
+<mat-card>
+  <div class="row" style="margin:0.4cm;">
+    <h6>Request Content</h6>
+    <div class="col-sm-6">
+      <p>RM code for formula table</p>
+      <mat-radio-group [(ngModel)]="forula_req_contents">
+        <mat-radio-button style="padding-right:30px;" color="primary" value="true">Spec #</mat-radio-button>
+        <mat-radio-button color="primary" value="false">SAP #</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+</mat-card>

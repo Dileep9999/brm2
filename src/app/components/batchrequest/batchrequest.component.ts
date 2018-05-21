@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
+import { FormControl } from '@angular/forms';
+
 
 
 @Component({
@@ -13,6 +15,8 @@ export class BatchrequestComponent implements OnInit {
   calendarOptions: Options;
   displayEvent: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
+
+
   newColor = false;
   newColor1 = false;
   newColor2 = false;
@@ -38,14 +42,22 @@ export class BatchrequestComponent implements OnInit {
   sitetype: String;
   project: String;
   department: String;
-  reason: String;
+  reason = new FormControl();
   gxpvalue: boolean = true;
   departments: String[];
   projects: String[];
   equipments: String[];
-
+  equipmentdata: any;
+  optionalequip: any;
   date: String;
   constructor(public authService: AuthService) { }
+
+
+  test() {
+
+    console.log(this.reason);
+
+  }
 
   ngOnInit() {
     this.authService.getEvents().subscribe(data => {
@@ -70,6 +82,7 @@ export class BatchrequestComponent implements OnInit {
     this.sitemenuload();
     this.loadreasons();
     this.newrequest();
+    this.getequipments();
   }
 
   newrequest() {
@@ -86,8 +99,9 @@ export class BatchrequestComponent implements OnInit {
   sitemenuload() {
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
   }
+
+
   toggleColor(sitevalue) {
-    // this.newColor = !this.newColor;
     if (this.newColor = true) {
       this.newColor = true;
     }
@@ -99,8 +113,8 @@ export class BatchrequestComponent implements OnInit {
     this.batchtype = 'LAB';
     this.addreasons(sitevalue, this.batchtype);
   }
-  toggleColor1(sitevalue) {
-    // this.newColor1 = !this.newColor1;
+  toggleColor1() {
+
     if (this.newColor1 = true) {
       this.newColor1 = true;
     }
@@ -110,10 +124,11 @@ export class BatchrequestComponent implements OnInit {
     this.newColor = false;
     this.newColor2 = false;
     this.batchtype = 'PILOT';
-    this.addreasons(sitevalue, this.batchtype);
+    this.addequipmentstolist();
+    this.addreasons(this.sitetype, this.batchtype);
+
   }
-  toggleColor2(sitevalue) {
-    // this.newColor2 = !this.newColor2;
+  toggleColor2() {
     if (this.newColor2 = true) {
       this.newColor2 = true;
     }
@@ -123,10 +138,12 @@ export class BatchrequestComponent implements OnInit {
     this.newColor = false;
     this.newColor1 = false;
     this.batchtype = 'OTHERS';
-    this.addreasons(sitevalue, this.batchtype);
+    this.addreasons(this.sitetype, this.batchtype);
+    this.addequipmentstolist();
   }
+
   toggleColor3() {
-    // this.newColor3 = !this.newColor3;
+
     if (this.newColor3 = true) {
       this.newColor3 = true;
     }
@@ -137,7 +154,7 @@ export class BatchrequestComponent implements OnInit {
     this.legalproductcatagory = 'DRUG';
   }
   toggleColor4() {
-    // this.newColor4 = !this.newColor4;
+
     if (this.newColor4 = true) {
       this.newColor4 = true;
     }
@@ -148,7 +165,7 @@ export class BatchrequestComponent implements OnInit {
     this.legalproductcatagory = 'COSMETIC'
   }
   toggleColor5() {
-    // this.newColor5 = !this.newColor5;
+
     if (this.newColor5 = true) {
       this.newColor5 = true;
     }
@@ -159,7 +176,7 @@ export class BatchrequestComponent implements OnInit {
     this.newColor7 = false;
   }
   toggleColor6() {
-    // this.newColor6 = !this.newColor6;
+
     if (this.newColor6 = true) {
       this.newColor6 = true;
     }
@@ -170,7 +187,7 @@ export class BatchrequestComponent implements OnInit {
     this.newColor7 = false;
   }
   toggleColor7() {
-    // this.newColor7 = !this.newColor7;
+
     if (this.newColor7 = true) {
       this.newColor7 = true;
     }
@@ -181,7 +198,7 @@ export class BatchrequestComponent implements OnInit {
     this.newColor5 = false;
   }
   filling1() {
-    // this.filling=!this.filling;
+
     if (this.filling = true) {
       this.filling = true;
     }
@@ -192,7 +209,7 @@ export class BatchrequestComponent implements OnInit {
     this.partner = false;
   }
   plan1() {
-    //
+
     if (this.plan = true) {
       this.plan = true;
     }
@@ -203,7 +220,6 @@ export class BatchrequestComponent implements OnInit {
     this.partner = false;
   }
   partner1() {
-    // this.partner=!this.partner;
     if (this.partner = true) {
       this.partner = true;
     }
@@ -215,21 +231,24 @@ export class BatchrequestComponent implements OnInit {
   }
 
   addreasons(sitetype, batchtype) {
-    for (let i = 0; i <= this.reasonsdata.length; i++) {
-      if (sitetype === this.reasonsdata[i].site && batchtype === this.reasonsdata[i].batch_type) {
+    console.log(sitetype, batchtype);
+    for (let i = 0; i <= this.reasonsdata.length - 1; i++) {
+      if (this.sitetype === this.reasonsdata[i].site && this.batchtype === this.reasonsdata[i].batch_type) {
         if (this.reasonsdata[0] === undefined) {
           this.reasons = ["NO Reasons For "]
         }
         this.reasons = this.reasonsdata[i].reason;
+        console.log(this.reasons);
+
       }
     }
   }
 
 
-
-
   loadreasons() {
     this.authService.getreasons().subscribe(data => {
+      console.log(data.data);
+
       this.reasonsdata = data.data;
 
 
@@ -237,17 +256,41 @@ export class BatchrequestComponent implements OnInit {
   }
 
 
+
+  getequipments() {
+    this.authService.getequipments().subscribe(data => {
+      this.equipmentdata = data.data;
+      console.log(this.equipmentdata);
+
+    });
+  }
+
+
+
+
+  addequipmentstolist() {
+    console.log(this.equipmentdata[2].site, this.sitetype);
+
+    for (let i = 0; i <= this.equipmentdata.length - 1; i++) {
+      if (this.sitetype === this.equipmentdata[i].site && this.batchtype === this.equipmentdata[i].batch_type) {
+        this.equipments = this.equipmentdata[i].equipment_list;
+        this.optionalequip = this.equipmentdata.optional_equipment;
+      }
+    }
+    console.log(this.equipments);
+
+  }
+
+
+
   equipmentreq(date) {
-
-
-
 
     let data = {
       request_id: this.br_num,
       site: this.sitetype,
       batch_type: this.batchtype,
       legal_product_category: this.legalproductcatagory,
-      reason_for_this_batch: this.reason,
+      reason_for_this_batch: this.reason.value,
       gxp: this.gxpvalue,
       bench_id: 'bench_1',
       request_date: date,
@@ -266,5 +309,8 @@ export class BatchrequestComponent implements OnInit {
     });
 
   }
+
+
+
 
 }
