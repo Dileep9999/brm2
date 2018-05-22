@@ -40,9 +40,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AgGridModule } from "ag-grid-angular/main";
 import { RmrequestComponent } from './components/rmrequest/rmrequest.component';
 import { FillingreqComponent } from './components/fillingreq/fillingreq.component';
-import { FullCalendarModule } from 'ng-fullcalendar';
+
 import { LoginComponent } from './components/login/login.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 
 
@@ -84,6 +85,7 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    ToasterModule,
     MatMenuModule,
     MatIconModule,
     MatProgressBarModule,
@@ -105,7 +107,6 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatProgressSpinnerModule,
     MatRadioModule,
-    FullCalendarModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

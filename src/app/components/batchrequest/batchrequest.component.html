@@ -345,10 +345,6 @@
 
 
 
-                <ng-fullcalendar #ucCalendar (eventDrop)="updateEvent($event.detail)" (eventResize)="updateEvent($event.detail)" (dayClick)="dayClick($event.detail)"
-                  [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (clickButton)="clickButton($event.detail)"
-                  [(eventsModel)]="events">
-                </ng-fullcalendar>
 
               </div>
 
@@ -659,7 +655,12 @@
                       <input class="form-control" style="width:1.8cm;" type="number" placeholder="1">
                     </div>
                     <div class="col-sm-5">
-                      <button mat-raised-button class="dropdown-toggle">KG</button>
+                      <button mat-raised-button class="dropdown-toggle" [matMenuTriggerFor]="kg1">{{batch_size}}</button>
+                      <mat-menu #kg1="matMenu">
+                        <button mat-menu-item (click)="batch_size='KG'">KG</button>
+                        <button mat-menu-item (click)="batch_size='G'">G</button>
+                        <button mat-menu-item (click)="batch_size='OZ'">OZ</button>
+                      </mat-menu>
                     </div>
                   </div>
                 </div>

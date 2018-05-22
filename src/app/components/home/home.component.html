@@ -1,6 +1,6 @@
 <div>
 
-
+  <toaster-container></toaster-container>
   <div *ngIf="authService.loggedIn()">
 
 
@@ -106,7 +106,7 @@
 
             <div class="col-sm">
               <div>
-                <button class="btn btn-primary">Apply Filters</button>
+                <button class="btn btn-primary" (click)="popToast()">Apply Filters</button>
               </div>
             </div>
 

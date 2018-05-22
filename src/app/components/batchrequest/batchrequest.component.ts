@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { CalendarComponent } from 'ng-fullcalendar';
+
 import { Options } from 'fullcalendar';
 import { FormControl } from '@angular/forms';
 
@@ -12,9 +12,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./batchrequest.component.css']
 })
 export class BatchrequestComponent implements OnInit {
-  calendarOptions: Options;
-  displayEvent: any;
-  @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
+
 
 
   newColor = false;
@@ -81,19 +79,7 @@ export class BatchrequestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getEvents().subscribe(data => {
-      this.calendarOptions = {
-        editable: true,
-        eventLimit: false,
-        header: {
 
-          left: 'month,agendaWeek,agendaDay,listMonth',
-          center: 'title ',
-          right: 'prev,title,next'
-        },
-        events: data
-      };
-    });
     this.project = this.authService.project;
     this.department = this.authService.department;
     this.reasons = [];

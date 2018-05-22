@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpModule, Http } from '@angular/http';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { ToasterModule, ToasterService } from 'angular5-toaster';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +25,8 @@ export class HomeComponent implements OnInit {
   partnermenu: String[];
   filteritems: String[];
   Tile: boolean;
-  fav_req_ids: String[];
-  requests: String[];
+  fav_req_ids: any;
+  requests: any;
   batchrequests: String[];
   fillingrequests: String[];
   RMrequests: String[];
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
 
   constructor(public authService: AuthService,
     public http: Http,
+    public toasterService: ToasterService,
     public router: Router) {
 
 
@@ -73,6 +75,7 @@ export class HomeComponent implements OnInit {
     this.filteritems = [];
     this.manudatemenu = ['After 1 month', 'After 2 months', 'Next 30 days', 'Next 7 days'];
 
+
   }
 
 
@@ -81,19 +84,47 @@ export class HomeComponent implements OnInit {
   getfav() {
     this.authService.getfav().subscribe(data => {
       this.fav_req_ids = data.data.favourites;
-      for (let i = 0; i <= this.requests.length - 1; i++) {
+      const anotherArr = this.requests.map(e => {
+        if (this.PresentInArray(e.request_id, data.data.favourites)) {
+          e['favourites'] = true
+          return e;
+        } else {
+          e['favourites'] = false
+          return e;
+        }
+      });
 
+      console.log('gerer', anotherArr);
+      // for (let i = 0; i <= this.requests.length - 1; i++) {
+      //   if (data.data.favourites[i] === this.requests[i].request_id) {
 
-      }
+      //   }
+
+      // }
     });
   }
 
+  PresentInArray(element, arr) {
+    const filtered_arr = arr.filter(e => e.request_id === element);
+    filtered_arr.length ? true : false;
+  }
+
+  popToast() {
+    this.toasterService.pop('success', 'Args Title', 'Args Body');
+  }
+
+  addfav() {
+    this.authService.addfav('').subscribe(data => {
+
+    });
+  }
 
 
 
   loadrequests() {
     this.authService.getallrequests().subscribe(data => {
       this.requests = data.data;
+      this.getfav();
       for (let i = 0; i <= data.data.length - 1; i++) {
         if (data.data[i].request_type === 'BATCH REQUEST') {
           this.batchrequests.push(data.data[i]);
