@@ -48,7 +48,7 @@
             <div class="col-sm-7">
               <select style="max-height:0.8cm;max-width:3.1cm;font-size:11px;" class="custom-select" [(value)]="sitetype">
                 <option selected="None" selected disabled>select menu</option>
-                <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
+                <option *ngFor="let type of typemenu" value="{{type}}">{{type}}</option>
               </select>
             </div>
           </div>
@@ -187,7 +187,7 @@
                 <a class="btn" style="font-size:11px;" id="dropdownMenuButton" data-toggle="dropdown">Manufacturing
                   <br>Date</a>
                 <div class="dropdown-menu" aria-labelledby="manufacturingdate">
-                  <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
+                  <a class="dropdown-item" *ngFor="let mfgdate of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
                 </div>
               </div>
               <div>
@@ -218,7 +218,7 @@
                 <img class="btn" id="project" data-toggle="dropdown" style="margin-left:7px;" src="assets/Images/project.png">
                 <a class="btn" style="font-size:11px;">Project</a>
                 <div class="dropdown-menu" aria-labelledby="project">
-                  <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(project)">{{project}}</a>
+                  <a class="dropdown-item" *ngFor="let project of projects" (click)="appendtofilteritems(project)">{{project}}</a>
                 </div>
               </div>
               <div>
@@ -228,6 +228,19 @@
                   <a class="dropdown-item" *ngFor="let partner of partnermenu" (click)="appendtofilteritems(partner)">{{partner}}</a>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="card bg-light border-dark fixed" *ngIf="filteritems[0]">
+          <div class="row" style="margin:0.2cm">
+            <div class="col-sm-8">
+              <span class="text-centre" *ngFor="let item of filteritems" style="font-size:0.48cm">{{item}}
+                <mat-icon mat-icon-button color="primary" (click)="closefilter(item)" style="cursor:pointer;font-size:15px;">highlight_off</mat-icon>
+              </span>
+            </div>
+            <div class="col-sm-1" *ngIf="filteritems[0]">
+              <button mat-raised-button class="btn card btn-info" (click)="filteritems=[]">Clear Filters</button>
             </div>
           </div>
         </div>
@@ -297,7 +310,7 @@
     <div class="col-sm-6">
       <p>RM code for formula table</p>
       <mat-radio-group [(ngModel)]="formula_req_contents">
-        <mat-radio-button style="padding-right:30px;" color="primary" value="true">Spec #</mat-radio-button>
+        <mat-radio-button style="padding-right:30px;" [checked]="req_con_boolean" color="primary" value="true">Spec #</mat-radio-button>
         <mat-radio-button color="primary" value="false">SAP #</mat-radio-button>
       </mat-radio-group>
     </div>

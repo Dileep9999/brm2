@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
   partnermenu: String[];
   filteritems: String[];
   Tile: boolean;
+  fav_req_ids: String[];
+  requests: String[];
   batchrequests: String[];
   fillingrequests: String[];
   RMrequests: String[];
@@ -54,6 +56,7 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit() {
     this.batchrequests = [];
+    this.requests = [];
     this.fillingrequests = [];
     this.RMrequests = [];
     this.departments = [];
@@ -72,8 +75,25 @@ export class HomeComponent implements OnInit {
 
   }
 
+
+
+
+  getfav() {
+    this.authService.getfav().subscribe(data => {
+      this.fav_req_ids = data.data.favourites;
+      for (let i = 0; i <= this.requests.length - 1; i++) {
+
+
+      }
+    });
+  }
+
+
+
+
   loadrequests() {
     this.authService.getallrequests().subscribe(data => {
+      this.requests = data.data;
       for (let i = 0; i <= data.data.length - 1; i++) {
         if (data.data[i].request_type === 'BATCH REQUEST') {
           this.batchrequests.push(data.data[i]);

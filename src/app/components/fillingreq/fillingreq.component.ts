@@ -271,6 +271,7 @@ export class FillingreqComponent implements OnInit {
     this.remaining_bulk = "STORAGE";
   }
   bulk1() {
+
     // this.bulk=!this.bulk;
     if (this.bulk = true) {
       this.bulk = true;

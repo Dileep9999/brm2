@@ -20,24 +20,36 @@ export class SuperadminComponent implements OnInit {
   batchmenu: String[];
   productmenu: String[];
   sitedata: String[];
+  reasondata: String[];
+  departmentdata: String[];
+  projectdata: String[];
+  equipmentdata: String[];
   add: boolean = true;
+  site: String;
 
   loader: boolean = false;
   displayedColumns = ['site', 'createdAt'];
+  displayedColumns1 = ['reason', 'createdAt'];
+  displayedColumns2 = ['department', 'createdAt'];
+  displayedColumns3 = ['project', 'createdAt'];
+  // displayedColumns4 = ['bench', 'createdAt'];
+  displayedColumns5 = ['equipment', 'createdAt'];
+
   dataSource = new MatTableDataSource();
+  dataSource1 = new MatTableDataSource();
+  dataSource2 = new MatTableDataSource();
+  dataSource3 = new MatTableDataSource();
+  // dataSource4 = new MatTableDataSource();
+  dataSource5 = new MatTableDataSource();
 
   applyFilter(filterValue: string) {
-    console.log(filterValue);
-
+    this.site = filterValue;
+    console.log(this.add);
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
-    console.log(filterValue);
-    for (let i = 0; i <= this.sitemenu.length; i++) {
-      if (this.sitemenu[i] === filterValue) {
-        this.add = true;
-      }
-    }
+
+
 
   }
 
@@ -56,11 +68,16 @@ export class SuperadminComponent implements OnInit {
     this.admins = [];
     this.superadmins = [];
     this.sitemenu = [];
+    this.departmentdata = [];
     this.batchmenu = ["LAB", "PILOT", "OTHERS"];
     this.productmenu = ["Cosmetic", "Drug"];
     this.getusers();
     this.selectsite();
+    this.getdepartments();
+    this.getdeprojects();
 
+    this.getequipments();
+    this.getsites();
 
 
 
@@ -94,6 +111,8 @@ export class SuperadminComponent implements OnInit {
     });
   }
 
+
+
   addreason(site1, batch1, reason) {
     let data = {
       site: site1,
@@ -112,7 +131,7 @@ export class SuperadminComponent implements OnInit {
   }
   addsite(value) {
     let data = {
-      site: value
+      site: this.site
     }
     this.authService.addsite(data).subscribe(data => {
       console.log(data.message);
@@ -141,6 +160,9 @@ export class SuperadminComponent implements OnInit {
     });
   }
 
+
+
+
   addpc(value) {
     let data = {
       packagingcode: value
@@ -156,6 +178,8 @@ export class SuperadminComponent implements OnInit {
       }
     });
   }
+
+
 
   addproject(value) {
     let data = {
@@ -211,6 +235,8 @@ export class SuperadminComponent implements OnInit {
     });
   }
 
+
+
   selectsite() {
     this.authService.getsites().subscribe(data => {
       console.log(data);
@@ -224,6 +250,47 @@ export class SuperadminComponent implements OnInit {
     })
   }
 
+
+
+  getsites() {
+    this.authService.getdepartments().subscribe(data => {
+      console.log(data);
+      this.dataSource.data = data.data;
+      this.sitedata = data.data;
+      console.log(this.sitedata);
+    })
+  }
+
+
+
+  getdepartments() {
+    this.authService.getdepartments().subscribe(data => {
+      console.log(data);
+      this.dataSource2.data = data.data;
+      this.departmentdata = data.data;
+      console.log(this.departmentdata);
+    })
+  }
+
+  getdeprojects() {
+    this.authService.getprojects().subscribe(data => {
+      console.log(data);
+      this.dataSource3.data = data.data;
+      this.projectdata = data.data;
+      console.log(this.projectdata);
+    })
+  }
+
+  getequipments() {
+    this.authService.getequipments().subscribe(data => {
+      console.log(data);
+      this.dataSource5.data = data.data;
+      this.equipmentdata = data.data;
+      console.log(this.equipmentdata);
+    })
+  }
+
+
   makeasadmin(user) {
     this.authService.makeasadmin(user).subscribe(data => {
       console.log(data);
@@ -233,6 +300,10 @@ export class SuperadminComponent implements OnInit {
       }
     });
   }
+
+
+
+
   removefromadmin(admin) {
     this.authService.removefromadmin(admin).subscribe(data => {
       if (data.success) {
@@ -240,12 +311,29 @@ export class SuperadminComponent implements OnInit {
       }
     });
   }
+
+  addapprover(USER) {
+    this.authService.addapprover(USER).subscribe(data => {
+      console.log("Success");
+
+    });
+  }
+
+  removeapprover(USER) {
+    this.authService.removeapprover(USER).subscribe(data => {
+      console.log(data.success);
+
+    });
+  }
+
+
 }
 
 export interface Element {
   createdAt: string;
-  site: string;
-
+  sitedata: string;
+  reason: string;
+  departmentdata: string;
+  projectdata: string;
+  equipmentdata: string;
 }
-
-// const ELEMENT_DATA: Element[] = ;

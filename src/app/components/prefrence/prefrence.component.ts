@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, DateAdapter } from '@angular/material';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -36,7 +36,14 @@ export class PrefrenceComponent implements OnInit {
   fr_req_check: boolean = true;
   gxpvalue: boolean;
   myreq: String;
-  formula_req_contents: boolean;
+  formula_req_contents: boolean = false;
+  req_con_boolean: boolean = true;
+  typemenu: String[];
+  mfgdatetype: String[];
+  filteritems: String[];
+
+
+
 
 
 
@@ -44,20 +51,26 @@ export class PrefrenceComponent implements OnInit {
     public authService: AuthService,
     public router: Router) { }
 
+
+
   ngOnInit() {
     this.checked = true;
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
+    this.typemenu = ['Bulk Filling', 'Re-Conditioning', 'LAB', ' PILOT', 'OTHERS'];
+    this.filteritems = [];
   }
+
+
   getprefrence() {
     this.authService.getprefrences().subscribe(data => {
       if (data.success) {
         this.formula_req_contents = data.data.formula_request_contents;
         this.sitetype = data.data.site;
-
-
       }
     });
   }
+
+
 
   save() {
     let data = {
@@ -84,11 +97,32 @@ export class PrefrenceComponent implements OnInit {
       request_contents_batch_type: "PILOT",
       formula_request_contents: "SPEC NUMBER"
     }
-    this.authService
+    console.log(data);
+
+    // this.authService.submitprefrences(data).subscribe(data => {
+
+    // });
   }
 
 
 
+  appendtofilteritems(type) {
+    console.log(type)
+    this.filteritems.push(type);
+    console.log(this.filteritems);
+
+  }
+
+  closefilter(item) {
+    for (let i = this.filteritems.length - 1; i >= 0; i--) {
+      if (this.filteritems[i] === item) {
+        this.filteritems.splice(i, 1);
+        // break;       //<-- Uncomment  if only the first term has to be removed
+      }
+    }
+
+
+  }
 
 
 

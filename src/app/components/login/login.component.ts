@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
     if (this.authService.loggedIn()) {
       this.router.navigate(['/home']);
     }
+    if (this.authService.user_type === 'SUPERADMIN') {
+      this.router.navigate(['/su']);
+    }
   }
   enterlogin(event) {
     if (event.key === 'Enter') {

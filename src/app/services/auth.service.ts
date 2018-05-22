@@ -240,6 +240,17 @@ export class AuthService {
       .map(res => res.json());
   }
 
+  getbenchs() {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/benchs', { headers: headers })
+      .map(res => res.json());
+  }
+
+
+
   getusers(USER) {
     console.log(USER);
     let headers = new Headers();
@@ -438,6 +449,16 @@ export class AuthService {
   }
 
 
+  submitprefrences(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/prefrences', data, { headers: headers })
+      .map(res => res.json());
+
+  }
+
 
 
 
@@ -471,7 +492,23 @@ export class AuthService {
   }
 
 
+  addapprover(USER) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/approvers/grant/' + USER, '', { headers: headers })
+      .map(res => res.json());
+  }
 
+  removeapprover(USER) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/approvers/revoke/' + USER, '', { headers: headers })
+      .map(res => res.json());
+  }
 
   loggedIn() {
     return tokenNotExpired('id_token');

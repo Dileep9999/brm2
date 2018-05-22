@@ -3,7 +3,11 @@
     <div class="row">
       <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
         <div class="row">
-          <div class="projectName">{{br_num}}</div>
+          <div class="projectName">
+            <h4>
+              <b>{{br_num}}</b>
+            </h4>
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
@@ -256,19 +260,9 @@
                               <label>Reason For This Batch*:</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <div class="form-control">
+                              <textarea class="form-control" placeholder="Enter Reasons..">
 
-                                <mat-select placeholder="Reasons" [formControl]="reason" multiple>
-                                  <mat-select-trigger>
-                                    {{reason.value ? reason.value[0] : ''}}
-                                    <span *ngIf="reason.value?.length > 1" class="example-additional-selection">
-                                      (+{{reason.value.length - 1}} others)
-                                    </span>
-                                  </mat-select-trigger>
-                                  <mat-option *ngFor="let reason1 of reasons" value="{{reason1}}">{{reason1}}</mat-option>
-                                </mat-select>
-
-                              </div>
+                              </textarea>
                             </div>
                           </div>
                         </div>
@@ -297,8 +291,8 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select placeholder="Select Equipment">
-                                  <mat-option value="a">no values</mat-option>
+                                <mat-select placeholder="Select Optional Equipment">
+                                  <mat-option *ngFor="let equipment of optionalequip" value="{{equipment}}">{{equipment}}</mat-option>
                                 </mat-select>
                               </div>
                             </div>
@@ -311,17 +305,9 @@
                               <label>Reason For This Batch*:</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <mat-form-field class="form-control">
-                                <mat-select placeholder="Reasons" [formControl]="reason" multiple>
-                                  <mat-select-trigger>
-                                    {{reason.value ? reason.value[0] : ''}}
-                                    <span *ngIf="reason.value?.length > 1" class="example-additional-selection">
-                                      (+{{reason.value.length - 1}} others)
-                                    </span>
-                                  </mat-select-trigger>
-                                  <mat-option *ngFor="let reason1 of reasons" value="{{reason1}}">{{reason1}}</mat-option>
-                                </mat-select>
-                              </mat-form-field>
+                              <textarea class="form-control" placeholder="Enter Reasons..">
+
+                              </textarea>
                             </div>
                           </div>
                         </div>
@@ -355,6 +341,10 @@
               <a (click)="loadevents()"> loadevents</a>
               <p>Display event : {{displayEvent | json}}</p>
               <div class="edit" *ngIf="calendarOptions">
+
+
+
+
                 <ng-fullcalendar #ucCalendar (eventDrop)="updateEvent($event.detail)" (eventResize)="updateEvent($event.detail)" (dayClick)="dayClick($event.detail)"
                   [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (clickButton)="clickButton($event.detail)"
                   [(eventsModel)]="events">
@@ -371,7 +361,7 @@
                 <div class="row">
                   <label class="col-sm-3">Approver</label>
                   <div class="col-sm-6 form-control">
-                    <mat-select [(value)]="approver">
+                    <mat-select>
                       <mat-option selected disabled>None</mat-option>
                       <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
                     </mat-select>
@@ -564,7 +554,7 @@
                           <label>Description</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <label>Healthy white sodium</label>
+                          <textarea class="form-control" placeholder="Add Description"></textarea>
                         </div>
                       </div>
                     </div>
@@ -575,7 +565,7 @@
                           <label>Manufacturing Date*</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="DD-MMM-YYYY">
+                          <input class="form-control" type="text" placeholder="{{date}}" disabled>
                         </div>
                       </div>
                     </div>
@@ -587,7 +577,7 @@
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                           <div class="form-control">
-                            <mat-select [(value)]="project" placeholder="Selet Site...">
+                            <mat-select [(value)]="project" placeholder="{{project}}" disabled>
                               <mat-option value="a">VDR</mat-option>
                               <mat-option value="b">SJC</mat-option>
                             </mat-select>
@@ -617,29 +607,13 @@
                           <label>Formulator</label>
                         </div>
                         <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <label>CherylRose</label>
+                          <label>{{authService.user_id}}</label>
                         </div>
                       </div>
                     </div>
                     <br>
 
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Department</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-select [(value)]="department" placeholder="Selet Site...">
-                              <mat-option value="a">VDR</mat-option>
-                              <mat-option value="b">SJC</mat-option>
-                            </mat-select>
-                          </div>
-                        </div>
 
-                      </div>
-                    </div>
-                    <br>
                     <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                       <div class="row">
                         <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
@@ -649,7 +623,12 @@
                           <input class="form-control" style="width:1.8cm;" type="number" placeholder="1">
                         </div>
                         <div class="col-sm-5">
-                          <button mat-raised-button class="dropdown-toggle">KG</button>
+                          <button mat-raised-button class="dropdown-toggle" [matMenuTriggerFor]="kg">{{batch_size}}</button>
+                          <mat-menu #kg="matMenu">
+                            <button mat-menu-item (click)="batch_size='KG'">KG</button>
+                            <button mat-menu-item (click)="batch_size='G'">G</button>
+                            <button mat-menu-item (click)="batch_size='OZ'">OZ</button>
+                          </mat-menu>
                         </div>
                       </div>
                     </div>
@@ -743,16 +722,23 @@
 
           </div>
         </div>
-        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+        <div class="col-sm-4 col-lg-3 col-md-4 col-xs-3">
           <div class="nav formula_header">
             <button mat-button class="batch-br" data-toggle="tab" href="#formulaattribute" [ngClass]="{'test': fattribute}" (click)="fattribute1()">Formula Attributes</button>
             <button mat-button class="batch-br" data-toggle="tab" href="#fmaterial" [ngClass]="{'test':material}" (click)="material1()">Order Materials</button>
             <br>
             <div>
               <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle value="bold">Cancel Request</mat-button-toggle>
-                <mat-button-toggle value="italic">Save</mat-button-toggle>
-                <mat-button-toggle value="underline">Submit</mat-button-toggle>
+                <button mat-raised-button color="primary">
+                  <b>Cancel</b>
+                </button>
+                <button mat-raised-button (click)="formulareq_save()" color="primary">
+                  <b>Save</b>
+                </button>
+                <button mat-raised-button (click)="formulareq_submit()" color="primary">
+                  <b>Submit</b>
+                </button>
+
               </mat-button-toggle-group>
             </div>
           </div>
@@ -789,9 +775,9 @@
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                           <div class="form-control">
-                            <mat-select placeholder="Selet Site...">
-                              <mat-option value="a">VDR</mat-option>
-                              <mat-option value="b">SJC</mat-option>
+                            <mat-select [(value)]="sitefilling" placeholder="Selet Site...">
+                              <mat-option value="None" disabled selected>select</mat-option>
+                              <mat-option value="{{site}}" *ngFor="let site of sitemenu">{{site}}</mat-option>
                             </mat-select>
                           </div>
                         </div>
@@ -836,7 +822,7 @@
                           <label>Manufacturing Site*</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="Location">
+                          <input class="form-control" type="text" placeholder="{{sitefilling}}" disabled>
                         </div>
                       </div>
                     </div>
@@ -847,120 +833,27 @@
                           <label>Manufacturing Date</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="DD-MMM-YYYY">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Project</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="Enter Project Name">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Lab Notebook Number</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="19545-168">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Formula</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="#####">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Batch Number*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="####">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Legal Product Category*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="btn-group">
-                            <button mat-raised-button [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
-                            <button mat-raised-button [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Batch Type*</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <div class="nav">
-                            <button mat-raised-button [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
-                            <button mat-raised-button [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
-                            <button mat-raised-button [ngClass]="{'test': other}" (click)="other1()">Others</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Formulator</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          John Smith
-                        </div>
 
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Department</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-select placeholder="Selet Site...">
-                              <mat-option value="a">VDR</mat-option>
-                              <mat-option value="b">SJC</mat-option>
-                            </mat-select>
-                          </div>
-                        </div>
+                          <input class="form-control" placeholder="{{date}}" disabled>
 
+                        </div>
                       </div>
                     </div>
                     <br>
+
+
+
                     <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                       <div class="row">
                         <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
                           <label>Due Date*:</label>
                         </div>
                         <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" type="text" placeholder="DD-MMM-YYYY">
+                          <mat-form-field>
+                            <input matInput ([ngModel])="duedate" (dateInput)="formatduedate($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
+                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                            <mat-datepicker #dp></mat-datepicker>
+                          </mat-form-field>
                         </div>
                       </div>
                     </div>
@@ -1215,13 +1108,20 @@
             <button mat-button class="batch-br" data-toggle="tab" href="#fplan" [ngClass]="{'test':plan}" (click)="plan1()">Filling Plan</button>
             <button mat-button class="batch-br" data-toggle="tab" href="#ppartner" [ngClass]="{'test':partner}" (click)="partner1()">Packaging Partner</button>
             <br>
-            <!-- <div>
+            <div>
               <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle value="bold">Cancel Request</mat-button-toggle>
-                <mat-button-toggle value="italic">Save</mat-button-toggle>
-                <mat-button-toggle value="underline">Submit</mat-button-toggle>
+                <button mat-raised-button color="primary">
+                  <b>Cancel</b>
+                </button>
+                <button mat-raised-button (click)="fillingreq_save()" color="primary">
+                  <b>Save</b>
+                </button>
+                <button mat-raised-button (click)="fillingreq_submit()" color="primary">
+                  <b>Submit</b>
+                </button>
+
               </mat-button-toggle-group>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>

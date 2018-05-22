@@ -42,7 +42,7 @@
     "materialize-css": "^1.0.0-rc.1",
     "ng-calendar": "^1.2.5",
     "ng-circle-progress": "^1.0.0",
-    "ng-fullcalendar": "^1.5.6",
+    "ng-fullcalendar": "^3.6.1",
     "ng2-search-filter": "^0.4.7",
     "right-click-menu": "0.0.4",
     "rxjs": "^5.5.10",

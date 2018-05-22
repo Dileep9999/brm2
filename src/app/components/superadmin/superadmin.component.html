@@ -30,8 +30,14 @@
 
 </nav>
 <mat-tab-group>
-  <mat-tab label="Tab 1">
-    <mat-spinner *ngIf="!loader" class="row align-items-center" style="margin-top:5cm;margin-left:12cm;"></mat-spinner>
+  <mat-tab label="Users">
+    <div class="lds-ellipsis" *ngIf="!loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
     <div *ngIf="loader" style="margin:50px;">
       <legend>Admin's Management</legend>
 
@@ -46,10 +52,12 @@
             </div>
 
             <mat-card-title>{{user.user_id}}
+              <mat-icon *ngIf="user.approver_permission">spellcheck</mat-icon>
 
             </mat-card-title>
 
-            <mat-card-subtitle>{{user.user_type}}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf=" !user.approver_permission">{{user.user_type}}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="user.approver_permission">Approver</mat-card-subtitle>
           </mat-card-header>
           <!-- <img mat-card-image src="https://loremflickr.com/320/240" alt="Photo of a Shiba Inu"> -->
           <mat-card-content>
@@ -58,7 +66,12 @@
           </mat-card-content>
           <mat-card-actions>
 
-            <a (click)="makeasadmin(user.user_id)" class="btn outline-info"> Mark as admin</a>
+            <a (click)="makeasadmin(user.user_id)" *ngIf="authService.user_type=='SUPERADMIN'" class="btn outline-info ">
+              <mat-icon>verified_user</mat-icon> Mark as admin</a>
+            <a (click)="addapprover(user.user_id)" *ngIf="authService.user_type=='ADMIN' && !user.approver_permission" class="btn card border-info">
+              Add as Approver</a>
+            <a (click)="removeapprover(user.user_id)" *ngIf="authService.user_type=='ADMIN' && user.approver_permission" class="btn card border-danger">
+              Remove as Approver</a>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -77,7 +90,9 @@
           <mat-card-content>
             <label>{{admin.email}}</label>
             <label>{{admin.createdAt}}</label>
-            <a (click)="removefromadmin(admin.user_id)" class="btn btn-primary"> Remove as admin</a>
+            <a (click)="removefromadmin(admin.user_id)" *ngIf="authService.user_type=='SUPERADMIN'" class="btn btn-primary">
+              Remove as admin</a>
+
           </mat-card-content>
         </mat-card>
       </div>
@@ -94,37 +109,38 @@
 
 
 
+      <div class="row">
+        <div class="col-sm-6 example-container mat-elevation-z8">
+          <div class="example-header">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Site">
+            </mat-form-field>
+          </div>
 
-      <div class="example-container mat-elevation-z8">
-        <div class="example-header">
-          <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Site">
-          </mat-form-field>
+          <mat-table #table [dataSource]="dataSource">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="site">
+              <mat-header-cell *matHeaderCellDef>Sites</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.site}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="createdAt">
+              <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+            </ng-container>
+
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
         </div>
-
-        <mat-table #table [dataSource]="dataSource">
-
-          <!-- Position Column -->
-          <ng-container matColumnDef="site">
-            <mat-header-cell *matHeaderCellDef>Sites</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.site}} </mat-cell>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="createdAt">
-            <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
-          </ng-container>
-
-
-
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
+        <div class="col-sm-1">
+          <button mat-fab (click)="addsite(site.value)">ADD</button>
+        </div>
       </div>
-
-      <button mat-fab [disabled]="add">Add</button>
-
 
 
 
@@ -140,42 +156,183 @@
   </mat-tab>
   <mat-tab label="Create reason">
     <br>
+
+
+    <mat-card>
+
+
+
+      <div class="row">
+        <div class="col-sm-6 example-container mat-elevation-z8">
+          <div class="example-header">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Reason">
+            </mat-form-field>
+          </div>
+
+          <mat-table #table [dataSource]="dataSource">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="reason">
+              <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.reason}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="createdAt">
+              <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+            </ng-container>
+
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+          </mat-table>
+        </div>
+        <div class="col-sm-1">
+          <button mat-fab (click)="addsite(site.value)">ADD</button>
+        </div>
+      </div>
+
+
+
+    </mat-card>
+
+
+
     <div class="jumbotron">
-      <h5 class="row" style=" ">Create a Reason</h5>
-      <mat-form-field class="col-sm-3 ">
-        <mat-select #site1 placeholder="Select a Site ">
-          <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="col-sm-3 ">
-        <mat-select #batch1 placeholder="Select a Batch ">
-          <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="example col-sm-3 ">
-        <input matInput placeholder="Add Reason " #reason> </mat-form-field>
-      <button class="btn btn-primary " (click)="addreason(site1.value, batch1.value, reason.value) ">Create</button>
+      <mat-card>
+        <h5 class="row" style=" "></h5>
+        <mat-form-field class="col-sm-3 ">
+          <mat-select #site1 placeholder="Select a Site ">
+            <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3 ">
+          <mat-select #batch1 placeholder="Select a Batch ">
+            <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example col-sm-3 ">
+          <input matInput placeholder="Add Reason " #reason> </mat-form-field>
+        <button mat-fab (click)="addreason(site1.value, batch1.value, reason.value) ">ADD</button>
+      </mat-card>
     </div>
   </mat-tab>
+
+
+
+
   <mat-tab label="Create Department">
     <br>
-    <div class="row jumbotron ">
-      <h5 class="col-sm-3 ">Create Department</h5>
-      <mat-form-field class="col-sm-3 ">
-        <input #department matInput placeholder="Create Department"> </mat-form-field>
-      <div class="col-sm-2 " style="height:1cm; ">
-        <button class="btn btn-primary " (click)="adddpt(department.value)">Create</button>
+
+    <mat-card>
+
+
+
+      <div class="row">
+        <div class="col-sm-6 example-container mat-elevation-z8">
+          <div class="example-header">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Departments">
+            </mat-form-field>
+          </div>
+
+          <mat-table #table [dataSource]="dataSource2">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="department">
+              <mat-header-cell *matHeaderCellDef>Departments</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="createdAt">
+              <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+            </ng-container>
+
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+          </mat-table>
+        </div>
+        <div class="col-sm-1">
+          <button mat-fab (click)="addsite(site.value)">ADD</button>
+        </div>
       </div>
+
+
+
+
+    </mat-card>
+
+    <div class="jumbotron ">
+      <mat-card class="row ">
+        <h5 class="col-sm-3 "></h5>
+        <mat-form-field class="col-sm-4">
+          <input #department matInput placeholder="Create Department"> </mat-form-field>
+        <div class="col-sm-2 " style="height:1cm; ">
+          <button mat-fab (click)="adddpt(department.value)">ADD</button>
+        </div>
+      </mat-card>
     </div>
+
   </mat-tab>
   <mat-tab label="Create Project">
     <br>
-    <div class="row jumbotron ">
-      <h5 class="col-sm-3 ">Create Project</h5>
-      <mat-form-field class="col-sm-3 ">
+
+
+    <mat-card>
+
+
+
+
+      <div class="row">
+        <div class="col-sm-6 example-container mat-elevation-z8">
+          <div class="example-header">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Add Project">
+            </mat-form-field>
+          </div>
+
+          <mat-table #table [dataSource]="dataSource3">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="project">
+              <mat-header-cell *matHeaderCellDef>Projects</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.project}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="createdAt">
+              <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+            </ng-container>
+
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
+          </mat-table>
+        </div>
+        <div class="col-sm-1">
+          <button mat-fab (click)="addsite(site.value)">ADD</button>
+        </div>
+      </div>
+
+
+
+
+    </mat-card>
+    <div class="row jumbotron">
+      <h5 class="col-sm-4"></h5>
+      <mat-form-field class="col-sm-6">
         <input #project matInput placeholder="Create Project "> </mat-form-field>
       <div class="col-sm-2 " style="height:1cm; ">
-        <button class="btn btn-primary " (click)="addproject(project.value) ">Create</button>
+        <button mat-fab (click)="addproject(project.value) ">ADD</button>
       </div>
     </div>
   </mat-tab>
@@ -184,6 +341,7 @@
     <div class="row jumbotron ">
       <h5 class="col-sm-3 ">Create a Bench</h5>
       <br>
+
       <div class="row">
         <mat-form-field class="col-sm-2">
           <mat-select placeholder="Select a Site" #site3>
@@ -211,6 +369,52 @@
   </mat-tab>
   <mat-tab label="Create Equipment">
     <br>
+
+
+    <mat-card>
+
+
+
+      <div class="row">
+        <div class="col-sm-6 example-container mat-elevation-z8">
+          <div class="example-header">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Equipments">
+            </mat-form-field>
+          </div>
+
+          <mat-table #table [dataSource]="dataSource5">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="equipment">
+              <mat-header-cell *matHeaderCellDef>Equipments</mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.equipment}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="createdAt">
+              <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+            </ng-container>
+
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns5"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns5;"></mat-row>
+          </mat-table>
+        </div>
+        <div class="col-sm-1">
+          <button mat-fab (click)="addsite(site.value)">ADD</button>
+        </div>
+      </div>
+
+
+
+
+    </mat-card>
+
+
+
     <div class="jumbotron">
       <h5 class="row" style=" ">Create Equipment</h5>
       <mat-form-field class="col-sm-3 ">

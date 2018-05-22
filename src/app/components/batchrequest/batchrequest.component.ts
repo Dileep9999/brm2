@@ -28,6 +28,13 @@ export class BatchrequestComponent implements OnInit {
   filling = true;
   plan = false;
   partner = false;
+  bulk = false;
+  condition = false;
+  destruct = false;
+  storage = false;
+  material = false;
+  approver1 = false;
+  fattribute = true;
   sitemenu: String[];
   br_num: String;
   updateddate: String;
@@ -51,6 +58,17 @@ export class BatchrequestComponent implements OnInit {
   optionalequip: any;
   date: any;
   approvers: String[];
+  formula_id: String;
+  batch_size: String = 'KG';
+  batch_unit: String;
+  pr_number: String;
+  description: String;
+  labnotebook: String;
+  filling_type: String;
+  remaining_bulk: String;
+  batch_num: any;
+  duedate: String;
+  sitefilling: String;
 
 
   constructor(public authService: AuthService) { }
@@ -254,6 +272,82 @@ export class BatchrequestComponent implements OnInit {
     this.filling = false;
     this.plan = false;
   }
+  bulk1() {
+
+    // this.bulk=!this.bulk;
+    if (this.bulk = true) {
+      this.bulk = true;
+    }
+    else {
+      this.bulk = !this.bulk;
+    }
+    this.condition = false;
+    this.filling_type = "BULK FILLING";
+  }
+  condition1() {
+    // this.condition=!this.condition;
+    if (this.condition = true) {
+      this.condition = true;
+    }
+    else {
+      this.condition = !this.condition;
+    }
+    this.bulk = false;
+    this.filling_type = "RE-CONDITIONING";
+  }
+  destruct1() {
+    // this.destruct=!this.destruct;
+    if (this.destruct = true) {
+      this.destruct = true;
+    }
+    else {
+      this.destruct = !this.destruct;
+    }
+    this.storage = false;
+    this.remaining_bulk = "DESTRUCTION";
+  }
+  storage1() {
+    // this. storage=!this. storage;
+    if (this.storage = true) {
+      this.storage = true;
+    }
+    else {
+      this.storage = !this.storage;
+    }
+    this.destruct = false;
+    this.remaining_bulk = "STORAGE";
+  }
+  material1() {
+    if (this.material = true) {
+      this.material = true;
+    }
+    else {
+      this.material = !this.material;
+    }
+    this.fattribute = false;
+    this.approver1 = false;
+  }
+  approver() {
+    if (this.approver1 = true) {
+      this.approver1 = true;
+    }
+    else {
+      this.approver1 = !this.approver1;
+    }
+    this.fattribute = false;
+    this.material = false;
+  }
+
+  formatduedate(date: Date) {
+    console.log(date);
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    this.duedate = year + '-' + month + '-' + day;
+    console.log(this.duedate);
+
+  }
 
   addreasons(sitetype, batchtype) {
     console.log(sitetype, batchtype);
@@ -334,7 +428,7 @@ export class BatchrequestComponent implements OnInit {
       bench_id: 'bench 1',
       request_date: this.date,
       approver: 'asifali',
-      flag: "save",
+      flag: "submit",
 
 
     }
@@ -353,6 +447,119 @@ export class BatchrequestComponent implements OnInit {
 
   }
 
+
+  formulareq_save() {
+    let data = {
+      request_id: this.br_num,
+      formula_id: this.formula_id,
+      bath_size: this.batch_size,
+      batch_unit: this.batch_unit,
+      lab_note_book_number: this.labnotebook,
+      raw_material: [],
+      site: this.sitetype,
+      batch_type: this.batchtype,
+      legal_product_category: this.legalproductcatagory,
+      formula_status: "new",
+      formula_description: this.description,
+      formula_pr_number: this.pr_number,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.date,
+      request_type: "BATCH REQUEST",
+      flag: "save",
+      confirm_flag: true
+    }
+    console.log(data);
+
+  }
+
+
+  formulareq_submit() {
+    let data = {
+      request_id: this.br_num,
+      formula_id: this.formula_id,
+      bath_size: this.batch_size,
+      batch_unit: this.batch_unit,
+      lab_note_book_number: this.labnotebook,
+      raw_material: [],
+      site: this.sitetype,
+      batch_type: this.batchtype,
+      legal_product_category: this.legalproductcatagory,
+      formula_status: "new",
+      formula_description: this.description,
+      formula_pr_number: this.pr_number,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.date,
+      request_type: "BATCH REQUEST",
+      flag: "save",
+      confirm_flag: true
+    }
+    console.log(data);
+
+  }
+
+  fillingreq_submit() {
+    let data = {
+      request_id: this.br_num,
+      site: this.sitetype,
+      batch_type: this.batchtype,
+      legal_product_category: this.legalproductcatagory,
+      lab_notebook_number: this.labnotebook,
+      formula_id: this.formula_id,
+      formula_status: "NEW",
+      filling_type: this.filling_type,
+      remaining_bulk: this.remaining_bulk,
+      gxp: this.gxpvalue,
+      batch_number: this.batch_num,
+      manufacturing_site: this.sitetype,
+      due_date: this.duedate,
+      not_applicable_flag: true,
+      packaging_type: [],
+      formula_description: this.description,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.date,
+      request_type: "FILLING REQUEST",
+      flag: 'submit'
+
+    }
+    console.log(data);
+
+  }
+
+  fillingreq_save() {
+    let data = {
+      request_id: this.br_num,
+      site: this.sitetype,
+      batch_type: this.batchtype,
+      legal_product_category: this.legalproductcatagory,
+      lab_notebook_number: this.labnotebook,
+      formula_id: this.formula_id,
+      formula_status: "NEW",
+      filling_type: this.filling_type,
+      remaining_bulk: this.remaining_bulk,
+      gxp: this.gxpvalue,
+      batch_number: this.batch_num,
+      manufacturing_site: this.sitetype,
+      due_date: this.duedate,
+      not_applicable_flag: true,
+      packaging_type: [],
+      formula_description: this.description,
+      formulator: this.authService.user_id,
+      project: this.project,
+      department: this.department,
+      manufacturing_date: this.date,
+      request_type: "FILLING REQUEST",
+      flag: 'submit'
+
+    }
+    console.log(data);
+
+  }
 
 
 
