@@ -24,66 +24,9 @@ export class AuthService {
   project: String;
   department: String;
   host: String = "http://localhost:3000/";
+  req: any;
+  permission: boolean = false;
 
-  public getEvents(): Observable<any> {
-    const dateObj = new Date();
-    const yearMonth = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1);
-    let data: any = [{
-      title: 'All Day Event',
-      start: yearMonth + '-01'
-    },
-    {
-      title: 'Long Event',
-      start: yearMonth + '-07',
-      end: yearMonth + '-10'
-    },
-    {
-      id: 999,
-      title: 'Repeating Event',
-      start: yearMonth + '-09T16:00:00'
-    },
-    {
-      id: 999,
-      title: 'Repeating Event',
-      start: yearMonth + '-16T16:00:00'
-    },
-    {
-      title: 'Conference',
-      start: yearMonth + '-11',
-      end: yearMonth + '-13'
-    },
-    {
-      title: 'Meeting',
-      start: yearMonth + '-12T10:30:00',
-      end: yearMonth + '-12T12:30:00'
-    },
-    {
-      title: 'Lunch',
-      start: yearMonth + '-12T12:00:00'
-    },
-    {
-      title: 'Meeting',
-      start: yearMonth + '-12T14:30:00'
-    },
-    {
-      title: 'Happy Hour',
-      start: yearMonth + '-12T17:30:00'
-    },
-    {
-      title: 'Dinner',
-      start: yearMonth + '-12T20:00:00'
-    },
-    {
-      title: 'Birthday Party',
-      start: yearMonth + '-13T07:00:00'
-    },
-    {
-      title: 'Click for Google',
-      url: 'http://google.com/',
-      start: yearMonth + '-17'
-    }];
-    return Observable.of(data);
-  }
 
   constructor(private http: Http,
     public router: Router,
@@ -95,6 +38,24 @@ export class AuthService {
 
   }
 
+  getspecificreq() {
+    console.log(this.req.request_id);
+    this.permission = true;
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/overview/' + this.req.request_id, { headers: headers })
+      .map(res => res.json()).catch((err) => {
+
+        this.snackBar.open('Failed', 'ok', { duration: 3000 });
+
+        console.log(err);
+        console.log(err.statusCode);
+
+        return Observable.throw('')
+      });
+  }
 
   getallrequests() {
     let headers = new Headers();
@@ -111,7 +72,16 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/equipmentRequests', data, { headers: headers })
-      .map(res => res.json());
+      .map(res => res.json())
+      .catch((err) => {
+
+        this.snackBar.open('Failed', 'ok', { duration: 3000 });
+
+        console.log(err);
+        console.log(err.statusCode);
+
+        return Observable.throw('')
+      });
   }
   getequipments() {
     let headers = new Headers();
@@ -122,6 +92,133 @@ export class AuthService {
       .map(res => res.json());
   }
 
+
+  savefillingreq(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/fillingrequest', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        console.log(err);
+        this.snackBar.open('failed', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+
+  submitfilling(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/fillingrequest', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.snackBar.open('failed', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+
+  getlabs() {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/fillingrequest', { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.snackBar.open('labs failed', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+
+  getformulas(labid) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/formulas/' + labid, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.snackBar.open('labs failed', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+
+  deletefav(id) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.delete('http://localhost:3000/favourites/REQUEST_ID/' + id, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        console.log(err);
+
+        this.snackBar.open('failed', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+
+  updatecomment(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.put('http://localhost:3000/comments', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        console.log(err);
+
+        this.snackBar.open('failed to update', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+  getcomments(id) {
+    console.log(id);
+
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/comments/' + id, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.snackBar.open('failed', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+
+  delcomment(id) {
+    console.log(id);
+
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.delete('http://localhost:3000/comments/' + id, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        console.log(err);
+
+        this.snackBar.open('failed to delete', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
+
+  addcomment(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/comments', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.snackBar.open('failed', 'Ok', { duration: 5000 });
+        return Observable.throw(err)
+      });
+  }
 
 
   storeUserData(token, user_id1, user_type) {
@@ -245,7 +342,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/benchs', { headers: headers })
+    return this.http.get('http://localhost:3000/benches', { headers: headers })
       .map(res => res.json());
   }
 
@@ -266,6 +363,9 @@ export class AuthService {
       });
   }
 
+
+
+
   submitrmrequest(data) {
     let headers = new Headers();
     this.loadToken();
@@ -273,7 +373,30 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/rmrequest', data, { headers: headers })
       .map(res => res.json())
+      .catch((err) => {
+        console.log(err.status);
+        return Observable.throw(err)
+      });
   }
+
+
+
+
+
+  savermrequest(data) {
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/rmrequest', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        console.log(err.status);
+        return Observable.throw(err)
+      });
+  }
+
+
 
   makeasadmin(user) {
     console.log(user);
@@ -301,7 +424,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/reasons', data, { headers: headers })
+    return this.http.post('http://localhost:3000/reasons', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -319,7 +442,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/projects', data, { headers: headers })
+    return this.http.post('http://localhost:3000/projects', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -337,7 +460,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/sites', site, { headers: headers })
+    return this.http.post('http://localhost:3000/sites', site, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         if (err.status === 409) {
@@ -354,7 +477,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/departments', data, { headers: headers })
+    return this.http.post('http://localhost:3000/departments', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -373,7 +496,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/benches', data, { headers: headers })
+    return this.http.post('http://localhost:3000/benches', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -392,7 +515,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/equipment', data, { headers: headers })
+    return this.http.post('http://localhost:3000/equipment', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -411,7 +534,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://192.168.0.133:3000/packagingCodes', data, { headers: headers })
+    return this.http.post('http://localhost:3000/packagingCodes', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -451,7 +574,7 @@ export class AuthService {
     let data =
       {
         favourite_type: "REQUEST_ID",
-        favourites: num
+        favourites: [num]
       }
     let headers = new Headers();
     this.loadToken();

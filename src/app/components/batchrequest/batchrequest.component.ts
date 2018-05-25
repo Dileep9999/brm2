@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-
-import { Options } from 'fullcalendar';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 
 
@@ -14,7 +14,7 @@ import { FormControl } from '@angular/forms';
 export class BatchrequestComponent implements OnInit {
 
 
-
+  submitter: String;
   newColor = false;
   newColor1 = false;
   newColor2 = false;
@@ -57,8 +57,8 @@ export class BatchrequestComponent implements OnInit {
   date: any;
   approvers: String[];
   formula_id: String;
-  batch_size: String = 'KG';
-  batch_unit: String;
+  batch_size: String;
+  batch_unit: String = "KG";
   pr_number: String;
   description: String;
   labnotebook: String;
@@ -67,54 +67,209 @@ export class BatchrequestComponent implements OnInit {
   batch_num: any;
   duedate: String;
   sitefilling: String;
+  packagingtype: any;
+  users: any;
+  benches: any;
+  bench: String;
+  benchdata: any;
+  appr: String;
+  newcommnet: String;
+  progressbar_color: String = '#09e3f5';
+  status: String = 'New';
+  status_des: String = 'Batch Request Created';
+  reasonpilot: String;
+  equipment1: String;
+  optional_equipment: String;
+
+  comment_list_team: any;
+  comment_list_tech: any;
+
+  exisitingreqdata: any;
+
+  showoverview: boolean = false;
+  editvalue: String;
+  equipmentsubmitenable: boolean = true;
+
+  labnotebooknums: String[];
+  formulaids: String[];
+
+  constructor(public authService: AuthService,
+    public snackBar: MatSnackBar,
+    public router: Router) { }
 
 
-  constructor(public authService: AuthService) { }
-
-
-  test() {
-
-    console.log(this.reason);
-
+  sumitenable() {
+    if (this.appr != 'None') {
+      this.equipmentsubmitenable = false;
+      console.log(this.equipmentsubmitenable);
+    }
   }
 
   ngOnInit() {
+    if (this.authService.project === undefined && !this.authService.permission) {
+      this.router.navigate(['/']);
 
+    }
+    if (this.authService.project != undefined) {
+      this.newrequest();
+    }
+    this.comment_list_tech = [];
+    this.comment_list_team = [];
     this.project = this.authService.project;
     this.department = this.authService.department;
     this.reasons = [];
+    this.approvers = [];
     this.departments = JSON.parse(localStorage.getItem('departments'));
     this.projects = JSON.parse(localStorage.getItem('projects'));
     this.sitemenu = [];
     this.sitemenuload();
     this.loadreasons();
-    this.newrequest();
     this.getequipments();
+    this.getpackages();
+    this.benches = [];
+    this.getbenches();
+    this.getusers();
+    if (this.authService.permission) {
+
+      console.log(this.authService.req);
+      this.loadreq();
+    }
+
   }
+
+  getlabnums() {
+    this.authService.getlabs().subscribe(data => {
+      this.labnotebooknums = data.data;
+    });
+  }
+
+
+
+  getformulas() {
+    this.authService.getformulas(this.labnotebook).subscribe(data => {
+      this.formulaids = data.data;
+    });
+  }
+
+
+  updatecomment(id) {
+    let data = {
+      comment_id: id,
+      comment: this.editvalue
+    }
+    this.authService.updatecomment(data).subscribe(data => {
+      this.getcomments();
+    });
+  }
+
+  addcomment(type) {
+    let data = {
+      request_id: this.br_num,
+      comment: this.newcommnet,
+      comment_type: type
+    }
+    console.log(data);
+
+    this.authService.addcomment(data).subscribe(data => {
+      this.getcomments();
+      console.log("success comments");
+
+
+    });
+  }
+
+  loadreq() {
+    console.log('test1');
+    this.br_num = this.authService.req.request_id;
+    this.getcomments();
+    this.submitter = this.authService.req.createdBy;
+    this.department = this.authService.req.department;
+    this.project = this.authService.req.project;
+    this.status = this.authService.req.status;
+    this.status_des = this.authService.req.status_description;
+
+    if (this.authService.req.status === 'New') {
+      this.percent = 17;
+    } else if (this.authService.req.status === 'Submitted') {
+      this.percent = 34;
+      this.progressbar_color = '#055cfc';
+    } else if (this.authService.req.status === 'Cancelled') {
+      this.percent = 100;
+      this.progressbar_color = '#f50910';
+    }
+    this.updateddate = this.authService.req.lastModified.substring(0, 10);
+    this.showoverview = true;
+    this.authService.getspecificreq().subscribe(data => {
+      console.log('test loadreq');
+      console.log(data);
+
+
+      this.exisitingreqdata = data.data;
+      this.date = this.exisitingreqdata.equipmentRequest.manufacturing_date;
+      console.log(this.br_num);
+
+    });
+
+
+  }
+
+
+  delcomment(id) {
+    console.log('delete');
+
+    this.authService.delcomment(id).subscribe(data => {
+      this.snackBar.open('Deleted Success', 'ok', { duration: 3000 });
+      this.getcomments();
+    });
+
+  }
+
+
+
+  getcomments() {
+    this.authService.getcomments(this.br_num).subscribe(data => {
+
+      this.comment_list_team = data.data.team_communication.comments;
+      this.comment_list_tech = data.data.technical_communication.comments;
+      for (let i = 0; i <= this.comment_list_team.length - 1; i++) {
+        this.comment_list_team[i].edit = false;
+      }
+      for (let i = 0; i <= this.comment_list_tech.length - 1; i++) {
+        this.comment_list_tech[i].edit = false;
+      }
+    });
+
+  }
+
+
 
   getusers() {
     this.authService.getusers("USER").subscribe(data => {
       if (data.success) {
+
+
         for (let i = 0; i <= data.data.length; i++) {
-          if
-          (data.data[i].approver_permission) {
-            this.approvers.push(data.data[i].user_id)
+          if (data.data[i].approver_permission == true) {
+            this.approvers.push(data.data[i].user_id);
           }
         }
+
+
 
       }
 
     });
 
-    this.authService.getusers("ADMIN").subscribe(data => {
+    // this.authService.getusers("ADMIN").subscribe(data => {
 
-    });
-    this.authService.getusers("SUPERADMIN").subscribe(data => {
+    // });
+    // this.authService.getusers("SUPERADMIN").subscribe(data => {
 
-    });
+    // });
   }
 
   newrequest() {
+    console.log('test');
     let request_type = "BATCH REQUEST"
     this.authService.submitnewreq(request_type).subscribe(data => {
       this.br_num = data.data.request_id;
@@ -123,6 +278,7 @@ export class BatchrequestComponent implements OnInit {
       this.day = data.data.lastModified.slice(8, 10);
       this.updateddate = this.year + '/' + this.month + '/' + this.day;
     });
+
   }
 
   sitemenuload() {
@@ -181,6 +337,7 @@ export class BatchrequestComponent implements OnInit {
     }
     this.newColor4 = false;
     this.legalproductcatagory = 'DRUG';
+    this.bencheselect();
   }
   toggleColor4() {
 
@@ -192,6 +349,7 @@ export class BatchrequestComponent implements OnInit {
     }
     this.newColor3 = false;
     this.legalproductcatagory = 'COSMETIC'
+    this.bencheselect();
   }
   toggleColor5() {
 
@@ -260,7 +418,7 @@ export class BatchrequestComponent implements OnInit {
   }
   bulk1() {
 
-    // this.bulk=!this.bulk;
+
     if (this.bulk = true) {
       this.bulk = true;
     }
@@ -271,7 +429,7 @@ export class BatchrequestComponent implements OnInit {
     this.filling_type = "BULK FILLING";
   }
   condition1() {
-    // this.condition=!this.condition;
+
     if (this.condition = true) {
       this.condition = true;
     }
@@ -282,7 +440,7 @@ export class BatchrequestComponent implements OnInit {
     this.filling_type = "RE-CONDITIONING";
   }
   destruct1() {
-    // this.destruct=!this.destruct;
+
     if (this.destruct = true) {
       this.destruct = true;
     }
@@ -293,7 +451,7 @@ export class BatchrequestComponent implements OnInit {
     this.remaining_bulk = "DESTRUCTION";
   }
   storage1() {
-    // this. storage=!this. storage;
+
     if (this.storage = true) {
       this.storage = true;
     }
@@ -324,9 +482,33 @@ export class BatchrequestComponent implements OnInit {
     this.material = false;
   }
 
+  bencheselect() {
+    for (let i = 0; i <= this.benchdata.length - 1; i++) {
+      if (this.sitetype === this.benchdata[i].site && this.legalproductcatagory === this.benchdata[i].legal_product_category) {
+        this.benches = this.benchdata[i].bench;
+        // console.log(this.benches);
+
+      }
+    }
+  }
+  getbenches() {
+    this.authService.getbenchs().subscribe(data => {
+      this.benchdata = data.data;
+      // console.log(this.benchdata);
+
+    })
+  }
+
+  getpackages() {
+    this.authService.getpc().subscribe(data => {
+      this.packagingtype = data.data;
+      // console.log(data);
+
+    });
+  }
+
   formatduedate(date: Date) {
     console.log(date);
-
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
@@ -334,6 +516,8 @@ export class BatchrequestComponent implements OnInit {
     console.log(this.duedate);
 
   }
+
+
 
   addreasons(sitetype, batchtype) {
     console.log(sitetype, batchtype);
@@ -352,10 +536,8 @@ export class BatchrequestComponent implements OnInit {
 
   loadreasons() {
     this.authService.getreasons().subscribe(data => {
-      console.log(data.data);
-
+      // console.log(data.data);
       this.reasonsdata = data.data;
-
 
     });
   }
@@ -387,48 +569,48 @@ export class BatchrequestComponent implements OnInit {
 
   addequipmentstolist() {
     console.log(this.equipmentdata[2].site, this.sitetype);
-
     for (let i = 0; i <= this.equipmentdata.length - 1; i++) {
       if (this.sitetype === this.equipmentdata[i].site && this.batchtype === this.equipmentdata[i].batch_type) {
         this.equipments = this.equipmentdata[i].equipment_list;
         this.optionalequip = this.equipmentdata.optional_equipment;
       }
     }
-    console.log(this.equipments);
+    // console.log(this.equipments);
 
   }
 
 
 
-  equipmentreq(date) {
+  equipmentreq(falg) {
     console.log(this.date);
-
-
+    console.log(this.bench);
+    let reason = this.reason.value;
+    if (this.reason.value === undefined) {
+      reason = this.reasonpilot;
+    }
     let data = {
       request_id: this.br_num,
       site: this.sitetype,
       batch_type: this.batchtype,
       legal_product_category: this.legalproductcatagory,
       reason_for_this_batch: this.reason.value,
+      equipment: this.equipment1,
+      optional_equipment: this.optional_equipment,
       gxp: this.gxpvalue,
-      bench_id: 'bench 1',
+      bench_id: this.bench,
       request_date: this.date,
-      approver: 'asifali',
-      flag: "submit",
+      approver: this.appr,
+      flag: falg,
 
 
     }
     console.log(data);
 
-
-
     this.authService.equipmentrequest(data).subscribe(data => {
       if (data.success) {
-        console.log('Submitted success');
+        this.snackBar.open(falg + 'ed', 'Ok', { duration: 3000 });
       }
-      else {
-        console.log("Not Submitted");
-      }
+
     });
 
   }
@@ -481,7 +663,8 @@ export class BatchrequestComponent implements OnInit {
       manufacturing_date: this.date,
       request_type: "BATCH REQUEST",
       flag: "save",
-      confirm_flag: true
+      confirm_flag: true,
+      approver: this.appr
     }
     console.log(data);
 
@@ -510,7 +693,8 @@ export class BatchrequestComponent implements OnInit {
       department: this.department,
       manufacturing_date: this.date,
       request_type: "FILLING REQUEST",
-      flag: 'submit'
+      flag: 'submit',
+      approver: this.appr
 
     }
     console.log(data);

@@ -1,28 +1,29 @@
 <div>
-
   <toaster-container></toaster-container>
   <div *ngIf="authService.loggedIn()">
 
 
-    <div class="card bg-light border-dark" style="margin-top:-0.2cm;">
-      <div class="row" style="margin:0.4cm">
-        <div class="col-sm-1">
+    <div class="card bg-light border-dark" style="margin-top:-1.1cm;">
+      <div class="row" style="margin:0.1cm">
+        <div class="col-sm-1" style="padding-left:25px;">
           <p>Mode</p>
-          <div class="btn-group-vertical card border-dark" style="max-width:1.2cm;" data-toggle="buttons">
+          <div class="btn-group-vertical card border-dark" style="max-width:1.2cm;margin-top:-13px;" data-toggle="buttons">
             <button class="btn btn-primary" id='Tile' style="font-size:12px;" value="Tile" (click)=tiletoggle($event.target.value)>Tile</button>
             <button class="btn" id='List' style="font-size:12px;" value="List" (click)=tiletoggle($event.target.value)>List</button>
           </div>
         </div>
-        <div class="col-sm-1">
-          <p class="text-centre">View</p>
-          <div class="btn-group-vertical card border-dark">
-            <button (click)="popToast()" style="font-size:10px;text-overflow:ellipsis;overflow:hidden; " class="btn ">MyRequest</button>
-            <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden;" class="btn ">Favorites</button>
-            <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden;" class="btn ">AllRequests</button>
+        <div class="col-sm-1" style="padding-left:4px;">
+          <p class="text-center">View</p>
+          <div class="btn-group-vertical card border-dark" style="margin-top:-13px;">
+            <button style=" font-size:10px;text-overflow:ellipsis;overflow:hidden; " [ngClass]="{ 'test':request}
+            " (click)="request1() " class="btn ">MyRequest</button>
+            <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': favorites}
+            " (click)="favorites1() " class="btn ">Favorites</button>
+            <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': allrequets}
+            " (click)="allrequests1() " class="btn ">AllRequests</button>
           </div>
         </div>
-        <div class="vl"></div>
-
+        <div class="vl "></div>
         <div class="col-sm-9">
           <p>Filters</p>
           <div class="row">
@@ -102,11 +103,12 @@
                 <a class="dropdown-item" *ngFor="let partner of partnermenu | filter:partner" (click)="appendtofilteritems(partner)">{{partner}}</a>
               </div>
 
+
             </div>
 
             <div class="col-sm">
               <div>
-                <button class="btn btn-primary" (click)="popToast()">Apply Filters</button>
+                <button class="btn btn-primary">Apply Filters</button>
               </div>
             </div>
 
@@ -114,18 +116,19 @@
 
         </div>
 
+
       </div>
 
     </div>
-    <div class="card bg-light border-dark" *ngIf="filteritems[0]">
-      <div class="row" style="margin:0.2cm">
-        <div class="col-sm-8">
-          <span class="text-centre" *ngFor="let item of filteritems" style="font-size:0.48cm">{{item}}
-            <mat-icon mat-icon-button color="primary" (click)="closefilter(item)" style="cursor:pointer;font-size:15px;">highlight_off</mat-icon>
+    <div class="card bg-light border-dark " *ngIf="filteritems[0] ">
+      <div class="row " style="margin:0.2cm ">
+        <div class="col-sm-8 ">
+          <span class="text-centre " *ngFor="let item of filteritems " style="font-size:0.48cm ">{{item}}
+            <mat-icon mat-icon-button color="primary " (click)="closefilter(item) " style="cursor:pointer;font-size:15px; ">highlight_off</mat-icon>
           </span>
         </div>
-        <div class="col-sm-1" *ngIf="filteritems[0]">
-          <button mat-raised-button class="btn card btn-info" (click)="filteritems=[]">Clear Filters</button>
+        <div class="col-sm-1 " *ngIf="filteritems[0] ">
+          <button mat-raised-button class="btn card btn-info " (click)="filteritems=[] ">Clear Filters</button>
         </div>
       </div>
     </div>
@@ -136,111 +139,199 @@
 
 
 
-    <h5>My Batch Requests ({{no_of_BR}})</h5>
-    <ag-grid-angular *ngIf="!Tile" style="height:300px;" class="ag-theme-balham list" enableColResize="true" [enableSorting]="true"
-      [enableFilter]="true" [rowData]="batchrequests" [columnDefs]="columnDefs">
+    <h5>Batch Requests ({{batchrequests.length}})</h5>
+    <ag-grid-angular *ngIf="!Tile " style="height:300px; " class="ag-theme-balham list " enableColResize="true
+            " [enableSorting]="true " [enableFilter]="true " [rowData]="batchrequests " [columnDefs]="columnDefs ">
     </ag-grid-angular>
+    <div class="row " *ngIf="loader " style="margin-left:1cm; ">
+
+      <div class=" col-sm-4 timeline-wrapper example-card1 " *ngFor="let load of loadcard ">
+        <mat-card class="timeline-item ">
+          <div class="animated-background ">
+            <div class="background-masker header-top "></div>
+            <div class="background-masker header-left "></div>
+            <div class="background-masker header-right "></div>
+            <div class="background-masker header-bottom "></div>
+            <div class="background-masker subheader-left "></div>
+            <div class="background-masker subheader-right "></div>
+            <div class="background-masker subheader-bottom "></div>
+            <div class="background-masker content-top "></div>
+            <div class="background-masker content-first-end "></div>
+            <div class="background-masker content-second-line "></div>
+            <div class="background-masker content-second-end "></div>
+            <div class="background-masker content-third-line "></div>
+            <div class="background-masker content-third-end "></div>
+          </div>
+        </mat-card>
+      </div>
 
 
-    <div class="lds-ellipsis" *ngIf="loader">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
     </div>
 
-    <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:14cm;margin-left:1cm;">
 
-      <mat-card *ngFor="let request of batchrequests" class="example-card">
-        <div class="row">
-          <img height="35px" src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png">
-          <div class="col" style="max-width:4cm; text-overflow:ellipsis;overflow:hidden;">
-            <a style="font-size:15px;color:rgb(77, 73, 73)">{{request.request_id}}</a>
+    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm; ">
+
+      <mat-card *ngFor="let request of batchrequests " class="example-card ">
+        <div class="row ">
+          <img height="35px " src="assets/Images/brm60x60.png ">
+          <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
+            <a style="font-size:15px;color:rgb(46, 39, 39); " (click)="batchreq(request)">{{request.request_id}}</a>
           </div>
           <div>
-            <!-- <mat-icon class="star" (click)="starcolor()" [color]="color">grade</mat-icon> -->
-            <i class="fa fa-star-o"></i>
-            <i class="fa fa-star" style="color:yellow"></i>
+
+            <i class="fa fa-star-o 2x" *ngIf="!request.favorites" (click)="addfav(request.request_id) "></i>
+            <i class=" fa fa-star 2x " *ngIf="request.favorites" style="color:rgb(253, 253, 7) " (click)="delfav(request.request_id)"></i>
           </div>
         </div>
-        <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
-        <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
-        <div style="font-size:13px;">project:{{request.project}}</div>
-        <div class="progress" style="max-height:8px;">
-          <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+
+        <div style="font-size:13px;max-width:2cm; ">Project:{{request.project}}</div>
+        <div class="progress " style="max-height:8px; ">
+          <div *ngIf="request.percent==25" class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
+          <div *ngIf="request.percent==50" class="progress-bar bg-info " role="progressbar " style="width: 50% "></div>
+          <div *ngIf="request.percent==75" class="progress-bar bg-info " role="progressbar " style="width: 75% "></div>
+          <div *ngIf="request.percent==100" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==0" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
         </div>
-        <div title="Status:{{request.status}}" class="text-sm-auto" style="font-size:13px;">{{request.status}}</div>
-        <div style="font-size:13px;">Submitter:{{request.createdBy}} </div>
-        <div style="font-size:13px;">Mfg.Date:21/52/</div>
-        <div class="row" style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer;">
-          <i class="col-sm-1 fa fa-file-pdf-o fa"></i>
-          <mat-icon class="col-sm-1">print</mat-icon>
+        <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
+          <b>{{request.status}}</b>
+        </div>
+        <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
+        <div style="font-size:13px; ">Modfd.Date:{{request.lastModified.substring(0, 10)}}</div>
+        <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
+          <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
+          <mat-icon class="col-sm-1 ">print</mat-icon>
         </div>
       </mat-card>
       <br>
     </div>
     <br>
-    <h5>My Filling Requests ({{no_of_FR}})</h5>
+    <h5>Filling Requests ({{fillingrequests.length}})</h5>
     <br>
-    <div class="lds-ellipsis" *ngIf="loader">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <ag-grid-angular *ngIf="!Tile" style="height:300px;" class="ag-theme-balham list" enableColResize="true" [enableSorting]="true"
-      [enableFilter]="true" [rowData]="fillingrequests" [columnDefs]="columnDefs">
-    </ag-grid-angular>
-    <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:10cm;margin-left:1cm;">
+    <div class="row " *ngIf="loader " style="margin-left:1cm; ">
 
-      <mat-card *ngFor="let request of fillingrequests" class="example-card">
-        <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
-        <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
-        <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
-        <div style="font-size:13px;">project:{{request.project}}</div>
-        <div class="progress" style="max-height:8px;">
-          <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+      <div class=" col-sm-4 timeline-wrapper example-card1 " *ngFor="let load of loadcard ">
+        <mat-card class="timeline-item ">
+          <div class="animated-background ">
+            <div class="background-masker header-top "></div>
+            <div class="background-masker header-left "></div>
+            <div class="background-masker header-right "></div>
+            <div class="background-masker header-bottom "></div>
+            <div class="background-masker subheader-left "></div>
+            <div class="background-masker subheader-right "></div>
+            <div class="background-masker subheader-bottom "></div>
+            <div class="background-masker content-top "></div>
+            <div class="background-masker content-first-end "></div>
+            <div class="background-masker content-second-line "></div>
+            <div class="background-masker content-second-end "></div>
+            <div class="background-masker content-third-line "></div>
+            <div class="background-masker content-third-end "></div>
+          </div>
+        </mat-card>
+      </div>
+
+
+    </div>
+    <ag-grid-angular *ngIf="!Tile " style="height:300px; " class="ag-theme-balham list " enableColResize="true
+            " [enableSorting]="true " [enableFilter]="true " [rowData]="fillingrequests " [columnDefs]="columnDefs ">
+    </ag-grid-angular>
+    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm; ">
+
+      <mat-card *ngFor="let request of fillingrequests " class="example-card ">
+        <div class="row ">
+          <img height="35px " src="assets/Images/brm60x60.png ">
+          <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
+            <a style="font-size:15px;color:rgb(46, 39, 39); " (click)="batchreq(request)">{{request.request_id}}</a>
+          </div>
+          <div>
+
+            <i class="fa fa-star-o 2x" *ngIf="!request.favorites" (click)="addfav(request.request_id) "></i>
+            <i class=" fa fa-star 2x " *ngIf="request.favorites" style="color:rgb(253, 253, 7) " (click)="delfav(request.request_id)"></i>
+          </div>
         </div>
-        <div title="Status:{{request.status}}" class="text-sm-auto" style="font-size:13px;">{{request.status}}</div>
-        <div style="font-size:13px;">Submitter:{{request.createdBy}} </div>
-        <div style="font-size:13px;">Mfg.Date:21/52/</div>
-        <div class="row" style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer;">
-          <i class="col-sm-1 fa fa-file-pdf-o fa"></i>
-          <mat-icon class="col-sm-1">print</mat-icon>
+
+        <div style="font-size:13px;max-width:2cm; ">Project:{{request.project}}</div>
+        <div class="progress " style="max-height:8px; ">
+          <div *ngIf="request.percent==25" class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
+          <div *ngIf="request.percent==50" class="progress-bar bg-info " role="progressbar " style="width: 50% "></div>
+          <div *ngIf="request.percent==75" class="progress-bar bg-info " role="progressbar " style="width: 75% "></div>
+          <div *ngIf="request.percent==100" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==0" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
+        </div>
+        <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
+          <b>{{request.status}}</b>
+        </div>
+        <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
+        <div style="font-size:13px; ">Modfd.Date:{{request.lastModified.substring(0, 10)}}</div>
+        <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
+          <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
+          <mat-icon class="col-sm-1 ">print</mat-icon>
         </div>
       </mat-card>
       <br>
     </div>
     <br>
-    <h5>My RM Requests ({{no_of_RM}})</h5>
+    <h5>RM Requests ({{RMrequests.length}})</h5>
     <br>
-    <div class="lds-ellipsis" *ngIf="loader">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div class="row " *ngIf="loader " style="margin-left:1cm; ">
+
+      <div class=" col-sm-4 timeline-wrapper example-card1 " *ngFor="let load of loadcard ">
+        <mat-card class="timeline-item ">
+          <div class="animated-background ">
+            <div class="background-masker header-top "></div>
+            <div class="background-masker header-left "></div>
+            <div class="background-masker header-right "></div>
+            <div class="background-masker header-bottom "></div>
+            <div class="background-masker subheader-left "></div>
+            <div class="background-masker subheader-right "></div>
+            <div class="background-masker subheader-bottom "></div>
+            <div class="background-masker content-top "></div>
+            <div class="background-masker content-first-end "></div>
+            <div class="background-masker content-second-line "></div>
+            <div class="background-masker content-second-end "></div>
+            <div class="background-masker content-third-line "></div>
+            <div class="background-masker content-third-end "></div>
+          </div>
+        </mat-card>
+      </div>
+
+
     </div>
-    <ag-grid-angular *ngIf="!Tile" style="height:300px;" class="ag-theme-balham list" enableColResize="true" [enableSorting]="true"
-      [enableFilter]="true" [rowData]="RMrequests" [columnDefs]="columnDefs">
+    <ag-grid-angular *ngIf="!Tile " style="height:300px; " class="ag-theme-balham list " enableColResize="true
+            " [enableSorting]="true " [enableFilter]="true " [rowData]="RMrequests " [columnDefs]="columnDefs ">
     </ag-grid-angular>
 
 
-    <div class="row" *ngIf="!loader && Tile" style=" overflow-x: auto;max-height:10cm;margin-left:1cm;">
+    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm; ">
 
-      <mat-card *ngFor="let request of RMrequests" class="example-card">
-        <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
-        <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
-        <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
-        <div style="font-size:13px;max-width:2cm;">project:{{request.project}}</div>
-        <div class="progress" style="max-height:8px;">
-          <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+      <mat-card *ngFor="let request of RMrequests " class="example-card ">
+        <div class="row ">
+          <img height="35px " src="assets/Images/brm60x60.png ">
+          <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
+            <a style="font-size:15px;color:rgb(46, 39, 39); " (click)="batchreq(request)">{{request.request_id}}</a>
+          </div>
+          <div>
+
+            <i class="fa fa-star-o 2x" *ngIf="!request.favorites" (click)="addfav(request.request_id) "></i>
+            <i class=" fa fa-star 2x " *ngIf="request.favorites" style="color:rgb(253, 253, 7) " (click)="delfav(request.request_id)"></i>
+          </div>
         </div>
-        <div title="Status:{{request.status}}" class="text-sm-auto" style="font-size:13px;">{{request.status}}</div>
-        <div style="font-size:13px;">Submitter:{{request.createdBy}} </div>
-        <div style="font-size:13px;">Mfg.Date:21/52/</div>
-        <div class="row" style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer;">
-          <i class="col-sm-1 fa fa-file-pdf-o fa"></i>
-          <mat-icon class="col-sm-1">print</mat-icon>
+
+        <div style="font-size:13px;max-width:2cm; ">Project:{{request.project}}</div>
+        <div class="progress " style="max-height:8px; ">
+          <div *ngIf="request.percent==25" class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
+          <div *ngIf="request.percent==50" class="progress-bar bg-info " role="progressbar " style="width: 50% "></div>
+          <div *ngIf="request.percent==75" class="progress-bar bg-info " role="progressbar " style="width: 75% "></div>
+          <div *ngIf="request.percent==100" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==0" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
+        </div>
+        <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
+          <b>{{request.status}}</b>
+        </div>
+        <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
+        <div style="font-size:13px; ">Modfd.Date:{{request.lastModified.substring(0, 10)}}</div>
+        <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
+          <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
+          <mat-icon class="col-sm-1 ">print</mat-icon>
         </div>
       </mat-card>
       <br>
@@ -256,78 +347,74 @@
 
 
 <br>
-<div id="carouselExampleControls" class="carousel slide" data-interval="false" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="row" style="margin-left:1.3cm;">
-        <mat-card *ngFor="let request of batchrequests|slice:0:5; let i=index" class="col-sm-3 example-card">
-          <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
-          <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
-          <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
-          <div style="font-size:13px;">project:{{request.project}}</div>
-          <div class="progress" style="max-height:8px;">
-            <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+<!-- <div id="carouselExampleControls " class="carousel slide " data-interval="false " data-ride="carousel ">
+  <div class="carousel-inner ">
+    <div class="carousel-item active ">
+      <div class="row " style="margin-left:1.3cm; ">
+        <mat-card *ngFor="let request of batchrequests|slice:0:5; let i=index " class="col-sm-3 example-card ">
+          <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png "> {{request.request_id}}
+
+          <div style="font-size:13px; ">project:{{request.project}}</div>
+          <div class="progress " style="max-height:8px; ">
+            <div class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
           </div>
-          <div title="Status:{{request.status}}" class="text-sm-auto" style="font-size:13px;">{{request.status}}</div>
-          <div style="font-size:13px;">Submitter:{{request.createdBy}} </div>
-          <div style="font-size:13px;">Mfg.Date:21/52/</div>
-          <div class="row" style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer;">
-            <i class="col-sm-1 fa fa-file-pdf-o fa"></i>
-            <mat-icon class="col-sm-1">print</mat-icon>
+          <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">{{request.status}}</div>
+          <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
+          <div style="font-size:13px; ">Mfg.Date:21/52/</div>
+          <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
+            <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
+            <mat-icon class="col-sm-1 ">print</mat-icon>
           </div>
         </mat-card>
       </div>
     </div>
-    <div class="carousel-item">
-      <div class="row" style="margin-left:1.3cm;">
-        <mat-card *ngFor="let request of batchrequests|slice:0:5; let i=index" class="col-sm-3 example-card">
-          <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
-          <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
-          <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
-          <div style="font-size:13px;">project:{{request.project}}</div>
-          <div class="progress" style="max-height:8px;">
-            <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+    <div class="carousel-item ">
+      <div class="row " style="margin-left:1.3cm; ">
+        <mat-card *ngFor="let request of batchrequests|slice:0:5; let i=index " class="col-sm-3 example-card ">
+          <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png "> {{request.request_id}}
+          <div style="font-size:13px; ">project:{{request.project}}</div>
+          <div class="progress " style="max-height:8px; ">
+            <div class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
           </div>
-          <div title="Status:{{request.status}}" class="text-sm-auto" style="font-size:13px;">{{request.status}}</div>
-          <div style="font-size:13px;">Submitter:{{request.createdBy}} </div>
-          <div style="font-size:13px;">Mfg.Date:21/52/</div>
-          <div class="row" style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer;">
-            <i class="col-sm-1 fa fa-file-pdf-o fa" style="color:black"></i>
-            <mat-icon class="col-sm-1">print</mat-icon>
+          <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">{{request.status}}</div>
+          <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
+          <div style="font-size:13px; ">Mfg.Date:21/52/</div>
+          <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
+            <i class="col-sm-1 fa fa-file-pdf-o fa " style="color:black "></i>
+            <mat-icon class="col-sm-1 ">print</mat-icon>
           </div>
         </mat-card>
       </div>
     </div>
 
 
-    <div class="carousel-item">
-      <div class="row" style="margin-left:1.3cm;">
-        <mat-card *ngFor="let request of batchrequests" class="col-sm-3 example-card">
-          <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png"> {{request.request_id}}
-          <!-- <mat-icon id="star" class="star" (click)="starcolor()" [color]="color">star</mat-icon> -->
-          <!-- <p style="font-size:13px;margin-left:27px;">GxP Lab Batch</p> -->
-          <div style="font-size:13px;">project:{{request.project}}</div>
-          <div class="progress" style="max-height:8px;">
-            <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+    <div class="carousel-item ">
+      <div class="row " style="margin-left:1.3cm; ">
+        <mat-card *ngFor="let request of batchrequests " class="col-sm-3 example-card ">
+          <img src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_images/Images/Black/labBatchRequest/gx-p-lab-batch.png "> {{request.request_id}}
+          <div style="font-size:13px; ">project:{{request.project}}</div>
+          <div class="progress " style="max-height:8px; ">
+            <div class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
           </div>
-          <div title="Status:{{request.status}}" class="text-sm-auto" style="font-size:13px;">{{request.status}}</div>
-          <div style="font-size:13px;">Submitter:{{request.createdBy}} </div>
-          <div style="font-size:13px;">Mfg.Date:21/52/</div>
-          <div class="row" style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer;">
-            <i class="col-sm-1 fa fa-file-pdf-o fa"></i>
-            <mat-icon class="col-sm-1">print</mat-icon>
+          <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">{{request.status}}</div>
+          <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
+          <div style="font-size:13px; ">Mfg.Date:21/52/</div>
+          <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
+            <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
+            <mat-icon class="col-sm-1 ">print</mat-icon>
           </div>
         </mat-card>
       </div>
     </div>
   </div>
-  <a class="carousel-control-prev" style="background:rgb(163, 162, 162);max-width:1cm;" href="#carouselExampleControls" role="button"
-    data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  <a class="carousel-control-prev " style="background:rgb(163, 162, 162);max-width:1cm; " href="#carouselExampleControls
+            " role="button " data-slide="prev ">
+    <span class="carousel-control-prev-icon " aria-hidden="true "></span>
     <span class="sr-only ">Previous</span>
   </a>
-  <a class="carousel-control-next" style="max-width:1cm;background:gray" href="#carouselExampleControls" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
+  <a class="carousel-control-next " style="max-width:1cm;background:gray " href="#carouselExampleControls " role="button
+            " data-slide="next ">
+    <span class="carousel-control-next-icon " aria-hidden="true "></span>
+    <span class="sr-only ">Next</span>
   </a>
-</div>
+</div> -->

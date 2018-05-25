@@ -128,6 +128,7 @@ export class DialogOverviewExampleDialog {
   }
   submit() {
     this.authService.redirecttobatch(this.project, this.department);
+    this.authService.permission = false;
 
   }
 

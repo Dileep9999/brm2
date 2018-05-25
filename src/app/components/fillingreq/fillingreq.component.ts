@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Jsonp } from '@angular/http';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-fillingreq',
@@ -45,18 +46,67 @@ export class FillingreqComponent implements OnInit {
   gxpvalue: String;
   duedate: String;
   description: String;
+  approvers: any;
+  appr: String;
+  packagingcode: String;
+  packagingcodes: String[];
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
     this.project = this.authService.project;
+    this.packagingcodes = [];
     this.department = this.authService.department;
     this.newrequest();
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
+    this.approvers = [];
+    this.getusers();
+    this.getpackagingcodes();
+  }
 
+
+  getusers() {
+    this.authService.getusers("USER").subscribe(data => {
+      if (data.success) {
+        console.log(data);
+
+        for (let i = 0; i <= data.data.length; i++) {
+          if
+          (data.data[i].approver_permission) {
+            this.approvers.push(data.data[i].user_id)
+          }
+        }
+        console.log(this.approvers);
+
+
+      }
+
+    });
+
+    this.authService.getusers("ADMIN").subscribe(data => {
+
+    });
+    this.authService.getusers("SUPERADMIN").subscribe(data => {
+
+    });
+  }
+
+  getpackagingcodes() {
+
+    this.authService.getpc().subscribe(data => {
+      console.log(data);
+
+      for (let i = 0; i <= data.data.length - 1; i++) {
+        this.packagingcodes.push(data.data[i].packaging_code);
+      }
+      console.log(this.packagingcodes);
+
+    });
 
   }
+
 
   save() {
 
@@ -67,7 +117,7 @@ export class FillingreqComponent implements OnInit {
       site: this.sitetype,
       batch_type: this.batch_type,
       legal_product_category: this.legal_product_category,
-      lab_notebook_number: this.labnotebook,
+      lab_note_book_number: this.labnotebook,
       formula_id: this.formula_id,
       formula_status: "NEW",
       filling_type: this.filling_type,
@@ -84,10 +134,15 @@ export class FillingreqComponent implements OnInit {
       department: this.department,
       manufacturing_date: this.mfgdate,
       request_type: "FILLING REQUEST",
+      approver: this.appr,
       flag: 'save'
 
     }
     console.log(data);
+    this.authService.savefillingreq(data).subscribe(data => {
+      this.snackBar.open('Saved', 'Ok', { duration: 3000 });
+
+    });
 
   }
   submit() {
@@ -96,7 +151,7 @@ export class FillingreqComponent implements OnInit {
       site: this.sitetype,
       batch_type: this.batch_type,
       legal_product_category: this.legal_product_category,
-      lab_notebook_number: this.labnotebook,
+      lab_note_book_number: this.labnotebook,
       formula_id: this.formula_id,
       formula_status: "NEW",
       filling_type: this.filling_type,
@@ -113,12 +168,15 @@ export class FillingreqComponent implements OnInit {
       department: this.department,
       manufacturing_date: this.mfgdate,
       request_type: "FILLING REQUEST",
+      approver: this.appr,
       flag: 'save'
 
     }
     console.log(data);
 
-
+    this.authService.submitfilling(data).subscribe(data => {
+      this.snackBar.open('Success', 'Ok', { duration: 3000 });
+    });
   }
 
   formatdatemfg(date: Date) {

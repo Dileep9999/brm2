@@ -20,7 +20,7 @@ export class SuperadminComponent implements OnInit {
   batchmenu: String[];
   productmenu: String[];
   sitedata: String[];
-  reasondata: String[];
+  reasondata: any;
   departmentdata: String[];
   projectdata: String[];
   equipmentdata: String[];
@@ -36,15 +36,32 @@ export class SuperadminComponent implements OnInit {
   displayedColumns3 = ['project', 'createdAt'];
   // displayedColumns4 = ['bench', 'createdAt'];
   displayedColumns5 = ['equipment', 'createdAt'];
-
   dataSource = new MatTableDataSource();
   dataSource1 = new MatTableDataSource();
   dataSource2 = new MatTableDataSource();
   dataSource3 = new MatTableDataSource();
   dataSource4 = new MatTableDataSource();
   dataSource5 = new MatTableDataSource();
-
+  reasons: String[];
   packagingcodes: String[];
+  site_for_reason: String;
+  batch_of_reason: String;
+  loadcard: String[];
+
+  addreasons(value, val) {
+
+    this.site_for_reason = value;
+    this.batch_of_reason = val;
+    console.log(this.site_for_reason, this.batch_of_reason);
+
+    for (let i = 0; i <= this.reasondata.length - 1; i++) {
+      if (this.site_for_reason === this.reasondata[i].site && this.batch_of_reason === this.reasondata[i].batch_type) {
+        this.reasons = this.reasondata[i].reason;
+        console.log(this.reasondata[i].reason);
+
+      }
+    }
+  }
 
   applyFilter(filterValue: string) {
     this.site = filterValue;
@@ -96,6 +113,7 @@ export class SuperadminComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadcard = ['a', 'a', 'aa', 'a', 'a'];
     this.users = [];
     this.admins = [];
     this.packagingcodes = [];
@@ -104,6 +122,7 @@ export class SuperadminComponent implements OnInit {
     this.departmentdata = [];
     this.batchmenu = ["LAB", "PILOT", "OTHERS"];
     this.productmenu = ["COSMETIC", "DRUG"];
+    this.reasons = [];
     this.getusers();
     this.selectsite();
     this.getdepartments();
@@ -111,7 +130,7 @@ export class SuperadminComponent implements OnInit {
     this.getpc();
     this.getequipments();
     this.getsites();
-
+    this.getreasons();
 
 
   }
@@ -187,7 +206,7 @@ export class SuperadminComponent implements OnInit {
     let data = {
       department: this.department
     }
-    console.log(data)
+    // console.log(data)
     this.authService.adddpt(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
@@ -206,7 +225,7 @@ export class SuperadminComponent implements OnInit {
     let data = {
       packagingcode: this.packagingcode
     }
-    console.log(data)
+    // console.log(data)
     this.authService.addpc(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
@@ -224,7 +243,7 @@ export class SuperadminComponent implements OnInit {
     let data = {
       project: this.project
     }
-    console.log(data)
+    // console.log(data)
     this.authService.addproject(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
@@ -244,7 +263,7 @@ export class SuperadminComponent implements OnInit {
       legal_product_category: product,
       bench: [bench]
     }
-    console.log(data)
+    // console.log(data)
     this.authService.addbench(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
@@ -262,7 +281,7 @@ export class SuperadminComponent implements OnInit {
       batch_type: batch,
       equipment_list: [equipment]
     }
-    console.log(data)
+    // console.log(data)
     this.authService.addeqpt(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
@@ -294,7 +313,7 @@ export class SuperadminComponent implements OnInit {
   getsites() {
 
     this.authService.getsites().subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.dataSource.data = data.data;
       this.sitedata = data.data;
       console.log(this.sitedata);
@@ -305,7 +324,7 @@ export class SuperadminComponent implements OnInit {
 
   getdepartments() {
     this.authService.getdepartments().subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.dataSource2.data = data.data;
       this.departmentdata = data.data;
       console.log(this.departmentdata);
@@ -363,6 +382,13 @@ export class SuperadminComponent implements OnInit {
     this.authService.removeapprover(USER).subscribe(data => {
       console.log(data.success);
 
+    });
+  }
+
+  getreasons() {
+    this.authService.getreasons().subscribe(data => {
+      console.log(data);
+      this.reasondata = data.data;
     });
   }
 

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { HttpModule, Http } from '@angular/http';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { ToasterModule, ToasterService } from 'angular5-toaster';
+import { Rmrequest } from '../navbar/navbar.component';
+import { LowerCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +15,10 @@ import { ToasterModule, ToasterService } from 'angular5-toaster';
 
 export class HomeComponent implements OnInit {
 
-  color: String;
+  request = false;
+  favorites = false;
+  allrequets = true;
+
 
   typemenu: String[];
   manufacturingdatemenu: String[];
@@ -31,23 +36,28 @@ export class HomeComponent implements OnInit {
   fillingrequests: String[];
   RMrequests: String[];
   loader: boolean = true;
+  list = false;
+  tile = true;
   departments: String[];
+  my_req: any;
+  fav_req: any;
   no_of_BR: any;
   no_of_FR: any;
   no_of_RM: any;
   columnDefs = [
     { headerName: 'Request Number', field: 'request_id' },
     { headerName: 'Project Name', field: 'project' },
-    { headerName: 'Request For', field: 'requestfor' },
     { headerName: 'Submitter', field: 'createdBy' },
     { headerName: 'Created Date', field: 'createdAt' },
     { headerName: 'Status', field: 'status' },
+    { headerName: 'UpdatedAt', field: 'lastModified' },
+
 
   ];
 
   rowData = [
   ];
-
+  loadcard: String[];
 
   constructor(public authService: AuthService,
     public http: Http,
@@ -57,6 +67,7 @@ export class HomeComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.loadcard = ['a', 'a', 'aa', 'a', 'a'];
     this.batchrequests = [];
     this.requests = [];
     this.fillingrequests = [];
@@ -65,43 +76,140 @@ export class HomeComponent implements OnInit {
     this.sitemenu = [];
     this.projectmenu = [];
     this.Tile = true;
+    this.my_req = [];
+    this.fav_req = [];
     this.loadrequests();
     this.sitemenuload();
     this.projectloadanddept();
+    this.getprefrences();
     this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
     this.statusmenu = ['Cancelled', 'Complete', 'COnfirmed', 'Filled', 'New', 'Ready for Filling', 'Reserved', 'Sample Released', 'Submitted', 'Weighed'];
     this.legalproductcategory = ['Cosmetic', 'Drug'];
     this.partnermenu = ['BRM Partner'];
     this.filteritems = [];
-    this.manudatemenu = ['After 1 month', 'After 2 months', 'Next 30 days', 'Next 7 days'];
+    this.manudatemenu = ['Today', 'Yesterday', 'Tommorow', 'After 1 month', 'After 2 months', 'Next 30 days', 'Next 7 days'];
 
+
+  }
+
+  delfav(id) {
+    console.log(id);
+    for (let i = 0; i <= this.requests.length - 1; i++) {
+      if (id == this.requests[i].request_id) {
+        this.requests[i].favorites = false;
+      }
+    }
+    this.authService.deletefav(id).subscribe(data => {
+      console.log('removed');
+
+    });
+  }
+
+
+  favorites1() {
+    if (this.favorites = true) {
+      this.favorites = true;
+    }
+    else {
+      this.favorites = !this.favorites;
+    }
+    this.allrequets = false;
+    this.request = false;
+    this.getfav();
+  }
+  request1() {
+    if (this.request = true) {
+      this.request = true;
+    }
+    else {
+      this.request = !this.request;
+    }
+    this.allrequets = false;
+    this.favorites = false;
+    this.myreq();
+  }
+  allrequests1() {
+    if (this.allrequets = true) {
+      this.allrequets = true;
+    }
+    else {
+      this.allrequets = !this.allrequets;
+    }
+    this.request = false;
+    this.favorites = false;
+    this.allreq();
+
+  }
+  list1() {
+    if (this.list = true) {
+      this.list = true;
+    }
+    else {
+      this.list = !this.list;
+    }
+    this.tile = false;
+  }
+  tile1() {
+    if (this.tile = true) {
+      this.tile = true;
+    }
+    else {
+      this.tile = !this.tile;
+    }
+    this.list = false;
 
   }
 
 
 
 
-  getfav() {
-    this.authService.getfav().subscribe(data => {
-      this.fav_req_ids = data.data.favourites;
-      const anotherArr = this.requests.map(e => {
-        if (this.PresentInArray(e.request_id, data.data.favourites)) {
-          e['favourites'] = true
-          return e;
-        } else {
-          e['favourites'] = false
-          return e;
-        }
-      });
 
-      console.log('gerer', anotherArr);
-      // for (let i = 0; i <= this.requests.length - 1; i++) {
-      //   if (data.data.favourites[i] === this.requests[i].request_id) {
 
-      //   }
+  getprefrences() {
+    this.authService.getprefrences().subscribe(data => {
+      console.log(data);
 
-      // }
     });
+  }
+
+
+  getfav() {
+    // this.authService.getfav().subscribe(data => {
+    //   this.fav_req = data.data;
+    //   console.log(this.fav_req, 'adwd');
+
+    //   //   const anotherArr = this.requests.map(e => {
+    //   //     if (this.PresentInArray(e.request_id, data.data.favourites)) {
+    //   //       e['favourites'] = true
+    //   //       return e;
+    //   //     } else {
+    //   //       e['favourites'] = false
+    //   //       return e;
+    //   //     }
+    //   //   });
+    // });
+    this.batchrequests = [];
+    this.fillingrequests = [];
+    this.RMrequests = [];
+    for (let i = 0; i <= this.requests.length - 1; i++) {
+      if (this.requests[i].request_type === 'BATCH REQUEST' && this.requests[i].favorites == true) {
+        this.batchrequests.push(this.requests[i]);
+      } else if (this.fav_req[i].request_type === 'FILLING REQUEST' && this.requests[i].favorites == true) {
+        this.fillingrequests.push(this.requests[i]);
+      }
+      else if (this.fav_req[i].request_type === 'BATCH RM ORDER' && this.requests[i].favorites == true) {
+        this.RMrequests.push(this.requests[i]);
+      }
+
+    }
+
+
+    this.loader = false;
+    this.no_of_BR = this.batchrequests.length;
+    this.no_of_FR = this.fillingrequests.length;
+    this.no_of_RM = this.RMrequests.length;
+    console.log(this.no_of_BR);
+
   }
 
   PresentInArray(element, arr) {
@@ -113,26 +221,130 @@ export class HomeComponent implements OnInit {
     this.toasterService.pop('success', 'Args Title', 'Args Body');
   }
 
-  addfav() {
-    this.authService.addfav('').subscribe(data => {
+  addfav(id) {
+    console.log(id);
+    for (let i = 0; i <= this.requests.length - 1; i++) {
+      if (id == this.requests[i].request_id) {
+        this.requests[i].favorites = true;
+      }
+    }
+    this.allreq();
+    this.authService.addfav(id).subscribe(data => {
+      console.log('added');
 
     });
   }
 
+  batchreq(req) {
+    console.log(req);
+    console.log('batchreq');
+
+    this.authService.req = req;
+    this.authService.permission = true;
+    this.router.navigate(['/batchrequest']);
+
+  }
+
+  myreq() {
+
+    this.batchrequests = [];
+    this.fillingrequests = [];
+    this.RMrequests = [];
+
+
+    for (let i = 0; i <= this.my_req.length - 1; i++) {
+      if (this.my_req[i].request_type === 'BATCH REQUEST') {
+        this.batchrequests.push(this.my_req[i]);
+      } else if (this.my_req[i].request_type === 'FILLING REQUEST') {
+        this.fillingrequests.push(this.my_req[i]);
+      }
+      else if (this.my_req[i].request_type === 'BATCH RM ORDER') {
+        this.RMrequests.push(this.my_req[i]);
+      }
+
+
+    }
+
+
+    this.loader = false;
+    this.no_of_BR = this.batchrequests.length;
+    this.no_of_FR = this.fillingrequests.length;
+    this.no_of_RM = this.RMrequests.length;
+
+
+  }
+
+
+  allreq() {
+    this.batchrequests = [];
+    this.fillingrequests = [];
+    this.RMrequests = [];
+    console.log(this.my_req[0].request_type);
+
+    for (let i = 0; i <= this.requests.length - 1; i++) {
+      if (this.requests[i].request_type === 'BATCH REQUEST') {
+        this.batchrequests.push(this.requests[i]);
+      } else if (this.requests[i].request_type === 'FILLING REQUEST') {
+        this.fillingrequests.push(this.requests[i]);
+      }
+      else if (this.requests[i].request_type === 'BATCH RM ORDER') {
+        this.RMrequests.push(this.requests[i]);
+      }
+
+    }
+
+    console.log(this.batchrequests);
+    console.log(this.fillingrequests);
+    this.loader = false;
+    this.no_of_BR = this.batchrequests.length;
+    this.no_of_FR = this.fillingrequests.length;
+    this.no_of_RM = this.RMrequests.length;
+
+
+  }
 
 
   loadrequests() {
     this.authService.getallrequests().subscribe(data => {
       this.requests = data.data;
-      this.getfav();
-      for (let i = 0; i <= data.data.length - 1; i++) {
-        if (data.data[i].request_type === 'BATCH REQUEST') {
-          this.batchrequests.push(data.data[i]);
-        } else if (data.data[i].request_type === 'FILLING REQUEST') {
-          this.fillingrequests.push(data.data[i]);
+
+
+      this.authService.getfav().subscribe(data => {
+        this.fav_req = data.data;
+        console.log(data.data);
+        for (let l = 0; l <= this.requests.length - 1; l++) {
+          if (this.requests[l].status === "New") {
+            this.requests[l].percent = 25;
+          } else if (this.requests[l].status === "Submitted") {
+            this.requests[l].percent = 50;
+          }
         }
-        else if (data.data[i].request_type === 'BATCH RM ORDER') {
-          this.RMrequests.push(data.data[i]);
+
+        for (let k = 0; k <= this.requests.length - 1; k++) {
+          for (let j = 0; j <= this.fav_req.length - 1; j++) {
+            this.fav_req[j].favorites = true;
+            if (this.requests[k].request_id === this.fav_req[j].request_id) {
+              this.requests[k].favorites = true;
+              console.log(this.requests[k].favorites);
+            }
+          }
+        }
+
+      });
+      for (let i = 0; i <= this.requests.length - 1; i++) {
+        if (this.requests[i].createdBy === this.authService.user_id) {
+          this.my_req.push(this.requests[i]);
+        }
+      }
+
+      for (let i = 0; i <= this.requests.length - 1; i++) {
+        if (this.requests[i].request_type === 'BATCH REQUEST') {
+          this.batchrequests.push(this.requests[i]);
+        } else if (this.requests[i].request_type === 'FILLING REQUEST') {
+          this.fillingrequests.push(this.requests[i]);
+        }
+        else if (this.requests[i].request_type === 'BATCH RM ORDER') {
+          this.RMrequests.push(this.requests[i]);
         }
 
         else {
@@ -146,6 +358,9 @@ export class HomeComponent implements OnInit {
       this.no_of_BR = this.batchrequests.length;
       this.no_of_FR = this.fillingrequests.length;
       this.no_of_RM = this.RMrequests.length;
+
+
+
 
     });
   }
@@ -166,7 +381,7 @@ export class HomeComponent implements OnInit {
 
     this.authService.getprojects().subscribe(data => {
       if (data.success) {
-        console.log(data.data.length);
+
         for (let i = 0; i <= data.data.length - 1; i++) {
           this.projectmenu.push(data.data[i].project);
         }
@@ -175,7 +390,7 @@ export class HomeComponent implements OnInit {
     });
     this.authService.getdepartments().subscribe(data => {
       if (data.success) {
-        console.log(data.data.length);
+
         for (let i = 0; i <= data.data.length - 1; i++) {
           this.departments.push(data.data[i].department);
         }
@@ -229,14 +444,6 @@ export class HomeComponent implements OnInit {
     }
 
 
-  }
-
-  starcolor() {
-    if (this.color === 'accent') {
-      this.color = '';
-    } else {
-      this.color = 'accent';
-    }
   }
 
 

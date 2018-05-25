@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Http } from '@angular/http';
 import "rxjs/add/operator/catch";
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-rmrequest',
@@ -40,17 +41,82 @@ export class RmrequestComponent implements OnInit {
   batch_type: String;
   pr_number: number;
   rm_num: String;
+  appr: String;
+  approvers: String[];
+  row_matrials: any = {
+    trade_name: '',
+    rm_num: '',
+    percentage: '',
+    quantity_required: '',
+    simatic_lab_gxp_stock: '',
+    simatic_pilot_stock: '',
+    simatic_lab_stock: '',
+    quantity_to_order: ''
+  };
+  labnotebooknums: String[];
+  formulaids: String[];
 
 
   constructor(
     public authService: AuthService,
     public http: Http,
+    public snackBar: MatSnackBar
   ) { }
   ngOnInit() {
+    this.approvers = [];
+    this.labnotebooknums = [];
+    this.formulaids = [];
     this.project = this.authService.project;
     this.department = this.authService.department;
     this.newrequest();
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
+    this.getusers();
+    this.getlabnums();
+  }
+
+  getrowmatrials() {
+
+  }
+
+
+
+  getlabnums() {
+    this.authService.getlabs().subscribe(data => {
+      this.labnotebooknums = data.data;
+    });
+  }
+
+
+
+  getformulas() {
+    this.authService.getformulas(this.labnotebook).subscribe(data => {
+      this.formulaids = data.data;
+    });
+  }
+
+
+
+  getusers() {
+    this.authService.getusers("USER").subscribe(data => {
+      if (data.success) {
+        console.log(data);
+
+        for (let i = 0; i <= data.data.length; i++) {
+          if
+          (data.data[i].approver_permission) {
+            this.approvers.push(data.data[i].user_id)
+          }
+        }
+        console.log(this.approvers);
+      }
+    });
+
+    // this.authService.getusers("ADMIN").subscribe(data => {
+
+    // });
+    // this.authService.getusers("SUPERADMIN").subscribe(data => {
+
+    // });
   }
 
 
@@ -169,10 +235,19 @@ export class RmrequestComponent implements OnInit {
     let data = {
       request_id: this.rm_num,
       formula_id: this.formula_id,
-      bath_size: this.batch_size,
+      batch_size: this.batch_size,
       batch_unit: this.batch_unit,
       lab_note_book_number: this.labnotebook,
-      raw_material: [],
+      raw_material: [{
+        trade_name: "Flipkart",
+        rm_no: "RMT451",
+        percentage: 0.75
+      },
+      {
+        trade_name: "Amazon",
+        rm_no: "RMT451",
+        percentage: 0.80
+      }],
       site: this.sitetype,
       batch_type: this.batch_type,
       legal_product_category: this.legal_product_category,
@@ -184,10 +259,16 @@ export class RmrequestComponent implements OnInit {
       department: this.department,
       manufacturing_date: this.mfgdate,
       request_type: "BATCH RM ORDER",
+      approver: this.appr,
+      performed_by: "dileep",
       flag: "submit",
       confirm_flag: true
     }
     console.log(data);
+    this.authService.submitrmrequest(data).subscribe(data => {
+      console.log(data);
+      this.snackBar.open('Success', 'Ok', { duration: 3000 });
+    });
   }
 
 
@@ -195,7 +276,7 @@ export class RmrequestComponent implements OnInit {
     let data = {
       request_id: this.rm_num,
       formula_id: this.formula_id,
-      bath_size: this.batch_size,
+      batch_size: this.batch_size,
       batch_unit: this.batch_unit,
       lab_note_book_number: this.labnotebook,
       raw_material: [],
@@ -211,12 +292,14 @@ export class RmrequestComponent implements OnInit {
       manufacturing_date: this.mfgdate,
       request_type: "BATCH RM ORDER",
       flag: "save",
+      approver: this.appr,
       confirm_flag: false
 
     }
     console.log(data);
-    this.authService.submitrmrequest(data).subscribe(data => {
+    this.authService.savermrequest(data).subscribe(data => {
       console.log(data.data.message);
+      this.snackBar.open('Saved', 'Ok', { duration: 3000 });
 
     });
 

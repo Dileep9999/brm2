@@ -57,10 +57,9 @@
   opacity: .65;
  }
  .pilot-br{
-  border: 1px solid black;
+  /* border: 1px solid black;
   border-radius: 5px;
-  height: 73px;
-  width: 73px;
+  height: 73px; */
   margin-left: 10px;
  }
  .pilot-br:hover .btm-disabled {

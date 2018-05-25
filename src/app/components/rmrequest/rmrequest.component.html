@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card style="margin-top:-1cm;">
   <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
     <div class="row">
       <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
@@ -29,7 +29,7 @@
       </div>
       <div class="col-sm-6" style="margin-top: 10px;">
         <div class="row">
-          <div class="col-lg-5 col-sm-5 col-xs-5 col-md-5 card border-dark">
+          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4 card border-dark">
             <div class="row">
               <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;">
 
@@ -44,228 +44,287 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br active" style="padding:0px;">
-            <span>
-              <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">
-            </span>
-            <span class="btm-text">BRM</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br" style="padding:0px;">
-            <span>
-              <img class="projectIcon mx-auto d-block disabled" src="assets/Images/comment.jpg">
-            </span>
-            <span class="btm-text btm-disabled">Comment</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br" style="padding:0px;">
-            <span>
-              <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">
-            </span>
-            <span class="btm-text btm-disabled">History</span>
+          <div class="nav col-sm-8">
+            <div class="col-sm-10 pilot-br">
+              <ul class="nav">
+                <!-- <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 pilot-br" style="padding:0px;"> -->
+                <!-- <span>
+                  <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">
+                </span> -->
+
+                <li class="active" style="padding-right:25px;">
+                  <a data-toggle="tab" href="#BRM">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">BRM</a>
+                </li>
+
+                <!-- </div> -->
+                <!-- <span>
+                  <img class="projectIcon mx-auto d-block" src="assets/Images/comment.jpg">
+                </span> -->
+
+                <li style="padding-right:25px;">
+                  <a data-toggle="tab" href="#comments">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/comment.jpg">Comments</a>
+                </li>
+                <!-- <span>
+                  <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">
+                </span> -->
+
+                <li style="padding-right:25px;">
+                  <a data-toggle="tab" href="#history">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">History</a>
+                </li>
+
+              </ul>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </mat-card>
-
-<div class="row header" style="background-color: white;margin-right: 0px;">
-  <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-    <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;background-color: #e6dddd63;">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#formula">Formula</a>
-      </li>
-    </ul>
-  </div>
-</div>
 <div class="tab-content">
-  <div id="formula" class="tab-pane active">
-    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-      <div class="row">
-        <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9" style="padding: 20px;">
-          <div class="tab-content">
-            <div id="formulaattribute" class="tab-pane active">
-              <mat-card>
-                <div class="row">
-                  <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+  <div id="BRM" class="tab-pane active">
+    <div class="row header" style="background-color: white;">
+      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+        <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;background-color: #e6dddd63;">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#formula">Formula</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab-content">
+      <div id="formula" class="tab-pane active">
+        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+          <div class="row">
+            <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9" style="padding: 20px;">
+              <div class="tab-content">
+                <div id="formulaattribute" class="tab-pane active">
+                  <mat-card>
                     <div class="row">
-                      <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
-                        <h4>Formula Attributes</h4>
-                      </div>
-                      <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                        <span style="margin-left: 128px;">Required*</span>
-                      </div>
-                    </div>
-                  </div>
-                  <br>
-                  <br>
-                  <br>
-                  <form class="form-horizontal">
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Site*</label>
+                      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                        <div class="row">
+                          <div class="col-sm-8 col-lg-8 col-md-8 col-xs-8">
+                            <h4>Formula Attributes</h4>
+                          </div>
+                          <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                            <span style="margin-left: 128px;">Required*</span>
+                          </div>
                         </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-select [(value)]="sitetype" placeholder="Selet Site...">
-                              <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                      <form class="form-horizontal">
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Site*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="form-control">
+                                <mat-select [(value)]="sitetype" placeholder="Selet Site...">
+                                  <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
 
-                            </mat-select>
+                                </mat-select>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Batch Type*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="btn-group">
-                            <button mat-raised-button [ngClass]="{'test': flab}" (click)="flab1()">lab</button>
-                            <button mat-raised-button [ngClass]="{'test': fpilot}" (click)="fpilot1()">pilot</button>
-                            <button mat-raised-button [ngClass]="{'test': GxP}" (click)="GxP1()">GxP Batch</button>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Batch Type*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="btn-group">
+                                <button mat-raised-button [ngClass]="{'test': flab}" (click)="flab1()">lab</button>
+                                <button mat-raised-button [ngClass]="{'test': fpilot}" (click)="fpilot1()">pilot</button>
+                                <button mat-raised-button [ngClass]="{'test': GxP}" (click)="GxP1()">GxP Batch</button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Legal Product Category*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="btn-group">
-                            <button mat-raised-button [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
-                            <button mat-raised-button [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Legal Product Category*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="btn-group">
+                                <button mat-raised-button [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
+                                <button mat-raised-button [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Lab Notebook Number*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <mat-select class="form-control" (change)="getformulas()" [(value)]="labnotebook" placeholder="19545-168">
+                                <mat-option *ngFor="let num of labnotebooknums" value="{{num}}">{{num}}</mat-option>
+                              </mat-select>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Formula</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <mat-select class="form-control" [(value)]="formula_id" placeholder="#####">
+                                <option *ngFor="let id of formulaids" value="{{id}}">{{id}}</option>
+                              </mat-select>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Status</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <label>Experimental</label>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Description</label>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                              <textarea class="form-control" type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" placeholder="Add Formula Description"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Manufacturing Date*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <mat-form-field>
+                                <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
+                                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                <mat-datepicker #dp></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Project</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <input class="form-control dropdown-toggle" type="text" [value]="project" disabled placeholder="Enter Project Name">
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>PR Spec Number</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <input [(ngModel)]="pr_number" [ngModelOptions]="{standalone: true}" class="form-control" type="text" placeholder="PR123456">
+                            </div>
+                            <div class="col-sm-3">
+                              <a href="">View Spec Document</a>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Formulator</label>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                              <label>CherylRose</label>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Department</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="form-control">
+                                <mat-select placeholder="{{depaartment}}">
+                                  <mat-option value="{{department}}" disabled>{{department}}</mat-option>
+
+                                </mat-select>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Batch Size*</label>
+                            </div>
+                            <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
+                              <input [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" class="form-control" style="width:1.8cm;" type="number"
+                                placeholder="1">
+                            </div>
+                            <div class="col-sm-5">
+                              <button class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="kg">{{batch_unit}}</button>
+                              <div class="dropdown-menu" aria-labelledby="kg">
+                                <a (click)="batch_unit='KG'" class="dropdown-item">KG</a>
+                                <a (click)="batch_unit='G'" class="dropdown-item">G</a>
+                                <a (click)="batch_unit='OZ'" class="dropdown-item">OZ</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
                     </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                  </mat-card>
+                </div>
+                <div id="fmaterial" class="tab-pane fade">
+                  <mat-card>
+                    <div class="col-sm-12">
                       <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Lab Notebook Number*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" [(ngModel)]="labnotebook" [ngModelOptions]="{standalone: true}" type="text" placeholder="19545-168">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Formula</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" [(ngModel)]="formula_id" [ngModelOptions]="{standalone: true}" type="text" placeholder="#####">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Status</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <label>Experimental</label>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Description</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <textarea class="form-control" type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" placeholder="Add Formula Description"></textarea>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Manufacturing Date*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <mat-form-field>
-                            <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
-                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                            <mat-datepicker #dp></mat-datepicker>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Project</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control dropdown-toggle" type="text" [value]="project" disabled placeholder="Enter Project Name">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>PR Spec Number</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input [(ngModel)]="pr_number" [ngModelOptions]="{standalone: true}" class="form-control" type="text" placeholder="PR123456">
+                        <div class="col-sm-9">
+                          <h4>Order Materials</h4>
                         </div>
                         <div class="col-sm-3">
-                          <a href="">View Spec Document</a>
+                          <span style="margin-left: 128px;">Required*</span>
                         </div>
                       </div>
                     </div>
                     <br>
-
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Formulator</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <label>CherylRose</label>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Department</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-select placeholder="{{depaartment}}">
-                              <mat-option value="{{department}}" disabled>{{department}}</mat-option>
-
-                            </mat-select>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
                     <br>
                     <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                       <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                        <div class="col-sm-2 col-lg-2 col-md-2 col-xs-2">
                           <label>Batch Size*</label>
                         </div>
                         <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                          <input [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" class="form-control" style="width:1.8cm;" type="number"
+                          <input class="form-control" style="width:1.8cm;" [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" type="number"
                             placeholder="1">
                         </div>
                         <div class="col-sm-5">
@@ -278,114 +337,158 @@
                         </div>
                       </div>
                     </div>
-                  </form>
+                    <br>
+                    <div class="col-sm-12 font">
+                      <div class="row">
+                        <div class="col-sm-2 col-md-1">
+                          <label>Trade Name</label>
+                        </div>
+                        <div class="col-sm-2 col-md-1">
+                          <label>RM Number</label>
+                        </div>
+                        <div class="col-sm-2 col-md-1">
+                          <label>Percentage</label>
+                        </div>
+                        <div class="col-sm-2 col-md-1">
+                          <label>Qty Required</label>
+                        </div>
+                        <div class="col-sm-2">
+                          <label>Simatic lab GxP stock(g)</label>
+                        </div>
+                        <div class="col-sm-2">
+                          <label>Simatic pilot stock(g)</label>
+                        </div>
+                        <div class="col-sm-2">
+                          <label>Simatic lab stock(g)</label>
+                        </div>
+                        <div class="col-sm-2 ">
+                          <label>Qty to Order(g)</label>
+                        </div>
+                      </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="col-sm-12 font">
+                      <div class="row">
+                        <div class="col-sm-2 col-md-1">
+                          <label>{{row_matrials.trade_name}}</label>
+                        </div>
+                        <div class="col-sm-2 col-md-1">
+                          <label>{{row_matrials.rm_num}}</label>
+                        </div>
+                        <div class="col-sm-2 col-md-1">
+                          <label>{{row_matrials.percentage}}</label>
+                        </div>
+                        <div class="col-sm-2 col-md-1">
+                          <label>{{row_matrials.quantity_required}}</label>
+                        </div>
+                        <div class="col-sm-2">
+                          <label>{{row_matrials.simatic_lab_gxp_stock}}</label>
+                        </div>
+                        <div class="col-sm-2">
+                          <label>{{row_matrials.simatic_pilot_stock}}</label>
+                        </div>
+                        <div class="col-sm-2">
+                          <label>{{row_matrials.simatic_lab_stock}}</label>
+                        </div>
+                        <div class="col-sm-2 ">
+                          <input class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card>
                 </div>
-              </mat-card>
-            </div>
-            <div id="fmaterial" class="tab-pane fade">
-              <mat-card>
-                <div class="col-sm-12">
-                  <div class="row">
-                    <div class="col-sm-9">
-                      <h4>Order Materials</h4>
+                <div id="fapprover" class="tab-pane fade">
+                  <mat-card>
+                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                      <div class="row">
+                        <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
+                          <h4>Approver</h4>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                          <span style="margin-left: 128px;">Required*</span>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-sm-3">
-                      <span style="margin-left: 128px;">Required*</span>
-                    </div>
-                  </div>
-                </div>
-                <br>
-                <br>
-                <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                  <div class="row">
-                    <div class="col-sm-2 col-lg-2 col-md-2 col-xs-2">
-                      <label>Batch Size*</label>
-                    </div>
-                    <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                      <input class="form-control" style="width:1.8cm;" type="number" placeholder="1">
-                    </div>
-                    <div class="col-sm-5">
-                      <button mat-raised-button class="dropdown-toggle">KG</button>
-                    </div>
-                  </div>
-                </div>
-                <br>
-                <div class="col-sm-12 font">
-                  <div class="row">
-                    <div class="col-sm-2 col-md-1">
-                      <label>Trade Name</label>
-                    </div>
-                    <div class="col-sm-2 col-md-1">
-                      <label>RM Number</label>
-                    </div>
-                    <div class="col-sm-2 col-md-1">
-                      <label>Percentage</label>
-                    </div>
-                    <div class="col-sm-2 col-md-1">
-                      <label>Qty Required</label>
-                    </div>
-                    <div class="col-sm-2">
-                      <label>Simatic lab GxP stock(g)</label>
-                    </div>
-                    <div class="col-sm-2">
-                      <label>Sematic pilot stock(g)</label>
-                    </div>
-                    <div class="col-sm-2">
-                      <label>Sematic lab stock(g)</label>
-                    </div>
-                    <div class="col-sm-2 ">
-                      <label>Qty to Order(g)</label>
-                    </div>
-                  </div>
-                </div>
-                <mat-divider></mat-divider>
-              </mat-card>
-            </div>
-            <div id="fapprover" class="tab-pane fade">
-              <mat-card>
-                <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                  <div class="row">
-                    <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
-                      <h4>Approver</h4>
-                    </div>
-                    <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                      <span style="margin-left: 128px;">Required*</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <label>Name*</label>
-                    </div>
-                    <div class="col-sm-6">
-                      <input class="form-control" type="text" placeholder="Enter Firstname,Lastname or UserId">
-                    </div>
-                  </div>
-                </div>
-              </mat-card>
-            </div>
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Name*</label>
+                        </div>
+                        <div class="col-sm-6">
+                          <mat-select [(ngModel)]="appr" class="form-control">
 
-          </div>
-        </div>
-        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-          <div class="batch-header nav">
-            <button mat-button class="batch-br" data-toggle="tab" href="#formulaattribute" [ngClass]="{'test': fattribute}" (click)="fattribute1()">Formula Attributes</button>
-            <button mat-button class="batch-br" data-toggle="tab" href="#fmaterial" [ngClass]="{'test':material}" (click)="material1()">Order Materials</button>
-            <button mat-button class="batch-br" data-toggle="tab" href="#fapprover" [ngClass]="{'test':approver1}" (click)="approver()">Approver</button>
-            <br>
-            <div>
-              <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle value="bold">Cancel Request</mat-button-toggle>
-                <mat-button-toggle (click)="save()" value="italic">Save</mat-button-toggle>
-                <mat-button-toggle (click)="submit()" value="underline">Submit</mat-button-toggle>
-              </mat-button-toggle-group>
+                            <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
+                          </mat-select>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+              <div class="batch-header nav">
+                <button mat-button class="batch-br" data-toggle="tab" href="#formulaattribute" [ngClass]="{'test': fattribute}" (click)="fattribute1()">Formula Attributes</button>
+                <button mat-button class="batch-br" data-toggle="tab" href="#fmaterial" [ngClass]="{'test':material}" (click)="material1()">Order Materials</button>
+                <button mat-button class="batch-br" data-toggle="tab" href="#fapprover" [ngClass]="{'test':approver1}" (click)="approver()">Approver</button>
+                <br>
+                <div style="margin-top:1cm;">
+
+                  <button mat-raised-button>Cancel</button>
+                  <button (click)="save()" mat-raised-button>Save</button>
+                  <button (click)="submit()" mat-raised-button>Submit</button>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
-
-
+  <div id="comments" class="tab-pane fade">
+    <div class="row header" style="background-color:white;margin-right: 0px;">
+      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+        <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#team">Team Communication
+              <span class="badge badge-danger">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#tech">Tech Communication
+              <span class="badge badge-danger">0</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <br>
+    <div class="tab-content">
+      <div id="team" class="tab-pane active">
+        <mat-card>
+          <span>Add a Comment</span>
+          <div class="form-group">
+            <textarea class="form-control" style="width:50%;" id="exampleTextarea" rows="2"></textarea>
+          </div>
+          <button type="button" class="btn btn-primary">Submit</button>
+        </mat-card>
+      </div>
+      <div id="tech" class="tab-pane">
+        <mat-card>
+          <span>Add a Comment</span>
+          <div class="form-group">
+            <textarea class="form-control" style="width:50%;" id="exampleTextarea" rows="2"></textarea>
+          </div>
+          <button type="button" class="btn btn-primary">Submit</button>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div id="history" class="tab-pane fade">
+    <span>history</span>
+  </div>
 </div>

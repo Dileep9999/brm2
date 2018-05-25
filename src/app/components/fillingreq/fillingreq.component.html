@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card style="margin-top:-1cm;">
   <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
     <div class="row">
       <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
@@ -29,7 +29,7 @@
       </div>
       <div class="col-sm-6" style="margin-top: 10px;">
         <div class="row">
-          <div class="col-lg-5 col-sm-5 col-xs-5 col-md-5 card border-dark">
+          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4 card border-dark">
             <div class="row">
               <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;">
 
@@ -44,543 +44,601 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br active" style="padding:0px;">
-            <span>
-              <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">
-            </span>
-            <span class="btm-text">BRM</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br" style="padding:0px;">
-            <span>
-              <img class="projectIcon mx-auto d-block disabled" src="assets/Images/comment.jpg">
-            </span>
-            <span class="btm-text btm-disabled">Comment</span>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-2 col-md-2 pilot-br" style="padding:0px;">
-            <span>
-              <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">
-            </span>
-            <span class="btm-text btm-disabled">History</span>
+          <div class="nav col-sm-8">
+            <div class="col-sm-10 pilot-br">
+              <ul class="nav">
+                <!-- <div class="col-lg-3 col-sm-3 col-xs-3 col-md-3 pilot-br" style="padding:0px;"> -->
+
+
+                <li class="active">
+                  <a data-toggle="tab" href="#BRM" style="padding-right:25px;">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">BRM</a>
+                </li>
+
+                <!-- </div>   -->
+
+
+                <li>
+                  <a data-toggle="tab" href="#comments" style="padding-right:25px;">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/comment.jpg">Comments</a>
+                </li>
+
+
+                <li>
+                  <a data-toggle="tab" href="#history" style="padding-right:25px;">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">History</a>
+                </li>
+
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </mat-card>
-<div class="row header" style="background-color: white;margin-right: 0px;">
-  <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-    <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;background-color: #e6dddd63;">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#filling">Filling</a>
-      </li>
-    </ul>
-  </div>
-</div>
 <div class="tab-content">
-  <div id="filling" class="tab-pane active">
-    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-      <div class="row">
-        <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9" style="padding: 20px;">
-          <div class="tab-content">
-            <div id="frequest" class="tab-pane active">
-              <mat-card>
-                <div class="row">
-                  <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+  <div id="BRM" class="tab-pane active">
+    <div class="row header" style="background-color: white;margin-right: 0px;">
+      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+        <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;background-color: #e6dddd63;">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#filling">Filling</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab-content">
+      <div id="filling" class="tab-pane active">
+        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+          <div class="row">
+            <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9" style="padding: 20px;">
+              <div class="tab-content">
+                <div id="frequest" class="tab-pane active">
+                  <mat-card>
                     <div class="row">
-                      <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
-                        <h4>Filling Request</h4>
-                      </div>
-                      <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                        <span style="margin-left: 128px;">Required*</span>
-                      </div>
-                    </div>
-                  </div>
-                  <br>
-                  <br>
-                  <br>
-                  <form class="form-horizontal">
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Filling Site*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-select [(value)]="sitetype" placeholder="Selet Site...">
-                              <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
-
-                            </mat-select>
+                      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                        <div class="row">
+                          <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
+                            <h4>Filling Request</h4>
+                          </div>
+                          <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                            <span style="margin-left: 128px;">Required*</span>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Filling Type*</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <div class="btn-group">
-                            <button mat-raised-button [ngClass]="{'test': bulk}" (click)="bulk1()">Bulk Filling</button>
-                            <button mat-raised-button [ngClass]="{'test': condition}" (click)="condition1()">Re-Conditioning</button>
+                      <br>
+                      <br>
+                      <br>
+                      <form class="form-horizontal">
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Filling Site*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="form-control">
+                                <mat-select [(value)]="sitetype" placeholder="Selet Site...">
+                                  <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
+
+                                </mat-select>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <textarea class="form-control" type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" placeholder="Add Formula Description"></textarea>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Filling Type*</label>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                              <div class="btn-group">
+                                <button mat-raised-button [ngClass]="{'test': bulk}" (click)="bulk1()">Bulk Filling</button>
+                                <button mat-raised-button [ngClass]="{'test': condition}" (click)="condition1()">Re-Conditioning</button>
+                              </div>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                              <textarea class="form-control" type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" placeholder="Add Formula Description"></textarea>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Remaining Bulk*</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <div class="btn-group">
-                            <button mat-raised-button [ngClass]="{'test': destruct}" (click)="destruct1()">Destruction</button>
-                            <button mat-raised-button [ngClass]="{'test': storage}" (click)="storage1()">Storage</button>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Remaining Bulk*</label>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                              <div class="btn-group">
+                                <button mat-raised-button [ngClass]="{'test': destruct}" (click)="destruct1()">Destruction</button>
+                                <button mat-raised-button [ngClass]="{'test': storage}" (click)="storage1()">Storage</button>
+
+                              </div>
+                            </div>
 
                           </div>
                         </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Manufacturing Site*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="form-control">
+                                <mat-form-field>
+                                  <mat-select [(value)]="sitetype" placeholder="Selet Site...">
+                                    <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
 
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Manufacturing Site*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-form-field>
-                              <mat-select [(value)]="sitetype" placeholder="Selet Site...">
-                                <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
-
-                              </mat-select>
-                            </mat-form-field>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label (click)="formatdate()">Manufacturing Date</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <mat-form-field>
-                            <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
-                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                            <mat-datepicker #dp></mat-datepicker>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Project</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control dropdown-toggle" type="text" [value]="project" disabled placeholder="Enter Project Name">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Lab Notebook Number</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" [(ngModel)]="labnotebook" [ngModelOptions]="{standalone: true}" type="text" placeholder="19545-168">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Formula</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" [(ngModel)]="formula_id" [ngModelOptions]="{standalone: true}" type="text" placeholder="#####">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Batch Number*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <input class="form-control" [(ngModel)]="batch_num" [ngModelOptions]="{standalone: true}" [(value)]="batch_num" type="text"
-                            placeholder="####">
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Legal Product Category*</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="btn-group">
-                            <button mat-raised-button [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
-                            <button mat-raised-button [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label (click)="formatdate()">Manufacturing Date</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <mat-form-field>
+                                <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
+                                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                <mat-datepicker #dp></mat-datepicker>
+                              </mat-form-field>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Batch Type*</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <div class="nav">
-                            <button mat-raised-button [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
-                            <button mat-raised-button [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
-                            <button mat-raised-button [ngClass]="{'test': other}" (click)="other1()">Others</button>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Project</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <input class="form-control dropdown-toggle" type="text" [value]="project" disabled placeholder="Enter Project Name">
+                            </div>
                           </div>
                         </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                          <mat-radio-group class="example-radio-group" [(ngModel)]="gxpvalue" [ngModelOptions]="{standalone: true}">
-                            <mat-radio-button class="example-radio-button" value="true">
-                              GXP
-                            </mat-radio-button>
-                            <mat-radio-button class="example-radio-button" value="false">
-                              Not Gxp
-                            </mat-radio-button>
-                          </mat-radio-group>
-
-                        </div>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Formulator</label>
-                        </div>
-                        <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4" disabled>
-                          {{authService.user_id}}
-                        </div>
-
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Department</label>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <div class="form-control">
-                            <mat-select placeholder="{{depaartment}}">
-                              <mat-option value="{{department}}" disabled>{{department}}</mat-option>
-
-                            </mat-select>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Lab Notebook Number</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <input class="form-control" [(ngModel)]="labnotebook" [ngModelOptions]="{standalone: true}" type="text" placeholder="19545-168">
+                            </div>
                           </div>
                         </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Formula</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <input class="form-control" [(ngModel)]="formula_id" [ngModelOptions]="{standalone: true}" type="text" placeholder="#####">
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Batch Number*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <input class="form-control" [(ngModel)]="batch_num" [ngModelOptions]="{standalone: true}" [(value)]="batch_num" type="text"
+                                placeholder="####">
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Legal Product Category*</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="btn-group">
+                                <button mat-raised-button [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
+                                <button mat-raised-button [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Batch Type*</label>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                              <div class="nav">
+                                <button mat-raised-button [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
+                                <button mat-raised-button [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
+                                <button mat-raised-button [ngClass]="{'test': other}" (click)="other1()">Others</button>
+                              </div>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                              <mat-radio-group class="example-radio-group" [(ngModel)]="gxpvalue" [ngModelOptions]="{standalone: true}">
+                                <mat-radio-button class="example-radio-button" value="true" [color]="primary">
+                                  GXP
+                                </mat-radio-button>
+                                <mat-radio-button class="example-radio-button" [color]="primary" value="false">
+                                  Not Gxp
+                                </mat-radio-button>
+                              </mat-radio-group>
 
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                          <label>Due Date*:</label>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                          <mat-form-field>
-                            <input matInput [matDatepicker]="duedate" placeholder="Select Due Date" (dateInput)="formatduedate($event.target.value)">
-                            <mat-datepicker-toggle matSuffix [for]="duedate"></mat-datepicker-toggle>
-                            <mat-datepicker #duedate></mat-datepicker>
-                          </mat-form-field>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Formulator</label>
+                            </div>
+                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4" disabled>
+                              {{authService.user_id}}
+                            </div>
+
+                          </div>
                         </div>
-                      </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Department</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <div class="form-control">
+                                <mat-select placeholder="{{depaartment}}">
+                                  <mat-option value="{{department}}" disabled>{{department}}</mat-option>
+
+                                </mat-select>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                              <label>Due Date*:</label>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                              <mat-form-field>
+                                <input matInput [matDatepicker]="duedate" placeholder="Select Due Date" (dateInput)="formatduedate($event.target.value)">
+                                <mat-datepicker-toggle matSuffix [for]="duedate"></mat-datepicker-toggle>
+                                <mat-datepicker #duedate></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
                     </div>
-                  </form>
+                  </mat-card>
                 </div>
-              </mat-card>
+                <div id="fplan" class="tab-pane fade">
+                  <mat-card>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6>Packaging Type</h6>
+                      </div>
+
+                      <div class="col-sm-3 form-group">
+                        <select class="form-control" id="exampleSelect1" [(value)]="packagingcode">
+                          <option value="None" selected disabled>Select</option>
+                          <option *ngFor="let code of packagingcodes" value="{{code}}">{{code}}</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-1">
+                        <h6>Volume</h6>
+                      </div>
+                      <div class="col-sm-1">
+                        <input style="width:1cm;" maxlength="3" type="text">
+                      </div>
+                      <div class="col-sm-2">
+                        <h6>Filling Weight</h6>
+                      </div>
+                      <div class="col-sm-1">
+                        <input style="width:1cm;" maxlength="3" type="text">
+                      </div>
+
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="row">
+                      <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
+                        <img src="assets/Images/add.png"> Add Packaging Code
+                      </div>
+                    </div>
+                    <mat-divider></mat-divider>
+
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Plan Type</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Delivery Plan</th>
+                          <th scope="col">Comments</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        <tr class="table-light">
+                          <th scope="row">
+                            <input class="form-control col-sm-10" type="text" placeholder="Stability">
+                          </th>
+                          <td>
+                            <input class="form-control col-sm-3" type="text" placeholder="70">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="VWR">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
+                          </td>
+                        </tr>
+                        <tr class="table-light">
+                          <th scope="row">
+                            <input class="form-control col-sm-10" type="text" placeholder="HUT">
+                          </th>
+                          <td>
+                            <input class="form-control col-sm-3" type="text" placeholder="70">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="Clinical Operations">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
+                          </td>
+                        </tr>
+                        <tr class="table-light">
+                          <th scope="row">
+                            <input class="form-control col-sm-10" type="text" placeholder="Sales Sample">
+                          </th>
+                          <td>
+                            <input class="form-control col-sm-3" type="text" placeholder="70">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="IT">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
+                          </td>
+                        </tr>
+                        <tr class="table-light">
+                          <th scope="row">
+                            <input class="form-control col-sm-10" type="text" placeholder="Stability">
+                          </th>
+                          <td>
+                            <input class="form-control col-sm-3" type="text" placeholder="70">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="Enter Department">
+                          </td>
+                          <td>
+                            <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                    <mat-divider></mat-divider>
+                    <div class="row">
+                      <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
+                        <img src="assets/Images/add.png"> Add Packaging Row
+                      </div>
+                    </div>
+                    <mat-divider></mat-divider>
+
+                    <div class="row">
+                      <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
+
+                        Total Quantity
+                      </div>
+                      <div class="col-sm-3" style="margin-top:10px">
+                        280
+                      </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <br>
+                    <div class="col">
+                      Additional Filling Parameters
+                    </div>
+                    <br>
+                    <div class="row" style="margin-top:10px">
+                      <div class="col-sm-2">
+                        Screwing force
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+
+                          <select class="form-control" id="exampleSelect1">
+                            <option value="" selected disabled>Kg/cm</option>
+                            <option>1</option>
+
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-2">
+                        <div class="form-group">
+
+                          <select class="form-control" id="exampleSelect1">
+                            <option value="" selected disabled>Force1</option>
+                            <option>1</option>
+
+                          </select>
+                        </div>
+                      </div>
+                      <input class="form-control col-sm-6" style="height:1cm" type="text" placeholder="Enter Comments">
+                    </div>
+                    <div class="row" style="margin-top:10px">
+                      <div class="col-sm-4">
+                        Oprecula
+                      </div>
+
+
+                      <div class="col-sm-2">
+                        <div class="form-group">
+
+                          <select class="form-control" id="exampleSelect1">
+                            <option value="" selected disabled>Sealed</option>
+                            <option>1</option>
+
+                          </select>
+                        </div>
+                      </div>
+                      <input class="form-control col-sm-6" style="height:1cm" type="text" placeholder="Oprecula side to be in contact with production">
+                    </div>
+
+                    <div class="row" style="margin-top:10px">
+                      <div class="col-sm-2">
+                        Other
+                      </div>
+                      <input class="form-control col-sm-10" style="height:1cm" type="text" placeholder="Enter Comments">
+                    </div>
+                    <br>
+                    <mat-divider></mat-divider>
+                    <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
+                      <img src="assets/Images/add.png"> Add Packaging Type
+                    </div>
+                  </mat-card>
+                </div>
+                <div id="ppartner" class="tab-pane fade">
+                  <mat-card>
+                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                      <div class="row">
+                        <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
+                          <h4>Packaging Partner</h4>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                          <span style="margin-left: 128px;">Required*</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Name*</label>
+                        </div>
+                        <div class="col-sm-6">
+                          <input class="form-control" type="text" placeholder="Enter Firstname,Lastname or UserId">
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+                <div id="admin" class="tab-pane fade">
+                  <mat-card>
+                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                      <div class="row">
+                        <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
+                          <h4>Approver</h4>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                          <span style="margin-left: 128px;">Required*</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Name*</label>
+                        </div>
+                        <div class="col-sm-6 form-control">
+                          <mat-select [(ngModel)]="appr">
+                            <mat-option selected disabled>None</mat-option>
+                            <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
+                          </mat-select>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+
+              </div>
             </div>
-            <div id="fplan" class="tab-pane fade">
-              <mat-card>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6>Packaging Type</h6>
-                  </div>
-
-                  <div class="col-sm-3 form-group">
-                    <select class="form-control" id="exampleSelect1">
-                      <option value="None" selected disabled>Select</option>
-                      <option>1</option>
-
-                    </select>
-                  </div>
-                  <div class="col-sm-1">
-                    <h6>Volume</h6>
-                  </div>
-                  <div class="col-sm-1">
-                    <input style="width:1cm;" maxlength="3" type="text">
-                  </div>
-                  <div class="col-sm-2">
-                    <h6>Filling Weight</h6>
-                  </div>
-                  <div class="col-sm-1">
-                    <input style="width:1cm;" maxlength="3" type="text">
-                  </div>
-
-                </div>
-                <mat-divider></mat-divider>
-                <div class="row">
-                  <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
-                    <img src="assets/Images/add.png"> Add Packaging Code
-                  </div>
-                </div>
-                <mat-divider></mat-divider>
-
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Plan Type</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col">Delivery Plan</th>
-                      <th scope="col">Comments</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                    <tr class="table-light">
-                      <th scope="row">
-                        <input class="form-control col-sm-10" type="text" placeholder="Stability">
-                      </th>
-                      <td>
-                        <input class="form-control col-sm-3" type="text" placeholder="70">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="VWR">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
-                      </td>
-                    </tr>
-                    <tr class="table-light">
-                      <th scope="row">
-                        <input class="form-control col-sm-10" type="text" placeholder="HUT">
-                      </th>
-                      <td>
-                        <input class="form-control col-sm-3" type="text" placeholder="70">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="Clinical Operations">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
-                      </td>
-                    </tr>
-                    <tr class="table-light">
-                      <th scope="row">
-                        <input class="form-control col-sm-10" type="text" placeholder="Sales Sample">
-                      </th>
-                      <td>
-                        <input class="form-control col-sm-3" type="text" placeholder="70">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="IT">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
-                      </td>
-                    </tr>
-                    <tr class="table-light">
-                      <th scope="row">
-                        <input class="form-control col-sm-10" type="text" placeholder="Stability">
-                      </th>
-                      <td>
-                        <input class="form-control col-sm-3" type="text" placeholder="70">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="Enter Department">
-                      </td>
-                      <td>
-                        <input class="form-control col-sm-10" type="text" placeholder="Enter Comments">
-                      </td>
-                    </tr>
-
-                  </tbody>
-                </table>
-                <mat-divider></mat-divider>
-                <div class="row">
-                  <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
-                    <img src="assets/Images/add.png"> Add Packaging Row
-                  </div>
-                </div>
-                <mat-divider></mat-divider>
-
-                <div class="row">
-                  <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
-
-                    Total Quantity
-                  </div>
-                  <div class="col-sm-3" style="margin-top:10px">
-                    280
-                  </div>
-                </div>
-
-                <mat-divider></mat-divider>
-
+            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+              <div class="batch-header nav">
+                <button mat-button class="batch-br" data-toggle="tab" href="#frequest" [ngClass]="{'test': filling}" (click)="filling1()">Filling Request</button>
+                <button mat-button class="batch-br" data-toggle="tab" href="#fplan" [ngClass]="{'test':plan}" (click)="plan1()">Filling Plan</button>
+                <button mat-button class="batch-br" data-toggle="tab" href="#ppartner" [ngClass]="{'test':partner}" (click)="partner1()">Packaging Partner</button>
+                <button mat-button class="batch-br" data-toggle="tab" href="#admin" [ngClass]="{'test':approver}" (click)="approver1()">Approver</button>
                 <br>
-                <div class="col">
-                  Additional Filling Parameters
+                <div style="margin-top:1cm">
+
+                  <button mat-raised-button>Cancel</button>
+                  <button mat-raised-button (click)="save()">save</button>
+                  <button mat-raised-button (click)="submit()" ng-show="appr">submit</button>
+
                 </div>
-                <br>
-                <div class="row" style="margin-top:10px">
-                  <div class="col-sm-2">
-                    Screwing force
-                  </div>
-                  <div class="col-sm-2">
-                    <div class="form-group">
-
-                      <select class="form-control" id="exampleSelect1">
-                        <option value="" selected disabled>Kg/cm</option>
-                        <option>1</option>
-
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-2">
-                    <div class="form-group">
-
-                      <select class="form-control" id="exampleSelect1">
-                        <option value="" selected disabled>Force1</option>
-                        <option>1</option>
-
-                      </select>
-                    </div>
-                  </div>
-                  <input class="form-control col-sm-6" style="height:1cm" type="text" placeholder="Enter Comments">
-                </div>
-                <div class="row" style="margin-top:10px">
-                  <div class="col-sm-4">
-                    Oprecula
-                  </div>
-
-
-                  <div class="col-sm-2">
-                    <div class="form-group">
-
-                      <select class="form-control" id="exampleSelect1">
-                        <option value="" selected disabled>Sealed</option>
-                        <option>1</option>
-
-                      </select>
-                    </div>
-                  </div>
-                  <input class="form-control col-sm-6" style="height:1cm" type="text" placeholder="Oprecula side to be in contact with production">
-                </div>
-
-                <div class="row" style="margin-top:10px">
-                  <div class="col-sm-2">
-                    Other
-                  </div>
-                  <input class="form-control col-sm-10" style="height:1cm" type="text" placeholder="Enter Comments">
-                </div>
-                <br>
-                <mat-divider></mat-divider>
-                <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
-                  <img src="assets/Images/add.png"> Add Packaging Type
-                </div>
-              </mat-card>
-            </div>
-            <div id="ppartner" class="tab-pane fade">
-              <mat-card>
-                <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                  <div class="row">
-                    <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
-                      <h4>Packaging Partner</h4>
-                    </div>
-                    <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                      <span style="margin-left: 128px;">Required*</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <label>Name*</label>
-                    </div>
-                    <div class="col-sm-6">
-                      <input class="form-control" type="text" placeholder="Enter Firstname,Lastname or UserId">
-                    </div>
-                  </div>
-                </div>
-              </mat-card>
-            </div>
-            <div id="admin" class="tab-pane fade">
-              <mat-card>
-                <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                  <div class="row">
-                    <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
-                      <h4>Approver</h4>
-                    </div>
-                    <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                      <span style="margin-left: 128px;">Required*</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <label>Name*</label>
-                    </div>
-                    <div class="col-sm-6">
-                      <input class="form-control" type="text" placeholder="Enter Firstname,Lastname or UserId">
-                    </div>
-                  </div>
-                </div>
-              </mat-card>
-            </div>
-
-          </div>
-        </div>
-        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-          <div class="batch-header nav">
-            <button mat-button class="batch-br" data-toggle="tab" href="#frequest" [ngClass]="{'test': filling}" (click)="filling1()">Filling Request</button>
-            <button mat-button class="batch-br" data-toggle="tab" href="#fplan" [ngClass]="{'test':plan}" (click)="plan1()">Filling Plan</button>
-            <button mat-button class="batch-br" data-toggle="tab" href="#ppartner" [ngClass]="{'test':partner}" (click)="partner1()">Packaging Partner</button>
-            <button mat-button class="batch-br" data-toggle="tab" href="#admin" [ngClass]="{'test':approver}" (click)="approver1()">Approver</button>
-            <br>
-            <div>
-
-              <button mat-button>Cancel</button>
-              <button mat-button (click)="save()">save</button>
-              <button mat-button (click)="submit()">submit</button>
-
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div id="fplan" class="tab-pane fade">
+        <span>overview</span>
+      </div>
+      <div id="ppartner" class="tab-pane fade">
+        <span>partner</span>
+      </div>
+      <div id="admin" class="tab-pane fade">
+        <span>approver</span>
+      </div>
+
     </div>
   </div>
-  <div id="fplan" class="tab-pane fade">
-    <span>overview</span>
+  <div id="comments" class="tab-pane fade">
+    <div class="row header" style="background-color:white;margin-right: 0px;">
+      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+        <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#team">Team Communication
+              <span class="badge badge-danger">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#tech">Tech Communication
+              <span class="badge badge-danger">0</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <br>
+    <div class="tab-content">
+      <div id="team" class="tab-pane active">
+        <mat-card>
+          <span>Add a Comment</span>
+          <div class="form-group">
+            <textarea class="form-control" style="width:50%;" id="exampleTextarea" rows="2"></textarea>
+          </div>
+          <button type="button" class="btn btn-primary">Submit</button>
+        </mat-card>
+      </div>
+      <div id="tech" class="tab-pane">
+        <mat-card>
+          <span>Add a Comment</span>
+          <div class="form-group">
+            <textarea class="form-control" style="width:50%;" id="exampleTextarea" rows="2"></textarea>
+          </div>
+          <button type="button" class="btn btn-primary">Submit</button>
+        </mat-card>
+      </div>
+    </div>
   </div>
-  <div id="ppartner" class="tab-pane fade">
-    <span>partner</span>
+  <div id="history" class="tab-pane fade">
+    <span>history</span>
   </div>
-  <div id="admin" class="tab-pane fade">
-    <span>approver</span>
-  </div>
-
 </div>

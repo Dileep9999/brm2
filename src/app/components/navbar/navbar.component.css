@@ -47,3 +47,7 @@
     100% { transform: translate(1px, -2px) rotate(-1deg); }
   }
 
+  .mat-menu-item:hover:not([disabled]) {
+    background:#52a0f5;
+}
+

@@ -31,18 +31,38 @@
 </nav>
 <mat-tab-group>
   <mat-tab label="Users">
-    <div class="lds-ellipsis" *ngIf="!loader">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
 
-    <div *ngIf="loader" style="margin:50px;">
+
+    <div style="margin:50px;">
       <legend>Admin's Management</legend>
 
       <h4>Users</h4>
-      <div class="row">
+      <div class="row" *ngIf="!loader" style="margin-left:1cm;">
+
+        <div class=" col-sm-4  timeline-wrapper example-card1" *ngFor="let load of loadcard">
+          <mat-card class="timeline-item">
+            <div class="animated-background">
+              <div class="background-masker header-top"></div>
+              <div class="background-masker header-left"></div>
+              <div class="background-masker header-right"></div>
+              <div class="background-masker header-bottom"></div>
+              <div class="background-masker subheader-left"></div>
+              <div class="background-masker subheader-right"></div>
+              <div class="background-masker subheader-bottom"></div>
+              <div class="background-masker content-top"></div>
+              <div class="background-masker content-first-end"></div>
+              <div class="background-masker content-second-line"></div>
+              <div class="background-masker content-second-end"></div>
+              <div class="background-masker content-third-line"></div>
+              <div class="background-masker content-third-end"></div>
+            </div>
+          </mat-card>
+        </div>
+
+
+      </div>
+
+      <div class="row" *ngIf="loader">
 
 
         <mat-card *ngFor="let user of users" class="example-card">
@@ -156,105 +176,90 @@
   </mat-tab>
   <mat-tab label="Create reason">
     <br>
+    <mat-card class="row">
+
+      <mat-form-field class="col-sm-3 ">
+        <mat-select #site1 placeholder="Select a Site ">
+          <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-sm-3 ">
+        <mat-select #batch1 placeholder="Select a Batch ">
+          <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example col-sm-3 ">
+        <input matInput placeholder="Add Reason " #reason> </mat-form-field>
+      <button mat-fab (click)="addreason(site1.value, batch1.value, reason.value) ">ADD</button>
+    </mat-card>
 
 
 
-    <!--
+
+    <mat-card>
       <div class="row">
-        <div class="col-sm-6 example-container mat-elevation-z8">
-          <div class="example-header">
-            <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Reason">
-            </mat-form-field>
-          </div>
+        <div class="col-sm-3">
+          <select class="form-control" placeholder="Select dite" #site (change)="addreasons($event.target.value,reasons.value)" [(value)]="site_for_reason">
+            <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
+          </select>
 
-          <mat-table #table [dataSource]="dataSource">
-
-
-            <ng-container matColumnDef="reason">
-              <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.reason}} </mat-cell>
-            </ng-container>
-
-
-            <ng-container matColumnDef="createdAt">
-              <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
-            </ng-container>
-
-
-
-            <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
-          </mat-table>
         </div>
-        <div class="col-sm-1">
-          <button mat-fab (click)="addsite(site.value)">ADD</button>
+        <div class="col-sm-3">
+          <select class="form-control" #reasons (change)="addreasons(site.value,$event.target.value)" [(value)]="batch_of_reason">
+            <option *ngFor=" let batch of batchmenu " value="{{batch}} ">{{batch}}</option>
+          </select>
+
         </div>
-      </div> -->
 
 
+      </div>
+    </mat-card>
+    <mat-card>
 
-    <div class="jumbotron">
-      <mat-card class="row">
-
-        <mat-form-field class="col-sm-3 ">
-          <mat-select #site1 placeholder="Select a Site ">
-            <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="col-sm-3 ">
-          <mat-select #batch1 placeholder="Select a Batch ">
-            <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="example col-sm-3 ">
-          <input matInput placeholder="Add Reason " #reason> </mat-form-field>
-        <button mat-fab (click)="addreason(site1.value, batch1.value, reason.value) ">ADD</button>
-      </mat-card>
-    </div>
+      <li *ngFor="let reason of reasons ">{{reason}}</li>
+    </mat-card>
   </mat-tab>
 
 
 
 
-  <mat-tab label="Create Department">
+  <mat-tab label="Create Department ">
     <br>
 
     <mat-card>
 
 
 
-      <div class="row">
-        <div class="col-sm-6 example-container mat-elevation-z8">
-          <div class="example-header">
+      <div class="row ">
+        <div class="col-sm-6 example-container mat-elevation-z8 ">
+          <div class="example-header ">
             <mat-form-field>
-              <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Departments">
+              <input matInput (keyup)="applyFilter1($event.target.value) " placeholder="Departments ">
             </mat-form-field>
           </div>
 
           <mat-table #table [dataSource]="dataSource2">
 
-            <!-- Position Column -->
+
             <ng-container matColumnDef="department">
               <mat-header-cell *matHeaderCellDef>Departments</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element.department}} </mat-cell>
             </ng-container>
 
-            <!-- Name Column -->
+
             <ng-container matColumnDef="createdAt">
               <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element.createdAt}} </mat-cell>
             </ng-container>
 
 
 
-            <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns2 "></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns2; "></mat-row>
           </mat-table>
         </div>
-        <div class="col-sm-1">
-          <button mat-fab (click)="adddpt()">ADD</button>
+        <div class="col-sm-1 ">
+          <button mat-fab (click)="adddpt() ">ADD</button>
         </div>
       </div>
 
@@ -266,16 +271,16 @@
     <!-- <div class="jumbotron ">
       <mat-card class="row ">
         <h5 class="col-sm-3 "></h5>
-        <mat-form-field class="col-sm-4">
-          <input #department matInput placeholder="Create Department"> </mat-form-field>
+        <mat-form-field class="col-sm-4 ">
+          <input #department matInput placeholder="Create Department "> </mat-form-field>
         <div class="col-sm-2 " style="height:1cm; ">
-          <button mat-fab (click)="adddpt(department.value)">ADD</button>
+          <button mat-fab (click)="adddpt(department.value) ">ADD</button>
         </div>
       </mat-card>
     </div> -->
 
   </mat-tab>
-  <mat-tab label="Create Project">
+  <mat-tab label="Create Project ">
     <br>
 
 
@@ -284,36 +289,36 @@
 
 
 
-      <div class="row">
-        <div class="col-sm-6 example-container mat-elevation-z8">
-          <div class="example-header">
+      <div class="row ">
+        <div class="col-sm-6 example-container mat-elevation-z8 ">
+          <div class="example-header ">
             <mat-form-field>
-              <input matInput (keyup)="applyFilter3($event.target.value)" placeholder="Add Project">
+              <input matInput (keyup)="applyFilter3($event.target.value) " placeholder="Add Project ">
             </mat-form-field>
           </div>
 
-          <mat-table #table [dataSource]="dataSource3">
+          <mat-table #table [dataSource]="dataSource3 ">
 
             <!-- Position Column -->
             <ng-container matColumnDef="project">
               <mat-header-cell *matHeaderCellDef>Projects</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.project}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element.project}} </mat-cell>
             </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="createdAt">
               <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element.createdAt}} </mat-cell>
             </ng-container>
 
 
 
-            <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns3 "></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns3; "></mat-row>
           </mat-table>
         </div>
-        <div class="col-sm-1">
-          <button mat-fab (click)="addproject()">ADD</button>
+        <div class="col-sm-1 ">
+          <button mat-fab (click)="addproject() ">ADD</button>
         </div>
       </div>
 
@@ -321,42 +326,42 @@
 
 
     </mat-card>
-    <!-- <div class="row jumbotron">
-      <h5 class="col-sm-4"></h5>
-      <mat-form-field class="col-sm-6">
+    <!-- <div class="row jumbotron ">
+      <h5 class="col-sm-4 "></h5>
+      <mat-form-field class="col-sm-6 ">
         <input #project matInput placeholder="Create Project "> </mat-form-field>
       <div class="col-sm-2 " style="height:1cm; ">
         <button mat-fab (click)="addproject(project.value) ">ADD</button>
       </div>
     </div> -->
   </mat-tab>
-  <mat-tab label="Create Bench">
+  <mat-tab label="Create Bench ">
     <br>
-    <div class="jumbotron">
+    <div class="jumbotron ">
       <!-- <h5 class="col-sm-3 "></h5> -->
       <br>
       <mat-card>
 
-        <div class="row">
-          <mat-form-field class="col-sm-2">
-            <mat-select placeholder="Select a Site" #site3>
-              <mat-option *ngFor="let site of sitemenu " value="{{site}}"> {{site}} </mat-option>
+        <div class="row ">
+          <mat-form-field class="col-sm-2 ">
+            <mat-select placeholder="Select a Site " #site3>
+              <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{site}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="col-sm-2">
+          <mat-form-field class="col-sm-2 ">
             <mat-select #batch2 placeholder="Select a Batch ">
-              <mat-option *ngFor="let batch of batchmenu " value="{{batch}}"> {{batch}} </mat-option>
+              <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{batch}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="col-sm-3">
+          <mat-form-field class="col-sm-3 ">
             <mat-select #product placeholder="Legal Product Category ">
-              <mat-option *ngFor="let product of productmenu " value="{{product}}"> {{ product}} </mat-option>
+              <mat-option *ngFor="let product of productmenu " value="{{product}} "> {{ product}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="col-sm-3">
-            <input #bench matInput placeholder="Create Bench">
+          <mat-form-field class="col-sm-3 ">
+            <input #bench matInput placeholder="Create Bench ">
           </mat-form-field>
-          <div class="col-sm-1">
+          <div class="col-sm-1 ">
             <button mat-fab (click)="addbench(site3.value,batch2.value, product.value, bench.value) ">ADD</button>
 
           </div>
@@ -364,23 +369,23 @@
       </mat-card>
     </div>
   </mat-tab>
-  <mat-tab label="Create Equipment">
+  <mat-tab label="Create Equipment ">
     <br>
-    <div class="jumbotron">
+    <div class="jumbotron ">
 
       <mat-card>
 
 
 
-        <h5 class="row" style=" ">Create Equipment</h5>
+        <h5 class="row " style=" ">Create Equipment</h5>
         <mat-form-field class="col-sm-3 ">
-          <mat-select placeholder="Select a Site" #site9>
-            <mat-option *ngFor="let site of sitemenu " value="{{site}}">{{ site }}</mat-option>
+          <mat-select placeholder="Select a Site " #site9>
+            <mat-option *ngFor="let site of sitemenu " value="{{site}} ">{{ site }}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="col-sm-3 ">
-          <mat-select placeholder="Select a Batch" #batch7>
-            <mat-option *ngFor="let batch of batchmenu " value="{{batch}}"> {{ batch }} </mat-option>
+          <mat-select placeholder="Select a Batch " #batch7>
+            <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="example col-sm-3 ">
@@ -398,43 +403,43 @@
     </div>
 
   </mat-tab>
-  <mat-tab label="Create Packaging Code">
+  <mat-tab label="Create Packaging Code ">
     <br>
     <mat-card>
 
 
 
 
-      <div class="row">
-        <div class="col-sm-6 example-container mat-elevation-z8">
-          <div class="example-header">
+      <div class="row ">
+        <div class="col-sm-6 example-container mat-elevation-z8 ">
+          <div class="example-header ">
             <mat-form-field>
-              <input matInput (keyup)="applyFilter4($event.target.value)" placeholder="Add Project">
+              <input matInput (keyup)="applyFilter4($event.target.value) " placeholder="Add Project ">
             </mat-form-field>
           </div>
 
-          <mat-table #table [dataSource]="dataSource4">
+          <mat-table #table [dataSource]="dataSource4 ">
 
             <!-- Position Column -->
             <ng-container matColumnDef="project">
               <mat-header-cell *matHeaderCellDef>Projects</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.packaging_code}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element.packaging_code}} </mat-cell>
             </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="createdAt">
               <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element.createdAt}} </mat-cell>
             </ng-container>
 
 
 
-            <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns3 "></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns3; "></mat-row>
           </mat-table>
         </div>
-        <div class="col-sm-1">
-          <button mat-fab (click)="addpc()">ADD</button>
+        <div class="col-sm-1 ">
+          <button mat-fab (click)="addpc() ">ADD</button>
         </div>
       </div>
 
@@ -443,11 +448,11 @@
 
     </mat-card>
     <!-- <div class="row jumbotron ">
-      <h5 class="col-sm-3">Create Packaging Code</h5>
-      <mat-form-field class="col-sm-3">
-        <input matInput placeholder="Create Packing Code" #pc> </mat-form-field>
-      <div class="col-sm-2 " style="height:1cm;">
-        <button class="btn btn-primary " (click)="addpc(pc.value)">Create</button>
+      <h5 class="col-sm-3 ">Create Packaging Code</h5>
+      <mat-form-field class="col-sm-3 ">
+        <input matInput placeholder="Create Packing Code " #pc> </mat-form-field>
+      <div class="col-sm-2 " style="height:1cm; ">
+        <button class="btn btn-primary " (click)="addpc(pc.value) ">Create</button>
       </div>
     </div> -->
   </mat-tab>

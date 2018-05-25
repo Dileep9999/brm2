@@ -7,7 +7,7 @@
     <div class="col ">
       <h6>Request Type</h6>
     </div>
-    <input class="col form-control" placeholder="FILLING REQUEST" disabled>
+    <input class="col form-control" placeholder="RM ORDER REQUEST" disabled>
   </div>
 
   <br>
@@ -38,6 +38,6 @@
   <br>
   <div class="ml-auto" style="margin-left:20px; width: 200px">
     <button class="btn" (click)="onNoClick()">Cancel</button>
-    <button class="btn btn-primary" (click)="submit() && onNoClick()" style="margin-left:20px;" [disabled]="btndisabled">Submit</button>
+    <button class="btn btn-primary" (click)="submit()" style="margin-left:20px;" [disabled]="btndisabled">Submit</button>
   </div>
 </div>

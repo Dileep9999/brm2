@@ -4,7 +4,7 @@
   <div class="col-sm-4 float-left">
     <button mat-raised-button (click)="router.navigate(['/prefrence'])" class="col-sm-1" color="primary">
       <mat-icon>undo</mat-icon>Undo</button>
-    <button mat-raised-button class="col-sm-1" color="primary">Save</button>
+    <button mat-raised-button class="col-sm-1" color="primary" (click)="save()">Save</button>
     <button mat-raised-button (click)="router.navigate(['/'])" class="col-sm-1 btn-primary" color="primary">
       <mat-icon>home</mat-icon>Home</button>
   </div>
@@ -33,7 +33,7 @@
               <p style="font-size:13px;">Site</p>
             </div>
             <div class="col-sm-7">
-              <select style="max-height:0.8cm;max-width:3.1cm;font-size:11px;" class="custom-select" [(value)]="sitetype">
+              <select style="max-height:0.8cm;max-width:3.1cm;font-size:11px;" class="custom-select" [(value)]="calender_sitetype">
                 <option selected="None" selected disabled>select menu</option>
                 <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
               </select>
@@ -100,9 +100,9 @@
         </div>
         <br>
         <div class="row">
-          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" ([ngModel])="bm_req_check" [checked]="bm_req_check">Batch Requests</mat-checkbox>
-          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" ([ngModel])="rm_req_check" [checked]="rm_req_check">Filling Requests</mat-checkbox>
-          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" ([ngModel])="fr_req_check" [checked]="fr_req_check">Batch RM Requests</mat-checkbox>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="bm_req_check">Batch Requests</mat-checkbox>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="rm_req_check">Filling Requests</mat-checkbox>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="fr_req_check">Batch RM Requests</mat-checkbox>
         </div>
       </div>
     </div>
@@ -232,9 +232,9 @@
           </div>
         </div>
         <br>
-        <div class="card bg-light border-dark fixed" *ngIf="filteritems[0]">
+        <div class="card bg-light border-dark" *ngIf="filteritems[0]">
           <div class="row" style="margin:0.2cm">
-            <div class="col-sm-8">
+            <div class="fix col-sm-8">
               <span class="text-centre" *ngFor="let item of filteritems" style="font-size:0.48cm">{{item}}
                 <mat-icon mat-icon-button color="primary" (click)="closefilter(item)" style="cursor:pointer;font-size:15px;">highlight_off</mat-icon>
               </span>
