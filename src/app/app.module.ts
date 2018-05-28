@@ -43,19 +43,25 @@ import { FillingreqComponent } from './components/fillingreq/fillingreq.componen
 
 import { LoginComponent } from './components/login/login.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgNotifyPopup } from 'ng2-notify-popup';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+
 
 
 
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'prefrence', component: PrefrenceComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'prefrence', component: PrefrenceComponent, canActivate: [AuthGuard] },
   { path: 'batchrequest', component: BatchrequestComponent, canActivate: [AuthGuard] },
-  { path: 'su', component: SuperadminComponent },
-  { path: 'filling', component: FillingreqComponent },
-  { path: 'rm', component: RmrequestComponent }
+  { path: 'su', component: SuperadminComponent, canActivate: [AuthGuard] },
+  { path: 'filling', component: FillingreqComponent, canActivate: [AuthGuard] },
+  { path: 'rm', component: RmrequestComponent, canActivate: [AuthGuard] }
 ]
 
 @NgModule({
@@ -81,10 +87,12 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
+    MatListModule,
     RouterModule.forRoot(appRoutes),
     MatSnackBarModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatExpansionModule,
     ToasterModule,
     MatMenuModule,
     MatIconModule,
@@ -92,6 +100,7 @@ const appRoutes: Routes = [
     MatCardModule,
     MatSlideToggleModule,
     MatDividerModule,
+    NgNotifyPopup,
     MatInputModule,
     MatButtonModule,
     FormsModule, ReactiveFormsModule,
@@ -118,12 +127,15 @@ const appRoutes: Routes = [
 
     }),
     MatTabsModule,
-    AgGridModule.withComponents([HomeComponent]),
+    SnotifyModule,
+    AgGridModule.withComponents([HomeComponent, BatchrequestComponent]),
     MatAutocompleteModule
   ],
   entryComponents: [DialogOverviewExampleDialog, DialogOverview, Rmrequest],
 
-  providers: [ValidateService, AuthService, AuthGuard],
+  providers: [ValidateService, AuthService, AuthGuard, {
+    provide: 'SnotifyToastConfig', useValue: ToastDefaults
+  }, SnotifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

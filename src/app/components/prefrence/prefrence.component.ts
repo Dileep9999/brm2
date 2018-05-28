@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, DateAdapter } from '@angular/material';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
 
 @Component({
   selector: 'app-prefrence',
@@ -82,6 +83,7 @@ export class PrefrenceComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
+    private snotify: SnotifyService,
     public router: Router) { }
 
 

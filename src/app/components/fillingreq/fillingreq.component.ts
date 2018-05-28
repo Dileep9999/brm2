@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Jsonp } from '@angular/http';
 import { MatSnackBar } from '@angular/material';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
 
 @Component({
   selector: 'app-fillingreq',
@@ -50,9 +51,11 @@ export class FillingreqComponent implements OnInit {
   appr: String;
   packagingcode: String;
   packagingcodes: String[];
+  notapplicable: boolean = false;
   constructor(
     public authService: AuthService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private snotify: SnotifyService
   ) { }
 
   ngOnInit() {
@@ -85,30 +88,32 @@ export class FillingreqComponent implements OnInit {
 
     });
 
-    this.authService.getusers("ADMIN").subscribe(data => {
+    // this.authService.getusers("ADMIN").subscribe(data => {
 
-    });
-    this.authService.getusers("SUPERADMIN").subscribe(data => {
+    // });
+    // this.authService.getusers("SUPERADMIN").subscribe(data => {
 
-    });
+    // });
   }
 
   getpackagingcodes() {
 
     this.authService.getpc().subscribe(data => {
-      console.log(data);
+      //  data.data.map(
+      //   this.packagingcodes.push(data.data.packaging_code);
+      //  )
 
       for (let i = 0; i <= data.data.length - 1; i++) {
         this.packagingcodes.push(data.data[i].packaging_code);
       }
-      console.log(this.packagingcodes);
+
 
     });
 
   }
 
 
-  save() {
+  save(flag) {
 
 
 
@@ -126,7 +131,7 @@ export class FillingreqComponent implements OnInit {
       batch_number: this.batch_num,
       manufacturing_site: this.sitetype,
       due_date: this.duedate,
-      not_applicable_flag: true,
+      not_applicable_flag: this.notapplicable,
       packaging_type: [],
       formula_description: this.description,
       formulator: this.authService.user_id,
@@ -140,44 +145,17 @@ export class FillingreqComponent implements OnInit {
     }
     console.log(data);
     this.authService.savefillingreq(data).subscribe(data => {
-      this.snackBar.open('Saved', 'Ok', { duration: 3000 });
-
+      this.snotify.success('Success', flag + 'ed', {
+        timeout: 2000,
+        position: SnotifyPosition.rightTop,
+        showProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true
+      });
     });
 
   }
-  submit() {
-    let data = {
-      request_id: this.fr_num,
-      site: this.sitetype,
-      batch_type: this.batch_type,
-      legal_product_category: this.legal_product_category,
-      lab_note_book_number: this.labnotebook,
-      formula_id: this.formula_id,
-      formula_status: "NEW",
-      filling_type: this.filling_type,
-      remaining_bulk: this.remaining_bulk,
-      gxp: this.gxpvalue,
-      batch_number: this.batch_num,
-      manufacturing_site: this.sitetype,
-      due_date: this.duedate,
-      not_applicable_flag: true,
-      packaging_type: [],
-      formula_description: this.description,
-      formulator: this.authService.user_id,
-      project: this.project,
-      department: this.department,
-      manufacturing_date: this.mfgdate,
-      request_type: "FILLING REQUEST",
-      approver: this.appr,
-      flag: 'save'
 
-    }
-    console.log(data);
-
-    this.authService.submitfilling(data).subscribe(data => {
-      this.snackBar.open('Success', 'Ok', { duration: 3000 });
-    });
-  }
 
   formatdatemfg(date: Date) {
     let day = date.getDate();
@@ -201,7 +179,7 @@ export class FillingreqComponent implements OnInit {
 
 
   filling1() {
-    // this.filling=!this.filling;
+
     if (this.filling = true) {
       this.filling = true;
     }
@@ -225,7 +203,7 @@ export class FillingreqComponent implements OnInit {
     this.approver = false;
   }
   partner1() {
-    // this.partner=!this.partner;
+
     if (this.partner = true) {
       this.partner = true;
     }
@@ -237,7 +215,7 @@ export class FillingreqComponent implements OnInit {
     this.approver = false;
   }
   approver1() {
-    // this.approver=!this.approver;
+
     if (this.approver = true) {
       this.approver = true;
     }
@@ -249,7 +227,7 @@ export class FillingreqComponent implements OnInit {
     this.plan = false;
   }
   pilot1() {
-    // this.pilot=!this.pilot;
+
     if (this.pilot = true) {
       this.pilot = true;
     }
@@ -261,7 +239,7 @@ export class FillingreqComponent implements OnInit {
     this.batch_type = "PILOT";
   }
   other1() {
-    // this.other=!this.other;
+
     if (this.other = true) {
       this.other = true;
     }
@@ -273,7 +251,7 @@ export class FillingreqComponent implements OnInit {
     this.batch_type = "OTHERS";
   }
   lab1() {
-    // this.lab=!this.lab;
+
     if (this.lab = true) {
       this.lab = true;
     }
@@ -283,9 +261,10 @@ export class FillingreqComponent implements OnInit {
     this.pilot = false;
     this.other = false;
     this.batch_type = "LAB";
+    this.notapplicable = true;
   }
   drug1() {
-    // this.drug=!this.drug;
+
     if (this.drug = true) {
       this.drug = true;
     }
@@ -296,7 +275,7 @@ export class FillingreqComponent implements OnInit {
     this.legal_product_category = "DRUG";
   }
   cosmetic1() {
-    // this.cosmetic=!this.cosmetic;
+
     if (this.cosmetic = true) {
       this.cosmetic = true;
     }
@@ -307,7 +286,7 @@ export class FillingreqComponent implements OnInit {
     this.legal_product_category = "COSMETIC";
   }
   destruct1() {
-    // this.destruct=!this.destruct;
+
     if (this.destruct = true) {
       this.destruct = true;
     }
@@ -318,7 +297,7 @@ export class FillingreqComponent implements OnInit {
     this.remaining_bulk = "DESTRUCTION";
   }
   storage1() {
-    // this. storage=!this. storage;
+
     if (this.storage = true) {
       this.storage = true;
     }
@@ -330,7 +309,7 @@ export class FillingreqComponent implements OnInit {
   }
   bulk1() {
 
-    // this.bulk=!this.bulk;
+
     if (this.bulk = true) {
       this.bulk = true;
     }
@@ -341,7 +320,7 @@ export class FillingreqComponent implements OnInit {
     this.filling_type = "BULK FILLING";
   }
   condition1() {
-    // this.condition=!this.condition;
+
     if (this.condition = true) {
       this.condition = true;
     }

@@ -6,6 +6,8 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { ToasterModule, ToasterService } from 'angular5-toaster';
 import { Rmrequest } from '../navbar/navbar.component';
 import { LowerCasePipe } from '@angular/common';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
+import { HostListener } from "@angular/core";
 
 @Component({
   selector: 'app-home',
@@ -14,6 +16,9 @@ import { LowerCasePipe } from '@angular/common';
 })
 
 export class HomeComponent implements OnInit {
+
+
+
 
   request = false;
   favorites = false;
@@ -58,15 +63,25 @@ export class HomeComponent implements OnInit {
   rowData = [
   ];
   loadcard: String[];
+  panelOpenState: any;
 
   constructor(public authService: AuthService,
     public http: Http,
+    private snotify: SnotifyService,
     public toasterService: ToasterService,
     public router: Router) {
 
 
   }
   ngOnInit() {
+    window.addEventListener('scroll', this.panelOpenState, true); //third parameter
+    this.snotify.simple('Added successfully', 'Success', {
+      timeout: 2000,
+      position: SnotifyPosition.rightTop,
+      showProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true
+    });
     this.loadcard = ['a', 'a', 'aa', 'a', 'a'];
     this.batchrequests = [];
     this.requests = [];
@@ -81,7 +96,7 @@ export class HomeComponent implements OnInit {
     this.loadrequests();
     this.sitemenuload();
     this.projectloadanddept();
-    this.getprefrences();
+    // this.getprefrences();
     this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
     this.statusmenu = ['Cancelled', 'Complete', 'COnfirmed', 'Filled', 'New', 'Ready for Filling', 'Reserved', 'Sample Released', 'Submitted', 'Weighed'];
     this.legalproductcategory = ['Cosmetic', 'Drug'];
@@ -92,15 +107,16 @@ export class HomeComponent implements OnInit {
 
   }
 
+
   delfav(id) {
-    console.log(id);
+
     for (let i = 0; i <= this.requests.length - 1; i++) {
       if (id == this.requests[i].request_id) {
         this.requests[i].favorites = false;
       }
     }
     this.authService.deletefav(id).subscribe(data => {
-      console.log('removed');
+
 
     });
   }
@@ -165,12 +181,12 @@ export class HomeComponent implements OnInit {
 
 
 
-  getprefrences() {
-    this.authService.getprefrences().subscribe(data => {
-      console.log(data);
+  // getprefrences() {
+  //   this.authService.getprefrences().subscribe(data => {
+  //     console.log(data);
 
-    });
-  }
+  //   });
+  // }
 
 
   getfav() {
@@ -205,10 +221,8 @@ export class HomeComponent implements OnInit {
 
 
     this.loader = false;
-    this.no_of_BR = this.batchrequests.length;
-    this.no_of_FR = this.fillingrequests.length;
-    this.no_of_RM = this.RMrequests.length;
-    console.log(this.no_of_BR);
+
+
 
   }
 
@@ -222,7 +236,7 @@ export class HomeComponent implements OnInit {
   }
 
   addfav(id) {
-    console.log(id);
+
     for (let i = 0; i <= this.requests.length - 1; i++) {
       if (id == this.requests[i].request_id) {
         this.requests[i].favorites = true;
@@ -230,14 +244,13 @@ export class HomeComponent implements OnInit {
     }
     this.allreq();
     this.authService.addfav(id).subscribe(data => {
-      console.log('added');
+      console.log('fav added');
 
     });
   }
 
   batchreq(req) {
-    console.log(req);
-    console.log('batchreq');
+
 
     this.authService.req = req;
     this.authService.permission = true;
@@ -267,9 +280,7 @@ export class HomeComponent implements OnInit {
 
 
     this.loader = false;
-    this.no_of_BR = this.batchrequests.length;
-    this.no_of_FR = this.fillingrequests.length;
-    this.no_of_RM = this.RMrequests.length;
+
 
 
   }
@@ -279,7 +290,7 @@ export class HomeComponent implements OnInit {
     this.batchrequests = [];
     this.fillingrequests = [];
     this.RMrequests = [];
-    console.log(this.my_req[0].request_type);
+
 
     for (let i = 0; i <= this.requests.length - 1; i++) {
       if (this.requests[i].request_type === 'BATCH REQUEST') {
@@ -290,17 +301,8 @@ export class HomeComponent implements OnInit {
       else if (this.requests[i].request_type === 'BATCH RM ORDER') {
         this.RMrequests.push(this.requests[i]);
       }
-
     }
-
-    console.log(this.batchrequests);
-    console.log(this.fillingrequests);
     this.loader = false;
-    this.no_of_BR = this.batchrequests.length;
-    this.no_of_FR = this.fillingrequests.length;
-    this.no_of_RM = this.RMrequests.length;
-
-
   }
 
 
@@ -311,12 +313,17 @@ export class HomeComponent implements OnInit {
 
       this.authService.getfav().subscribe(data => {
         this.fav_req = data.data;
-        console.log(data.data);
+
         for (let l = 0; l <= this.requests.length - 1; l++) {
           if (this.requests[l].status === "New") {
             this.requests[l].percent = 25;
           } else if (this.requests[l].status === "Submitted") {
             this.requests[l].percent = 50;
+          } else if (this.requests[l].status === "Reserved") {
+            this.requests[l].percent = 75;
+
+          } else if (this.requests[l].status === "Cancled") {
+            this.requests[l].percent = 100;
           }
         }
 
@@ -325,7 +332,7 @@ export class HomeComponent implements OnInit {
             this.fav_req[j].favorites = true;
             if (this.requests[k].request_id === this.fav_req[j].request_id) {
               this.requests[k].favorites = true;
-              console.log(this.requests[k].favorites);
+
             }
           }
         }
@@ -351,17 +358,7 @@ export class HomeComponent implements OnInit {
           this.RMrequests.push(data.data[i]);
         }
       }
-
-      console.log(this.batchrequests);
-      console.log(this.fillingrequests);
       this.loader = false;
-      this.no_of_BR = this.batchrequests.length;
-      this.no_of_FR = this.fillingrequests.length;
-      this.no_of_RM = this.RMrequests.length;
-
-
-
-
     });
   }
 
@@ -401,9 +398,8 @@ export class HomeComponent implements OnInit {
 
 
   appendtofilteritems(type) {
-    console.log(type)
+
     this.filteritems.push(type);
-    console.log(this.filteritems);
 
   }
 
@@ -423,7 +419,7 @@ export class HomeComponent implements OnInit {
   }
 
   tiletoggle(value) {
-    console.log(value);
+
     if (value === 'Tile') {
       document.getElementById("Tile").className = "btn btn-primary";
       document.getElementById("List").className = "btn";

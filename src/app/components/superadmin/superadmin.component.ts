@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatSnackBar } from '@angular/material';
 import { MatTableDataSource } from '@angular/material';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-superadmin',
@@ -16,25 +18,32 @@ export class SuperadminComponent implements OnInit {
   selected: String;
   admins: String[] = ['sasank', 'pmp', 'dilip', 'asif', 'sasank', 'pmp', 'dilip', 'asif', 'sasank', 'pmp', 'dilip', 'asif'];
   sitemenu: String[];
+  sitemenu1: String[];
   superadmins: String[];
   batchmenu: String[];
+  batchmenu1: String[];
   productmenu: String[];
-  sitedata: String[];
+  productmenu1: String[];
+  sitedata: any;
   reasondata: any;
+  benchdata: any;
+  equipmentdata: any;
   departmentdata: String[];
   projectdata: String[];
-  equipmentdata: String[];
   add: boolean = true;
-  site: String;
+  site: any;
   project: String;
   packagingcode: String;
   department: String;
+  reason: any;
+  batch_type: any;
+  equipment_type: any;
+  product_type: any;
   loader: boolean = false;
   displayedColumns = ['site', 'createdAt'];
   displayedColumns1 = ['reason', 'createdAt'];
   displayedColumns2 = ['department', 'createdAt'];
   displayedColumns3 = ['project', 'createdAt'];
-  // displayedColumns4 = ['bench', 'createdAt'];
   displayedColumns5 = ['equipment', 'createdAt'];
   dataSource = new MatTableDataSource();
   dataSource1 = new MatTableDataSource();
@@ -42,22 +51,64 @@ export class SuperadminComponent implements OnInit {
   dataSource3 = new MatTableDataSource();
   dataSource4 = new MatTableDataSource();
   dataSource5 = new MatTableDataSource();
-  reasons: String[];
+  reasons1: any;
+  benchs1: any;
+  equipments1: any;
   packagingcodes: String[];
-  site_for_reason: String;
-  batch_of_reason: String;
+  site_for_reason: any;
+  batch_of_reason: any;
+  product_of_reason: any;
+  optional_of_reason: any;
   loadcard: String[];
 
   addreasons(value, val) {
-
+    this.reasons1 = [];
     this.site_for_reason = value;
     this.batch_of_reason = val;
     console.log(this.site_for_reason, this.batch_of_reason);
 
     for (let i = 0; i <= this.reasondata.length - 1; i++) {
       if (this.site_for_reason === this.reasondata[i].site && this.batch_of_reason === this.reasondata[i].batch_type) {
-        this.reasons = this.reasondata[i].reason;
-        console.log(this.reasondata[i].reason);
+
+
+        this.reasons1 = this.reasondata[i].reason;
+        console.log(this.reasons1);
+
+      }
+    }
+  }
+
+  addbenchs(value, val, va) {
+    this.benchs1 = [];
+    this.site_for_reason = value;
+    this.batch_of_reason = val;
+    this.product_of_reason = va;
+    console.log(this.site_for_reason, this.batch_of_reason, this.product_of_reason);
+
+    for (let i = 0; i <= this.benchdata.length - 1; i++) {
+      if (this.site_for_reason === this.benchdata[i].site && this.batch_of_reason === this.benchdata[i].batch_type && this.product_of_reason === this.benchdata[i].product_type) {
+
+
+        this.benchs1 = this.benchdata[i].bench;
+        console.log(this.benchs1);
+
+      }
+    }
+  }
+
+  addequipments(value, val, v) {
+    this.equipments1 = [];
+    this.site_for_reason = value;
+    this.batch_of_reason = val;
+    this.optional_of_reason = v;
+    console.log(this.site_for_reason, this.batch_of_reason, this.optional_of_reason);
+
+    for (let i = 0; i <= this.equipmentdata.length - 1; i++) {
+      if (this.site_for_reason === this.equipmentdata[i].site && this.batch_of_reason === this.equipmentdata[i].batch_type && this.optional_of_reason === this.equipmentdata[i].equipment_type) {
+
+
+        this.equipments1 = this.equipmentdata[i].reason;
+        console.log(this.equipments1);
 
       }
     }
@@ -113,7 +164,7 @@ export class SuperadminComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadcard = ['a', 'a', 'aa', 'a', 'a'];
+    this.loadcard = ['a', 'a', 'a', 'a', 'a'];
     this.users = [];
     this.admins = [];
     this.packagingcodes = [];
@@ -122,7 +173,8 @@ export class SuperadminComponent implements OnInit {
     this.departmentdata = [];
     this.batchmenu = ["LAB", "PILOT", "OTHERS"];
     this.productmenu = ["COSMETIC", "DRUG"];
-    this.reasons = [];
+    this.reasons1 = [];
+    this.reasondata = [];
     this.getusers();
     this.selectsite();
     this.getdepartments();
@@ -131,8 +183,8 @@ export class SuperadminComponent implements OnInit {
     this.getequipments();
     this.getsites();
     this.getreasons();
-
-
+    this.getbenchs();
+    this.getequipments();
   }
 
   getpc() {
@@ -149,7 +201,7 @@ export class SuperadminComponent implements OnInit {
   }
   onLogoutClick() {
     this.authService.logout();
-    // this.router.navigate(['/']);
+
 
   }
   getusers() {
@@ -177,7 +229,7 @@ export class SuperadminComponent implements OnInit {
       batch_type: batch1,
       reason: [reason]
     }
-    console.log(data);
+
 
     this.authService.addreasons(data).subscribe(data => {
       if (data.success) {
@@ -208,10 +260,10 @@ export class SuperadminComponent implements OnInit {
     }
     // console.log(data)
     this.authService.adddpt(data).subscribe(data => {
-      console.log(data.message);
+
       if (data.success) {
         this.getdepartments();
-        this.snackBar.open('added', 'ok', { duration: 2000 });
+        this.snackBar.open('Added', 'ok', { duration: 2000 });
       } else {
         this.snackBar.open('Please re-add department', 'ok', { duration: 2000 });
       }
@@ -227,7 +279,7 @@ export class SuperadminComponent implements OnInit {
     }
     // console.log(data)
     this.authService.addpc(data).subscribe(data => {
-      console.log(data.message);
+
       if (data.success) {
         this.getpc();
         this.snackBar.open('added', 'ok', { duration: 2000 });
@@ -243,9 +295,9 @@ export class SuperadminComponent implements OnInit {
     let data = {
       project: this.project
     }
-    // console.log(data)
+
     this.authService.addproject(data).subscribe(data => {
-      console.log(data.message);
+
       if (data.success) {
         this.getdeprojects();
         this.snackBar.open('added', 'ok', { duration: 2000 });
@@ -256,14 +308,14 @@ export class SuperadminComponent implements OnInit {
   }
 
 
-  addbench(site3, batch2, product, bench) {
+  addbench(site3, batch2, product2, bench3) {
     let data = {
       site: site3,
       batch_type: batch2,
-      legal_product_category: product,
-      bench: [bench]
+      legal_product_category: product2,
+      bench: [bench3]
     }
-    // console.log(data)
+    console.log(data)
     this.authService.addbench(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
@@ -281,9 +333,9 @@ export class SuperadminComponent implements OnInit {
       batch_type: batch,
       equipment_list: [equipment]
     }
-    // console.log(data)
+
     this.authService.addeqpt(data).subscribe(data => {
-      console.log(data.message);
+
       if (data.success) {
 
         this.snackBar.open('added', 'ok', { duration: 2000 });
@@ -297,10 +349,10 @@ export class SuperadminComponent implements OnInit {
 
   selectsite() {
     this.authService.getsites().subscribe(data => {
-      console.log(data);
+
       this.dataSource.data = data.data;
       this.sitedata = data.data;
-      console.log(this.sitedata);
+
 
       for (let i = 0; i => data.data.length - 1; i++) {
         this.sitemenu.push(data.data[i].site);
@@ -316,43 +368,41 @@ export class SuperadminComponent implements OnInit {
       // console.log(data);
       this.dataSource.data = data.data;
       this.sitedata = data.data;
-      console.log(this.sitedata);
+      // console.log(this.sitedata);
     })
   }
-
-
 
   getdepartments() {
     this.authService.getdepartments().subscribe(data => {
       // console.log(data);
       this.dataSource2.data = data.data;
       this.departmentdata = data.data;
-      console.log(this.departmentdata);
+      // console.log(this.departmentdata);
     })
   }
 
   getdeprojects() {
     this.authService.getprojects().subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.dataSource3.data = data.data;
       this.projectdata = data.data;
-      console.log(this.projectdata);
+      // console.log(this.projectdata);
     })
   }
 
   getequipments() {
     this.authService.getequipments().subscribe(data => {
-      console.log(data);
+
       this.dataSource5.data = data.data;
       this.equipmentdata = data.data;
-      console.log(this.equipmentdata);
+
     })
   }
 
 
   makeasadmin(user) {
     this.authService.makeasadmin(user).subscribe(data => {
-      console.log(data);
+
 
       if (data.success) {
         this.getusers();
@@ -373,25 +423,31 @@ export class SuperadminComponent implements OnInit {
 
   addapprover(USER) {
     this.authService.addapprover(USER).subscribe(data => {
-      console.log("Success");
+      this.getusers();
 
     });
   }
 
   removeapprover(USER) {
     this.authService.removeapprover(USER).subscribe(data => {
-      console.log(data.success);
+      this.getusers();
 
     });
   }
 
   getreasons() {
     this.authService.getreasons().subscribe(data => {
-      console.log(data);
+
       this.reasondata = data.data;
     });
   }
 
+  getbenchs() {
+    this.authService.getbenchs().subscribe(data => {
+
+      this.benchdata = data.data;
+    });
+  }
 
 }
 

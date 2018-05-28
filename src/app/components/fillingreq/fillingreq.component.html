@@ -29,7 +29,7 @@
       </div>
       <div class="col-sm-6" style="margin-top: 10px;">
         <div class="row">
-          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4 card border-dark">
+          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4 ">
             <div class="row">
               <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;">
 
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="nav col-sm-8">
-            <div class="col-sm-10 pilot-br">
+            <div class="col-sm-10 ">
               <ul class="nav">
                 <!-- <div class="col-lg-3 col-sm-3 col-xs-3 col-md-3 pilot-br" style="padding:0px;"> -->
 
@@ -103,7 +103,7 @@
                             <h4>Filling Request</h4>
                           </div>
                           <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                            <span style="margin-left: 128px;">Required*</span>
+                            <mat-checkbox class="example-margin" color="primary" [(ngModel)]="notapplicable">Not applicable</mat-checkbox>
                           </div>
                         </div>
                       </div>
@@ -571,15 +571,16 @@
             <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
               <div class="batch-header nav">
                 <button mat-button class="batch-br" data-toggle="tab" href="#frequest" [ngClass]="{'test': filling}" (click)="filling1()">Filling Request</button>
-                <button mat-button class="batch-br" data-toggle="tab" href="#fplan" [ngClass]="{'test':plan}" (click)="plan1()">Filling Plan</button>
-                <button mat-button class="batch-br" data-toggle="tab" href="#ppartner" [ngClass]="{'test':partner}" (click)="partner1()">Packaging Partner</button>
+                <button mat-button class="batch-br" data-toggle="tab" href="#fplan" [ngClass]="{'test':plan}" *ngIf="!notapplicable" (click)="plan1()">Filling Plan</button>
+                <button mat-button class="batch-br" data-toggle="tab" href="#ppartner" [ngClass]="{'test':partner}" *ngIf="!notapplicable"
+                  (click)="partner1()">Packaging Partner</button>
                 <button mat-button class="batch-br" data-toggle="tab" href="#admin" [ngClass]="{'test':approver}" (click)="approver1()">Approver</button>
                 <br>
                 <div style="margin-top:1cm">
 
                   <button mat-raised-button>Cancel</button>
-                  <button mat-raised-button (click)="save()">save</button>
-                  <button mat-raised-button (click)="submit()" ng-show="appr">submit</button>
+                  <button mat-raised-button (click)="save('save')">save</button>
+                  <button mat-raised-button (click)="save('submit')">submit</button>
 
                 </div>
               </div>

@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Http } from '@angular/http';
 import "rxjs/add/operator/catch";
 import { MatSnackBar } from '@angular/material';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
 
 @Component({
   selector: 'app-rmrequest',
@@ -60,6 +61,7 @@ export class RmrequestComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public http: Http,
+    private snotify: SnotifyService,
     public snackBar: MatSnackBar
   ) { }
   ngOnInit() {
@@ -265,8 +267,7 @@ export class RmrequestComponent implements OnInit {
       confirm_flag: true
     }
     console.log(data);
-    this.authService.submitrmrequest(data).subscribe(data => {
-      console.log(data);
+    this.authService.savermrequest(data).subscribe(data => {
       this.snackBar.open('Success', 'Ok', { duration: 3000 });
     });
   }
