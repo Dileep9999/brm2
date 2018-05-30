@@ -27,16 +27,17 @@ export class AuthService {
   host: String = "http://35.200.213.39/";
   req: any;
   permission: boolean = false;
+  equipmentload: boolean = false;
 
 
-  constructor(private http: Http,
+  constructor(public http: Http,
     public router: Router,
     public flashmessage: FlashMessagesService,
-    private snotify: SnotifyService,
+    public snotify: SnotifyService,
     public snackBar: MatSnackBar
 
   ) {
-    //this.isDev = true;  // Change to false before deployment
+    // this.isDev = true;  // Change to false before deployment
 
   }
 
@@ -49,19 +50,21 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     return this.http.get('http://35.200.213.39/overview/' + id, { headers: headers })
       .map(res => res.json()).catch((err) => {
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
 
-        this.snotify.error('Failed to load overview', 'Error', {
-          timeout: 2000,
-          position: SnotifyPosition.rightTop,
-          showProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true
-        });
-
-        console.log(err);
-        console.log(err.statusCode);
-
-        return Observable.throw('')
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
       });
   }
 
@@ -82,9 +85,20 @@ export class AuthService {
     return this.http.post('http://35.200.213.39/equipmentRequests', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-
-        this.snackBar.open(err.statusCode + 'Failed to add equipment', 'ok', { duration: 3000 });
-        return Observable.throw('')
+        this.equipmentload = true;
+        try {
+          const parsed_err = JSON.parse(err._body);
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
       });
   }
   getequipments() {
@@ -105,7 +119,20 @@ export class AuthService {
     return this.http.post('http://35.200.213.39/fillingrequest', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        this.snackBar.open('failed', 'Ok', { duration: 5000 });
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message.substring(13, 50), 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
         return Observable.throw(err)
       });
   }
@@ -118,9 +145,18 @@ export class AuthService {
     return this.http.post('http://35.200.213.39/fillingrequest', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        console.log(err);
-        if (err.statusCode == 400) {
-          this.snackBar.open(err.message, 'Ok', { duration: 5000 });
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+          this.snotify.warning(parsed_err.message.substring(13, 50), 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
         return Observable.throw(err)
       });
@@ -134,9 +170,22 @@ export class AuthService {
     return this.http.get('http://35.200.213.39/formulas', { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        this.snackBar.open('labs failed', 'Ok', { duration: 5000 });
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
         return Observable.throw(err)
-      });
+      })
   }
 
   gethistrory(id) {
@@ -149,12 +198,20 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
         return Observable.throw(err)
-      });
+      })
   }
 
   getformulas(labid) {
@@ -167,9 +224,22 @@ export class AuthService {
     return this.http.get('http://35.200.213.39/formulas/' + labid, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        this.snackBar.open('labs failed', 'Ok', { duration: 5000 });
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
         return Observable.throw(err)
-      });
+      })
   }
 
   deletefav(id) {
@@ -182,12 +252,20 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
         return Observable.throw(err)
-      });
+      })
   }
 
   updatecomment(data) {
@@ -198,9 +276,22 @@ export class AuthService {
     return this.http.put('http://35.200.213.39/comments', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        this.snackBar.open('failed to update', 'Ok', { duration: 5000 });
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
         return Observable.throw(err)
-      });
+      })
   }
   getcomments(id) {
 
@@ -211,9 +302,22 @@ export class AuthService {
     return this.http.get('http://35.200.213.39/comments/' + id, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        this.snackBar.open('failed', 'Ok', { duration: 5000 });
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
         return Observable.throw(err)
-      });
+      })
   }
 
   delcomment(id) {
@@ -225,10 +329,23 @@ export class AuthService {
     return this.http.delete('http://35.200.213.39/comments/' + id, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        console.log(err);
-        this.snackBar.open('failed to delete', 'Ok', { duration: 5000 });
+
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
         return Observable.throw(err)
-      });
+      })
   }
 
   addcomment(data) {
@@ -239,9 +356,22 @@ export class AuthService {
     return this.http.post('http://35.200.213.39/comments', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
-        this.snackBar.open('failed to add comment', 'Ok', { duration: 5000 });
+        try {
+          const parsed_err = JSON.parse(err._body);
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
         return Observable.throw(err)
-      });
+      })
   }
 
 
@@ -295,20 +425,43 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          console.log(parsed_err);
+
+          this.snotify.error(parsed_err.message.substring(13, 50), 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
         return Observable.throw(err)
-      });
+      })
   }
 
 
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('/register', user, { headers: headers })
-      .map(res => res.json());
+    return this.http.post('http://35.200.213.39/signup', user, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        try {
+          const parsed_err = JSON.parse(err._body);
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
   }
 
 
@@ -321,7 +474,13 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -399,7 +558,13 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -426,13 +591,28 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
-          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+          const parsed_err = JSON.parse(err._body);
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         }
         return Observable.throw(err)
       });
   }
+
+
 
 
 
@@ -468,7 +648,13 @@ export class AuthService {
 
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -487,7 +673,13 @@ export class AuthService {
 
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -505,7 +697,13 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -528,7 +726,13 @@ export class AuthService {
 
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -547,7 +751,13 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -566,7 +776,13 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -585,7 +801,13 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snackBar.open(parsed_err.message, 'ok', { duration: 3000 });
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         } catch (error) {
           this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
         }
@@ -627,7 +849,22 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://35.200.213.39/favourites', data, { headers: headers })
-      .map(res => res.json());
+      .map(res => res.json())
+      .catch((err) => {
+        try {
+          const parsed_err = JSON.parse(err._body);
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
   }
 
 
@@ -636,8 +873,23 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://35.200.213.39/prefrences', data, { headers: headers })
-      .map(res => res.json());
+    return this.http.post('http://35.200.213.39/preferences', data, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        try {
+          const parsed_err = JSON.parse(err._body);
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
 
   }
 
@@ -689,7 +941,22 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://35.200.213.39/approvers/revoke/' + USER, '', { headers: headers })
-      .map(res => res.json());
+      .map(res => res.json())
+      .catch((err) => {
+        try {
+          const parsed_err = JSON.parse(err._body);
+          this.snotify.error(parsed_err.message, 'Error', {
+            timeout: 2000,
+            position: SnotifyPosition.rightTop,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
+        } catch (error) {
+          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+        }
+        return Observable.throw(err)
+      });
   }
 
   loggedIn() {

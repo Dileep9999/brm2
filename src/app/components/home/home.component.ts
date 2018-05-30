@@ -3,11 +3,11 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpModule, Http } from '@angular/http';
 import { MatTableDataSource, MatSort } from '@angular/material';
-import { ToasterModule, ToasterService } from 'angular5-toaster';
 import { Rmrequest } from '../navbar/navbar.component';
 import { LowerCasePipe } from '@angular/common';
 import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
 import { HostListener } from "@angular/core";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -18,13 +18,13 @@ import { HostListener } from "@angular/core";
 export class HomeComponent implements OnInit {
 
 
-
-
+  expanded: boolean = true;
+  mode: String;
   request = false;
   favorites = false;
   allrequets = true;
 
-
+  startDate: Date = new Date;
   typemenu: String[];
   manufacturingdatemenu: String[];
   sitemenu: String[] = JSON.parse(localStorage.getItem("sites"));
@@ -64,24 +64,33 @@ export class HomeComponent implements OnInit {
   ];
   loadcard: String[];
   panelOpenState: any;
+  prefrences: any;
 
   constructor(public authService: AuthService,
     public http: Http,
-    private snotify: SnotifyService,
-    public toasterService: ToasterService,
+    public dialog: MatDialog,
+    public snotify: SnotifyService,
     public router: Router) {
 
 
   }
+  scroll = (): void => {
+    let a = window.pageYOffset;
+    if (a > 30) {
+      this.expanded = false;
+    } else if (a < 30) {
+      this.expanded = true;
+    }
+
+
+  }
   ngOnInit() {
-    window.addEventListener('scroll', this.panelOpenState, true); //third parameter
-    this.snotify.simple('Added successfully', 'Success', {
-      timeout: 2000,
-      position: SnotifyPosition.rightTop,
-      showProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true
-    });
+    window.addEventListener('scroll', this.scroll, true);
+    // setTimeout(() => {
+    //   this.expanded = false;
+    // }, 7000);
+
+
     this.loadcard = ['a', 'a', 'aa', 'a', 'a'];
     this.batchrequests = [];
     this.requests = [];
@@ -93,31 +102,54 @@ export class HomeComponent implements OnInit {
     this.Tile = true;
     this.my_req = [];
     this.fav_req = [];
-    this.loadrequests();
     this.sitemenuload();
     this.projectloadanddept();
-    // this.getprefrences();
     this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
     this.statusmenu = ['Cancelled', 'Complete', 'COnfirmed', 'Filled', 'New', 'Ready for Filling', 'Reserved', 'Sample Released', 'Submitted', 'Weighed'];
     this.legalproductcategory = ['Cosmetic', 'Drug'];
     this.partnermenu = ['BRM Partner'];
     this.filteritems = [];
     this.manudatemenu = ['Today', 'Yesterday', 'Tommorow', 'After 1 month', 'After 2 months', 'Next 30 days', 'Next 7 days'];
+    this.loadrequests();
+
+  }
+  getprefrences() {
+    this.authService.getprefrences().subscribe(data => {
+      if (data.success) {
+        console.log(data);
+        this.prefrences = data.data;
 
 
+        if (this.prefrences.request_filter.mode === 'TILE') {
+          this.tile1();
+        } else {
+          this.list1();
+        }
+        switch (this.prefrences.request_filter.view) {
+          case "MY REQUEST":
+            this.request1();
+            break;
+          case "FAVOURITES":
+            this.favorites1();
+            break;
+          case "ALL REQUESTS":
+            this.allrequests1();
+            break;
+          default:
+        }
+      }
+    });
   }
 
 
   delfav(id) {
-
     for (let i = 0; i <= this.requests.length - 1; i++) {
       if (id == this.requests[i].request_id) {
         this.requests[i].favorites = false;
       }
     }
     this.authService.deletefav(id).subscribe(data => {
-
-
+      console.log('fav removed');
     });
   }
 
@@ -164,6 +196,7 @@ export class HomeComponent implements OnInit {
       this.list = !this.list;
     }
     this.tile = false;
+    this.Tile = false;
   }
   tile1() {
     if (this.tile = true) {
@@ -173,7 +206,7 @@ export class HomeComponent implements OnInit {
       this.tile = !this.tile;
     }
     this.list = false;
-
+    this.Tile = true;
   }
 
 
@@ -181,43 +214,34 @@ export class HomeComponent implements OnInit {
 
 
 
-  // getprefrences() {
-  //   this.authService.getprefrences().subscribe(data => {
-  //     console.log(data);
-
-  //   });
-  // }
-
 
   getfav() {
-    // this.authService.getfav().subscribe(data => {
-    //   this.fav_req = data.data;
-    //   console.log(this.fav_req, 'adwd');
 
-    //   //   const anotherArr = this.requests.map(e => {
-    //   //     if (this.PresentInArray(e.request_id, data.data.favourites)) {
-    //   //       e['favourites'] = true
-    //   //       return e;
-    //   //     } else {
-    //   //       e['favourites'] = false
-    //   //       return e;
-    //   //     }
-    //   //   });
-    // });
     this.batchrequests = [];
     this.fillingrequests = [];
     this.RMrequests = [];
-    for (let i = 0; i <= this.requests.length - 1; i++) {
-      if (this.requests[i].request_type === 'BATCH REQUEST' && this.requests[i].favorites == true) {
-        this.batchrequests.push(this.requests[i]);
-      } else if (this.fav_req[i].request_type === 'FILLING REQUEST' && this.requests[i].favorites == true) {
-        this.fillingrequests.push(this.requests[i]);
+    this.requests.map(data => {
+      if (data.request_type === 'BATCH REQUEST' && data.favorites == true) {
+        this.batchrequests.push(data);
+      } else if (data.request_type === 'FILLING REQUEST' && data.favorites == true) {
+        this.fillingrequests.push(data);
       }
-      else if (this.fav_req[i].request_type === 'BATCH RM ORDER' && this.requests[i].favorites == true) {
-        this.RMrequests.push(this.requests[i]);
+      else if (data.request_type === 'BATCH RM ORDER' && data.favorites == true) {
+        this.RMrequests.push(data);
       }
+    })
 
-    }
+    // for (let i = 0; i <= this.requests.length - 1; i++) {
+    //   if (this.requests[i].request_type === 'BATCH REQUEST' && this.requests[i].favorites == true) {
+    //     this.batchrequests.push(this.requests[i]);
+    //   } else if (this.fav_req[i].request_type === 'FILLING REQUEST' && this.requests[i].favorites == true) {
+    //     this.fillingrequests.push(this.requests[i]);
+    //   }
+    //   else if (this.fav_req[i].request_type === 'BATCH RM ORDER' && this.requests[i].favorites == true) {
+    //     this.RMrequests.push(this.requests[i]);
+    //   }
+
+    // }
 
 
     this.loader = false;
@@ -231,9 +255,7 @@ export class HomeComponent implements OnInit {
     filtered_arr.length ? true : false;
   }
 
-  popToast() {
-    this.toasterService.pop('success', 'Args Title', 'Args Body');
-  }
+
 
   addfav(id) {
 
@@ -274,15 +296,8 @@ export class HomeComponent implements OnInit {
       else if (this.my_req[i].request_type === 'BATCH RM ORDER') {
         this.RMrequests.push(this.my_req[i]);
       }
-
-
     }
-
-
     this.loader = false;
-
-
-
   }
 
 
@@ -310,9 +325,9 @@ export class HomeComponent implements OnInit {
     this.authService.getallrequests().subscribe(data => {
       this.requests = data.data;
 
-
       this.authService.getfav().subscribe(data => {
         this.fav_req = data.data;
+
 
         for (let l = 0; l <= this.requests.length - 1; l++) {
           if (this.requests[l].status === "New") {
@@ -322,8 +337,10 @@ export class HomeComponent implements OnInit {
           } else if (this.requests[l].status === "Reserved") {
             this.requests[l].percent = 75;
 
-          } else if (this.requests[l].status === "Cancled") {
+          } else if (this.requests[l].status === "Cancelled") {
             this.requests[l].percent = 100;
+          } else if (this.requests[l].status === "Confirmed") {
+            this.requests[l].percent = 80;
           }
         }
 
@@ -332,12 +349,12 @@ export class HomeComponent implements OnInit {
             this.fav_req[j].favorites = true;
             if (this.requests[k].request_id === this.fav_req[j].request_id) {
               this.requests[k].favorites = true;
-
             }
           }
         }
-
       });
+
+
       for (let i = 0; i <= this.requests.length - 1; i++) {
         if (this.requests[i].createdBy === this.authService.user_id) {
           this.my_req.push(this.requests[i]);
@@ -353,14 +370,19 @@ export class HomeComponent implements OnInit {
         else if (this.requests[i].request_type === 'BATCH RM ORDER') {
           this.RMrequests.push(this.requests[i]);
         }
-
         else {
           this.RMrequests.push(data.data[i]);
         }
       }
+
+
+
+      this.getprefrences();
       this.loader = false;
     });
   }
+
+
 
 
   sitemenuload() {
@@ -417,6 +439,21 @@ export class HomeComponent implements OnInit {
     console.log(group.value);
 
   }
+  openDialog(): void {
+    let dialogRef = this.dialog.open(DateRange1, {
+      width: '280px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.prefrences.request_filter.filters.manufacturing_date = [];
+      this.prefrences.request_filter.filters.manufacturing_date.push(result.from);
+      this.prefrences.request_filter.filters.manufacturing_date.push(result.to);
+      console.log('The dialog was closed');
+
+    });
+  }
+
 
   tiletoggle(value) {
 
@@ -440,6 +477,72 @@ export class HomeComponent implements OnInit {
     }
 
 
+  }
+
+
+}
+
+
+
+
+
+@Component({
+  selector: 'dialog-date-Range',
+  templateUrl: 'daterange.html',
+})
+
+export class DateRange1 {
+  date1: Date;
+  date2: Date;
+  date3: String;
+  date4: String;
+
+  btndisabled: boolean = true;
+
+
+
+  constructor(
+    public dialogRef: MatDialogRef<DateRange1>,
+    private router: Router,
+    public authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  ngOnInit() {
+
+
+  }
+
+  formatdate() {
+    let day = this.date1.getDate();
+    let month = this.date1.getMonth() + 1;
+    let year = this.date1.getFullYear();
+    this.date3 = year + '-' + month + '-' + day;
+    let day1 = this.date2.getDate();
+    let month2 = this.date2.getMonth() + 1;
+    let year2 = this.date2.getFullYear();
+    this.date4 = year2 + '-' + month2 + '-' + day1;
+
+  }
+
+  submit() {
+    console.log(this.date1, this.date2);
+
+    this.formatdate();
+    let data = {
+      from: this.date3,
+      to: this.date4
+    }
+
+    this.dialogRef.close(data);
+  }
+  submitenable(
+  ) {
+    if (this.date1 != undefined && this.date2 != undefined) {
+      this.btndisabled = false;
+    }
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
@@ -60,6 +60,7 @@ export class SuperadminComponent implements OnInit {
   product_of_reason: any;
   optional_of_reason: any;
   loadcard: String[];
+  startDate: Date = new Date;
 
   addreasons(value, val) {
     this.reasons1 = [];
@@ -156,14 +157,18 @@ export class SuperadminComponent implements OnInit {
 
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private router: Router,
+    public snotify: SnotifyService,
+    public router: Router,
     public flashmessage: FlashMessagesService
   ) { }
 
   ngOnInit() {
+    if (this.authService.user_type === 'USER') {
+      this.router.navigate(['/home']);
+    }
     this.loadcard = ['a', 'a', 'a', 'a', 'a'];
     this.users = [];
     this.admins = [];
@@ -248,8 +253,6 @@ export class SuperadminComponent implements OnInit {
       if (data.success) {
         this.selectsite();
         this.snackBar.open("ADDED", 'ok', { duration: 2000 });
-      } else {
-        this.snackBar.open('Please re-add Site', 'ok', { duration: 2000 });
       }
     });
   }
@@ -264,8 +267,6 @@ export class SuperadminComponent implements OnInit {
       if (data.success) {
         this.getdepartments();
         this.snackBar.open('Added', 'ok', { duration: 2000 });
-      } else {
-        this.snackBar.open('Please re-add department', 'ok', { duration: 2000 });
       }
     });
   }
@@ -283,8 +284,6 @@ export class SuperadminComponent implements OnInit {
       if (data.success) {
         this.getpc();
         this.snackBar.open('added', 'ok', { duration: 2000 });
-      } else {
-        this.snackBar.open('Please re-add packaging-code', 'ok', { duration: 2000 });
       }
     });
   }
@@ -301,8 +300,6 @@ export class SuperadminComponent implements OnInit {
       if (data.success) {
         this.getdeprojects();
         this.snackBar.open('added', 'ok', { duration: 2000 });
-      } else {
-        this.snackBar.open('Please re-add project', 'ok', { duration: 2000 });
       }
     });
   }
@@ -321,8 +318,6 @@ export class SuperadminComponent implements OnInit {
       if (data.success) {
 
         this.snackBar.open('added', 'ok', { duration: 2000 });
-      } else {
-        this.snackBar.open('Please re-add bench', 'ok', { duration: 2000 });
       }
     });
   }
@@ -339,8 +334,6 @@ export class SuperadminComponent implements OnInit {
       if (data.success) {
 
         this.snackBar.open('added', 'ok', { duration: 2000 });
-      } else {
-        this.snackBar.open('Please re-add equipment', 'ok', { duration: 2000 });
       }
     });
   }
@@ -442,6 +435,32 @@ export class SuperadminComponent implements OnInit {
     });
   }
 
+  openDialog(): void {
+    let dialogRef = this.dialog.open(NewUser, {
+      width: '380px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+
+      this.authService.registerUser(result).subscribe(data => {
+        if (data.success) {
+          this.snotify.simple('New User Created', 'Added', {
+            timeout: 3000,
+            position: SnotifyPosition.rightCenter,
+            pauseOnHover: true,
+            showProgressBar: false
+
+          })
+        }
+      });
+
+      console.log('The dialog was closed');
+
+    });
+  }
+
   getbenchs() {
     this.authService.getbenchs().subscribe(data => {
 
@@ -458,4 +477,57 @@ export interface Element {
   departmentdata: string;
   projectdata: string;
   equipmentdata: string;
+}
+
+
+
+@Component({
+  selector: 'dialog-date-Range',
+  templateUrl: 'newuser.html',
+})
+
+export class NewUser {
+  user_id: String;
+  email: String;
+  password: String;
+
+  btndisabled: boolean = true;
+
+
+
+  constructor(
+    public dialogRef: MatDialogRef<NewUser>,
+    private router: Router,
+    public authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+
+
+
+  ngOnInit() {
+
+
+  }
+
+
+
+  submit() {
+    let data = {
+      user_id: this.user_id,
+      email: this.email,
+      password: this.password
+
+    }
+    this.dialogRef.close(data);
+
+  }
+
+
+  submitenable() {
+
+  }
 }

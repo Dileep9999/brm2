@@ -1,4 +1,4 @@
-<nav *ngIf="authService.user_type!='SUPERADMIN'" class="navbar navbar-expand-md navbar-light bg-light">
+<nav *ngIf="authService.user_type!='SUPERADMIN'" class="navbar navbar-expand-md navbar-light bg-light sticky-top">
   <a class="navbar-brand bg-primary" href="/" style="margin:-18x -5px -8px -8px;">
     <img height=30px src="http://ec2-52-66-65-233.ap-south-1.compute.amazonaws.com:8500/cg510_brm_login/images/brm60x60.png">
   </a>
@@ -10,7 +10,8 @@
 
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <div class="row" style="margin-left:5.5cm;">
+    <div class="row justify-content-md-center" style="margin-left:7cm;">
+
       <button class="btn dropdown-toggle" *ngIf="authService.loggedIn()" style="max-height:36px;min-width:1cm;" [matMenuTriggerFor]="menu">
         {{Searchvalue}}
       </button>
@@ -73,6 +74,7 @@
           </button>
         </mat-menu>
         <span *ngIf="authService.loggedIn()" class="badge badge-pill badge-danger">00</span>
+
       </div>
     </div>
     <ul class="navbar-nav mr-auto" *ngIf="authService.loggedIn()">
@@ -91,13 +93,12 @@
             <mat-icon>how_to_reg</mat-icon>ADMIN</button>
           <button (click)="gotoprefrences()" mat-menu-item>
             <mat-icon>settings</mat-icon>Prefrences</button>
-
           <a mat-menu-item (click)="onLogoutClick()" href="#">
             <mat-icon>exit_to_app</mat-icon>Log out</a>
         </mat-menu>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="font-size:13px;" *ngIf="authService.loggedIn()">Help </a>
+        <a class="nav-link" style="font-size:13px;" *ngIf="authService.loggedIn()">Help</a>
       </li>
       <li class="nav-item">
         <a title="Performance" style="font-size:13px;" href="/ApplicationPerformance?applicationName=BRM#/" *ngIf="!authService.loggedIn()"
@@ -128,45 +129,7 @@
 
 
 
-<!-- <div *ngIf="authService.loggedIn() && authService.user_type!='SUPERADMIN'">
-  <ol class="breadcrumb " style="background-color: rgba(194, 188, 188, 0.35);overflow:hidden">
-    <li style="cursor: pointer;" (click)="router.navigate([''])" class="breadcrumb-item">
-      <mat-icon style="font-size:20px;">home</mat-icon>
-    </li>
-  </ol>
 
-  <div class="row" style="margin-top:-1.5cm;font-size:13px;overflow:hidden;">
-
-    <span class="ml-auto" [matMenuTriggerFor]="menu" style="padding-right:22px;cursor: pointer;">
-      <img src="assets/Images/6dot.png"> Go To Metrics
-    </span>
-    <mat-menu [overlapTrigger]="false" #menu="matMenu">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
-    </mat-menu>
-    <span [matMenuTriggerFor]="menu" style="padding-right:22px;cursor: pointer;">
-      <img height="20px;" src="assets/Images/creation-date.png"> View Batch Calender
-    </span>
-    <span class="" style="cursor: pointer;padding-right:22px;display:inline-flex">
-      <img height=20px src="assets/Images/search.png">
-      <form class="example-form " style="margin-top:-0.2cm;">
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Simatic Search">
-        </mat-form-field>
-      </form>
-    </span>
-
-
-    <a class="dropdown-toggle" [matMenuTriggerFor]="menu7" style="cursor: pointer;padding-right:22px;">
-      <img src="assets/Images/add.png">New</a>
-    <mat-menu [overlapTrigger]="false" #menu7="matMenu">
-      <button mat-menu-item (click)="openDialog() ">Batch Request</button>
-      <button mat-menu-item (click)="openDialog1()"> Filling Request</button>
-      <button mat-menu-item (click)="openDialog2()">Batch RM Order</button>
-    </mat-menu>
-  </div>
-
-</div> -->
 
 
 

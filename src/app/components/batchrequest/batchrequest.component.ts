@@ -84,16 +84,14 @@ export class BatchrequestComponent implements OnInit {
   equipment1: String;
   optional_equipment: String;
   notapplicable: boolean = true;
-
+  saveload: boolean = false;
   comment_list_team: any;
   comment_list_tech: any;
-
   exisitingreqdata: any;
-
+  isapprover: boolean = false;
   showoverview: boolean = false;
   editvalue: String;
   equipmentsubmitenable: boolean = true;
-
   labnotebooknums: String[];
   formulaids: String[];
 
@@ -104,17 +102,15 @@ export class BatchrequestComponent implements OnInit {
     { headerName: 'Created Date', field: 'createdAt' },
     { headerName: 'Description', field: 'description' },
     { headerName: 'Comment', field: 'comment' },
-
-
   ];
 
   rowData = [
   ];
-  loa
+
 
   constructor(public authService: AuthService,
     public snackBar: MatSnackBar,
-    private snotify: SnotifyService,
+    public snotify: SnotifyService,
     public router: Router) { }
 
 
@@ -169,13 +165,8 @@ export class BatchrequestComponent implements OnInit {
 
 
   getformulas() {
-    console.log(this.labnotebook);
-
     this.authService.getformulas(this.labnotebook).subscribe(data => {
-
       this.formulaids = data.data;
-      console.log(this.formulaids);
-
     });
   }
 
@@ -220,46 +211,73 @@ export class BatchrequestComponent implements OnInit {
     this.project = this.authService.req.project;
     this.status = this.authService.req.status;
     this.status_des = this.authService.req.status_description;
-    this.sitetype = this.authService.req.site
-    if (this.authService.req.legal_product_category === 'DRUG') {
-      this.toggleColor3();
-    } else if (this.authService.req.legal_product_category === 'COSMETIC') {
-      this.toggleColor4();
+    this.sitetype = this.authService.req.site;
+
+
+    document.getElementById("overview").className = "tab-pane active";
+    document.getElementById("equipment").className = "tab-pane fade";
+    document.getElementById("ovrviw").className = "nav-link active";
+    document.getElementById("eqpment").className = "nav-link";
+
+    switch (this.authService.req.status) {
+      case "New":
+        this.percent = 17;
+        break;
+      case "Submitted":
+        this.percent = 34;
+        this.progressbar_color = '#055cfc';
+        break;
+      case "Cancelled":
+        this.percent = 100;
+        this.progressbar_color = '#f50910';
+        break;
+      case "Rejected":
+        this.percent = 100;
+        this.progressbar_color = '#f50910';
+        break;
+      case "Reserved":
+        this.percent = 65;
+        this.progressbar_color = '#00c00f';
+        break;
+      case "Confirmed":
+        this.percent = 85;
+        this.progressbar_color = '#00c00f';
+        break;
+      default:
+        this.percent = 0;
+        this.progressbar_color = '#f50910';
     }
 
 
-    if (this.authService.req.batch_type === "LAB") {
-      this.toggleColor();
-      console.log('lab');
 
-
-    } else if (this.authService.req.batch_type === 'PILOT') {
-      this.toggleColor1();
-    } else if (this.authService.req.batch_type === 'OTHERS') {
-      this.toggleColor2();
-    }
-    if (this.authService.req.status === 'New') {
-      this.percent = 17;
-    } else if (this.authService.req.status === 'Submitted') {
-      this.percent = 34;
-      this.progressbar_color = '#055cfc';
-    } else if (this.authService.req.status === 'Cancelled') {
-      this.percent = 100;
-      this.progressbar_color = '#f50910';
-    } else if (this.authService.req.status === 'Rejected') {
-      this.percent = 100;
-      this.progressbar_color = '#f50910';
-    }
     this.updateddate = this.authService.req.lastModified.substring(0, 10);
     this.showoverview = true;
-    this.authService.getspecificreq(this.br_num).subscribe(data => {
+    // switch (this.authService.req.legal_product_category) {
+    //   case "DRUG":
+    //     this.toggleColor3();
+    //     break;
+    //   case "COSMETIC":
+    //     this.toggleColor4();
+    //     break;
+    //   default:
+    //     this.toggleColor4();
+    // }
 
+    this.authService.getspecificreq(this.br_num).subscribe(data => {
       console.log(data);
 
+      console.log(data.data.equipmentRequest.approver);
+      let approver = data.data.equipmentRequest.approver;
+      this.appr = approver;
+      this.date = data.data.equipmentRequest.manufacturing_date.substring(0, 10);
+      console.log(this.date);
 
+      if (approver === this.authService.user_id) {
+        this.isapprover = true;
+      }
       this.exisitingreqdata = data.data;
-      this.date = this.exisitingreqdata.equipmentRequest.manufacturing_date;
-      console.log(this.br_num);
+
+
 
     });
 
@@ -284,12 +302,14 @@ export class BatchrequestComponent implements OnInit {
 
       this.comment_list_team = data.data.team_communication.comments;
       this.comment_list_tech = data.data.technical_communication.comments;
-      for (let i = 0; i <= this.comment_list_team.length - 1; i++) {
-        this.comment_list_team[i].edit = false;
-      }
-      for (let i = 0; i <= this.comment_list_tech.length - 1; i++) {
-        this.comment_list_tech[i].edit = false;
-      }
+
+      this.comment_list_team.map(e => {
+        this.comment_list_team.edit = false;
+      });
+      this.comment_list_tech.map(e => {
+        this.comment_list_tech.edit = false;
+      });
+
     });
 
   }
@@ -308,20 +328,28 @@ export class BatchrequestComponent implements OnInit {
             }
             return;
           });
-
-
-
         }
       }
 
     });
 
     // this.authService.getusers("ADMIN").subscribe(data => {
+    //   if (data.success) {
+    //     if (data.data.length) {
+    //       const results = data.data;
 
-    // });
-    // this.authService.getusers("SUPERADMIN").subscribe(data => {
+    //       results.map(e => {
+    //         this.approvers.push(e.user_id);
+    //         return;
+    //       });
 
+
+
+    //     }
+
+    //   }
     // });
+
   }
 
   newrequest() {
@@ -603,7 +631,7 @@ export class BatchrequestComponent implements OnInit {
 
   loadreasons() {
     this.authService.getreasons().subscribe(data => {
-      // console.log(data.data);
+
       this.reasonsdata = data.data;
 
     });
@@ -649,6 +677,7 @@ export class BatchrequestComponent implements OnInit {
 
 
   equipmentreq(falg) {
+    this.saveload = true;
     console.log(this.date);
     console.log(this.bench);
     let reason = this.reason.value;
@@ -675,7 +704,8 @@ export class BatchrequestComponent implements OnInit {
 
     this.authService.equipmentrequest(data).subscribe(data => {
       if (data.success) {
-        this.snotify.success('Success', falg + 'ed', {
+        this.saveload = false;
+        this.snotify.success(falg + 'ed', 'Success', {
           timeout: 2000,
           position: SnotifyPosition.rightTop,
           showProgressBar: false,
@@ -685,6 +715,10 @@ export class BatchrequestComponent implements OnInit {
       }
 
     });
+    this.saveload = false;
+    if (this.authService.equipmentload) {
+      this.saveload = false;
+    }
 
   }
 

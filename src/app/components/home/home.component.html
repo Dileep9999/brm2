@@ -1,156 +1,156 @@
 <div>
   <div *ngIf="authService.loggedIn()">
+    <!-- <mat-accordion class='navbar navbar-default sticky-top bg-light' style="margin-top:-1.2cm;"> -->
+    <mat-expansion-panel [expanded]="expanded" class='navbar navbar-default sticky-top bg-light' style="margin-top:-1.1cm;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b> Filters
+            <mat-icon>filter_list</mat-icon>
+          </b>
+        </mat-panel-title>
+        <mat-panel-description>
+          Tap to Apply
 
-    <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <b> Prefrences</b>
-          </mat-panel-title>
-          <mat-panel-description>
-            Tap to Apply
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-        <div class="card bg-light border-dark">
-          <div class="row" style="margin:0.1cm">
-            <div class="col-sm-1" style="padding-left:25px;">
-              <p>Mode</p>
-              <div class="btn-group-vertical card border-dark" style="max-width:1.2cm;margin-top:-13px;" data-toggle="buttons">
-                <button class="btn btn-primary" id='Tile' style="font-size:12px;" value="Tile" (click)=tiletoggle($event.target.value)>Tile</button>
-                <button class="btn" id='List' style="font-size:12px;" value="List" (click)=tiletoggle($event.target.value)>List</button>
-              </div>
+      <div class="card border-dark">
+        <div class="row" style="margin:0.1cm">
+          <div class="col-sm-1" style="padding-left:25px;">
+            <p>Mode</p>
+            <div class="btn-group-vertical card border-dark" style="max-width:1.2cm;" data-toggle="buttons">
+              <button class="btn text-center" [ngClass]="{'test': tile}" (click)="tile1()" id='Tile' style="font-size:11px;" value="Tile">Tile</button>
+              <button class="btn text-center" id='List' [ngClass]="{'test': list}" (click)="list1()" style="font-size:11px;" value="List">List</button>
             </div>
-            <div class="col-sm-1" style="padding-left:4px;">
-              <p class="text-center">View</p>
-              <div class="btn-group-vertical card border-dark" style="margin-top:-13px;">
-                <button style=" font-size:10px;text-overflow:ellipsis;overflow:hidden; " [ngClass]="{ 'test':request}
+          </div>
+          <div class="col-sm-1" style="padding-left:4px;">
+            <p class="text-center">View</p>
+            <div class="btn-group-vertical card border-dark" style="margin-top:-13px;">
+              <button style=" font-size:10px;text-overflow:ellipsis;overflow:hidden; " [ngClass]="{'test':request}
                 " (click)="request1() " class="btn ">MyRequest</button>
-                <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': favorites}
+              <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': favorites}
                 " (click)="favorites1() " class="btn ">Favorites</button>
-                <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': allrequets}
+              <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': allrequets}
                 " (click)="allrequests1() " class="btn ">AllRequests</button>
-              </div>
             </div>
-            <div class="vl "></div>
-            <div class="col-sm-9 col-lg-9 col-md-9">
-              <p>Filters</p>
-              <div class="row">
+          </div>
+          <div class="vl "></div>
+          <div class="col-sm-9 col-lg-9 col-md-9">
+            <p>Filters</p>
+            <div class="row">
 
-                <div class="col-sm col-md col-lg">
+              <div class="col-sm col-md col-lg">
 
-                  <img class="btn" id="type" data-toggle="dropdown" style="margin-left:5px;" src="assets/Images/pilot-batch.png">
-                  <a class="btn" style="font-size:13px;margin-top:-5px;">Type</a>
-                  <div class="dropdown-menu" aria-labelledby="type">
-                    <div style="max-height:5cm;overflow-y:scroll">
-                      <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
-                    </div>
-                  </div>
-
-                </div>
-                <div class="col-sm col-md col-lg">
-
-                  <img class="btn" id="manufacturingdate" style="margin-left:23px;" data-toggle="dropdown" src="assets/Images/creation-date.png">
-                  <a class="btn" style="font-size:13px;" id="dropdownMenuButton" data-toggle="dropdown">Manufacturing
-                    <br>Date</a>
-                  <div class="dropdown-menu" aria-labelledby="manufacturingdate">
-                    <a class="dropdown-item" *ngFor="let date of manudatemenu" (click)="appendtofilteritems(date)">{{date}}</a>
-                    <a class="dropdown-item dropdown-submenu " data-toggle="dropdown" id="manufacturingdate1">date range</a>
-                  </div>
-                  <div class="dropdown-menu" aria-labelledby="manufacturingdate1">
-
-                    <a class="dropdown-item">date range</a>
-                  </div>
-
-                </div>
-                <div class="col-sm col-md col-lg">
-
-                  <img class="btn" id="site" data-toggle="dropdown" src="assets/Images/sm_region.png">
-                  <a class="btn" style="font-size:13px;">Site</a>
-                  <div class="dropdown-menu" aria-labelledby="site">
-                    <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(site)">{{site}}</a>
-                  </div>
-
-                </div>
-                <div class="col-sm col-md col-lg">
-
-                  <img class="btn" id="leaglproducts" data-toggle="dropdown" style="margin-left:23px;" src="assets/Images/gfo.png">
-                  <a class="btn" style="font-size:13px;">Legal Product
-                    <br>Category</a>
-                  <div class="dropdown-menu" aria-labelledby="legalproducts">
-                    <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct)">{{legalproduct}}</a>
-                  </div>
-
-                </div>
-                <div class="col-sm col-md col-lg">
-
-                  <img class="btn" id="status" data-toggle="dropdown" style="margin-left:5px" src=" assets/Images/status.png">
-                  <a class="btn" style="font-size:12px;">Status</a>
-                  <div class="dropdown-menu" aria-labelledby="status">
-                    <div style="max-height:4.5cm;overflow-y:scroll">
-                      <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status)">{{status}}</a>
-                    </div>
-
-                  </div>
-                </div>
-                <div class="col-sm col-md col-lg">
-
-                  <img class="btn" id="project" data-toggle="dropdown" style="margin-left:7px;" src="assets/Images/project.png">
-                  <a class="btn" style="font-size:13px;">Project</a>
-                  <div class="container dropdown-menu" aria-labelledby="project">
-                    <input class="dropdown-item" class="form-control" placeholder="Search" [(ngModel)]="project">
-                    <a class="dropdown-item" *ngFor="let project of projectmenu|filter:project" (click)="appendtofilteritems(project)">{{project}}</a>
-                  </div>
-
-                </div>
-                <div class="col-sm col-md col-lg">
-
-                  <img class="btn" id="partner" data-toggle="dropdown" style="margin-left:9px;" src="assets/Images/partner.png">
-                  <a class="btn" style="font-size:13px;">Partner</a>
-                  <div class="container dropdown-menu" style="margin-top:0.4cm;min-width:4cm;" aria-labelledby="partner">
-                    <input class="dropdown-item" class="form-control" placeholder="Search" style="max-height:0.7cm;" [(ngModel)]="partner">
-                    <a class="dropdown-item" *ngFor="let partner of partnermenu | filter:partner" (click)="appendtofilteritems(partner)">{{partner}}</a>
-                  </div>
-
-
-                </div>
-
-                <div class="col-sm col-md col-lg">
-                  <div>
-                    <button class="btn btn-primary">Apply Filters</button>
+                <img class="btn" id="type" data-toggle="dropdown" style="margin-left:5px;" src="assets/Images/pilot-batch.png">
+                <a class="btn" style="font-size:13px;margin-top:-5px;">Type</a>
+                <div class="dropdown-menu" aria-labelledby="type">
+                  <div style="max-height:5cm;overflow-y:scroll">
+                    <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
                   </div>
                 </div>
 
               </div>
+              <div class="col-sm col-md col-lg">
+
+                <img class="btn" id="manufacturingdate" style="margin-left:23px;" data-toggle="dropdown" src="assets/Images/creation-date.png">
+                <a class="btn" style="font-size:13px;" id="dropdownMenuButton" data-toggle="dropdown">Manufacturing
+                  <br>Date</a>
+                <div class="dropdown-menu" aria-labelledby="manufacturingdate">
+                  <a class="dropdown-item" *ngFor="let date of manudatemenu" (click)="appendtofilteritems(date)">{{date}}</a>
+                  <div class="dropdown divider"></div>
+                  <a class="dropdown-item" (click)="openDialog()">Date Range</a>
+                </div>
+
+
+              </div>
+              <div class="col-sm col-md col-lg">
+
+                <img class="btn" id="site" data-toggle="dropdown" src="assets/Images/sm_region.png">
+                <a class="btn" style="font-size:13px;">Site</a>
+                <div class="dropdown-menu" aria-labelledby="site">
+                  <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(site)">{{site}}</a>
+                </div>
+
+              </div>
+              <div class="col-sm col-md col-lg">
+
+                <img class="btn" id="leaglproducts" data-toggle="dropdown" style="margin-left:23px;" src="assets/Images/gfo.png">
+                <a class="btn" style="font-size:13px;">Legal Product
+                  <br>Category</a>
+                <div class="dropdown-menu" aria-labelledby="legalproducts">
+                  <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct)">{{legalproduct}}</a>
+                </div>
+
+              </div>
+              <div class="col-sm col-md col-lg">
+
+                <img class="btn" id="status" data-toggle="dropdown" style="margin-left:5px" src=" assets/Images/status.png">
+                <a class="btn" style="font-size:12px;">Status</a>
+                <div class="dropdown-menu" aria-labelledby="status">
+                  <div style="max-height:4.5cm;overflow-y:scroll">
+                    <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status)">{{status}}</a>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-sm col-md col-lg">
+
+                <img class="btn" id="project" data-toggle="dropdown" style="margin-left:7px;" src="assets/Images/project.png">
+                <a class="btn" style="font-size:13px;">Project</a>
+                <div class="container dropdown-menu" aria-labelledby="project">
+                  <input class="dropdown-item" class="form-control" placeholder="Search" [(ngModel)]="project">
+                  <a class="dropdown-item" *ngFor="let project of projectmenu|filter:project" (click)="appendtofilteritems(project)">{{project}}</a>
+                </div>
+
+              </div>
+              <div class="col-sm col-md col-lg">
+
+                <img class="btn" id="partner" data-toggle="dropdown" style="margin-left:9px;" src="assets/Images/partner.png">
+                <a class="btn" style="font-size:13px;">Partner</a>
+                <div class="container dropdown-menu" style="margin-top:0.4cm;min-width:4cm;" aria-labelledby="partner">
+                  <input class="dropdown-item" class="form-control" placeholder="Search" style="max-height:0.7cm;" [(ngModel)]="partner">
+                  <a class="dropdown-item" *ngFor="let partner of partnermenu | filter:partner" (click)="appendtofilteritems(partner)">{{partner}}</a>
+                </div>
+
+
+              </div>
+
+              <div class="col-sm col-md col-lg">
+                <div>
+                  <button class="btn btn-primary">Apply Filters</button>
+                </div>
+              </div>
 
             </div>
-
 
           </div>
 
+
         </div>
-        <div class="card bg-light border-dark " *ngIf="filteritems[0] ">
-          <div class="row " style="margin:0.2cm ">
-            <div class="col-sm-8 col-lg-8 col-md-8 ">
-              <span class="text-centre " *ngFor="let item of filteritems " style="font-size:0.48cm ">{{item}}
-                <mat-icon mat-icon-button color="primary " (click)="closefilter(item) " style="cursor:pointer;font-size:15px; ">highlight_off</mat-icon>
-              </span>
-            </div>
-            <div class="col-sm-1 col-lg-1 col-md-1" *ngIf="filteritems[0] ">
-              <button mat-raised-button class="btn card btn-info " (click)="filteritems=[] ">Clear Filters</button>
-            </div>
+
+      </div>
+      <div class="card bg-light border-dark " *ngIf="filteritems[0] ">
+        <div class="row " style="margin:0.2cm ">
+          <div class="col-sm-8 col-lg-8 col-md-8 ">
+            <span class="text-centre " *ngFor="let item of filteritems " style="font-size:0.48cm ">{{item}}
+              <mat-icon mat-icon-button color="primary " (click)="closefilter(item) " style="cursor:pointer;font-size:15px; ">highlight_off</mat-icon>
+            </span>
+          </div>
+          <div class="col-sm-1 col-lg-1 col-md-1" *ngIf="filteritems[0] ">
+            <button mat-raised-button class="btn card btn-info " (click)="filteritems=[] ">Clear Filters</button>
           </div>
         </div>
+      </div>
 
-        <br>
-
-
-
+      <br>
 
 
-      </mat-expansion-panel>
 
-    </mat-accordion>
+
+
+    </mat-expansion-panel>
+
+    <!-- </mat-accordion> -->
     <br>
     <br>
 
@@ -187,11 +187,11 @@
     </div>
 
 
-    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm; ">
+    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;margin-left:1cm; ">
 
       <mat-card *ngFor="let request of batchrequests " class="example-card ">
         <div class="row ">
-          <img height="35px " src="assets/Images/brm60x60.png ">
+          <img height="35px " src="assets/Images/brm60x60.png " (click)="batchreq(request)">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
             <a style="font-size:15px;color:rgb(46, 39, 39); " (click)="batchreq(request)">{{request.request_id}}</a>
           </div>
@@ -202,13 +202,15 @@
           </div>
         </div>
 
-        <div style="font-size:13px;max-width:2cm; ">Project:{{request.project}}</div>
+        <div style="font-size:13px;max-width:2cm; " (click)="batchreq(request)">Project:{{request.project}}</div>
         <div class="progress " style="max-height:8px; ">
           <div *ngIf="request.percent==25" class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
           <div *ngIf="request.percent==50" class="progress-bar bg-info " role="progressbar " style="width: 50% "></div>
           <div *ngIf="request.percent==75" class="progress-bar bg-info " role="progressbar " style="width: 75% "></div>
-          <div *ngIf="request.percent==100" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==100" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
           <div *ngIf="request.percent==0" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==80" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==40" class="progress-bar bg-warning " role="progressbar " style="width: 100% "></div>
         </div>
         <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
           <b>{{request.status}}</b>

@@ -110,6 +110,7 @@
 
 .dropdown-item:hover {
   background-color:#007bff;
+  cursor: pointer;
 }
 .pointer{
   cursor: pointer;
@@ -347,6 +348,31 @@ margin-left:15cm;
 }
 
 
-.ag-theme-bootstrap{
-  background: #fff;
+
+
+
+
+
+
+
+
+
+
+
+
+
+.sticky-top{
+  top: 1.6cm;
+  z-index: 99;
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -183,7 +183,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-select class="form-control" [(value)]="formula_id" placeholder="#####">
-                                <option *ngFor="let id of formulaids" value="{{id}}">{{id}}</option>
+                                <mat-option *ngFor="let id of formulaids" value="{{id}}">{{id}}</mat-option>
                               </mat-select>
                             </div>
                           </div>
@@ -258,7 +258,7 @@
                               <label>Formulator</label>
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                              <label>CherylRose</label>
+                              <label>{{authService.user_id}}</label>
                             </div>
                           </div>
                         </div>
@@ -271,7 +271,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select placeholder="{{depaartment}}">
+                                <mat-select placeholder="{{department}}">
                                   <mat-option value="{{department}}" disabled>{{department}}</mat-option>
 
                                 </mat-select>
@@ -324,8 +324,8 @@
                           <label>Batch Size*</label>
                         </div>
                         <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                          <input class="form-control" style="width:1.8cm;" [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" type="number"
-                            placeholder="1">
+                          <input class="form-control" style="width:1.8cm;" type="number" (keyup)="updaterowmatrials()" (change)="updaterowmatrials()"
+                            [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" type="number" placeholder="1">
                         </div>
                         <div class="col-sm-5">
                           <button class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="kg">{{batch_unit}}</button>
@@ -367,33 +367,37 @@
                       </div>
                     </div>
                     <mat-divider></mat-divider>
-                    <div class="col-sm-12 font">
-                      <div class="row">
-                        <div class="col-sm-2 col-md-1">
-                          <label>{{row_matrials.trade_name}}</label>
-                        </div>
-                        <div class="col-sm-2 col-md-1">
-                          <label>{{row_matrials.rm_num}}</label>
-                        </div>
-                        <div class="col-sm-2 col-md-1">
-                          <label>{{row_matrials.percentage}}</label>
-                        </div>
-                        <div class="col-sm-2 col-md-1">
-                          <label>{{row_matrials.quantity_required}}</label>
-                        </div>
-                        <div class="col-sm-2">
-                          <label>{{row_matrials.simatic_lab_gxp_stock}}</label>
-                        </div>
-                        <div class="col-sm-2">
-                          <label>{{row_matrials.simatic_pilot_stock}}</label>
-                        </div>
-                        <div class="col-sm-2">
-                          <label>{{row_matrials.simatic_lab_stock}}</label>
-                        </div>
-                        <div class="col-sm-2 ">
-                          <input class="form-control">
+                    <div *ngFor="let row_matrial of row_matrials">
+                      <div class="col-sm-12 font">
+                        <div class="row">
+                          <div class="col-sm-2 col-md-1">
+                            <label>{{row_matrial.trade_name}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-1 col-lg-1">
+                            <label>{{row_matrial.rm_num}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-1">
+                            <label>{{row_matrial.percentage}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-1">
+                            <label>{{row_matrial.quantity_required}}</label>
+                          </div>
+                          <div class="col-sm-2">
+                            <label>{{row_matrial.simatic_lab_gxp_stock}}</label>
+                          </div>
+                          <div class="col-sm-2 col-xl-2 col-lg-2">
+                            <label>{{row_matrial.simatic_pilot_stock}}</label>
+                          </div>
+                          <div class="col-sm-2">
+                            <label>{{row_matrial.simatic_lab_stock}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 ">
+                            <input class="form-control" type="number" [(ngModel)]="row_matrial.quantity_to_order" [ngModelOptions]="{standalone: true}">
+
+                          </div>
                         </div>
                       </div>
+                      <mat-divider></mat-divider>
                     </div>
                   </mat-card>
                 </div>
@@ -436,8 +440,8 @@
                 <div style="margin-top:1cm;">
 
                   <button mat-raised-button>Cancel</button>
-                  <button (click)="save()" mat-raised-button>Save</button>
-                  <button (click)="submit()" mat-raised-button>Submit</button>
+                  <button (click)="submit('save')" mat-raised-button>Save</button>
+                  <button (click)="submit('submit')" mat-raised-button>Submit</button>
 
                 </div>
               </div>

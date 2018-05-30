@@ -94,6 +94,9 @@
               Remove as Approver</a>
           </mat-card-actions>
         </mat-card>
+        <mat-card class="example-card" *ngIf="authService.user_type=='SUPERADMIN'" (click)="openDialog()">
+          <img style="cursor: pointer;" src="assets/Images/newuser.png">
+        </mat-card>
       </div>
       <mat-divider></mat-divider>
       <h4>Admins</h4>
@@ -385,7 +388,7 @@
         <div class="row">
           <h6 class="col-sm-2">Available Benches</h6>
           <div class="col-sm-3">
-            <select class="form-control" placeholder="Select site" (change)="addbenchs($event.target.value,batch.value, product2.value)"
+            <select class="form-control" placeholder="Select site" (change)="addbenchs($event.target.value,batch.value,product2.value)"
               #si>
               <option value="{{site}}" disabled selected>select site</option>
               <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
@@ -394,7 +397,7 @@
 
           </div>
           <div class="col-sm-3">
-            <select class="form-control" (change)="addbenchs(si.value, $event.target.value)" #batch>
+            <select class="form-control" (change)="addbenchs(si.value, $event.target.value,'')" #batch>
               <option value="{{site}}" disabled selected>select batch</option>
               <option *ngFor=" let batch of batchmenu" value="{{batch}}">{{batch}}</option>
 
@@ -402,14 +405,14 @@
 
           </div>
 
-          <!-- <div class="col-sm-3">
+          <div class="col-sm-3">
             <select class="form-control" (change)="addbenchs(si.value, batch.value, $event.target.value)" #product2>
               <option value="{{site}}" disabled selected>select LegalProductCategory</option>
               <option *ngFor=" let product of productmenu" value="{{product}}">{{product}}</option>
 
             </select>
 
-          </div> -->
+          </div>
 
 
         </div>

@@ -88,10 +88,10 @@
       <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
         <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#overview">OverView</a>
+            <a class="nav-link" id="ovrviw" data-toggle="tab" href="#overview">OverView</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#equipment">Equipment</a>
+            <a class="nav-link active" id="eqpment" data-toggle="tab" href="#equipment">Equipment</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#formula">Formula</a>
@@ -245,11 +245,12 @@
                             <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                               <div class="row">
                                 <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label (click)="test()">Date*:</label>
+                                  <label>Date*:</label>
                                 </div>
                                 <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                                   <mat-form-field>
-                                    <input matInput #equipdate ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="lab" placeholder="Choose a date">
+                                    <input matInput #equipdate ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [min]="startDate" [matDatepicker]="lab"
+                                      placeholder="Choose a date">
                                     <mat-datepicker-toggle matSuffix [for]="lab"></mat-datepicker-toggle>
                                     <mat-datepicker #lab></mat-datepicker>
                                   </mat-form-field>
@@ -309,7 +310,8 @@
                                 </div>
                                 <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                                   <mat-form-field>
-                                    <input matInput ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="pilot" placeholder="Choose a date">
+                                    <input matInput ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [min]="startDate" [matDatepicker]="pilot"
+                                      placeholder="Choose a date">
                                     <mat-datepicker-toggle matSuffix [for]="pilot"></mat-datepicker-toggle>
                                     <mat-datepicker #pilot></mat-datepicker>
                                   </mat-form-field>
@@ -374,15 +376,6 @@
 
 
 
-                  <a (click)="loadevents()"> loadevents</a>
-                  <p>Display event : {{displayEvent | json}}</p>
-                  <div class="edit" *ngIf="calendarOptions">
-
-
-
-
-
-                  </div>
 
 
 
@@ -411,16 +404,30 @@
                 <br>
                 <div>
 
-                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" style="margin-top:1cm;">
-                    <button mat-raised-button color="primary">
+
+                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" style="margin-top:1cm;" *ngIf="!saveload">
+                    <button mat-raised-button color="primary" (click)="equipmentreq('cancel')">
                       <b>Cancel</b>
                     </button>
                     <button mat-raised-button (click)="equipmentreq('save')" color="primary">
                       <b>Save</b>
                     </button>
-                    <button mat-raised-button (click)="equipmentreq('submit')" [disabled]="equipmentsubmitenable" color="primary">
+                    <button mat-raised-button *ngIf="!isapprover" (click)="equipmentreq('submit')" [disabled]="equipmentsubmitenable" color="primary">
                       <b>Submit</b>
                     </button>
+
+                  </mat-button-toggle-group>
+                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="isapprover">
+                    <button mat-raised-button color="primary" (click)="equipmentreq('cancel')">
+                      <b>Reject</b>
+                    </button>
+                    <button mat-raised-button (click)="equipmentreq('confirm')" color="primary">
+                      <b>Confirm</b>
+                    </button>
+                    <button mat-raised-button (click)="equipmentreq('pending')" color="primary">
+                      <b>Pending</b>
+                    </button>
+
 
                   </mat-button-toggle-group>
 
@@ -432,91 +439,98 @@
         </div>
       </div>
       <div id="overview" class="tab-pane fade">
-        <mat-card style="margin:1cm;max-width:22cm;">
-          <div class="row">
-            <h4 class="col-sm-8">Review Request</h4>
+        <div class="row">
+          <mat-card class="col-sm-8 col-lg-8 col-md-8 col-xl-8" style="margin:1cm;max-width:22cm;">
+            <div class="row">
+              <h4 class="col-sm-8">Review Request</h4>
+              <br>
+              <br>
+              <br>
+
+
+            </div>
+            <div class="row">
+              <h6 class="col-sm-3">Batch Size</h6>
+              <p>{{batch_size}}</p>
+            </div>
             <br>
+            <div class="row">
+              <h6 class="col-sm-3">Equipment </h6>
+              <div class="col-sm-2">
+                <b>{{equipment1}}</b>
+
+              </div>
+              <div class="col-sm-1">
+                <b>max</b>
+                <p>kg</p>
+              </div>
+            </div>
             <br>
+            <div class="row">
+              <h6 class="col-sm-3">OptionalEquipment </h6>
+              <div class="col-sm-2">
+
+                <p>{{optional_equipment}}</p>
+              </div>
+              <div class="col-sm-2">
+
+                <p>kg</p>
+              </div>
+            </div>
+            <br>
+
+            <br>
+            <div class="row">
+              <h6 class="col-sm-3">Lab NoteBook Number</h6>
+              <div class="col-sm-2">
+                <b>{{labnotebook}}</b>
+
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <h6 class="col-sm-3">Manufacturing date</h6>
+              <div class="col-sm-2">
+                <b>{{date}}</b>
+
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <h6 class="col-sm-3">Filling </h6>
+              <div class="col-sm-2">
+                <b>Date Requested</b>
+
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <h6 class="col-sm-3">Packaging </h6>
+              <div class="col-sm-2">
+                <b>Packaging Type </b>
+
+              </div>
+              <div class="col-sm-1">
+                <b>Plan </b>
+
+              </div>
+              <div class="col-sm-1">
+                <b>Quantity </b>
+
+              </div>
+            </div>
             <br>
 
 
+
+
+          </mat-card>
+          <div class="col-sm-3 col-xl-3 col-md-3 col-lg-3" style="margin-top:3cm;" *ngIf="isapprover">
+            <button mat-raised-button>Confirm</button>
+            <button mat-raised-button>Pending</button>
+            <button mat-raised-button>Reject</button>
           </div>
-          <div class="row">
-            <h6 class="col-sm-3">Batch Size</h6>
-            <p>{{batch_size}}</p>
-          </div>
-          <br>
-          <div class="row">
-            <h6 class="col-sm-3">Equipment </h6>
-            <div class="col-sm-2">
-              <b>{{equipment1}}</b>
-
-            </div>
-            <div class="col-sm-1">
-              <b>max</b>
-              <p>kg</p>
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <h6 class="col-sm-3">OptionalEquipment </h6>
-            <div class="col-sm-2">
-
-              <p>{{optional_equipment}}</p>
-            </div>
-            <div class="col-sm-2">
-
-              <p>kg</p>
-            </div>
-          </div>
-          <br>
-
-          <br>
-          <div class="row">
-            <h6 class="col-sm-3">Lab NoteBook Number </h6>
-            <div class="col-sm-2">
-              <b>{{labnotebook}}</b>
-
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <h6 class="col-sm-3">Manufacturing date </h6>
-            <div class="col-sm-2">
-              <b>{{date}}</b>
-
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <h6 class="col-sm-3">Filling </h6>
-            <div class="col-sm-2">
-              <b>Date Requested </b>
-
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <h6 class="col-sm-3">Packaging </h6>
-            <div class="col-sm-2">
-              <b>Packaging Type </b>
-
-            </div>
-            <div class="col-sm-1">
-              <b>Plan </b>
-
-            </div>
-            <div class="col-sm-1">
-              <b>Quantity </b>
-
-            </div>
-          </div>
-          <br>
-
-
-
-
-        </mat-card>
+        </div>
       </div>
       <div id="formula" class="tab-pane fade">
 
@@ -783,9 +797,23 @@
                     <button mat-raised-button (click)="formulareq_save('save')" color="primary">
                       <b>Save</b>
                     </button>
-                    <button mat-raised-button (click)="formulareq_save('submit')" color="primary">
+                    <button mat-raised-button *ngIf="!isapprover" (click)="formulareq_save('submit')" color="primary">
                       <b>Submit</b>
                     </button>
+
+
+                  </mat-button-toggle-group>
+                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="isapprover">
+                    <button mat-raised-button color="primary" (click)="formulareq_save('reject')">
+                      <b>Reject</b>
+                    </button>
+                    <button mat-raised-button (click)="formulareq_save('confirm')" color="primary">
+                      <b>Confirm</b>
+                    </button>
+                    <button mat-raised-button (click)="formulareq_save('pending')" color="primary">
+                      <b>Pending</b>
+                    </button>
+
 
                   </mat-button-toggle-group>
                 </div>
@@ -898,7 +926,8 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput ([ngModel])="duedate" (dateInput)="formatduedate($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
+                                <input matInput ([ngModel])="duedate" (dateInput)="formatduedate($event.target.value)" [min]="startDate" [matDatepicker]="dp"
+                                  placeholder="Select date">
                                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                 <mat-datepicker #dp></mat-datepicker>
                               </mat-form-field>
@@ -1171,6 +1200,19 @@
                     </button>
 
                   </mat-button-toggle-group>
+                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="isapprover">
+                    <button mat-raised-button color="primary" (click)="formulareq_save('cancel')">
+                      <b>Reject</b>
+                    </button>
+                    <button mat-raised-button (click)="formulareq_save('confirm')" color="primary">
+                      <b>Confirm</b>
+                    </button>
+                    <button mat-raised-button (click)="formulareq_save('pending')" color="primary">
+                      <b>Pending</b>
+                    </button>
+
+
+                  </mat-button-toggle-group>
                 </div>
               </div>
             </div>
@@ -1190,17 +1232,17 @@
 
     </div>
   </div>
-  <div id="comments" class="tab-pane fade">
+  <div id="comments" class="tab-pane">
     <div class="row header">
       <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
         <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#team">Team Communication
+            <a class="nav-link active" data-toggle="tab" href="#team">Team Communication
               <span class="badge badge-danger">{{comment_list_team.length}}</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#tech">Tech Communication
+            <a class="nav-link" data-toggle="tab" href="#tech">Tech Communication
               <span class="badge badge-danger">{{comment_list_tech.length}}</span>
             </a>
           </li>
@@ -1264,67 +1306,105 @@
             </div>
           </div>
         </mat-card>
-        <div class="footer">
+        <br>
+        <br>
+        <div id="bottom-footer" class="hidden-xs">
           <div class="container">
-            <p>&copy&nbspFooter Works, LLC - 2018</p>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="footer-left">
+                  <br> © Copyright 2018-2019, Dfoundry.io All Rights Reserved.
+
+                </div>
+              </div>
+
+
+            </div>
           </div>
         </div>
-
       </div>
       <div id="tech" class="tab-pane">
+
+        <span>Add a Comment</span>
+        <div class="form-group">
+          <textarea class="form-control" style="width:50%;" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}" id="exampleTextarea"
+            rows="2"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="addcomment('technical')">Submit</button>
         <mat-card>
-          <span>Add a Comment</span>
-          <div class="form-group">
-            <textarea class="form-control" style="width:50%;" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}" id="exampleTextarea"
-              rows="2"></textarea>
+          <div class="row">
+            <div class="col-sm-4">
+              <h4>Comments</h4>
+            </div>
+
+            <div class="col-sm-2">
+              <p>AddedBy:</p>
+            </div>
+            <br>
+            <div class="col-sm-2">
+              Actions
+            </div>
           </div>
-          <button type="button" class="btn btn-primary" (click)="addcomment('technical')">Submit</button>
-          <mat-card>
-            <div class="row">
-              <div class="col-sm-4">
-                <h4>Comments</h4>
-              </div>
-
-              <div class="col-sm-2">
-                <p>AddedBy:</p>
-              </div>
-              <br>
-              <div class="col-sm-2">
-                Actions
-              </div>
-            </div>
-          </mat-card>
-          <mat-card style="margin-top:1cm;" *ngFor="let comment of comment_list_team">
-            <div class="row">
-              <div class="col-sm-4">
-                <h6>{{comment.comment}}</h6>
-              </div>
-
-              <div class="col-sm-2">
-                <p class="text-success">
-                  <i>By:</i>{{comment.createdBy}}</p>
-              </div>
-              <br>
-              <div class="col-sm-2">
-                <button mat-icon-button (click)="comment.edit=true">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button>
-                  <mat-icon (click)="delcomment(comment.comment_id)">delete</mat-icon>
-                </button>
-              </div>
-              <div *ngIf="comment.edit" class="col-sm-3">
-                <textarea class="form-control" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
-              </div>
-            </div>
-          </mat-card>
         </mat-card>
+        <div *ngFor="let comment of comment_list_team">
+          <div class="row" style="margin-top:1cm;">
+            <div class="col-sm-4">
+              <h6>{{comment.comment}}</h6>
+            </div>
+
+            <div class="col-sm-2">
+              <p class="text-success">
+                <i>By:</i>{{comment.createdBy}}</p>
+            </div>
+            <br>
+            <div class="col-sm-2">
+              <button mat-icon-button (click)="comment.edit=true">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button>
+                <mat-icon (click)="delcomment(comment.comment_id)">delete</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="comment.edit" class="col-sm-3">
+              <textarea class="form-control" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+
+        </div>
+        <br>
+        <br>
+        <div id="bottom-footer" class="hidden-xs">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="footer-left">
+                  © Copyright 2017-2018, Dfoundry.io All Rights Reserved.
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="privacy">
+                  <ul class="list-unstyled list-inline pull-right">
+                    <li>
+                      <a href="javascript:;">Terms &amp; Conditions</a>
+                    </li> |
+                    <li>
+                      <a href="javascript:;">Policy</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div id="history" class="tab-pane fade">
 
-    <ag-grid-angular style="height:600px;" class="ag-theme-balham list " enableColResize="true" [enableSorting]="true " [enableFilter]="true "
+    <ag-grid-angular style="height:7cm;" class="ag-theme-balham list " enableColResize="true" [enableSorting]="true " [enableFilter]="true "
       [rowData]="rowData" [columnDefs]="columnDefs">
     </ag-grid-angular>
   </div>

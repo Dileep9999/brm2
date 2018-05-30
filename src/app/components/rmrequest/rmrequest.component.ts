@@ -11,7 +11,7 @@ import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify'
   styleUrls: ['./rmrequest.component.css']
 })
 export class RmrequestComponent implements OnInit {
-
+  startDate: Date = new Date;
   fattribute = true;
   material = false;
   approver1 = false;
@@ -37,23 +37,41 @@ export class RmrequestComponent implements OnInit {
   labnotebook: String;
   description: String;
   formula_id: String;
-  batch_size: number;
+  batch_size: number = 1;
   batch_unit: String = "KG";
   batch_type: String;
   pr_number: number;
   rm_num: String;
   appr: String;
   approvers: String[];
-  row_matrials: any = {
-    trade_name: '',
-    rm_num: '',
-    percentage: '',
-    quantity_required: '',
-    simatic_lab_gxp_stock: '',
-    simatic_pilot_stock: '',
-    simatic_lab_stock: '',
-    quantity_to_order: ''
-  };
+  row_matrials: any = [{
+    trade_name: 'Structural XL',
+    rm_num: 'RMT0138',
+    percentage: 1.0,
+    quantity_required: (this.batch_size * 1) / 100,
+    simatic_lab_gxp_stock: '-',
+    simatic_pilot_stock: 0.2,
+    simatic_lab_stock: 0.5,
+    quantity_to_order: ((this.batch_size * 1) / 100) * 2
+  }, {
+    trade_name: 'Sepiplus 400',
+    rm_num: 'RMT0138',
+    percentage: 1.0,
+    quantity_required: (this.batch_size * 1) / 100,
+    simatic_lab_gxp_stock: '-',
+    simatic_pilot_stock: 'In-House',
+    simatic_lab_stock: 'In-House',
+    quantity_to_order: ((this.batch_size * 1) / 100) * 2
+  }, {
+    trade_name: 'Phenoxptol',
+    rm_num: 'RMT0138',
+    percentage: 2.0,
+    quantity_required: (this.batch_size * 1) / 100,
+    simatic_lab_gxp_stock: '-',
+    simatic_pilot_stock: 'In-House',
+    simatic_lab_stock: 'In-House',
+    quantity_to_order: ((this.batch_size * 1) / 100) * 2
+  }];
   labnotebooknums: String[];
   formulaids: String[];
 
@@ -61,7 +79,7 @@ export class RmrequestComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public http: Http,
-    private snotify: SnotifyService,
+    public snotify: SnotifyService,
     public snackBar: MatSnackBar
   ) { }
   ngOnInit() {
@@ -77,6 +95,125 @@ export class RmrequestComponent implements OnInit {
   }
 
   getrowmatrials() {
+
+  }
+
+  updaterowmatrials() {
+    switch (this.batch_unit) {
+      case 'KG':
+
+        this.row_matrials.quantity_required = ((this.batch_size * 1) / 100) * 1000;
+        this.row_matrials.quantity_to_order = (((this.batch_size * 1) / 100) * 2) * 1000;
+        break;
+      case 'G':
+        this.row_matrials.quantity_required = ((this.batch_size * 1) / 100);
+        this.row_matrials.quantity_to_order = (((this.batch_size * 1) / 100) * 2);
+        break;
+      case 'OZ':
+        this.row_matrials.quantity_required = ((this.batch_size * 1) / 100) * 28.3495;
+        this.row_matrials.quantity_to_order = (((this.batch_size * 1) / 100) * 2) * 28.3495;
+        break;
+      default:
+
+    }
+
+    switch (this.batch_unit) {
+      case 'KG':
+        this.row_matrials = [{
+          trade_name: 'Structural XL',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 1000,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 0.2,
+          simatic_lab_stock: 0.5,
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 1000
+        }, {
+          trade_name: 'Sepiplus 400',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 1000,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 1000
+        }, {
+          trade_name: 'Phenoxptol',
+          rm_num: 'RMT0138',
+          percentage: 2.0,
+          quantity_required: (((this.batch_size * 1) / 100)) * 1000,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 1000
+        }];
+
+        break;
+      case 'G':
+        this.row_matrials = [{
+          trade_name: 'Structural XL',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100),
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 0.2,
+          simatic_lab_stock: 0.5,
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2)
+        }, {
+          trade_name: 'Sepiplus 400',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100),
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2)
+        }, {
+          trade_name: 'Phenoxptol',
+          rm_num: 'RMT0138',
+          percentage: 2.0,
+          quantity_required: (((this.batch_size * 1) / 100)),
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2)
+        }];
+
+        break;
+      case 'OZ':
+        this.row_matrials = [{
+          trade_name: 'Structural XL',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 28.3495,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 0.2,
+          simatic_lab_stock: 0.5,
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 28.3495
+        }, {
+          trade_name: 'Sepiplus 400',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 28.3495,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 28.3495
+        }, {
+          trade_name: 'Phenoxptol',
+          rm_num: 'RMT0138',
+          percentage: 2.0,
+          quantity_required: (((this.batch_size * 1) / 100)) * 28.3495,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 28.3495
+        }];
+        break;
+      default:
+
+    }
+
 
   }
 
@@ -233,23 +370,14 @@ export class RmrequestComponent implements OnInit {
   }
 
 
-  submit() {
+  submit(flag) {
     let data = {
       request_id: this.rm_num,
       formula_id: this.formula_id,
       batch_size: this.batch_size,
       batch_unit: this.batch_unit,
       lab_note_book_number: this.labnotebook,
-      raw_material: [{
-        trade_name: "Flipkart",
-        rm_no: "RMT451",
-        percentage: 0.75
-      },
-      {
-        trade_name: "Amazon",
-        rm_no: "RMT451",
-        percentage: 0.80
-      }],
+      raw_material: this.row_matrials,
       site: this.sitetype,
       batch_type: this.batch_type,
       legal_product_category: this.legal_product_category,
@@ -262,49 +390,23 @@ export class RmrequestComponent implements OnInit {
       manufacturing_date: this.mfgdate,
       request_type: "BATCH RM ORDER",
       approver: this.appr,
-      performed_by: "dileep",
-      flag: "submit",
+      performed_by: this.authService.user_id,
+      flag: flag,
       confirm_flag: true
     }
     console.log(data);
     this.authService.savermrequest(data).subscribe(data => {
-      this.snackBar.open('Success', 'Ok', { duration: 3000 });
+      this.snotify.success('Success', flag + 'ed', {
+        timeout: 3000,
+        position: SnotifyPosition.rightTop,
+        pauseOnHover: true,
+        closeOnClick: true,
+        showProgressBar: false
+
+      });
     });
   }
 
-
-  save() {
-    let data = {
-      request_id: this.rm_num,
-      formula_id: this.formula_id,
-      batch_size: this.batch_size,
-      batch_unit: this.batch_unit,
-      lab_note_book_number: this.labnotebook,
-      raw_material: [],
-      site: this.sitetype,
-      batch_type: this.batch_type,
-      legal_product_category: this.legal_product_category,
-      formula_status: "new",
-      formula_description: this.description,
-      formula_pr_number: this.pr_number,
-      formulator: this.authService.user_id,
-      project: this.project,
-      department: this.department,
-      manufacturing_date: this.mfgdate,
-      request_type: "BATCH RM ORDER",
-      flag: "save",
-      approver: this.appr,
-      confirm_flag: false
-
-    }
-    console.log(data);
-    this.authService.savermrequest(data).subscribe(data => {
-      console.log(data.data.message);
-      this.snackBar.open('Saved', 'Ok', { duration: 3000 });
-
-    });
-
-  }
 
 
 }

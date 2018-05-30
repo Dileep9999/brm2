@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavbarComponent, DialogOverviewExampleDialog, DialogOverview, Rmrequest } from './components/navbar/navbar.component';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent, DateRange1 } from './components/home/home.component';
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
@@ -23,15 +23,15 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatChipsModule } from '@angular/material/chips';
-import { PrefrenceComponent } from './components/prefrence/prefrence.component';
+import { PrefrenceComponent, DateRange } from './components/prefrence/prefrence.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { ToasterModule, ToasterService } from 'angular5-toaster';
+// import { ToasterModule, ToasterService } from 'angular5-toaster';
 import { BatchrequestComponent } from './components/batchrequest/batchrequest.component';
 import { MatSelectModule } from '@angular/material/select';
-import { SuperadminComponent } from './components/superadmin/superadmin.component';
+import { SuperadminComponent, NewUser } from './components/superadmin/superadmin.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgCircleProgressModule } from 'ng-circle-progress';
@@ -43,11 +43,12 @@ import { FillingreqComponent } from './components/fillingreq/fillingreq.componen
 
 import { LoginComponent } from './components/login/login.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { NgNotifyPopup } from 'ng2-notify-popup';
+
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 
@@ -69,6 +70,7 @@ const appRoutes: Routes = [
     AppComponent,
     NavbarComponent,
     HomeComponent,
+    NewUser,
     DashboardComponent,
     DialogOverviewExampleDialog,
     DialogOverview,
@@ -78,7 +80,9 @@ const appRoutes: Routes = [
     RmrequestComponent,
     Rmrequest,
     FillingreqComponent,
-    LoginComponent
+    LoginComponent,
+    DateRange,
+    DateRange1
 
 
 
@@ -88,19 +92,19 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     MatListModule,
+    MatToolbarModule,
     RouterModule.forRoot(appRoutes),
     MatSnackBarModule,
     BrowserAnimationsModule,
     MatDialogModule,
     MatExpansionModule,
-    ToasterModule,
+    // ToasterModule,
     MatMenuModule,
     MatIconModule,
     MatProgressBarModule,
     MatCardModule,
     MatSlideToggleModule,
     MatDividerModule,
-    NgNotifyPopup,
     MatInputModule,
     MatButtonModule,
     FormsModule, ReactiveFormsModule,
@@ -112,7 +116,6 @@ const appRoutes: Routes = [
     MatCheckboxModule,
     MatButtonToggleModule,
     Ng2SearchPipeModule,
-    ToasterModule,
     MatSelectModule,
     MatProgressSpinnerModule,
     MatRadioModule,
@@ -131,7 +134,7 @@ const appRoutes: Routes = [
     AgGridModule.withComponents([HomeComponent, BatchrequestComponent]),
     MatAutocompleteModule
   ],
-  entryComponents: [DialogOverviewExampleDialog, DialogOverview, Rmrequest],
+  entryComponents: [DialogOverviewExampleDialog, DialogOverview, Rmrequest, DateRange, DateRange1, NewUser],
 
   providers: [ValidateService, AuthService, AuthGuard, {
     provide: 'SnotifyToastConfig', useValue: ToastDefaults

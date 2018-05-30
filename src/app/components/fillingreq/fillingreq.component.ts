@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Jsonp } from '@angular/http';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
 
 @Component({
@@ -11,6 +12,7 @@ import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify'
 })
 export class FillingreqComponent implements OnInit {
   filling = true;
+  startDate: Date = new Date;
   lab = false;
   plan = false;
   partner = false;
@@ -51,14 +53,24 @@ export class FillingreqComponent implements OnInit {
   appr: String;
   packagingcode: String;
   packagingcodes: String[];
-  notapplicable: boolean = false;
+  notapplicable: boolean = true;
+  labnotebooknums: String[];
+  formulaids: String[];
+
   constructor(
     public authService: AuthService,
     public snackBar: MatSnackBar,
+    public router: Router,
     private snotify: SnotifyService
   ) { }
 
   ngOnInit() {
+    if (this.authService.project === undefined) {
+      this.router.navigate(['/home']);
+
+    }
+    this.formulaids = [];
+    this.labnotebooknums = [];
     this.project = this.authService.project;
     this.packagingcodes = [];
     this.department = this.authService.department;
@@ -66,7 +78,22 @@ export class FillingreqComponent implements OnInit {
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
     this.approvers = [];
     this.getusers();
+    this.getlabnums();
     this.getpackagingcodes();
+  }
+
+  getlabnums() {
+    this.authService.getlabs().subscribe(data => {
+      this.labnotebooknums = data.data;
+    });
+  }
+
+  getformulas() {
+    this.authService.getformulas(this.labnotebook).subscribe(data => {
+      console.log(data);
+
+      this.formulaids = data.data;
+    });
   }
 
 
@@ -74,16 +101,21 @@ export class FillingreqComponent implements OnInit {
     this.authService.getusers("USER").subscribe(data => {
       if (data.success) {
         console.log(data);
-
-        for (let i = 0; i <= data.data.length; i++) {
+        let e = data.data;
+        e.map(e => {
           if
-          (data.data[i].approver_permission) {
-            this.approvers.push(data.data[i].user_id)
+          (e.approver_permission) {
+            this.approvers.push(e.user_id)
           }
-        }
-        console.log(this.approvers);
 
+        });
 
+        // for (let i = 0; i <= data.data.length; i++) {
+        //   if
+        //   (data.data[i].approver_permission) {
+        //     this.approvers.push(data.data[i].user_id)
+        //   }
+        // }
       }
 
     });
@@ -99,9 +131,6 @@ export class FillingreqComponent implements OnInit {
   getpackagingcodes() {
 
     this.authService.getpc().subscribe(data => {
-      //  data.data.map(
-      //   this.packagingcodes.push(data.data.packaging_code);
-      //  )
 
       for (let i = 0; i <= data.data.length - 1; i++) {
         this.packagingcodes.push(data.data[i].packaging_code);

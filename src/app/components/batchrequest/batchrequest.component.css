@@ -20,15 +20,15 @@
     width: 210px;
 }
 .staus-new{
-    font-size: 11px;
+    font-size: 13px;
     font-family: ArialMT;
-    text-align: left;
+    text-align: bold;
 }
 .staus-Batch{
-    font-size: 12px;
+    font-size: 13px;
     font-family: ArialMT;
     text-align: left;
-    font-style: italic;
+    font-style: bold;
 }
 .pilot-br{
     border: 1px solid black;
@@ -121,4 +121,11 @@
     border-radius: 5px;
     margin-top: 20px;
     background-color: white;
+}
+
+
+.hidden-xs{
+    background: rgb(19, 17, 17);
+    min-height: 2cm;
+    color: #fff;
 }

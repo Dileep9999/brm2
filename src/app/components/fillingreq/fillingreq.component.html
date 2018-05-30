@@ -181,11 +181,12 @@
                         <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                           <div class="row">
                             <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                              <label (click)="formatdate()">Manufacturing Date</label>
+                              <label>Manufacturing Date</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="dp" placeholder="Select date">
+                                <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [min]="startDate" [matDatepicker]="dp"
+                                  placeholder="Select date">
                                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                 <mat-datepicker #dp></mat-datepicker>
                               </mat-form-field>
@@ -210,7 +211,9 @@
                               <label>Lab Notebook Number</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <input class="form-control" [(ngModel)]="labnotebook" [ngModelOptions]="{standalone: true}" type="text" placeholder="19545-168">
+                              <mat-select class="form-control" (change)="getformulas()" [(value)]="labnotebook" placeholder="LABXX-168">
+                                <mat-option *ngFor="let num of labnotebooknums" value="{{num}}">{{num}}</mat-option>
+                              </mat-select>
                             </div>
                           </div>
                         </div>
@@ -221,7 +224,9 @@
                               <label>Formula</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <input class="form-control" [(ngModel)]="formula_id" [ngModelOptions]="{standalone: true}" type="text" placeholder="#####">
+                              <mat-select class="form-control" [(value)]="formula_id" placeholder="#####">
+                                <mat-option *ngFor="let id of formulaids" value="{{id}}">{{id}}</mat-option>
+                              </mat-select>
                             </div>
                           </div>
                         </div>
@@ -266,10 +271,10 @@
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
                               <mat-radio-group class="example-radio-group" [(ngModel)]="gxpvalue" [ngModelOptions]="{standalone: true}">
-                                <mat-radio-button class="example-radio-button" value="true" [color]="primary">
+                                <mat-radio-button class="example-radio-button" value="true" color="primary">
                                   GXP
                                 </mat-radio-button>
-                                <mat-radio-button class="example-radio-button" [color]="primary" value="false">
+                                <mat-radio-button class="example-radio-button" color="primary" value="false">
                                   Not Gxp
                                 </mat-radio-button>
                               </mat-radio-group>
@@ -297,7 +302,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select placeholder="{{depaartment}}">
+                                <mat-select placeholder="{{department}}">
                                   <mat-option value="{{department}}" disabled>{{department}}</mat-option>
 
                                 </mat-select>
