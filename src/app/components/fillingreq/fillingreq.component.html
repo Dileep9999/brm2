@@ -3,7 +3,14 @@
     <div class="row">
       <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
         <div class="row">
-          <div class="projectName">{{fr_num}}</div>
+          <div class="projectName">
+            <h4 style="width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;">
+              <b>{{fr_num}}</b>
+            </h4>
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
@@ -33,14 +40,15 @@
             <div class="row">
               <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;">
 
-                <circle-progress [percent]=15 id="circle" [showSubtitle]=false [titleFontSize]=8 [radius]="22" [outerStrokeWidth]="4" [innerStrokeWidth]="2"
-                  [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true" [animationDuration]="800"></circle-progress>
+                <circle-progress [percent]=percent id="circle" [showSubtitle]=false [titleFontSize]=8 [radius]="22" [outerStrokeWidth]="4"
+                  [innerStrokeWidth]="2" [outerStrokeColor]="progressbar_color" [innerStrokeColor]="'#C7E596'" [animation]="true"
+                  [animationDuration]="800"></circle-progress>
                 <!-- <mat-progress-spinner class="example-margin" style="margin: 20% 10%;" color="warn" [diameter]=45 [value]=18>
                 </mat-progress-spinner> -->
               </div>
               <div class="col-lg-8 col-sm-8 col-xs-8 col-md-8" style="margin-top:15px;padding:0px 5px;">
-                <div class="staus-new">New</div>
-                <div class="staus-Batch">Batch Request Created</div>
+                <div class="staus-new">{{status}}</div>
+                <div class="staus-Batch"> {{status_des}}</div>
               </div>
             </div>
           </div>
@@ -200,7 +208,8 @@
                               <label>Project</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <input class="form-control dropdown-toggle" type="text" [value]="project" disabled placeholder="Enter Project Name">
+                              <input class="form-control dropdown-toggle" type="text" [(ngModel)]="project" [ngModelOptions]="{standalone: true}" disabled
+                                placeholder="{{project}}">
                             </div>
                           </div>
                         </div>
@@ -237,8 +246,7 @@
                               <label>Batch Number*</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <input class="form-control" [(ngModel)]="batch_num" [ngModelOptions]="{standalone: true}" [(value)]="batch_num" type="text"
-                                placeholder="####">
+                              <input class="form-control" [(ngModel)]="batch_num" [ngModelOptions]="{standalone: true}" type="text" placeholder="####">
                             </div>
                           </div>
                         </div>
@@ -302,8 +310,9 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select placeholder="{{department}}">
+                                <mat-select placeholder="{{department}}" [(value)]="department">
                                   <mat-option value="{{department}}" disabled>{{department}}</mat-option>
+                                  <mat-option *ngFor="let dept of departments" value="{{dept}}" disabled>{{dept}}</mat-option>
 
                                 </mat-select>
                               </div>
@@ -319,7 +328,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput [matDatepicker]="duedate" placeholder="Select Due Date" (dateInput)="formatduedate($event.target.value)">
+                                <input matInput [matDatepicker]="duedate" placeholder="Select Due Date" [min]="startDate" (dateInput)="formatduedate($event.target.value)">
                                 <mat-datepicker-toggle matSuffix [for]="duedate"></mat-datepicker-toggle>
                                 <mat-datepicker #duedate></mat-datepicker>
                               </mat-form-field>
@@ -562,7 +571,6 @@
                         </div>
                         <div class="col-sm-6 form-control">
                           <mat-select [(ngModel)]="appr">
-                            <mat-option selected disabled>None</mat-option>
                             <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
                           </mat-select>
                         </div>
@@ -583,9 +591,22 @@
                 <br>
                 <div style="margin-top:1cm">
 
-                  <button mat-raised-button>Cancel</button>
+                  <button mat-raised-button (click)="save('save')">Cancel</button>
                   <button mat-raised-button (click)="save('save')">save</button>
                   <button mat-raised-button (click)="save('submit')">submit</button>
+
+                </div>
+                <div style="margin-top:1cm" *ngIf="isapprover">
+
+                  <button mat-raised-button (click)="save('confirm')">Confirm</button>
+                  <button mat-raised-button (click)="rejectshow=!rejectshow">Reject</button>
+                  <button mat-raised-button (click)="save('pending')">Pending</button>
+
+                </div>
+                <div style="margin-top:1cm" *ngIf="rejectshow">
+
+                  <textarea class="form-control" type="text" [(ngModel)]="rejection_comment" [ngModelOptions]="{standalone: true}" placeholder="why ?"></textarea>
+                  <button mat-raised-button (click)="save('reject')">Reject</button>
 
                 </div>
               </div>
@@ -610,12 +631,12 @@
       <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
         <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#team">Team Communication
+            <a class="nav-link active" data-toggle="tab" href="#team">Team Communication
               <span class="badge badge-danger">0</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#tech">Tech Communication
+            <a class="nav-link" data-toggle="tab" href="#tech">Tech Communication
               <span class="badge badge-danger">0</span>
             </a>
           </li>
@@ -625,26 +646,179 @@
     <br>
     <div class="tab-content">
       <div id="team" class="tab-pane active">
-        <mat-card>
-          <span>Add a Comment</span>
-          <div class="form-group">
-            <textarea class="form-control" style="width:50%;" id="exampleTextarea" rows="2"></textarea>
+
+
+
+        <div class="row">
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}">
           </div>
-          <button type="button" class="btn btn-primary">Submit</button>
-        </mat-card>
+          <div class="col-sm-7 colmd-7 col-xl-7">
+            <textarea placeholder="Enter Comment here...." class="form-control" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}"></textarea>
+          </div>
+
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-7colmd-7 col-xl-7">
+
+          </div>
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <button type="button" class="btn btn-primary" (click)="addcomment('team')">Submit</button>
+          </div>
+
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <div *ngFor="let comment of comment_list_tech">
+          <div class="row">
+            <div class="col-sm-1 colmd-1 col-xl-1">
+              <!-- <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}"> -->
+              <mat-icon style="font-size:35px;">account_circle</mat-icon>
+            </div>
+            <div class="col-sm-7 colmd-7 col-xl-7">
+              <p style="font-size:20px;" *ngIf="!comment.edit">{{comment.createdBy|uppercase}}</p>
+              <div class="card" *ngIf="!comment.edit" style="min-height:2cm;">
+                <p style="margin:0.4cm;">{{comment.comment}}</p>
+              </div>
+              <div class="row">
+                <textarea *ngIf="comment.edit" class="form-control col-sm-5 col-xl-5 col-md-5" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
+                <button mat-raised-button *ngIf="comment.edit" (click)="updatecomment(comment.comment_id)">Add
+                  <mat-icon>send</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-7colmd-7 col-xl-7">
+
+            </div>
+            <div class="col-sm-2 colmd-2 col-xl-2">
+              <a (click)="comment.edit=!comment.edit" style="cursor: pointer;">Edit
+                <mat-icon style="font-size:15px;">edit</mat-icon>
+              </a>
+              <a (click)="delcomment(comment.comment_id)" style="cursor: pointer;">Delete
+                <mat-icon style="font-size:15px;">delete</mat-icon>
+              </a>
+            </div>
+
+          </div>
+          <mat-divider></mat-divider>
+          <br>
+          <br>
+        </div>
+
+
+
+        <div id="bottom-footer" class="hidden-xs">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="footer-left">
+                  © Copyright 2017-2018, Dfoundry.io All Rights Reserved.
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="privacy">
+                  <ul class="list-unstyled list-inline pull-right">
+                    <li>
+                      <a href="javascript:;">Terms &amp; Conditions</a>
+                    </li> |
+                    <li>
+                      <a href="javascript:;">Policy</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
-      <div id="tech" class="tab-pane">
-        <mat-card>
-          <span>Add a Comment</span>
-          <div class="form-group">
-            <textarea class="form-control" style="width:50%;" id="exampleTextarea" rows="2"></textarea>
+      <div id="tech" class="tab-pane ">
+
+
+        <div class="row">
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}">
           </div>
-          <button type="button" class="btn btn-primary">Submit</button>
-        </mat-card>
+          <div class="col-sm-7 colmd-7 col-xl-7">
+            <textarea placeholder="Enter Comment here...." class="form-control" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}"></textarea>
+          </div>
+
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-7colmd-7 col-xl-7">
+
+          </div>
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <button type="button" class="btn btn-primary" (click)="addcomment('technical')">Submit</button>
+          </div>
+
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <div *ngFor="let comment of comment_list_tech">
+          <div class="row">
+            <div class="col-sm-1 colmd-1 col-xl-1">
+              <!-- <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}"> -->
+              <mat-icon style="font-size:35px;">account_circle</mat-icon>
+            </div>
+            <div class="col-sm-7 colmd-7 col-xl-7">
+              <p style="font-size:20px;" *ngIf="!comment.edit">{{comment.createdBy|uppercase}}</p>
+              <div class="card" *ngIf="!comment.edit" style="min-height:2cm;">
+                <p style="margin:0.4cm;">{{comment.comment}}</p>
+              </div>
+              <div class="row">
+                <textarea *ngIf="comment.edit" class="form-control col-sm-5 col-xl-5 col-md-5" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
+                <button mat-raised-button *ngIf="comment.edit" (click)="updatecomment(comment.comment_id)">Add
+                  <mat-icon>send</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-7colmd-7 col-xl-7">
+
+            </div>
+            <div class="col-sm-2 colmd-2 col-xl-2">
+              <a (click)="comment.edit=!comment.edit" style="cursor: pointer;">Edit
+                <mat-icon style="font-size:15px;">edit</mat-icon>
+              </a>
+              <a (click)="delcomment(comment.comment_id)" style="cursor: pointer;">Delete
+                <mat-icon style="font-size:15px;">delete</mat-icon>
+              </a>
+            </div>
+
+          </div>
+          <mat-divider></mat-divider>
+          <br>
+          <br>
+        </div>
+
+
+
+
+
+
+
+
       </div>
     </div>
   </div>
   <div id="history" class="tab-pane fade">
-    <span>history</span>
+
+    <ag-grid-angular style="height:7cm;" class="ag-theme-material" enableColResize="true" [enableSorting]="true " [enableFilter]="true "
+      [rowData]="rowData" [columnDefs]="columnDefs">
+    </ag-grid-angular>
+
   </div>
-</div>

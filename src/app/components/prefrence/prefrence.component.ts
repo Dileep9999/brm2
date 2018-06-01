@@ -264,27 +264,56 @@ export class PrefrenceComponent implements OnInit {
   appendtofilteritems(value, type) {
     switch (type) {
       case "type":
-        this.prefrences.request_filter.filters.batch_type.push(value);
+
+        if (this.prefrences.request_filter.filters.batch_type.indexOf(value) === 0) {
+
+        } else {
+          this.prefrences.request_filter.filters.batch_type.push(value);
+        }
+
+
         break;
       case "site":
-        this.prefrences.request_filter.filters.site.push(value);
+        if (this.prefrences.request_filter.filters.site.indexOf(value) === 0) {
 
+        } else {
+          this.prefrences.request_filter.filters.site.push(value);
+        }
 
         break;
       case "leagalproduct":
-        this.prefrences.request_filter.filters.legal_product_category.push(value);
+        if (this.prefrences.request_filter.filters.legal_product_category.indexOf(value) === 0) {
+
+        } else {
+          this.prefrences.request_filter.filters.legal_product_category.push(value);
+        }
+
         break;
       case "status":
-        this.prefrences.request_filter.filters.status.push(value);
+        if (this.prefrences.request_filter.filters.status.indexOf(value) === 0) {
+
+        } else {
+          this.prefrences.request_filter.filters.status.push(value);
+        }
+
         break;
       case "project":
-        this.prefrences.request_filter.filters.project.push(value);
+        if (this.prefrences.request_filter.filters.project.indexOf(value) === 0) {
+
+        } else {
+          this.prefrences.request_filter.filters.project.push(value);
+        }
         break;
       case "partner":
-        this.prefrences.request_filter.filters.partner.push(value);
+        if (this.prefrences.request_filter.filters.partner.indexOf(value) === 0) {
+
+        } else {
+          this.prefrences.request_filter.filters.partner.push(value);
+        }
+
         break;
       case "mfgdate":
-        this.prefrences.request_filter.filters.manufacturing_date.push(value);
+        // this.prefrences.request_filter.filters.manufacturing_date.push(value);
         break;
       default:
     }

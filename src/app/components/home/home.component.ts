@@ -18,7 +18,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class HomeComponent implements OnInit {
 
 
-  expanded: boolean = true;
+  expanded: boolean = false;
   mode: String;
   request = false;
   favorites = false;
@@ -50,35 +50,88 @@ export class HomeComponent implements OnInit {
   no_of_FR: any;
   no_of_RM: any;
   columnDefs = [
+    // { headerName: 'Fav', field: 'template' },
     { headerName: 'Request Number', field: 'request_id' },
     { headerName: 'Project Name', field: 'project' },
     { headerName: 'Submitter', field: 'createdBy' },
     { headerName: 'Created Date', field: 'createdAt' },
     { headerName: 'Status', field: 'status' },
     { headerName: 'UpdatedAt', field: 'lastModified' },
-
-
   ];
 
   rowData = [
+
   ];
   loadcard: String[];
   panelOpenState: any;
   prefrences: any;
+
 
   constructor(public authService: AuthService,
     public http: Http,
     public dialog: MatDialog,
     public snotify: SnotifyService,
     public router: Router) {
+    this.prefrences =
+      {
+        createdAt: "",
+        user_id: "",
+        formula_request_contents: "",
+        request_contents: {
+          batch_type: "",
+          legal_product_category: "",
+          site: ""
+        },
+        request_filter: {
+          filters: {
+            partner: [
 
+            ],
+            project: [
+
+            ],
+            status: [
+
+            ],
+            legal_product_category: [
+
+            ],
+            site: [
+
+            ],
+            manufacturing_date: [
+
+            ],
+            batch_type: [
+
+            ],
+            gxp: false
+          },
+          my_requests: "OPEN TASK",
+          view: "ALL REQUESTS",
+          mode: "TILE"
+        },
+        home_view: {
+          my_requests: {
+            rm_request: true,
+            filling_request: true,
+            batch_request: true
+          }
+        },
+        calender_view: {
+          batch_type: "LAB",
+          legal_product_category: "COSMETIC",
+          site: "VJC",
+          request_type: "BATCH REQUEST"
+        }
+      }
 
   }
   scroll = (): void => {
     let a = window.pageYOffset;
-    if (a > 30) {
+    if (a > 33) {
       this.expanded = false;
-    } else if (a < 30) {
+    } else if (a < 33) {
       this.expanded = true;
     }
 
@@ -113,29 +166,65 @@ export class HomeComponent implements OnInit {
     this.loadrequests();
 
   }
+
+  emptyarray(value) {
+    switch (value) {
+      case "type":
+        this.prefrences.request_filter.filters.batch_type = [];
+        console.log(value);
+
+        break;
+      case "site":
+        this.prefrences.request_filter.filters.site = [];
+        break;
+      case "leagalproduct":
+        this.prefrences.request_filter.filters.legal_product_category = [];
+        break;
+      case "status":
+        this.prefrences.request_filter.filters.status = [];
+        break;
+      case "project":
+        this.prefrences.request_filter.filters.project = [];
+        break;
+      case "partner":
+        this.prefrences.request_filter.filters.partner = [];
+        break;
+      case "mfgdate":
+        this.prefrences.request_filter.filters.manufacturing_date = [];
+        break;
+      default:
+
+    }
+
+    // this.prefrences.request_filter.filters.batch_type = [];
+  }
+
+
   getprefrences() {
     this.authService.getprefrences().subscribe(data => {
       if (data.success) {
-        console.log(data);
-        this.prefrences = data.data;
+        if (data.data !== undefined) {
+
+          this.prefrences = data.data;
 
 
-        if (this.prefrences.request_filter.mode === 'TILE') {
-          this.tile1();
-        } else {
-          this.list1();
-        }
-        switch (this.prefrences.request_filter.view) {
-          case "MY REQUEST":
-            this.request1();
-            break;
-          case "FAVOURITES":
-            this.favorites1();
-            break;
-          case "ALL REQUESTS":
-            this.allrequests1();
-            break;
-          default:
+          if (this.prefrences.request_filter.mode === 'TILE') {
+            this.tile1();
+          } else {
+            this.list1();
+          }
+          switch (this.prefrences.request_filter.view) {
+            case "MY REQUEST":
+              this.request1();
+              break;
+            case "FAVOURITES":
+              this.favorites1();
+              break;
+            case "ALL REQUESTS":
+              this.allrequests1();
+              break;
+            default:
+          }
         }
       }
     });
@@ -280,6 +369,17 @@ export class HomeComponent implements OnInit {
 
   }
 
+  formulareq(req) {
+    this.authService.req = req;
+    this.authService.permission = true;
+    this.router.navigate(['/rm']);
+  }
+  fillingreq(req) {
+    this.authService.req = req;
+    this.authService.permission = true;
+    this.router.navigate(['/filling']);
+  }
+
   myreq() {
 
     this.batchrequests = [];
@@ -324,6 +424,11 @@ export class HomeComponent implements OnInit {
   loadrequests() {
     this.authService.getallrequests().subscribe(data => {
       this.requests = data.data;
+      console.log(data.data);
+      if (this.requests[0] === undefined) {
+        this.expanded = false;
+      }
+
 
       this.authService.getfav().subscribe(data => {
         this.fav_req = data.data;
@@ -336,7 +441,6 @@ export class HomeComponent implements OnInit {
             this.requests[l].percent = 50;
           } else if (this.requests[l].status === "Reserved") {
             this.requests[l].percent = 75;
-
           } else if (this.requests[l].status === "Cancelled") {
             this.requests[l].percent = 100;
           } else if (this.requests[l].status === "Confirmed") {
@@ -349,10 +453,14 @@ export class HomeComponent implements OnInit {
             this.fav_req[j].favorites = true;
             if (this.requests[k].request_id === this.fav_req[j].request_id) {
               this.requests[k].favorites = true;
+
             }
           }
         }
       });
+
+
+
 
 
       for (let i = 0; i <= this.requests.length - 1; i++) {
@@ -419,9 +527,34 @@ export class HomeComponent implements OnInit {
   }
 
 
-  appendtofilteritems(type) {
+  appendtofilteritems(value, type) {
+    switch (type) {
+      case "type":
+        this.prefrences.request_filter.filters.batch_type.push(value);
+        break;
+      case "site":
+        this.prefrences.request_filter.filters.site.push(value);
 
-    this.filteritems.push(type);
+
+        break;
+      case "leagalproduct":
+        this.prefrences.request_filter.filters.legal_product_category.push(value);
+        break;
+      case "status":
+        this.prefrences.request_filter.filters.status.push(value);
+        break;
+      case "project":
+        this.prefrences.request_filter.filters.project.push(value);
+        break;
+      case "partner":
+        this.prefrences.request_filter.filters.partner.push(value);
+        break;
+      case "mfgdate":
+        this.prefrences.request_filter.filters.manufacturing_date.push(value);
+        break;
+      default:
+    }
+    console.log(value, type);
 
   }
 

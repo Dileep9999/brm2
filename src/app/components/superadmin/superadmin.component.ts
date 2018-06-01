@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatSnackBar } from '@angular/material';
 import { MatTableDataSource } from '@angular/material';
-import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig, Snotify } from 'ng-snotify';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
@@ -437,7 +437,7 @@ export class SuperadminComponent implements OnInit {
 
   openDialog(): void {
     let dialogRef = this.dialog.open(NewUser, {
-      width: '380px',
+      width: '480px',
       data: {}
     });
 
@@ -490,6 +490,7 @@ export class NewUser {
   user_id: String;
   email: String;
   password: String;
+  password1: String;
 
   btndisabled: boolean = true;
 
@@ -498,6 +499,7 @@ export class NewUser {
   constructor(
     public dialogRef: MatDialogRef<NewUser>,
     private router: Router,
+    public snotify: SnotifyService,
     public authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -516,13 +518,26 @@ export class NewUser {
 
 
   submit() {
-    let data = {
-      user_id: this.user_id,
-      email: this.email,
-      password: this.password
+    if (this.password === this.password1) {
+      let data = {
+        user_id: this.user_id,
+        email: this.email,
+        password: this.password
+
+      }
+      this.dialogRef.close(data);
+    } else {
+      this.snotify.error('Mismatch', 'Password', {
+        timeout: 4000,
+        showProgressBar: false,
+        closeOnClick: true,
+        position: SnotifyPosition.centerCenter,
+        pauseOnHover: true,
+
+      })
 
     }
-    this.dialogRef.close(data);
+
 
   }
 

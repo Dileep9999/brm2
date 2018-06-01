@@ -1,7 +1,7 @@
 .projectName{
     padding: 0px 0px 0px 20px;
     font-size: 21px !important;
-    font-family: AkzidenzGrotesk!important;
+
 }
 .Header-label{
     font-size: 13px;
@@ -21,12 +21,12 @@
 }
 .staus-new{
     font-size: 13px;
-    font-family: ArialMT;
+
     text-align: bold;
 }
 .staus-Batch{
     font-size: 13px;
-    font-family: ArialMT;
+
     text-align: left;
     font-style: bold;
 }

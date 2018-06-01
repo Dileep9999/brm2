@@ -60,7 +60,7 @@ export class BatchrequestComponent implements OnInit {
   date: any;
   approvers: String[];
   formula_id: String;
-  batch_size: String;
+
   batch_unit: String = "KG";
   pr_number: String;
   description: String;
@@ -94,6 +94,7 @@ export class BatchrequestComponent implements OnInit {
   equipmentsubmitenable: boolean = true;
   labnotebooknums: String[];
   formulaids: String[];
+  batch_size: number;
 
   columnDefs = [
     { headerName: 'Request Number', field: 'request_id' },
@@ -107,11 +108,44 @@ export class BatchrequestComponent implements OnInit {
   rowData = [
   ];
 
+  row_matrials: any = [{
+    trade_name: 'Structural XL',
+    rm_num: 'RMT0138',
+    percentage: 1.0,
+    quantity_required: (this.batch_size * 1) / 100,
+    simatic_lab_gxp_stock: '-',
+    simatic_pilot_stock: 0.2,
+    simatic_lab_stock: 0.5,
+    quantity_to_order: ((this.batch_size * 1) / 100) * 2
+  }, {
+    trade_name: 'Sepiplus 400',
+    rm_num: 'RMT0138',
+    percentage: 1.0,
+    quantity_required: (this.batch_size * 1) / 100,
+    simatic_lab_gxp_stock: '-',
+    simatic_pilot_stock: 'In-House',
+    simatic_lab_stock: 'In-House',
+    quantity_to_order: ((this.batch_size * 1) / 100) * 2
+  }, {
+    trade_name: 'Phenoxptol',
+    rm_num: 'RMT0138',
+    percentage: 2.0,
+    quantity_required: (this.batch_size * 1) / 100,
+    simatic_lab_gxp_stock: '-',
+    simatic_pilot_stock: 'In-House',
+    simatic_lab_stock: 'In-House',
+    quantity_to_order: ((this.batch_size * 1) / 100) * 2
+  }];
+
 
   constructor(public authService: AuthService,
     public snackBar: MatSnackBar,
     public snotify: SnotifyService,
-    public router: Router) { }
+    public router: Router) {
+    if (this.authService.project === undefined && !this.authService.permission) {
+      this.router.navigate(['/home']);
+    }
+  }
 
 
   sumitenable() {
@@ -122,9 +156,7 @@ export class BatchrequestComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.project === undefined && !this.authService.permission) {
-      this.router.navigate(['/']);
-    }
+
 
     if (this.authService.project != undefined) {
       this.newrequest();
@@ -199,6 +231,126 @@ export class BatchrequestComponent implements OnInit {
     });
   }
 
+  updaterowmatrials() {
+    switch (this.batch_unit) {
+      case 'KG':
+
+        this.row_matrials.quantity_required = ((this.batch_size * 1) / 100) * 1000;
+        this.row_matrials.quantity_to_order = (((this.batch_size * 1) / 100) * 2) * 1000;
+        break;
+      case 'G':
+        this.row_matrials.quantity_required = ((this.batch_size * 1) / 100);
+        this.row_matrials.quantity_to_order = (((this.batch_size * 1) / 100) * 2);
+        break;
+      case 'OZ':
+        this.row_matrials.quantity_required = ((this.batch_size * 1) / 100) * 28.3495;
+        this.row_matrials.quantity_to_order = (((this.batch_size * 1) / 100) * 2) * 28.3495;
+        break;
+      default:
+
+    }
+
+    switch (this.batch_unit) {
+      case 'KG':
+        this.row_matrials = [{
+          trade_name: 'Structural XL',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 1000,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 0.2,
+          simatic_lab_stock: 0.5,
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 1000
+        }, {
+          trade_name: 'Sepiplus 400',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 1000,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 1000
+        }, {
+          trade_name: 'Phenoxptol',
+          rm_num: 'RMT0138',
+          percentage: 2.0,
+          quantity_required: (((this.batch_size * 1) / 100)) * 1000,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 1000
+        }];
+
+        break;
+      case 'G':
+        this.row_matrials = [{
+          trade_name: 'Structural XL',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100),
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 0.2,
+          simatic_lab_stock: 0.5,
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2)
+        }, {
+          trade_name: 'Sepiplus 400',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100),
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2)
+        }, {
+          trade_name: 'Phenoxptol',
+          rm_num: 'RMT0138',
+          percentage: 2.0,
+          quantity_required: (((this.batch_size * 1) / 100)),
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2)
+        }];
+
+        break;
+      case 'OZ':
+        this.row_matrials = [{
+          trade_name: 'Structural XL',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 28.3495,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 0.2,
+          simatic_lab_stock: 0.5,
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 28.3495
+        }, {
+          trade_name: 'Sepiplus 400',
+          rm_num: 'RMT0138',
+          percentage: 1.0,
+          quantity_required: ((this.batch_size * 1) / 100) * 28.3495,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 28.3495
+        }, {
+          trade_name: 'Phenoxptol',
+          rm_num: 'RMT0138',
+          percentage: 2.0,
+          quantity_required: (((this.batch_size * 1) / 100)) * 28.3495,
+          simatic_lab_gxp_stock: '-',
+          simatic_pilot_stock: 'In-House',
+          simatic_lab_stock: 'In-House',
+          quantity_to_order: (((this.batch_size * 1) / 100) * 2) * 28.3495
+        }];
+        break;
+      default:
+
+    };
+
+
+  }
+
+
 
   loadreq() {
     console.log(this.authService.req);
@@ -265,29 +417,21 @@ export class BatchrequestComponent implements OnInit {
 
     this.authService.getspecificreq(this.br_num).subscribe(data => {
       console.log(data);
-
-      console.log(data.data.equipmentRequest.approver);
-      let approver = data.data.equipmentRequest.approver;
-      this.appr = approver;
-      this.date = data.data.equipmentRequest.manufacturing_date.substring(0, 10);
-      console.log(this.date);
-
-      if (approver === this.authService.user_id) {
-        this.isapprover = true;
+      if (data.data.equipmentRequest != undefined) {
+        let approver = data.data.equipmentRequest.approver;
+        this.appr = approver;
+        this.date = data.data.equipmentRequest.manufacturing_date.substring(0, 10);
+        if (approver === this.authService.user_id) {
+          this.isapprover = true;
+        }
+        this.exisitingreqdata = data.data;
       }
-      this.exisitingreqdata = data.data;
-
-
-
     });
-
-
   }
 
 
   delcomment(id) {
     console.log('delete');
-
     this.authService.delcomment(id).subscribe(data => {
       this.snackBar.open('Deleted Success', 'ok', { duration: 3000 });
       this.getcomments();
@@ -302,6 +446,7 @@ export class BatchrequestComponent implements OnInit {
 
       this.comment_list_team = data.data.team_communication.comments;
       this.comment_list_tech = data.data.technical_communication.comments;
+      console.log(this.comment_list_team);
 
       this.comment_list_team.map(e => {
         this.comment_list_team.edit = false;

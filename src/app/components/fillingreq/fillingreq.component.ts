@@ -56,31 +56,221 @@ export class FillingreqComponent implements OnInit {
   notapplicable: boolean = true;
   labnotebooknums: String[];
   formulaids: String[];
+  isapprover: boolean = false;
+  progressbar_color: String = '#09e3f5';
+  status: String = "New";
+  status_des: String = "Filling Request Created";
+  exisitingreqdata: any;
+  comment_list_team: any;
+  comment_list_tech: any;
+  columnDefs = [
+    { headerName: 'Request Number', field: 'request_id' },
 
+    { headerName: 'Submitter', field: 'createdBy' },
+    { headerName: 'Created Date', field: 'createdAt' },
+    { headerName: 'Description', field: 'description' },
+    { headerName: 'Comment', field: 'comment' },
+  ];
+
+  rowData = [
+  ];
+  newcommnet: String;
+  editvalue: String;
+  rejection_comment: String;
+  rejectshow: boolean = false;
   constructor(
     public authService: AuthService,
     public snackBar: MatSnackBar,
     public router: Router,
     private snotify: SnotifyService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
-    if (this.authService.project === undefined) {
+    this.project = this.authService.project;
+    this.department = this.authService.department;
+    if (this.authService.project === undefined && !this.authService.permission) {
       this.router.navigate(['/home']);
+    }
+    if (this.authService.project === undefined) {
+      this.loadreq();
 
+    } else {
+      this.newrequest();
     }
     this.formulaids = [];
     this.labnotebooknums = [];
-    this.project = this.authService.project;
     this.packagingcodes = [];
-    this.department = this.authService.department;
-    this.newrequest();
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
     this.approvers = [];
     this.getusers();
     this.getlabnums();
     this.getpackagingcodes();
   }
+
+  loadreq() {
+    console.log(this.authService.req);
+
+
+    this.fr_num = this.authService.req.request_id;
+    this.getcomments();
+    this.gethistory();
+    this.gxpvalue = this.authService.req.gxp;
+
+
+    this.department = this.authService.req.department;
+    this.project = this.authService.req.project;
+    console.log(this.department, this.project);
+    this.status = this.authService.req.status;
+    this.status_des = this.authService.req.status_description;
+    this.sitetype = this.authService.req.site;
+    if (this.authService.req.batch_type === 'LAB') {
+      this.lab1();
+    } else if (this.authService.req.batch_type === 'LAB') {
+      this.pilot1();
+    } else {
+      this.other1();
+    };
+
+
+    switch (this.authService.req.status) {
+      case "New":
+        this.percent = 17;
+        break;
+      case "Submitted":
+        this.percent = 34;
+        this.progressbar_color = '#055cfc';
+        break;
+      case "Cancelled":
+        this.percent = 100;
+        this.progressbar_color = '#f50910';
+        break;
+      case "Rejected":
+        this.percent = 100;
+        this.progressbar_color = '#f50910';
+        break;
+      case "Reserved":
+        this.percent = 65;
+        this.progressbar_color = '#00c00f';
+        break;
+      case "Confirmed":
+        this.percent = 85;
+        this.progressbar_color = '#00c00f';
+        break;
+      default:
+        this.percent = 0;
+        this.progressbar_color = '#f50910';
+    };
+    if (this.authService.req.legal_product_category === 'DRUG') {
+      this.drug1();
+
+    } else {
+      this.cosmetic1();
+    };
+
+
+    this.updateddate = this.authService.req.lastModified.substring(0, 10);
+    if (this.authService.req.filling_type === 'BULK FILLING') {
+      this.bulk1();
+
+    } else {
+      this.condition1();
+    };
+
+    if (this.authService.req.remaining_bulk === 'DESTRUCTION') {
+      this.destruct1();
+
+    } else {
+      this.storage1();
+    };
+
+
+
+    this.authService.getspecificreq(this.fr_num).subscribe(data => {
+      console.log(data);
+      this.authService.permission = false;
+
+
+      let approver = data.data.fillingRequest.approver;
+      this.appr = approver;
+      this.batch_num = data.data.fillingRequest.batch_number;
+      this.mfgdate = data.data.fillingRequest.manufacturing_date;
+      console.log(this.mfgdate);
+
+      if (approver === this.authService.user_id) {
+        this.isapprover = true;
+      }
+      this.duedate = data.data.fillingRequest.due_date;
+      this.exisitingreqdata = data.data;
+
+
+
+    });
+
+
+  }
+
+
+  getcomments() {
+    this.authService.getcomments(this.fr_num).subscribe(data => {
+
+      this.comment_list_team = data.data.team_communication.comments;
+      this.comment_list_tech = data.data.technical_communication.comments;
+      console.log(this.comment_list_team);
+
+      this.comment_list_team.map(e => {
+        this.comment_list_team.edit = false;
+      });
+      this.comment_list_tech.map(e => {
+        this.comment_list_tech.edit = false;
+      });
+
+    });
+
+  }
+
+  gethistory() {
+    this.authService.gethistrory(this.fr_num).subscribe(data => {
+      this.rowData = data.data;
+    });
+  }
+  delcomment(id) {
+    console.log('delete');
+
+    this.authService.delcomment(id).subscribe(data => {
+      this.snackBar.open('Deleted Success', 'ok', { duration: 3000 });
+      this.getcomments();
+    });
+
+  }
+
+
+  addcomment(type) {
+    let data = {
+      request_id: this.fr_num,
+      comment: this.newcommnet,
+      comment_type: type
+    }
+    this.authService.addcomment(data).subscribe(data => {
+      this.getcomments();
+      console.log("success comments");
+    });
+  }
+
+  updatecomment(id) {
+    let data = {
+      comment_id: id,
+      comment: this.editvalue
+    }
+    this.authService.updatecomment(data).subscribe(data => {
+      this.getcomments();
+    });
+  }
+
+
+
+
 
   getlabnums() {
     this.authService.getlabs().subscribe(data => {
@@ -169,7 +359,8 @@ export class FillingreqComponent implements OnInit {
       manufacturing_date: this.mfgdate,
       request_type: "FILLING REQUEST",
       approver: this.appr,
-      flag: 'save'
+      rejection_comment: this.rejection_comment,
+      flag: flag
 
     }
     console.log(data);

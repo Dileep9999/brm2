@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import "rxjs/add/operator/catch";
 import { MatSnackBar } from '@angular/material';
 import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rmrequest',
@@ -44,6 +45,8 @@ export class RmrequestComponent implements OnInit {
   rm_num: String;
   appr: String;
   approvers: String[];
+  isapprover: boolean = false;
+  progressbar_color: String = '#09e3f5';
   row_matrials: any = [{
     trade_name: 'Structural XL',
     rm_num: 'RMT0138',
@@ -74,11 +77,31 @@ export class RmrequestComponent implements OnInit {
   }];
   labnotebooknums: String[];
   formulaids: String[];
+  status: String = "New";
+  status_des: String = "Filling Request Created";
+  exisitingreqdata: any;
+  comment_list_team: any;
+  comment_list_tech: any;
+  columnDefs = [
+    { headerName: 'Request Number', field: 'request_id' },
 
+    { headerName: 'Submitter', field: 'createdBy' },
+    { headerName: 'Created Date', field: 'createdAt' },
+    { headerName: 'Description', field: 'description' },
+    { headerName: 'Comment', field: 'comment' },
+  ];
+
+  rowData = [
+  ];
+  newcommnet: String;
+  editvalue: String;
+  rejection_comment: String;
+  rejectshow: boolean = false;
 
   constructor(
     public authService: AuthService,
     public http: Http,
+    public router: Router,
     public snotify: SnotifyService,
     public snackBar: MatSnackBar
   ) { }
@@ -88,7 +111,15 @@ export class RmrequestComponent implements OnInit {
     this.formulaids = [];
     this.project = this.authService.project;
     this.department = this.authService.department;
-    this.newrequest();
+    if (this.authService.project === undefined && !this.authService.permission) {
+      this.router.navigate(['/home']);
+    }
+    if (this.authService.project === undefined) {
+      this.loadreq();
+
+    } else {
+      this.newrequest();
+    }
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
     this.getusers();
     this.getlabnums();
@@ -217,6 +248,89 @@ export class RmrequestComponent implements OnInit {
 
   }
 
+  loadreq() {
+    console.log(this.authService.req);
+
+
+    this.fr_num = this.authService.req.request_id;
+    this.getcomments();
+    this.gethistory();
+
+
+
+    this.department = this.authService.req.department;
+    this.project = this.authService.req.project;
+    console.log(this.department, this.project);
+    this.status = this.authService.req.status;
+    this.status_des = this.authService.req.status_description;
+    this.sitetype = this.authService.req.site;
+
+    this.authService.permission = false;
+    switch (this.authService.req.status) {
+      case "New":
+        this.percent = 17;
+        break;
+      case "Submitted":
+        this.percent = 34;
+        this.progressbar_color = '#055cfc';
+        break;
+      case "Cancelled":
+        this.percent = 100;
+        this.progressbar_color = '#f50910';
+        break;
+      case "Rejected":
+        this.percent = 100;
+        this.progressbar_color = '#f50910';
+        break;
+      case "Reserved":
+        this.percent = 65;
+        this.progressbar_color = '#00c00f';
+        break;
+      case "Confirmed":
+        this.percent = 85;
+        this.progressbar_color = '#00c00f';
+        break;
+      default:
+        this.percent = 0;
+        this.progressbar_color = '#f50910';
+    };
+    if (this.authService.req.legal_product_category === 'DRUG') {
+      this.drug1();
+
+    } else {
+      this.cosmetic1();
+    };
+
+
+
+
+
+
+    this.authService.getspecificreq(this.fr_num).subscribe(data => {
+      console.log(data);
+      this.authService.permission = false;
+
+
+      let approver = data.data.fillingRequest.approver;
+      this.appr = approver;
+
+      this.mfgdate = data.data.fillingRequest.manufacturing_date;
+      console.log(this.mfgdate);
+
+      if (approver === this.authService.user_id) {
+        this.isapprover = true;
+      }
+
+      this.exisitingreqdata = data.data;
+
+
+
+    });
+
+
+  }
+
+
 
 
   getlabnums() {
@@ -239,13 +353,17 @@ export class RmrequestComponent implements OnInit {
     this.authService.getusers("USER").subscribe(data => {
       if (data.success) {
         console.log(data);
-
-        for (let i = 0; i <= data.data.length; i++) {
-          if
-          (data.data[i].approver_permission) {
-            this.approvers.push(data.data[i].user_id)
+        data.data.map(e => {
+          if (e.approver_permission) {
+            this.approvers.push(e.user_id)
           }
-        }
+        })
+
+        // for (let i = 0; i <= data.data.length; i++) {
+        //   if (data.data[i].approver_permission) {
+        //     this.approvers.push(data.data[i].user_id)
+        //   }
+        // }
         console.log(this.approvers);
       }
     });
@@ -271,6 +389,53 @@ export class RmrequestComponent implements OnInit {
     });
   }
 
+
+
+  getcomments() {
+    this.authService.getcomments(this.fr_num).subscribe(data => {
+
+      this.comment_list_team = data.data.team_communication.comments;
+      this.comment_list_tech = data.data.technical_communication.comments;
+      console.log(this.comment_list_team);
+
+      this.comment_list_team.map(e => {
+        this.comment_list_team.edit = false;
+      });
+      this.comment_list_tech.map(e => {
+        this.comment_list_tech.edit = false;
+      });
+
+    });
+
+  }
+
+  gethistory() {
+    this.authService.gethistrory(this.fr_num).subscribe(data => {
+      this.rowData = data.data;
+    });
+  }
+  delcomment(id) {
+    console.log('delete');
+
+    this.authService.delcomment(id).subscribe(data => {
+      this.snackBar.open('Deleted Success', 'ok', { duration: 3000 });
+      this.getcomments();
+    });
+
+  }
+
+
+  addcomment(type) {
+    let data = {
+      request_id: this.fr_num,
+      comment: this.newcommnet,
+      comment_type: type
+    }
+    this.authService.addcomment(data).subscribe(data => {
+      this.getcomments();
+      console.log("success comments");
+    });
+  }
 
 
 

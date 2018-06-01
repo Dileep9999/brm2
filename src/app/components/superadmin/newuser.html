@@ -4,12 +4,17 @@
 <form>
   <h6>UserID</h6>
   <input class="form-control" type="text" [(ngModel)]="user_id" [ngModelOptions]="{standalone: true}">
+  <small id="emailHelp" class="form-text text-muted">Please add user_id to login.</small>
   <br>
   <h6>Email</h6>
   <input class="form-control" type="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+  <small id="emailHelp" class="form-text text-muted">Please add email to login.</small>
   <br>
   <h6>Password</h6>
   <input class="form-control" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+  <br>
+  <h6>Confirm Password</h6>
+  <input class="form-control" type="password" [(ngModel)]="password1" [ngModelOptions]="{standalone: true}">
   <br>
   <button type="button" mat-raised-button (click)="onNoClick()">Cancel</button>
   <button type="button" mat-raised-button (click)="submit()" style="float:right;background:rgb(92, 120, 202)">Add</button>

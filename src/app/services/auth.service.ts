@@ -591,7 +591,7 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          this.snotify.error(parsed_err.message, 'Error', {
+          this.snotify.error(parsed_err.message.substring(13, 30), 'Error', {
             timeout: 2000,
             position: SnotifyPosition.rightTop,
             showProgressBar: false,

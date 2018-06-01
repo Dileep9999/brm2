@@ -4,7 +4,10 @@
       <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
         <div class="row">
           <div class="projectName">
-            <h4>
+            <h4 style="width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;">
               <b>{{br_num}}</b>
             </h4>
           </div>
@@ -14,7 +17,10 @@
             <label class="Header-label">Submitter:</label>
             <span class="Header-span">{{submitter}}</span>
             <label class="Header-label">Department:</label>
-            <span class="Header-span" style=" text-overflow:ellipsis;overflow:hidden;max-width:4cm;">{{department}}</span>
+            <b class="Header-span" style="width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;">{{department}}</b>
           </div>
           <div class="col-lg-3 col-sm-3 col-xs-3 col-md-3 center-block">
             <label class="Header-label">Updated:</label>
@@ -24,7 +30,7 @@
           </div>
           <div class="col-lg-5 col-sm-5 col-xs-5 col-md-5">
             <label class="Header-label">Project:</label>
-            <span class="Header-span">{{project}}</span>
+            <b class="Header-span">{{project}}</b>
             <label class="Header-label">Work Order Number:</label>
             <span class="Header-span"></span>
           </div>
@@ -402,37 +408,38 @@
                 <button mat-button class="batch-br" data-toggle="tab" href="#calender" [ngClass]="{'test':newColor6}" (click)="toggleColor6()">Calender</button>
                 <button mat-button class="batch-br" data-toggle="tab" href="#approver" [ngClass]="{'test':newColor7}" (click)="toggleColor7()">Approver</button>
                 <br>
-                <div>
-
-
-                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" style="margin-top:1cm;" *ngIf="!saveload">
-                    <button mat-raised-button color="primary" (click)="equipmentreq('cancel')">
-                      <b>Cancel</b>
-                    </button>
-                    <button mat-raised-button (click)="equipmentreq('save')" color="primary">
-                      <b>Save</b>
-                    </button>
-                    <button mat-raised-button *ngIf="!isapprover" (click)="equipmentreq('submit')" [disabled]="equipmentsubmitenable" color="primary">
-                      <b>Submit</b>
-                    </button>
-
-                  </mat-button-toggle-group>
-                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="isapprover">
-                    <button mat-raised-button color="primary" (click)="equipmentreq('cancel')">
-                      <b>Reject</b>
-                    </button>
-                    <button mat-raised-button (click)="equipmentreq('confirm')" color="primary">
-                      <b>Confirm</b>
-                    </button>
-                    <button mat-raised-button (click)="equipmentreq('pending')" color="primary">
-                      <b>Pending</b>
-                    </button>
-
-
-                  </mat-button-toggle-group>
-
-                </div>
               </div>
+              <div style="margin-top:1cm;" class="row">
+                <button mat-raised-button color="warm" class="col" style="margin:0.1cm;" (click)="equipmentreq('cancel')">
+                  <b>Cancel</b>
+                </button>
+                <button mat-raised-button class="col" style="margin:0.1cm;" (click)="equipmentreq('save')" color="primary">
+                  <b>Save</b>
+                </button>
+                <button mat-raised-button class="col" style="margin:0.1cm;" *ngIf="!isapprover" (click)="equipmentreq('submit')" [disabled]="equipmentsubmitenable"
+                  color="primary">
+                  <b>Submit</b>
+                </button>
+
+
+              </div>
+              <div style="margin-top:0.1cm;">
+
+                <button mat-raised-button color="warn" style="margin:0.1cm;" (click)="equipmentreq('reject')" *ngIf="isapprover">
+                  <b>Reject</b>
+                </button>
+                <button mat-raised-button style="margin:0.1cm;" (click)="equipmentreq('confirm')" color="primary" *ngIf="isapprover">
+                  <b>Confirm</b>
+                </button>
+                <button mat-raised-button style="margin:0.1cm;" (click)="equipmentreq('pending')" color="primary" *ngIf="isapprover">
+                  <b>Pending</b>
+                </button>
+
+
+
+
+              </div>
+
             </div>
           </div>
 
@@ -450,13 +457,13 @@
 
             </div>
             <div class="row">
-              <h6 class="col-sm-3">Batch Size</h6>
+              <h6 class="col-sm-4">Batch Size</h6>
               <p>{{batch_size}}</p>
             </div>
             <br>
             <div class="row">
-              <h6 class="col-sm-3">Equipment </h6>
-              <div class="col-sm-2">
+              <h6 class="col-sm-4">Equipment </h6>
+              <div class="col-sm-5">
                 <b>{{equipment1}}</b>
 
               </div>
@@ -467,8 +474,8 @@
             </div>
             <br>
             <div class="row">
-              <h6 class="col-sm-3">OptionalEquipment </h6>
-              <div class="col-sm-2">
+              <h6 class="col-sm-4">OptionalEquipment </h6>
+              <div class="col-sm-5">
 
                 <p>{{optional_equipment}}</p>
               </div>
@@ -481,55 +488,37 @@
 
             <br>
             <div class="row">
-              <h6 class="col-sm-3">Lab NoteBook Number</h6>
-              <div class="col-sm-2">
+              <h6 class="col-sm-4">Lab NoteBook Number</h6>
+              <div class="col-sm-5">
                 <b>{{labnotebook}}</b>
 
               </div>
             </div>
             <br>
             <div class="row">
-              <h6 class="col-sm-3">Manufacturing date</h6>
-              <div class="col-sm-2">
+              <h6 class="col-sm-4">Manufacturing date</h6>
+              <div class="col-sm-5">
                 <b>{{date}}</b>
 
               </div>
             </div>
             <br>
             <div class="row">
-              <h6 class="col-sm-3">Filling </h6>
-              <div class="col-sm-2">
+              <h6 class="col-sm-4">Filling </h6>
+              <div class="col-sm-5">
                 <b>Date Requested</b>
 
               </div>
             </div>
             <br>
-            <div class="row">
-              <h6 class="col-sm-3">Packaging </h6>
-              <div class="col-sm-2">
-                <b>Packaging Type </b>
 
-              </div>
-              <div class="col-sm-1">
-                <b>Plan </b>
-
-              </div>
-              <div class="col-sm-1">
-                <b>Quantity </b>
-
-              </div>
-            </div>
             <br>
 
 
 
 
           </mat-card>
-          <div class="col-sm-3 col-xl-3 col-md-3 col-lg-3" style="margin-top:3cm;" *ngIf="isapprover">
-            <button mat-raised-button>Confirm</button>
-            <button mat-raised-button>Pending</button>
-            <button mat-raised-button>Reject</button>
-          </div>
+
         </div>
       </div>
       <div id="formula" class="tab-pane fade">
@@ -669,9 +658,9 @@
                             <div class="col-sm-5">
                               <button mat-raised-button class="dropdown-toggle" [matMenuTriggerFor]="kg">{{batch_unit}}</button>
                               <mat-menu #kg="matMenu">
-                                <button mat-menu-item (click)="batch_size='KG'">KG</button>
-                                <button mat-menu-item (click)="batch_size='G'">G</button>
-                                <button mat-menu-item (click)="batch_size='OZ'">OZ</button>
+                                <button mat-menu-item (click)="batch_unit='KG'">KG</button>
+                                <button mat-menu-item (click)="batch_unit='G'">G</button>
+                                <button mat-menu-item (click)="batch_unit='OZ'">OZ</button>
                               </mat-menu>
                             </div>
                           </div>
@@ -681,7 +670,7 @@
                           <div class="row">
                             <label class="col-sm-3">Approver</label>
                             <div class="col-sm-6 form-control">
-                              <mat-select [(value)]="appr" name="fieldName" ngDefaultControl>
+                              <mat-select [(value)]="appr" ngDefaultControl>
                                 <mat-option selected disabled value="None">Select</mat-option>
                                 <mat-option *ngFor="let approv of approvers " value="{{approv}}">{{approv}}</mat-option>
                               </mat-select>
@@ -713,10 +702,11 @@
                           <label>Batch Size*</label>
                         </div>
                         <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                          <input class="form-control" style="width:1.8cm;" type="number" placeholder="1">
+                          <input class="form-control" style="width:1.8cm;" type="number" [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}"
+                            placeholder="1">
                         </div>
                         <div class="col-sm-5">
-                          <button mat-raised-button [(ngModel)]="batch_unit" [ngModelOptions]="{standalone: true}" class="dropdown-toggle" [matMenuTriggerFor]="kg1">{{batch_size}}</button>
+                          <button mat-raised-button class="dropdown-toggle" [matMenuTriggerFor]="kg1">{{batch_unit}}</button>
                           <mat-menu #kg1="matMenu">
                             <button mat-menu-item (click)="batch_unit='KG'">KG</button>
                             <button mat-menu-item (click)="batch_unit='G'">G</button>
@@ -755,6 +745,39 @@
                       </div>
                     </div>
                     <mat-divider></mat-divider>
+
+                    <div *ngFor="let row_matrial of row_matrials">
+                      <div class="col-sm-12 font">
+                        <div class="row">
+                          <div class="col-sm-2 col-md-1">
+                            <label>{{row_matrial.trade_name}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-1 col-lg-1">
+                            <label>{{row_matrial.rm_num}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-1">
+                            <label>{{row_matrial.percentage}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-1">
+                            <label>{{row_matrial.quantity_required}}</label>
+                          </div>
+                          <div class="col-sm-2">
+                            <label>{{row_matrial.simatic_lab_gxp_stock}}</label>
+                          </div>
+                          <div class="col-sm-2 col-xl-2 col-lg-2">
+                            <label>{{row_matrial.simatic_pilot_stock}}</label>
+                          </div>
+                          <div class="col-sm-2">
+                            <label>{{row_matrial.simatic_lab_stock}}</label>
+                          </div>
+                          <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 ">
+                            <input class="form-control" type="number" [(ngModel)]="row_matrial.quantity_to_order" [ngModelOptions]="{standalone: true}">
+
+                          </div>
+                        </div>
+                      </div>
+                      <mat-divider></mat-divider>
+                    </div>
                   </mat-card>
                 </div>
                 <div id="fapprover" class="tab-pane fade">
@@ -785,39 +808,40 @@
               </div>
             </div>
             <div class="col-sm-4 col-lg-3 col-md-4 col-xs-3">
-              <div class="nav formula_header">
+              <div class="nav batch-header">
                 <button mat-button class="batch-br" data-toggle="tab" href="#formulaattribute" [ngClass]="{'test': fattribute}" (click)="fattribute1()">Formula Attributes</button>
                 <button mat-button class="batch-br" data-toggle="tab" href="#fmaterial" [ngClass]="{'test':material}" (click)="material1()">Order Materials</button>
                 <br>
                 <div>
-                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                    <button mat-raised-button color="primary" (click)="formulareq_save('cancel')">
-                      <b>Cancel</b>
-                    </button>
-                    <button mat-raised-button (click)="formulareq_save('save')" color="primary">
-                      <b>Save</b>
-                    </button>
-                    <button mat-raised-button *ngIf="!isapprover" (click)="formulareq_save('submit')" color="primary">
-                      <b>Submit</b>
-                    </button>
-
-
-                  </mat-button-toggle-group>
-                  <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="isapprover">
-                    <button mat-raised-button color="primary" (click)="formulareq_save('reject')">
-                      <b>Reject</b>
-                    </button>
-                    <button mat-raised-button (click)="formulareq_save('confirm')" color="primary">
-                      <b>Confirm</b>
-                    </button>
-                    <button mat-raised-button (click)="formulareq_save('pending')" color="primary">
-                      <b>Pending</b>
-                    </button>
-
-
-                  </mat-button-toggle-group>
                 </div>
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" style="margin-top:1cm;">
+                  <button mat-raised-button color="primary" (click)="formulareq_save('cancel')">
+                    <b>Cancel</b>
+                  </button>
+                  <button mat-raised-button (click)="formulareq_save('save')" color="primary">
+                    <b>Save</b>
+                  </button>
+                  <button mat-raised-button *ngIf="!isapprover" (click)="formulareq_save('submit')" color="primary">
+                    <b>Submit</b>
+                  </button>
+
+
+                </mat-button-toggle-group>
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" *ngIf="isapprover" style="margin-top:1cm;">
+                  <button mat-raised-button color="primary" (click)="formulareq_save('reject')">
+                    <b>Reject</b>
+                  </button>
+                  <button mat-raised-button (click)="formulareq_save('confirm')" color="primary">
+                    <b>Confirm</b>
+                  </button>
+                  <button mat-raised-button (click)="formulareq_save('pending')" color="primary">
+                    <b>Pending</b>
+                  </button>
+
+
+                </mat-button-toggle-group>
               </div>
+
             </div>
           </div>
         </div>
@@ -1048,23 +1072,20 @@
                     <mat-divider></mat-divider>
                     <div class="row">
                       <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
-                        <img src="assets/Images/add.png"> Add Packaging Row
+                        <img src="assets/Images/add.png">Add Packaging Row
                       </div>
                     </div>
                     <mat-divider></mat-divider>
 
                     <div class="row">
                       <div class="col-sm-3" style="margin-top:10px;height:1.1cm">
-
                         Total Quantity
                       </div>
                       <div class="col-sm-3" style="margin-top:10px">
                         280
                       </div>
                     </div>
-
                     <mat-divider></mat-divider>
-
                     <br>
                     <div class="col">
                       Additional Filling Parameters
@@ -1252,9 +1273,70 @@
     <br>
     <div class="tab-content">
 
-      <div id="team" class="tab-pane active">
+      <div id="team" class="tab-pane active" style="backgroud:rgb(248, 231, 231)">
+        <div class="row">
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}">
+          </div>
+          <div class="col-sm-7 colmd-7 col-xl-7">
+            <textarea placeholder="Enter Comment here...." class="form-control" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}"></textarea>
+          </div>
 
-        <mat-card>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-7colmd-7 col-xl-7">
+
+          </div>
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <button type="button" class="btn btn-primary" (click)="addcomment('team')">Submit</button>
+          </div>
+
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <div *ngFor="let comment of comment_list_team">
+          <div class="row">
+            <div class="col-sm-1 colmd-1 col-xl-1">
+              <!-- <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}"> -->
+              <mat-icon style="font-size:35px;">account_circle</mat-icon>
+            </div>
+            <div class="col-sm-7 colmd-7 col-xl-7">
+              <p style="font-size:20px;" *ngIf="!comment.edit">{{comment.createdBy|uppercase}}</p>
+              <div class="card" *ngIf="!comment.edit" style="min-height:2cm;">
+                <p style="margin:0.4cm;">{{comment.comment}}</p>
+              </div>
+              <div class="row">
+                <textarea *ngIf="comment.edit" class="form-control col-sm-5 col-xl-5 col-md-5" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
+                <button mat-raised-button *ngIf="comment.edit" (click)="updatecomment(comment.comment_id)">Add
+                  <mat-icon>send</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-7colmd-7 col-xl-7">
+
+            </div>
+            <div class="col-sm-2 colmd-2 col-xl-2">
+              <a (click)="comment.edit=!comment.edit" style="cursor: pointer;">Edit
+                <mat-icon style="font-size:15px;">edit</mat-icon>
+              </a>
+              <a (click)="delcomment(comment.comment_id)" style="cursor: pointer;">Delete
+                <mat-icon style="font-size:15px;">delete</mat-icon>
+              </a>
+            </div>
+
+          </div>
+          <mat-divider></mat-divider>
+          <br>
+          <br>
+        </div>
+
+
+        <!-- <mat-card>
           <span>Add a Comment</span>
           <div class="form-group">
             <textarea class="form-control" style="width:50%;" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}" id="exampleTextarea"
@@ -1321,59 +1403,7 @@
 
             </div>
           </div>
-        </div>
-      </div>
-      <div id="tech" class="tab-pane">
-
-        <span>Add a Comment</span>
-        <div class="form-group">
-          <textarea class="form-control" style="width:50%;" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}" id="exampleTextarea"
-            rows="2"></textarea>
-        </div>
-        <button type="button" class="btn btn-primary" (click)="addcomment('technical')">Submit</button>
-        <mat-card>
-          <div class="row">
-            <div class="col-sm-4">
-              <h4>Comments</h4>
-            </div>
-
-            <div class="col-sm-2">
-              <p>AddedBy:</p>
-            </div>
-            <br>
-            <div class="col-sm-2">
-              Actions
-            </div>
-          </div>
-        </mat-card>
-        <div *ngFor="let comment of comment_list_team">
-          <div class="row" style="margin-top:1cm;">
-            <div class="col-sm-4">
-              <h6>{{comment.comment}}</h6>
-            </div>
-
-            <div class="col-sm-2">
-              <p class="text-success">
-                <i>By:</i>{{comment.createdBy}}</p>
-            </div>
-            <br>
-            <div class="col-sm-2">
-              <button mat-icon-button (click)="comment.edit=true">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon (click)="delcomment(comment.comment_id)">delete</mat-icon>
-              </button>
-            </div>
-            <div *ngIf="comment.edit" class="col-sm-3">
-              <textarea class="form-control" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
-            </div>
-          </div>
-          <mat-divider></mat-divider>
-
-        </div>
-        <br>
-        <br>
+        </div> -->
         <div id="bottom-footer" class="hidden-xs">
           <div class="container">
             <div class="row">
@@ -1400,11 +1430,82 @@
           </div>
         </div>
       </div>
+      <div id="tech" class="tab-pane">
+
+        <div class="row">
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}">
+          </div>
+          <div class="col-sm-7 colmd-7 col-xl-7">
+            <textarea placeholder="Enter Comment here...." class="form-control" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}"></textarea>
+          </div>
+
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-7colmd-7 col-xl-7">
+
+          </div>
+          <div class="col-sm-1 colmd-1 col-xl-1">
+            <button type="button" class="btn btn-primary" (click)="addcomment('technical')">Submit</button>
+          </div>
+
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <div *ngFor="let comment of comment_list_tech">
+          <div class="row">
+            <div class="col-sm-1 colmd-1 col-xl-1">
+              <!-- <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}"> -->
+              <mat-icon style="font-size:35px;">account_circle</mat-icon>
+            </div>
+            <div class="col-sm-7 colmd-7 col-xl-7">
+              <p style="font-size:20px;" *ngIf="!comment.edit">{{comment.createdBy|uppercase}}</p>
+              <div class="card" *ngIf="!comment.edit" style="min-height:2cm;">
+                <p style="margin:0.4cm;">{{comment.comment}}</p>
+              </div>
+              <div class="row">
+                <textarea *ngIf="comment.edit" class="form-control col-sm-5 col-xl-5 col-md-5" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
+                <button mat-raised-button *ngIf="comment.edit" (click)="updatecomment(comment.comment_id)">Add
+                  <mat-icon>send</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-7colmd-7 col-xl-7">
+
+            </div>
+            <div class="col-sm-2 colmd-2 col-xl-2">
+              <a (click)="comment.edit=!comment.edit" style="cursor: pointer;">Edit
+                <mat-icon style="font-size:15px;">edit</mat-icon>
+              </a>
+              <a (click)="delcomment(comment.comment_id)" style="cursor: pointer;">Delete
+                <mat-icon style="font-size:15px;">delete</mat-icon>
+              </a>
+            </div>
+
+          </div>
+          <mat-divider></mat-divider>
+          <br>
+          <br>
+        </div>
+
+
+
+
+
+      </div>
+      <br>
+      <br>
+
     </div>
   </div>
   <div id="history" class="tab-pane fade">
 
-    <ag-grid-angular style="height:7cm;" class="ag-theme-balham list " enableColResize="true" [enableSorting]="true " [enableFilter]="true "
+    <ag-grid-angular style="height:7cm;" class="ag-theme-material" enableColResize="true" [enableSorting]="true " [enableFilter]="true "
       [rowData]="rowData" [columnDefs]="columnDefs">
     </ag-grid-angular>
   </div>

@@ -64,7 +64,7 @@
   </div>
   <br>
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <label style="font-size:12px;"></label>
     </div>
     <label style="font-size:14px;">Legal Product Category*</label>
@@ -104,8 +104,8 @@
         <br>
         <div class="row">
           <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="prefrences.home_view.my_requests.batch_request">Batch Requests</mat-checkbox>
-          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="prefrences.home_view.my_requests.batch_request">Filling Requests</mat-checkbox>
-          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="fr_req_check">Batch RM Requests</mat-checkbox>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="prefrences.home_view.my_requests.filling_request">Filling Requests</mat-checkbox>
+          <mat-checkbox style="font-size:13px;margin-right:15px;" color="primary" [(ngModel)]="prefrences.home_view.my_requests.rm_request">Batch RM Requests</mat-checkbox>
         </div>
       </div>
     </div>
@@ -153,14 +153,15 @@
           <div class="col-sm-6">
 
             <mat-radio-group [(ngModel)]="prefrences.request_filter.my_requests">
-              <mat-radio-button style="font-size:11px;" color="primary" value="INVOLVED IN">All active Requests I'm involved in</mat-radio-button>
-              <mat-radio-button style="font-size:11px;" color="primary" value="OPEN TASK">All active Request with my open task</mat-radio-button>
+              <mat-radio-button style="font-size:12px;" color="primary" value="INVOLVED IN">All active Requests I'm involved in</mat-radio-button>
+              <mat-radio-button style="font-size:12px;" color="primary" value="OPEN TASK">All active Request with my open task</mat-radio-button>
             </mat-radio-group>
             <br>
             <div>
 
-              <mat-radio-group class="example-radio-group" [(ngModel)]="prefrences.request_filter.filters.gxp" [ngModelOptions]="{standalone: true}">
-                <mat-radio-button class="example-radio-button" [checked]="gxpvalue" value=true color="primary">
+              <mat-radio-group class="example-radio-group" style="font-size:12px;" [(ngModel)]="prefrences.request_filter.filters.gxp"
+                [ngModelOptions]="{standalone: true}">
+                <mat-radio-button class="example-radio-button" style="font-size:12px;" [checked]="gxpvalue" value=true color="primary">
                   Gxp
                 </mat-radio-button>
                 <mat-radio-button class="example-radio-button" value=false color="primary">
@@ -186,7 +187,7 @@
                 <a class="btn" style="font-size:11px;">Type</a>
                 <div class="dropdown-menu" aria-labelledby="type">
                   <div style="max-height:5cm;overflow-y:scroll">
-                    <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type, 'type')">{{type}}</a>
+                    <a class="dropdown-item btn" *ngFor="let type of typemenu" (click)="appendtofilteritems(type, 'type')">{{type}}</a>
                   </div>
                 </div>
               </div>
@@ -195,16 +196,16 @@
                 <a class="btn" style="font-size:11px;" id="dropdownMenuButton" data-toggle="dropdown">Manufacturing
                   <br>Date</a>
                 <div class="dropdown-menu" aria-labelledby="manufacturingdate">
-                  <a class="dropdown-item" *ngFor="let mfdate of mfgdatetype" (click)="appendtofilteritems(mfdate,'mfgdate')">{{mfdate}}</a>
+                  <a class="dropdown-item btn" *ngFor="let mfdate of mfgdatetype" (click)="appendtofilteritems(mfdate,'mfgdate')">{{mfdate}}</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" (click)="openDialog()">Range</a>
+                  <a class="dropdown-item btn" (click)="openDialog()">Range</a>
                 </div>
               </div>
               <div>
                 <img class="btn" id="site" data-toggle="dropdown" src="assets/Images/sm_region.png">
                 <a class="btn" style="font-size:11px;">Site</a>
                 <div class="dropdown-menu" aria-labelledby="site">
-                  <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(site,'site')">{{site}}</a>
+                  <a class="dropdown-item btn" *ngFor="let site of sitemenu" (click)="appendtofilteritems(site,'site')">{{site}}</a>
                 </div>
               </div>
               <div>
@@ -212,7 +213,7 @@
                 <a class="btn" style="font-size:11px;">Legal Product
                   <br>Category</a>
                 <div class="dropdown-menu" aria-labelledby="legalproducts">
-                  <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct,'legalproduct')">{{legalproduct}}</a>
+                  <a class="dropdown-item btn" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct,'legalproduct')">{{legalproduct}}</a>
                 </div>
               </div>
               <div>
@@ -220,7 +221,7 @@
                 <a class="btn" style="font-size:12px;">Status</a>
                 <div class="dropdown-menu" aria-labelledby="status">
                   <div style="max-height:4.5cm;overflow-y:scroll">
-                    <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status, 'status')">{{status}}</a>
+                    <a class="dropdown-item btn" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status, 'status')">{{status}}</a>
                   </div>
                 </div>
               </div>
@@ -228,14 +229,14 @@
                 <img class="btn" id="project" data-toggle="dropdown" style="margin-left:7px;" src="assets/Images/project.png">
                 <a class="btn" style="font-size:11px;">Project</a>
                 <div class="dropdown-menu" aria-labelledby="project">
-                  <a class="dropdown-item" *ngFor="let project of projects" (click)="appendtofilteritems(project,'project')">{{project}}</a>
+                  <a class="dropdown-item btn" *ngFor="let project of projects" (click)="appendtofilteritems(project,'project')">{{project}}</a>
                 </div>
               </div>
               <div>
                 <img class="btn" id="partner" data-toggle="dropdown" style="margin-left:9px;" src="assets/Images/partner.png">
                 <a class="btn" style="font-size:11px;">Partner</a>
                 <div class="dropdown-menu" aria-labelledby="partner">
-                  <a class="dropdown-item" *ngFor="let partner of partnermenu" (click)="appendtofilteritems(partner,'partner')">{{partner}}</a>
+                  <a class="dropdown-item btn" *ngFor="let partner of partnermenu" (click)="appendtofilteritems(partner,'partner')">{{partner}}</a>
                 </div>
               </div>
             </div>
@@ -247,35 +248,35 @@
             <div class="col">
 
               <mat-chip-list>
-                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.batch_type[0]">Type:
-                  <b *ngFor="let batch of prefrences.request_filter.filters.batch_type">{{batch}},</b>]
+                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.batch_type[0]">Type:-
+                  <b *ngFor="let batch of prefrences.request_filter.filters.batch_type">{{batch}},</b>
 
-                  <mat-icon (click)="emptyarray('type')">highlight_off</mat-icon>
+                  <mat-icon (click)="emptyarray('type')" style="cursor:pointer">highight_off</mat-icon>
 
                 </mat-chip>
-                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.site[0]">Site:
-                  <b *ngFor="let site of prefrences.request_filter.filters.site">{{site}},</b>]
-                  <mat-icon (click)="emptyarray('site')">highlight_off</mat-icon>
+                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.site[0]">Site:-
+                  <b *ngFor="let site of prefrences.request_filter.filters.site">{{site}},</b>
+                  <mat-icon (click)="emptyarray('site')" style="cursor: pointer;">highlight_off</mat-icon>
                 </mat-chip>
-                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.manufacturing_date[0]">MfgDate:[
+                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.manufacturing_date[0]">MfgDate:
                   <b *ngFor="let date of prefrences.request_filter.filters.manufacturing_date">{{date}},</b>
-                  <mat-icon (click)="emptyarray('mfgdate')">highlight_off</mat-icon>
+                  <mat-icon (click)="emptyarray('mfgdate')" style="cursor:pointer">highlight_off</mat-icon>
                 </mat-chip>
-                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.legal_product_category[0]">LeagalProductCategory:[
-                  <b *ngFor="let leagalproduct of prefrences.request_filter.filters.legal_product_category">{{leagalproduct}},</b>]
-                  <mat-icon (click)="emptyarray('leagalproduct')">highlight_off</mat-icon>
+                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.legal_product_category[0]">LeagalProductCategory:-
+                  <b *ngFor="let leagalproduct of prefrences.request_filter.filters.legal_product_category">{{leagalproduct}},</b>
+                  <mat-icon (click)="emptyarray('leagalproduct')" style="cursor:pointer">highlight_off</mat-icon>
                 </mat-chip>
-                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.project[0]">Project:[
-                  <b *ngFor="let pro of prefrences.request_filter.filters.project">{{pro}},</b>]
-                  <mat-icon (click)="emptyarray('project')">highlight_off</mat-icon>
+                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.project[0]">Project:-
+                  <b *ngFor="let pro of prefrences.request_filter.filters.project">{{pro}},</b>
+                  <mat-icon (click)="emptyarray('project')" style="cursor:pointer;">highlight_off</mat-icon>
                 </mat-chip>
-                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.status[0]">Status:[
-                  <b *ngFor="let stat of prefrences.request_filter.filters.status ">{{stat}},</b>]
-                  <mat-icon (click)="emptyarray('status')">highlight_off</mat-icon>
+                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.status[0]">Status:-
+                  <b *ngFor="let stat of prefrences.request_filter.filters.status ">{{stat}},</b>
+                  <mat-icon (click)="emptyarray('status')" style="cursor:pointer">highlight_off</mat-icon>
                 </mat-chip>
-                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.partner[0]">Partner:[
-                  <b *ngFor="let part of prefrences.request_filter.filters.partner">{{part}},</b>]
-                  <mat-icon (click)="emptyarray('partner')">highlight_off</mat-icon>
+                <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.partner[0]">Partner:-
+                  <b *ngFor="let part of prefrences.request_filter.filters.partner">{{part}},</b>
+                  <mat-icon (click)="emptyarray('partner')" style="cursor:pointer">highlight_off</mat-icon>
                 </mat-chip>
 
               </mat-chip-list>

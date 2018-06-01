@@ -45,7 +45,7 @@
                 <a class="btn" style="font-size:13px;margin-top:-5px;">Type</a>
                 <div class="dropdown-menu" aria-labelledby="type">
                   <div style="max-height:5cm;overflow-y:scroll">
-                    <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type)">{{type}}</a>
+                    <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type,'type')">{{type}}</a>
                   </div>
                 </div>
 
@@ -68,7 +68,7 @@
                 <img class="btn" id="site" data-toggle="dropdown" src="assets/Images/sm_region.png">
                 <a class="btn" style="font-size:13px;">Site</a>
                 <div class="dropdown-menu" aria-labelledby="site">
-                  <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(site)">{{site}}</a>
+                  <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(site,'site')">{{site}}</a>
                 </div>
 
               </div>
@@ -78,7 +78,7 @@
                 <a class="btn" style="font-size:13px;">Legal Product
                   <br>Category</a>
                 <div class="dropdown-menu" aria-labelledby="legalproducts">
-                  <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct)">{{legalproduct}}</a>
+                  <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct,'legalproduct')">{{legalproduct}}</a>
                 </div>
 
               </div>
@@ -88,7 +88,7 @@
                 <a class="btn" style="font-size:12px;">Status</a>
                 <div class="dropdown-menu" aria-labelledby="status">
                   <div style="max-height:4.5cm;overflow-y:scroll">
-                    <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status)">{{status}}</a>
+                    <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status,'status')">{{status}}</a>
                   </div>
 
                 </div>
@@ -99,7 +99,8 @@
                 <a class="btn" style="font-size:13px;">Project</a>
                 <div class="container dropdown-menu" aria-labelledby="project">
                   <input class="dropdown-item" class="form-control" placeholder="Search" [(ngModel)]="project">
-                  <a class="dropdown-item" *ngFor="let project of projectmenu|filter:project" (click)="appendtofilteritems(project)">{{project}}</a>
+                  <a class="dropdown-item" *ngFor="let project of projectmenu|filter:project" (click)="appendtofilteritems(project,'project')"
+                    style="text-overflow:ellipsis;overflow:hidden">{{project}}</a>
                 </div>
 
               </div>
@@ -109,7 +110,7 @@
                 <a class="btn" style="font-size:13px;">Partner</a>
                 <div class="container dropdown-menu" style="margin-top:0.4cm;min-width:4cm;" aria-labelledby="partner">
                   <input class="dropdown-item" class="form-control" placeholder="Search" style="max-height:0.7cm;" [(ngModel)]="partner">
-                  <a class="dropdown-item" *ngFor="let partner of partnermenu | filter:partner" (click)="appendtofilteritems(partner)">{{partner}}</a>
+                  <a class="dropdown-item" *ngFor="let partner of partnermenu | filter:partner" (click)="appendtofilteritems(partner,'partner')">{{partner}}</a>
                 </div>
 
 
@@ -129,15 +130,55 @@
         </div>
 
       </div>
-      <div class="card bg-light border-dark " *ngIf="filteritems[0] ">
-        <div class="row " style="margin:0.2cm ">
-          <div class="col-sm-8 col-lg-8 col-md-8 ">
-            <span class="text-centre " *ngFor="let item of filteritems " style="font-size:0.48cm ">{{item}}
-              <mat-icon mat-icon-button color="primary " (click)="closefilter(item) " style="cursor:pointer;font-size:15px; ">highlight_off</mat-icon>
-            </span>
+      <div>
+        <div class="row" style="margin:0.2cm">
+          <div class="col">
+
+            <!-- <mat-chip-list>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.batch_type[0]">Type:-
+                <b *ngFor="let batch of prefrences.request_filter.filters.batch_type">{{batch}},</b>
+
+                <mat-icon (click)="emptyarray('type')">highlight_off</mat-icon>
+
+              </mat-chip>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.site[0]">Site:[
+                <b *ngFor="let site of prefrences.request_filter.filters.site">{{site}},</b>]
+                <mat-icon (click)="emptyarray('site')">highlight_off</mat-icon>
+              </mat-chip>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.manufacturing_date[0]">MfgDate:[
+                <b *ngFor="let date of prefrences.request_filter.filters.manufacturing_date">{{date}},</b>
+                <mat-icon (click)="emptyarray('mfgdate')">highlight_off</mat-icon>
+              </mat-chip>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.legal_product_category[0]">LeagalProductCategory:[
+                <b *ngFor="let leagalproduct of prefrences.request_filter.filters.legal_product_category">{{leagalproduct}},</b>]
+                <mat-icon (click)="emptyarray('leagalproduct')">highlight_off</mat-icon>
+              </mat-chip>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.project[0]">Project:[
+                <b *ngFor="let pro of prefrences.request_filter.filters.project">{{pro}},</b>]
+                <mat-icon (click)="emptyarray('project')">highlight_off</mat-icon>
+              </mat-chip>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.status[0]">Status:[
+                <b *ngFor="let stat of prefrences.request_filter.filters.status ">{{stat}},</b>]
+                <mat-icon (click)="emptyarray('status')">highlight_off</mat-icon>
+              </mat-chip>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.partner[0]">Partner:[
+                <b *ngFor="let part of prefrences.request_filter.filters.partner">{{part}},</b>]
+                <mat-icon (click)="emptyarray('partner')">highlight_off</mat-icon>
+              </mat-chip>
+
+            </mat-chip-list> -->
+
+
+
           </div>
-          <div class="col-sm-1 col-lg-1 col-md-1" *ngIf="filteritems[0] ">
-            <button mat-raised-button class="btn card btn-info " (click)="filteritems=[] ">Clear Filters</button>
+
+
+
+
+
+
+          <div class="col-sm-1" *ngIf="filteritems[0]">
+            <button mat-raised-button class="btn card btn-info" (click)="filteritems=[]">Clear Filters</button>
           </div>
         </div>
       </div>
@@ -158,8 +199,8 @@
 
 
     <h5 style="margin-left:0.9cm;">Batch Requests ({{batchrequests.length}})</h5>
-    <ag-grid-angular *ngIf="!Tile " style="height:300px; " class="ag-theme-balham list " [enableColResize]="true
-            " [enableSorting]="true " [enableFilter]="true " [rowData]="batchrequests " [columnDefs]="columnDefs ">
+    <ag-grid-angular *ngIf="!Tile " style="height:500px; " class="ag-theme-material" [enableColResize]="true
+            " [enableSorting]="true " [enableFilter]="true " [rowData]="batchrequests" [columnDefs]="columnDefs ">
     </ag-grid-angular>
     <div class="row " *ngIf="loader " style="margin-left:1cm; ">
 
@@ -193,7 +234,7 @@
         <div class="row ">
           <img height="35px " src="assets/Images/brm60x60.png " (click)="batchreq(request)">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
-            <a style="font-size:15px;color:rgb(46, 39, 39); " (click)="batchreq(request)">{{request.request_id}}</a>
+            <a style="font-size:15px;color:rgb(46, 39, 39);" class="req" (click)="batchreq(request)">{{request.request_id}}</a>
           </div>
           <div>
 
@@ -252,16 +293,16 @@
 
 
     </div>
-    <ag-grid-angular *ngIf="!Tile " style="height:300px; " class="ag-theme-balham list " enableColResize="true
-            " [enableSorting]="true " [enableFilter]="true " [rowData]="fillingrequests " [columnDefs]="columnDefs ">
+    <ag-grid-angular *ngIf="!Tile " style="height:500px; " class="ag-theme-material" enableColResize="true
+            " [enableSorting]="true " [enableFilter]="true " [rowData]="fillingrequests" [columnDefs]="columnDefs ">
     </ag-grid-angular>
     <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm; ">
 
       <mat-card *ngFor="let request of fillingrequests " class="example-card ">
         <div class="row ">
-          <img height="35px " src="assets/Images/brm60x60.png ">
+          <img height="35px " (click)="fillingreq(request)" src="assets/Images/brm60x60.png ">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
-            <a style="font-size:15px;color:rgb(46, 39, 39); " (click)="batchreq(request)">{{request.request_id}}</a>
+            <a style="font-size:15px;color:rgb(46, 39, 39); " class="req" (click)="fillingreq(request)">{{request.request_id}}</a>
           </div>
           <div>
 
@@ -317,8 +358,8 @@
 
 
     </div>
-    <ag-grid-angular *ngIf="!Tile " style="height:300px; " class="ag-theme-balham list " enableColResize="true
-            " [enableSorting]="true " [enableFilter]="true " [rowData]="RMrequests " [columnDefs]="columnDefs ">
+    <ag-grid-angular *ngIf="!Tile " style="height:500px; " class="ag-theme-material" enableColResize="true
+            " [enableSorting]="true " [enableFilter]="true " [rowData]="RMrequests" [columnDefs]="columnDefs ">
     </ag-grid-angular>
 
 
@@ -326,9 +367,9 @@
 
       <mat-card *ngFor="let request of RMrequests " class="example-card ">
         <div class="row ">
-          <img height="35px " src="assets/Images/brm60x60.png ">
+          <img height="35px " (click)="formulareq(request)" src="assets/Images/brm60x60.png ">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
-            <a style="font-size:15px;color:rgb(46, 39, 39); " (click)="batchreq(request)">{{request.request_id}}</a>
+            <a style="font-size:15px;color:rgb(46, 39, 39); " class="req" (click)="formulareq(request)">{{request.request_id}}</a>
           </div>
           <div>
 
