@@ -364,7 +364,29 @@ export class BatchrequestComponent implements OnInit {
     this.status = this.authService.req.status;
     this.status_des = this.authService.req.status_description;
     this.sitetype = this.authService.req.site;
+    if (this.authService.req.legal_product_category === 'DRUG') {
+      // this.toggleColor3();
+      this.legalproductcatagory = 'DRUG';
+    } else {
+      // this.toggleColor4();
+      this.legalproductcatagory = 'COSMETIC';
+    };
 
+    switch (this.authService.req.batch_size) {
+      case "LAB":
+        this.batchtype = "LAB";
+
+        break;
+      case "PILOT":
+        this.batchtype = "PILOT";
+        break;
+      case "OTHERS":
+        this.batchtype = "OTHERS";
+        break;
+      default:
+
+    }
+    this.gxpvalue = this.authService.req.gxp;
 
     document.getElementById("overview").className = "tab-pane active";
     document.getElementById("equipment").className = "tab-pane fade";
@@ -417,6 +439,15 @@ export class BatchrequestComponent implements OnInit {
 
     this.authService.getspecificreq(this.br_num).subscribe(data => {
       console.log(data);
+      if (data.data.equipmentRequest === undefined) {
+        this.snotify.simple('User has not added any req', 'Not Submitted', {
+          timeout: 5000,
+          position: SnotifyPosition.centerCenter,
+          showProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true
+        });
+      };
       if (data.data.equipmentRequest != undefined) {
         let approver = data.data.equipmentRequest.approver;
         this.appr = approver;
@@ -425,7 +456,12 @@ export class BatchrequestComponent implements OnInit {
           this.isapprover = true;
         }
         this.exisitingreqdata = data.data;
-      }
+        if (data.data.equipmentRequest.equipment === undefined) {
+          this.equipment1 = "No Equipment added";
+        } else {
+          this.equipment1 = data.data.equipmentRequest.equipment;
+        };
+      };
     });
   }
 
@@ -446,7 +482,7 @@ export class BatchrequestComponent implements OnInit {
 
       this.comment_list_team = data.data.team_communication.comments;
       this.comment_list_tech = data.data.technical_communication.comments;
-      console.log(this.comment_list_team);
+
 
       this.comment_list_team.map(e => {
         this.comment_list_team.edit = false;
@@ -712,11 +748,11 @@ export class BatchrequestComponent implements OnInit {
     }
   }
   getbenches() {
-    this.authService.getbenchs().subscribe(data => {
+    this.authService.getbenches().subscribe(data => {
       this.benchdata = data.data;
-      // console.log(this.benchdata);
 
-    })
+
+    });
   }
   fattribute1() {
     if (this.fattribute = true) {
@@ -815,13 +851,20 @@ export class BatchrequestComponent implements OnInit {
         this.optionalequip = this.equipmentdata.optional_equipment;
       }
     }
-    // console.log(this.equipments);
+
 
   }
 
 
 
   equipmentreq(falg) {
+    this.snotify.simple('Please wait', 'Updating', {
+      timeout: 5000,
+      position: SnotifyPosition.rightTop,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true
+    });
     this.saveload = true;
     console.log(this.date);
     console.log(this.bench);
@@ -869,6 +912,13 @@ export class BatchrequestComponent implements OnInit {
 
 
   formulareq_save(flag) {
+    this.snotify.simple('Please wait', 'Updating', {
+      timeout: 5000,
+      position: SnotifyPosition.rightTop,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true
+    });
     let data = {
       request_id: this.br_num,
       formula_id: this.formula_id,
@@ -910,6 +960,13 @@ export class BatchrequestComponent implements OnInit {
 
 
   fillingreq_save(flag) {
+    this.snotify.simple('Please wait', 'Updating', {
+      timeout: 5000,
+      position: SnotifyPosition.rightTop,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true
+    });
     let data = {
       request_id: this.br_num,
       site: this.sitetype,
@@ -917,22 +974,24 @@ export class BatchrequestComponent implements OnInit {
       legal_product_category: this.legalproductcatagory,
       lab_notebook_number: this.labnotebook,
       formula_id: this.formula_id,
-      formula_status: "NEW",
+      formula_status: this.status,
       filling_type: this.filling_type,
       remaining_bulk: this.remaining_bulk,
       gxp: this.gxpvalue,
       batch_number: this.batch_num,
       manufacturing_site: this.sitetype,
       due_date: this.duedate,
-      not_applicable_flag: true,
+      not_applicable_flag: this.notapplicable,
       packaging_type: [],
       formula_description: this.description,
       formulator: this.authService.user_id,
       project: this.project,
       department: this.department,
       manufacturing_date: this.date,
-      request_type: "FILLING REQUEST",
-      flag: 'submit'
+      approver: this.appr,
+      // rejection_comment: this.rejection_comment,
+      request_type: "BATCH REQUEST",
+      flag: flag
 
     }
     console.log(data);
@@ -946,7 +1005,5 @@ export class BatchrequestComponent implements OnInit {
       });
     });
   }
-
-
 
 }

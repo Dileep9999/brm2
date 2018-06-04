@@ -21,7 +21,18 @@
         </button>
       </mat-menu>
       <div class="form-inline" *ngIf="authService.loggedIn()">
-        <input class="form-control my-2  my-sm-0" type="text" style="min-width:9cm;" placeholder="Enter KeyWords" name="value" [(ngModel)]="value">
+        <input class="form-control my-2  my-sm-0" type="text" style="min-width:9cm;" [matAutocomplete]="auto" placeholder="Enter KeyWords"
+          name="value" [(ngModel)]="value">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let req of reqs | filter:value" [value]="req.request_id" (click)="batchreq(req)">
+
+            <b style="width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;">{{ req.request_id }}</b> |
+            <small>{{req.createdBy}}</small>
+          </mat-option>
+        </mat-autocomplete>
         <a (click)="clearinput()" *ngIf="value" type="submit" style="background:rgba(255, 255, 255, 0.166);max-height:36px;margin-left:-31px;">
           <mat-icon class="close">close</mat-icon>
         </a>

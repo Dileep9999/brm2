@@ -52,13 +52,14 @@ export class SuperadminComponent implements OnInit {
   dataSource4 = new MatTableDataSource();
   dataSource5 = new MatTableDataSource();
   reasons1: any;
-  benchs1: any;
-  equipments1: any;
+  bench: any;
+  benches1: any;
+  equipments1: String[];
   packagingcodes: String[];
   site_for_reason: any;
   batch_of_reason: any;
   product_of_reason: any;
-  optional_of_reason: any;
+  equip: any;
   loadcard: String[];
   startDate: Date = new Date;
 
@@ -66,58 +67,58 @@ export class SuperadminComponent implements OnInit {
     this.reasons1 = [];
     this.site_for_reason = value;
     this.batch_of_reason = val;
-    console.log(this.site_for_reason, this.batch_of_reason);
+
 
     for (let i = 0; i <= this.reasondata.length - 1; i++) {
       if (this.site_for_reason === this.reasondata[i].site && this.batch_of_reason === this.reasondata[i].batch_type) {
 
 
         this.reasons1 = this.reasondata[i].reason;
-        console.log(this.reasons1);
 
       }
     }
   }
 
-  addbenchs(value, val, va) {
-    this.benchs1 = [];
-    this.site_for_reason = value;
-    this.batch_of_reason = val;
-    this.product_of_reason = va;
-    console.log(this.site_for_reason, this.batch_of_reason, this.product_of_reason);
-
-    for (let i = 0; i <= this.benchdata.length - 1; i++) {
-      if (this.site_for_reason === this.benchdata[i].site && this.batch_of_reason === this.benchdata[i].batch_type && this.product_of_reason === this.benchdata[i].product_type) {
-
-
-        this.benchs1 = this.benchdata[i].bench;
-        console.log(this.benchs1);
-
-      }
-    }
-  }
-
-  addequipments(value, val, v) {
+  addequipments(value, val) {
     this.equipments1 = [];
+    console.log(this.equipmentdata);
+
+    this.equipmentdata.map(e => {
+      if (value === e.site && val === e.batch_type) {
+        this.equipments1 = e.equipment_list;
+      }
+    });
+
+    // for (let i = 0; i <= this.equipmentdata.length - 1; i++) {
+    //   if (value === this.equipmentdata[i].site && val === this.equipmentdata[i].batch_type) {
+    //     this.equipments1 = this.equipmentdata[i].equipment;
+
+
+    //   }
+    // }
+  }
+
+  addbenchs(value, va) {
+
+
+    this.benches1 = [];
     this.site_for_reason = value;
-    this.batch_of_reason = val;
-    this.optional_of_reason = v;
-    console.log(this.site_for_reason, this.batch_of_reason, this.optional_of_reason);
 
-    for (let i = 0; i <= this.equipmentdata.length - 1; i++) {
-      if (this.site_for_reason === this.equipmentdata[i].site && this.batch_of_reason === this.equipmentdata[i].batch_type && this.optional_of_reason === this.equipmentdata[i].equipment_type) {
-
-
-        this.equipments1 = this.equipmentdata[i].reason;
-        console.log(this.equipments1);
+    this.product_of_reason = va;
+    for (let i = 0; i <= this.benchdata.length - 1; i++) {
+      console.log(this.site_for_reason);
+      if (value === this.benchdata[i].site && va === this.benchdata[i].legal_product_category) {
+        this.benches1 = this.benchdata[i].bench;
 
       }
     }
   }
+
+
 
   applyFilter(filterValue: string) {
     this.site = filterValue;
-    console.log(filterValue);
+
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
@@ -185,22 +186,22 @@ export class SuperadminComponent implements OnInit {
     this.getdepartments();
     this.getdeprojects();
     this.getpc();
-    this.getequipments();
     this.getsites();
     this.getreasons();
-    this.getbenchs();
+    this.getbenches();
     this.getequipments();
   }
 
   getpc() {
     this.authService.getpc().subscribe(data => {
+      console.log(data);
       this.dataSource4 = data.data;
     });
   }
 
 
   abc(value) {
-    console.log(value);
+
     this.selected = value;
 
   }
@@ -251,8 +252,13 @@ export class SuperadminComponent implements OnInit {
     this.authService.addsite(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
-        this.selectsite();
-        this.snackBar.open("ADDED", 'ok', { duration: 2000 });
+        this.snotify.success('Added', 'Success', {
+          timeout: 3000,
+          position: SnotifyPosition.rightCenter,
+          pauseOnHover: true,
+          showProgressBar: true
+
+        })
       }
     });
   }
@@ -265,8 +271,13 @@ export class SuperadminComponent implements OnInit {
     this.authService.adddpt(data).subscribe(data => {
 
       if (data.success) {
-        this.getdepartments();
-        this.snackBar.open('Added', 'ok', { duration: 2000 });
+        this.snotify.success('Added', 'Success', {
+          timeout: 3000,
+          position: SnotifyPosition.rightCenter,
+          pauseOnHover: true,
+          showProgressBar: true
+
+        })
       }
     });
   }
@@ -282,8 +293,13 @@ export class SuperadminComponent implements OnInit {
     this.authService.addpc(data).subscribe(data => {
 
       if (data.success) {
-        this.getpc();
-        this.snackBar.open('added', 'ok', { duration: 2000 });
+        this.snotify.success('Added', 'Success', {
+          timeout: 3000,
+          position: SnotifyPosition.rightCenter,
+          pauseOnHover: true,
+          showProgressBar: true
+
+        })
       }
     });
   }
@@ -298,8 +314,13 @@ export class SuperadminComponent implements OnInit {
     this.authService.addproject(data).subscribe(data => {
 
       if (data.success) {
-        this.getdeprojects();
-        this.snackBar.open('added', 'ok', { duration: 2000 });
+        this.snotify.success('Added', 'Success', {
+          timeout: 3000,
+          position: SnotifyPosition.rightCenter,
+          pauseOnHover: true,
+          showProgressBar: true
+
+        })
       }
     });
   }
@@ -316,18 +337,25 @@ export class SuperadminComponent implements OnInit {
     this.authService.addbench(data).subscribe(data => {
       console.log(data.message);
       if (data.success) {
+        this.snotify.success('Added', 'Success', {
+          timeout: 3000,
+          position: SnotifyPosition.rightCenter,
+          pauseOnHover: true,
+          showProgressBar: true
 
-        this.snackBar.open('added', 'ok', { duration: 2000 });
+        })
       }
     });
   }
 
-  addeqpt(site, batch, equipment) {
+  addeqpt(site, batch, opteq, equipment) {
     let data = {
       site: site,
       batch_type: batch,
+      optional_equipments: [opteq],
       equipment_list: [equipment]
     }
+    console.log(data);
 
     this.authService.addeqpt(data).subscribe(data => {
 
@@ -342,15 +370,12 @@ export class SuperadminComponent implements OnInit {
 
   selectsite() {
     this.authService.getsites().subscribe(data => {
-
-      this.dataSource.data = data.data;
-      this.sitedata = data.data;
-
-
-      for (let i = 0; i => data.data.length - 1; i++) {
-        this.sitemenu.push(data.data[i].site);
+      if (data.success) {
+        data.data.map(d => {
+          this.sitemenu.push(d.site);
+        });
       }
-    })
+    });
   }
 
 
@@ -358,7 +383,7 @@ export class SuperadminComponent implements OnInit {
   getsites() {
 
     this.authService.getsites().subscribe(data => {
-      // console.log(data);
+      console.log(data);
       this.dataSource.data = data.data;
       this.sitedata = data.data;
       // console.log(this.sitedata);
@@ -383,20 +408,18 @@ export class SuperadminComponent implements OnInit {
     })
   }
 
-  getequipments() {
-    this.authService.getequipments().subscribe(data => {
+  // getequipments() {
+  //   this.authService.getequipments().subscribe(data => {
 
-      this.dataSource5.data = data.data;
-      this.equipmentdata = data.data;
+  //     this.dataSource5.data = data.data;
+  //     this.equipmentdata = data.data;
 
-    })
-  }
+  //   })
+  // }
 
 
   makeasadmin(user) {
     this.authService.makeasadmin(user).subscribe(data => {
-
-
       if (data.success) {
         this.getusers();
       }
@@ -435,6 +458,18 @@ export class SuperadminComponent implements OnInit {
     });
   }
 
+  getequipments() {
+    this.authService.getequipments().subscribe(data => {
+      if (data.success) {
+        this.equipmentdata = data.data;
+      }
+    });
+  }
+
+
+
+
+
   openDialog(): void {
     let dialogRef = this.dialog.open(NewUser, {
       width: '480px',
@@ -461,11 +496,12 @@ export class SuperadminComponent implements OnInit {
     });
   }
 
-  getbenchs() {
-    this.authService.getbenchs().subscribe(data => {
-
+  getbenches() {
+    this.authService.getbenches().subscribe(data => {
       this.benchdata = data.data;
     });
+
+
   }
 
 }
@@ -474,6 +510,8 @@ export interface Element {
   createdAt: string;
   sitedata: string;
   reason: string;
+  bench: string;
+  benchdata: string;
   departmentdata: string;
   projectdata: string;
   equipmentdata: string;

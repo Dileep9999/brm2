@@ -78,6 +78,9 @@ export class FillingreqComponent implements OnInit {
   editvalue: String;
   rejection_comment: String;
   rejectshow: boolean = false;
+
+
+  disable: boolean = true;
   constructor(
     public authService: AuthService,
     public snackBar: MatSnackBar,
@@ -92,13 +95,14 @@ export class FillingreqComponent implements OnInit {
     this.department = this.authService.department;
     if (this.authService.project === undefined && !this.authService.permission) {
       this.router.navigate(['/home']);
-    }
-    if (this.authService.project === undefined) {
+    };
+    if (this.authService.permission) {
       this.loadreq();
-
-    } else {
+    } else if (!this.authService.permission && this.authService.project != undefined) {
       this.newrequest();
-    }
+    };
+
+
     this.formulaids = [];
     this.labnotebooknums = [];
     this.packagingcodes = [];
@@ -117,6 +121,12 @@ export class FillingreqComponent implements OnInit {
     this.getcomments();
     this.gethistory();
     this.gxpvalue = this.authService.req.gxp;
+    if (this.authService.req.createdBy === this.authService.user_id) {
+      this.disable = false;
+    };
+    if (this.authService.req.filling_approver === this.authService.user_id) {
+      this.disable = false;
+    }
 
 
     this.department = this.authService.req.department;
@@ -127,7 +137,7 @@ export class FillingreqComponent implements OnInit {
     this.sitetype = this.authService.req.site;
     if (this.authService.req.batch_type === 'LAB') {
       this.lab1();
-    } else if (this.authService.req.batch_type === 'LAB') {
+    } else if (this.authService.req.batch_type === 'PILOT') {
       this.pilot1();
     } else {
       this.other1();
@@ -191,7 +201,8 @@ export class FillingreqComponent implements OnInit {
       console.log(data);
       this.authService.permission = false;
 
-
+      this.labnotebook = data.data.formulaAttributes.lab_note_book_number;
+      this.formula_id = data.data.formulaAttributes.formula_id;
       let approver = data.data.fillingRequest.approver;
       this.appr = approver;
       this.batch_num = data.data.fillingRequest.batch_number;
@@ -201,11 +212,8 @@ export class FillingreqComponent implements OnInit {
       if (approver === this.authService.user_id) {
         this.isapprover = true;
       }
-      this.duedate = data.data.fillingRequest.due_date;
+      this.duedate = data.data.fillingRequest.due_date.substring(0, 10);
       this.exisitingreqdata = data.data;
-
-
-
     });
 
 
@@ -297,43 +305,33 @@ export class FillingreqComponent implements OnInit {
           (e.approver_permission) {
             this.approvers.push(e.user_id)
           }
-
         });
-
-        // for (let i = 0; i <= data.data.length; i++) {
-        //   if
-        //   (data.data[i].approver_permission) {
-        //     this.approvers.push(data.data[i].user_id)
-        //   }
-        // }
       }
-
     });
-
-    // this.authService.getusers("ADMIN").subscribe(data => {
-
-    // });
-    // this.authService.getusers("SUPERADMIN").subscribe(data => {
-
-    // });
   }
 
   getpackagingcodes() {
 
     this.authService.getpc().subscribe(data => {
+      data.data.map(data => {
+        this.packagingcodes.push(data.packaging_code);
+      });
 
-      for (let i = 0; i <= data.data.length - 1; i++) {
-        this.packagingcodes.push(data.data[i].packaging_code);
-      }
-
-
+      // for (let i = 0; i <= data.data.length - 1; i++) {
+      //   this.packagingcodes.push(data.data[i].packaging_code);
+      // }
     });
-
   }
 
 
   save(flag) {
-
+    this.snotify.simple('Please wait', 'Updating', {
+      timeout: 4000,
+      position: SnotifyPosition.rightTop,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true
+    });
 
 
     let data = {
@@ -343,7 +341,7 @@ export class FillingreqComponent implements OnInit {
       legal_product_category: this.legal_product_category,
       lab_note_book_number: this.labnotebook,
       formula_id: this.formula_id,
-      formula_status: "NEW",
+      formula_status: this.status,
       filling_type: this.filling_type,
       remaining_bulk: this.remaining_bulk,
       gxp: this.gxpvalue,
@@ -557,11 +555,10 @@ export class FillingreqComponent implements OnInit {
 
 
   newrequest() {
+    this.disable = false
     this.authService.submitnewreq("FILLING REQUEST").subscribe(data => {
       console.log(data);
-
       this.fr_num = data.data.request_id;
-
       this.year = data.data.lastModified.slice(0, 4);
       this.month = data.data.lastModified.slice(5, 7);
       this.day = data.data.lastModified.slice(8, 10);

@@ -3,16 +3,17 @@
 <br>
 <h6>From</h6>
 <mat-form-field>
-  <input matInput [matDatepicker]="picker" (dateChange)="submitenable()" placeholder="Choose a date" [(ngModel)]="date1">
+  <input matInput [matDatepicker]="picker" (dateChange)="submitenable()" placeholder="Choose a date" [(ngModel)]="date1" disabled>
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
+  <mat-datepicker #picker disabled="false"></mat-datepicker>
 </mat-form-field>
 <br>
 <h6>To</h6>
 <mat-form-field>
-  <input matInput [matDatepicker]="picer1" (dateChange)="submitenable()" placeholder="Choose a date" [(ngModel)]="date2">
+  <input matInput [matDatepicker]="picer1" (dateChange)="submitenable()" placeholder="Choose a date" [min]="date1" [(ngModel)]="date2"
+    disabled>
   <mat-datepicker-toggle matSuffix [for]="picer1"></mat-datepicker-toggle>
-  <mat-datepicker #picer1></mat-datepicker>
+  <mat-datepicker #picer1 disabled="false"></mat-datepicker>
 </mat-form-field>
 <br>
 <div class="float-left">

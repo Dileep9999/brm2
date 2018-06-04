@@ -25,7 +25,7 @@ export class RmrequestComponent implements OnInit {
   drug = false;
   cosmetic = false;
   project: String;
-  fr_num: String;
+  formulator: String;
   updateddate: String;
   month: number;
   day: number;
@@ -46,6 +46,7 @@ export class RmrequestComponent implements OnInit {
   appr: String;
   approvers: String[];
   isapprover: boolean = false;
+  disable: boolean = true;
   progressbar_color: String = '#09e3f5';
   row_matrials: any = [{
     trade_name: 'Structural XL',
@@ -106,6 +107,9 @@ export class RmrequestComponent implements OnInit {
     public snackBar: MatSnackBar
   ) { }
   ngOnInit() {
+    this.rejectshow = false;
+    this.isapprover = false;
+    this.formulator = this.authService.user_id;
     this.approvers = [];
     this.labnotebooknums = [];
     this.formulaids = [];
@@ -113,13 +117,13 @@ export class RmrequestComponent implements OnInit {
     this.department = this.authService.department;
     if (this.authService.project === undefined && !this.authService.permission) {
       this.router.navigate(['/home']);
-    }
-    if (this.authService.project === undefined) {
+    };
+    if (this.authService.permission) {
       this.loadreq();
 
-    } else {
+    } else if (this.authService.project != undefined && !this.authService.permission) {
       this.newrequest();
-    }
+    };
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
     this.getusers();
     this.getlabnums();
@@ -250,28 +254,40 @@ export class RmrequestComponent implements OnInit {
 
   loadreq() {
     console.log(this.authService.req);
+    this.authService.permission = false;
 
-
-    this.fr_num = this.authService.req.request_id;
+    this.rm_num = this.authService.req.request_id;
     this.getcomments();
     this.gethistory();
-
-
-
     this.department = this.authService.req.department;
     this.project = this.authService.req.project;
-    console.log(this.department, this.project);
     this.status = this.authService.req.status;
     this.status_des = this.authService.req.status_description;
     this.sitetype = this.authService.req.site;
 
-    this.authService.permission = false;
+    if (this.authService.req.createdBy === this.authService.user_id) {
+      this.disable = false;
+    };
+    if (this.authService.req.formula_approver === this.authService.user_id) {
+      this.disable = false;
+    };
+    if (this.authService.req.batch_type === 'LAB') {
+      this.flab1();
+    } else if (this.authService.req.batch_type === 'PILOT') {
+      this.fpilot1();
+    } else {
+      this.GxP1();
+    };
     switch (this.authService.req.status) {
       case "New":
         this.percent = 17;
         break;
       case "Submitted":
         this.percent = 34;
+        this.progressbar_color = '#055cfc';
+        break;
+      case "Complete":
+        this.percent = 100;
         this.progressbar_color = '#055cfc';
         break;
       case "Cancelled":
@@ -294,6 +310,8 @@ export class RmrequestComponent implements OnInit {
         this.percent = 0;
         this.progressbar_color = '#f50910';
     };
+
+
     if (this.authService.req.legal_product_category === 'DRUG') {
       this.drug1();
 
@@ -301,36 +319,29 @@ export class RmrequestComponent implements OnInit {
       this.cosmetic1();
     };
 
-
-
-
-
-
-    this.authService.getspecificreq(this.fr_num).subscribe(data => {
+    this.authService.getspecificreq(this.rm_num).subscribe(data => {
       console.log(data);
-      this.authService.permission = false;
+      if (data.data) {
+        this.pr_number = data.data.formulaAttributes.formula_pr_number;
+        this.authService.permission = false;
+        this.formulator = data.data.formulaAttributes.createdBy;
+        this.description = data.data.formulaAttributes.formula_description;
 
+        this.labnotebook = data.data.formulaAttributes.lab_note_book_number;
+        this.formula_id = data.data.formulaAttributes.formula_id;
+        let approver = data.data.formulaAttributes.approver;
+        this.appr = approver;
 
-      let approver = data.data.fillingRequest.approver;
-      this.appr = approver;
+        this.mfgdate = data.data.formulaAttributes.manufacturing_date;
+        console.log(this.mfgdate);
 
-      this.mfgdate = data.data.fillingRequest.manufacturing_date;
-      console.log(this.mfgdate);
-
-      if (approver === this.authService.user_id) {
-        this.isapprover = true;
+        if (approver === this.authService.user_id) {
+          this.isapprover = true;
+        };
+        this.exisitingreqdata = data.data;
       }
-
-      this.exisitingreqdata = data.data;
-
-
-
     });
-
-
   }
-
-
 
 
   getlabnums() {
@@ -357,27 +368,14 @@ export class RmrequestComponent implements OnInit {
           if (e.approver_permission) {
             this.approvers.push(e.user_id)
           }
-        })
-
-        // for (let i = 0; i <= data.data.length; i++) {
-        //   if (data.data[i].approver_permission) {
-        //     this.approvers.push(data.data[i].user_id)
-        //   }
-        // }
-        console.log(this.approvers);
+        });
       }
     });
-
-    // this.authService.getusers("ADMIN").subscribe(data => {
-
-    // });
-    // this.authService.getusers("SUPERADMIN").subscribe(data => {
-
-    // });
   }
 
 
   newrequest() {
+    this.disable = false;
     this.authService.submitnewreq("BATCH RM ORDER").subscribe(data => {
       console.log(data);
 
@@ -392,7 +390,7 @@ export class RmrequestComponent implements OnInit {
 
 
   getcomments() {
-    this.authService.getcomments(this.fr_num).subscribe(data => {
+    this.authService.getcomments(this.rm_num).subscribe(data => {
 
       this.comment_list_team = data.data.team_communication.comments;
       this.comment_list_tech = data.data.technical_communication.comments;
@@ -410,7 +408,7 @@ export class RmrequestComponent implements OnInit {
   }
 
   gethistory() {
-    this.authService.gethistrory(this.fr_num).subscribe(data => {
+    this.authService.gethistrory(this.rm_num).subscribe(data => {
       this.rowData = data.data;
     });
   }
@@ -427,7 +425,7 @@ export class RmrequestComponent implements OnInit {
 
   addcomment(type) {
     let data = {
-      request_id: this.fr_num,
+      request_id: this.rm_num,
       comment: this.newcommnet,
       comment_type: type
     }
@@ -536,6 +534,15 @@ export class RmrequestComponent implements OnInit {
 
 
   submit(flag) {
+    this.snotify.simple('Please wait', 'Updating', {
+      timeout: 4000,
+      position: SnotifyPosition.rightTop,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true
+    });
+    console.log(this.row_matrials);
+
     let data = {
       request_id: this.rm_num,
       formula_id: this.formula_id,
@@ -546,7 +553,7 @@ export class RmrequestComponent implements OnInit {
       site: this.sitetype,
       batch_type: this.batch_type,
       legal_product_category: this.legal_product_category,
-      formula_status: "new",
+      formula_status: this.status,
       formula_description: this.description,
       formula_pr_number: this.pr_number,
       formulator: this.authService.user_id,
@@ -557,6 +564,7 @@ export class RmrequestComponent implements OnInit {
       approver: this.appr,
       performed_by: this.authService.user_id,
       flag: flag,
+      rejection_comment: this.rejection_comment,
       confirm_flag: true
     }
     console.log(data);

@@ -54,10 +54,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 
+
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'prefrence', component: PrefrenceComponent, canActivate: [AuthGuard] },
   { path: 'batchrequest', component: BatchrequestComponent, canActivate: [AuthGuard] },
   { path: 'su', component: SuperadminComponent, canActivate: [AuthGuard] },
@@ -112,6 +113,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatChipsModule,
     FlashMessagesModule.forRoot(),
+
     MatTableModule,
     MatCheckboxModule,
     MatButtonToggleModule,

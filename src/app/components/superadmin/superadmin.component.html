@@ -182,21 +182,22 @@
   </mat-tab>
   <mat-tab label="Create reason">
     <br>
-    <mat-card class="row">
-
-      <mat-form-field class="col-sm-3 ">
-        <mat-select #site1 placeholder="Select a Site ">
-          <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="col-sm-3 ">
-        <mat-select #batch1 placeholder="Select a Batch ">
-          <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="example col-sm-3 ">
-        <input matInput placeholder="Add Reason " #reason> </mat-form-field>
-      <button mat-fab (click)="addreason(site1.value, batch1.value, reason.value) ">ADD</button>
+    <mat-card>
+      <div class="row">
+        <mat-form-field class="col-sm-3 ">
+          <mat-select #site1 placeholder="Select a Site ">
+            <mat-option *ngFor="let site of sitemenu " value="{{site}} "> {{ site }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-sm-3 ">
+          <mat-select #batch1 placeholder="Select a Batch ">
+            <mat-option *ngFor="let batch of batchmenu " value="{{batch}} "> {{ batch }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example col-sm-3 ">
+          <input matInput placeholder="Add Reason " #reason> </mat-form-field>
+        <button mat-fab (click)="addreason(site1.value, batch1.value, reason.value) ">ADD</button>
+      </div>
     </mat-card>
 
 
@@ -388,25 +389,24 @@
         <div class="row">
           <h6 class="col-sm-2">Available Benches</h6>
           <div class="col-sm-3">
-            <select class="form-control" placeholder="Select site" (change)="addbenchs($event.target.value,batch.value,product2.value)"
-              #si>
+            <select class="form-control" placeholder="Select site" (change)="addbenchs($event.target.value,product7.value)" #si>
               <option value="{{site}}" disabled selected>select site</option>
               <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
 
             </select>
 
           </div>
-          <div class="col-sm-3">
-            <select class="form-control" (change)="addbenchs(si.value, $event.target.value,'')" #batch>
+          <!-- <div class="col-sm-3">
+            <select class="form-control" (change)="addbenchs(si.value, $event.target.value,product7.value)" #batch>
               <option value="{{site}}" disabled selected>select batch</option>
               <option *ngFor=" let batch of batchmenu" value="{{batch}}">{{batch}}</option>
 
             </select>
 
-          </div>
+          </div> -->
 
           <div class="col-sm-3">
-            <select class="form-control" (change)="addbenchs(si.value, batch.value, $event.target.value)" #product2>
+            <select class="form-control" (change)="addbenchs(si.value, $event.target.value)" #product7>
               <option value="{{site}}" disabled selected>select LegalProductCategory</option>
               <option *ngFor=" let product of productmenu" value="{{product}}">{{product}}</option>
 
@@ -422,7 +422,7 @@
       <mat-card>
 
         <mat-list role="list">
-          <mat-list-item role="listitem" *ngFor="let bench of benchs1">{{bench}}</mat-list-item>
+          <mat-list-item role="listitem" *ngFor="let bench of benches1">{{bench}}</mat-list-item>
 
         </mat-list>
 
@@ -432,7 +432,7 @@
 
     </div>
   </mat-tab>
-  <!-- <mat-tab label="Create Equipment ">
+  <mat-tab label="Create Equipment ">
     <br>
     <div class="jumbotron ">
 
@@ -441,20 +441,21 @@
 
 
         <h5 class="row">Create Equipment</h5>
-        <mat-form-field class="col-sm-2 ">
-          <mat-select placeholder="Select a Site " #site9>
+        <mat-form-field class="col-sm-2">
+          <mat-select placeholder="Select a Site" #site9>
             <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="col-sm-2">
-          <mat-select placeholder="Select a Batch " #batch9>
+          <mat-select placeholder="Select a Batch" #batch9>
             <mat-option *ngFor="let batch of batchmenu" value="{{batch}}">{{batch}}</mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field class="example col-sm-3">
+          <input matInput placeholder="Add Optional Equipment" #opteq7> </mat-form-field>
         <mat-form-field class="example col-sm-2">
-          <input matInput placeholder="Add Equipment " #equipment6> </mat-form-field>
-        <button mat-fab (click)="addeqpt(site9.value, batch9.value, ope.value, equipment6.value)">ADD</button>
-
+          <input matInput placeholder="Add Equipment" #equipment6> </mat-form-field>
+        <button mat-fab (click)="addeqpt(site9.value, batch9.value, opteq7.value, equipment6.value)">ADD</button>
 
 
       </mat-card>
@@ -465,8 +466,7 @@
         <div class="row">
           <h6 class="col-sm-3">Available Equipments</h6>
           <div class="col-sm-3">
-            <select class="form-control" placeholder="Select site" (change)="addequipments($event.target.value, ba.value, op.value)"
-              #s>
+            <select class="form-control" placeholder="Select site" (change)="addequipments($event.target.value, ba.value)" #s>
               <option value="{{site}}" disabled selected>select site</option>
               <option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</option>
 
@@ -483,12 +483,7 @@
           </div>
 
 
-          <div class="col-sm-3">
-            <select class="form-control" (change)="addequipments(s.value, ba.value, $event.target.value)" #op>
-              <option value="{{site}}" disabled selected>OptionalEquipment</option>
-              <option *ngFor=" let ope of optionalequipmentmenu" value="{{ope}}">{{ope}}</option>
-            </select>
-          </div>
+
         </div>
       </mat-card>
       <br>
@@ -503,7 +498,7 @@
       </mat-card>
     </div>
 
-  </mat-tab> -->
+  </mat-tab>
   <mat-tab label="Create Packaging Code ">
     <br>
     <mat-card>
@@ -548,14 +543,7 @@
 
 
     </mat-card>
-    <!-- <div class="row jumbotron ">
-        <h5 class="col-sm-3 ">Create Packaging Code</h5>
-        <mat-form-field class="col-sm-3 ">
-          <input matInput placeholder="Create Packing Code " #pc> </mat-form-field>
-        <div class="col-sm-2 " style="height:1cm; ">
-          <button class="btn btn-primary " (click)="addpc(pc.value) ">Create</button>
-        </div>
-      </div> -->
+
   </mat-tab>
 
 

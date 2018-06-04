@@ -187,7 +187,7 @@
                 <a class="btn" style="font-size:11px;">Type</a>
                 <div class="dropdown-menu" aria-labelledby="type">
                   <div style="max-height:5cm;overflow-y:scroll">
-                    <a class="dropdown-item btn" *ngFor="let type of typemenu" (click)="appendtofilteritems(type, 'type')">{{type}}</a>
+                    <a class="dropdown-item btn" *ngFor="let type of typemenu" (click)="appendtofilteritems(type,'type')">{{type}}</a>
                   </div>
                 </div>
               </div>
@@ -213,7 +213,7 @@
                 <a class="btn" style="font-size:11px;">Legal Product
                   <br>Category</a>
                 <div class="dropdown-menu" aria-labelledby="legalproducts">
-                  <a class="dropdown-item btn" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct,'legalproduct')">{{legalproduct}}</a>
+                  <a class="dropdown-item btn" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct,'leagalproduct')">{{legalproduct}}</a>
                 </div>
               </div>
               <div>
@@ -236,7 +236,7 @@
                 <img class="btn" id="partner" data-toggle="dropdown" style="margin-left:9px;" src="assets/Images/partner.png">
                 <a class="btn" style="font-size:11px;">Partner</a>
                 <div class="dropdown-menu" aria-labelledby="partner">
-                  <a class="dropdown-item btn" *ngFor="let partner of partnermenu" (click)="appendtofilteritems(partner,'partner')">{{partner}}</a>
+                  <a class="dropdown-item btn" *ngFor="let partner of partnermenu" (click)="appendtofilteritems(partner.name,'partner')">{{partner.name}}</a>
                 </div>
               </div>
             </div>

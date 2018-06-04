@@ -5,13 +5,16 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <b> Filters
+
             <mat-icon>filter_list</mat-icon>
           </b>
         </mat-panel-title>
-        <mat-panel-description>
-          Tap to Apply
+
+        <mat-panel-description style="padding-left:2cm;">
+          Tap here for Filters
 
         </mat-panel-description>
+
       </mat-expansion-panel-header>
 
       <div class="card border-dark">
@@ -42,7 +45,7 @@
               <div class="col-sm col-md col-lg">
 
                 <img class="btn" id="type" data-toggle="dropdown" style="margin-left:5px;" src="assets/Images/pilot-batch.png">
-                <a class="btn" style="font-size:13px;margin-top:-5px;">Type</a>
+                <a class="btn" style="font-size:13px;margin-top:-5px;" id="type" data-toggle="dropdown">Type</a>
                 <div class="dropdown-menu" aria-labelledby="type">
                   <div style="max-height:5cm;overflow-y:scroll">
                     <a class="dropdown-item" *ngFor="let type of typemenu" (click)="appendtofilteritems(type,'type')">{{type}}</a>
@@ -53,10 +56,10 @@
               <div class="col-sm col-md col-lg">
 
                 <img class="btn" id="manufacturingdate" style="margin-left:23px;" data-toggle="dropdown" src="assets/Images/creation-date.png">
-                <a class="btn" style="font-size:13px;" id="dropdownMenuButton" data-toggle="dropdown">Manufacturing
+                <a class="btn" style="font-size:13px;" id="manufacturingdate" data-toggle="dropdown">Manufacturing
                   <br>Date</a>
                 <div class="dropdown-menu" aria-labelledby="manufacturingdate">
-                  <a class="dropdown-item" *ngFor="let date of manudatemenu" (click)="appendtofilteritems(date)">{{date}}</a>
+                  <a class="dropdown-item" *ngFor="let date of manudatemenu" (click)="appendtofilteritems(date,'mfgdate')">{{date}}</a>
                   <div class="dropdown divider"></div>
                   <a class="dropdown-item" (click)="openDialog()">Date Range</a>
                 </div>
@@ -66,7 +69,7 @@
               <div class="col-sm col-md col-lg">
 
                 <img class="btn" id="site" data-toggle="dropdown" src="assets/Images/sm_region.png">
-                <a class="btn" style="font-size:13px;">Site</a>
+                <a class="btn" style="font-size:13px;" id="site" data-toggle="dropdown">Site</a>
                 <div class="dropdown-menu" aria-labelledby="site">
                   <a class="dropdown-item" *ngFor="let site of sitemenu" (click)="appendtofilteritems(site,'site')">{{site}}</a>
                 </div>
@@ -75,17 +78,17 @@
               <div class="col-sm col-md col-lg">
 
                 <img class="btn" id="leaglproducts" data-toggle="dropdown" style="margin-left:23px;" src="assets/Images/gfo.png">
-                <a class="btn" style="font-size:13px;">Legal Product
+                <a class="btn" style="font-size:13px;" id="leaglproducts" data-toggle="dropdown">Legal Product
                   <br>Category</a>
                 <div class="dropdown-menu" aria-labelledby="legalproducts">
-                  <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct,'legalproduct')">{{legalproduct}}</a>
+                  <a class="dropdown-item" *ngFor="let legalproduct of legalproductcategory" (click)="appendtofilteritems(legalproduct,'leagalproduct')">{{legalproduct}}</a>
                 </div>
 
               </div>
               <div class="col-sm col-md col-lg">
 
                 <img class="btn" id="status" data-toggle="dropdown" style="margin-left:5px" src=" assets/Images/status.png">
-                <a class="btn" style="font-size:12px;">Status</a>
+                <a class="btn" style="font-size:12px;" id="status" data-toggle="dropdown">Status</a>
                 <div class="dropdown-menu" aria-labelledby="status">
                   <div style="max-height:4.5cm;overflow-y:scroll">
                     <a class="dropdown-item" *ngFor="let status of statusmenu" (click)="appendtofilteritems(status,'status')">{{status}}</a>
@@ -96,7 +99,7 @@
               <div class="col-sm col-md col-lg">
 
                 <img class="btn" id="project" data-toggle="dropdown" style="margin-left:7px;" src="assets/Images/project.png">
-                <a class="btn" style="font-size:13px;">Project</a>
+                <a class="btn" style="font-size:13px;" id="project" data-toggle="dropdown">Project</a>
                 <div class="container dropdown-menu" aria-labelledby="project">
                   <input class="dropdown-item" class="form-control" placeholder="Search" [(ngModel)]="project">
                   <a class="dropdown-item" *ngFor="let project of projectmenu|filter:project" (click)="appendtofilteritems(project,'project')"
@@ -107,10 +110,10 @@
               <div class="col-sm col-md col-lg">
 
                 <img class="btn" id="partner" data-toggle="dropdown" style="margin-left:9px;" src="assets/Images/partner.png">
-                <a class="btn" style="font-size:13px;">Partner</a>
+                <a class="btn" style="font-size:13px;" id="partner" data-toggle="dropdown">Partner</a>
                 <div class="container dropdown-menu" style="margin-top:0.4cm;min-width:4cm;" aria-labelledby="partner">
                   <input class="dropdown-item" class="form-control" placeholder="Search" style="max-height:0.7cm;" [(ngModel)]="partner">
-                  <a class="dropdown-item" *ngFor="let partner of partnermenu | filter:partner" (click)="appendtofilteritems(partner,'partner')">{{partner}}</a>
+                  <a class="dropdown-item" *ngFor="let partner of partnermenu | filter:partner:name" (click)="appendtofilteritems(partner.name,'partner')">{{partner.name}}</a>
                 </div>
 
 
@@ -118,7 +121,7 @@
 
               <div class="col-sm col-md col-lg">
                 <div>
-                  <button class="btn btn-primary">Apply Filters</button>
+                  <button class="btn btn-primary" (click)="filters()">Apply Filters</button>
                 </div>
               </div>
 
@@ -134,39 +137,39 @@
         <div class="row" style="margin:0.2cm">
           <div class="col">
 
-            <!-- <mat-chip-list>
+            <mat-chip-list>
               <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.batch_type[0]">Type:-
                 <b *ngFor="let batch of prefrences.request_filter.filters.batch_type">{{batch}},</b>
 
-                <mat-icon (click)="emptyarray('type')">highlight_off</mat-icon>
+                <mat-icon (click)="emptyarray('type')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
 
               </mat-chip>
-              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.site[0]">Site:[
-                <b *ngFor="let site of prefrences.request_filter.filters.site">{{site}},</b>]
-                <mat-icon (click)="emptyarray('site')">highlight_off</mat-icon>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.site[0]">Site:-
+                <b *ngFor="let site of prefrences.request_filter.filters.site">{{site}},</b>
+                <mat-icon (click)="emptyarray('site')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
-              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.manufacturing_date[0]">MfgDate:[
-                <b *ngFor="let date of prefrences.request_filter.filters.manufacturing_date">{{date}},</b>
-                <mat-icon (click)="emptyarray('mfgdate')">highlight_off</mat-icon>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.manufacturing_date.date_range.from_date">MfgDate:-
+                <b>{{prefrences.request_filter.filters.manufacturing_date.date_range.from_date}} To {{prefrences.request_filter.filters.manufacturing_date.date_range.to_date}}</b>
+                <mat-icon (click)="emptyarray('mfgdate')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
-              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.legal_product_category[0]">LeagalProductCategory:[
-                <b *ngFor="let leagalproduct of prefrences.request_filter.filters.legal_product_category">{{leagalproduct}},</b>]
-                <mat-icon (click)="emptyarray('leagalproduct')">highlight_off</mat-icon>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.legal_product_category[0]">LeagalProductCategory:-
+                <b *ngFor="let leagalproduct of prefrences.request_filter.filters.legal_product_category">{{leagalproduct}},</b>
+                <mat-icon (click)="emptyarray('leagalproduct')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
-              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.project[0]">Project:[
-                <b *ngFor="let pro of prefrences.request_filter.filters.project">{{pro}},</b>]
-                <mat-icon (click)="emptyarray('project')">highlight_off</mat-icon>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.project[0]">Project:-
+                <b *ngFor="let pro of prefrences.request_filter.filters.project">{{pro}},</b>
+                <mat-icon (click)="emptyarray('project')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
-              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.status[0]">Status:[
-                <b *ngFor="let stat of prefrences.request_filter.filters.status ">{{stat}},</b>]
-                <mat-icon (click)="emptyarray('status')">highlight_off</mat-icon>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.status[0]">Status:-
+                <b *ngFor="let stat of prefrences.request_filter.filters.status ">{{stat}},</b>
+                <mat-icon (click)="emptyarray('status')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
-              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.partner[0]">Partner:[
-                <b *ngFor="let part of prefrences.request_filter.filters.partner">{{part}},</b>]
-                <mat-icon (click)="emptyarray('partner')">highlight_off</mat-icon>
+              <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.partner[0]">Partner:-
+                <b *ngFor="let part of prefrences.request_filter.filters.partner">{{part}},</b>
+                <mat-icon (click)="emptyarray('partner')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
 
-            </mat-chip-list> -->
+            </mat-chip-list>
 
 
 
@@ -198,15 +201,15 @@
 
 
 
-    <h5 style="margin-left:0.9cm;">Batch Requests ({{batchrequests.length}})</h5>
-    <ag-grid-angular *ngIf="!Tile " style="height:500px; " class="ag-theme-material" [enableColResize]="true
+    <h5 style="margin-left:0.9cm;">Batch Requests ( {{batchrequests.length}} )</h5>
+    <ag-grid-angular *ngIf="!Tile" style="height:500px; " class="ag-theme-material" [enableColResize]="true
             " [enableSorting]="true " [enableFilter]="true " [rowData]="batchrequests" [columnDefs]="columnDefs ">
     </ag-grid-angular>
-    <div class="row " *ngIf="loader " style="margin-left:1cm; ">
+    <div class="row " *ngIf="loader" style="margin-left:1cm; ">
 
       <div class=" col-sm-4 timeline-wrapper example-card1 " *ngFor="let load of loadcard ">
-        <mat-card class="timeline-item ">
-          <div class="animated-background ">
+        <mat-card class="timeline-item">
+          <div class="animated-background">
             <div class="background-masker header-top "></div>
             <div class="background-masker header-left "></div>
             <div class="background-masker header-right "></div>
@@ -252,6 +255,7 @@
           <div *ngIf="request.percent==0" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
           <div *ngIf="request.percent==80" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
           <div *ngIf="request.percent==40" class="progress-bar bg-warning " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==99" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
         </div>
         <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
           <b>{{request.status}}</b>
@@ -318,6 +322,7 @@
           <div *ngIf="request.percent==75" class="progress-bar bg-info " role="progressbar " style="width: 75% "></div>
           <div *ngIf="request.percent==100" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
           <div *ngIf="request.percent==0" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==99" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
         </div>
         <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
           <b>{{request.status}}</b>
@@ -385,6 +390,7 @@
           <div *ngIf="request.percent==75" class="progress-bar bg-info " role="progressbar " style="width: 75% "></div>
           <div *ngIf="request.percent==100" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
           <div *ngIf="request.percent==0" class="progress-bar bg-danger " role="progressbar " style="width: 100% "></div>
+          <div *ngIf="request.percent==99" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
         </div>
         <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
           <b>{{request.status}}</b>

@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   legalproductcategory: String[];
   projectmenu: String[];
   manudatemenu: String[];
-  partnermenu: String[];
+  partnermenu: any;
   filteritems: String[];
   Tile: boolean;
   fav_req_ids: any;
@@ -99,9 +99,14 @@ export class HomeComponent implements OnInit {
             site: [
 
             ],
-            manufacturing_date: [
+            manufacturing_date: {
+              date_range: {
+                from_date: '',
+                to_date: ''
+              }
+            }
 
-            ],
+            ,
             batch_type: [
 
             ],
@@ -145,10 +150,12 @@ export class HomeComponent implements OnInit {
 
 
     this.loadcard = ['a', 'a', 'aa', 'a', 'a'];
-    this.batchrequests = [];
+
     this.requests = [];
+    this.batchrequests = [];
     this.fillingrequests = [];
     this.RMrequests = [];
+    this.loadrequests();
     this.departments = [];
     this.sitemenu = [];
     this.projectmenu = [];
@@ -158,13 +165,28 @@ export class HomeComponent implements OnInit {
     this.sitemenuload();
     this.projectloadanddept();
     this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
-    this.statusmenu = ['Cancelled', 'Complete', 'COnfirmed', 'Filled', 'New', 'Ready for Filling', 'Reserved', 'Sample Released', 'Submitted', 'Weighed'];
+    this.statusmenu = ['Cancelled', 'Completed', 'Confirmed', 'Filled', 'New', 'Ready for Filling', 'Reserved', 'Sample Released', 'Submitted', 'Weighed'];
     this.legalproductcategory = ['Cosmetic', 'Drug'];
-    this.partnermenu = ['BRM Partner'];
+    this.partnermenu = [];
     this.filteritems = [];
-    this.manudatemenu = ['Today', 'Yesterday', 'Tommorow', 'After 1 month', 'After 2 months', 'Next 30 days', 'Next 7 days'];
-    this.loadrequests();
+    this.manudatemenu = ['Today', 'Yesterday', 'Tomorrow', 'After_1_month', 'After_2_months', 'Next_30_days', 'Next_7_days'];
+    this.getusers();
 
+  }
+
+
+
+  getusers() {
+    console.log(this.partnermenu);
+
+    this.authService.getusers('USER').subscribe(data => {
+
+      data.data.map(e => {
+        this.partnermenu.push({ name: e.user_id });
+
+      });
+
+    });
   }
 
   emptyarray(value) {
@@ -190,7 +212,8 @@ export class HomeComponent implements OnInit {
         this.prefrences.request_filter.filters.partner = [];
         break;
       case "mfgdate":
-        this.prefrences.request_filter.filters.manufacturing_date = [];
+        this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = null;
+        this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = null;
         break;
       default:
 
@@ -204,10 +227,7 @@ export class HomeComponent implements OnInit {
     this.authService.getprefrences().subscribe(data => {
       if (data.success) {
         if (data.data !== undefined) {
-
           this.prefrences = data.data;
-
-
           if (this.prefrences.request_filter.mode === 'TILE') {
             this.tile1();
           } else {
@@ -320,19 +340,6 @@ export class HomeComponent implements OnInit {
       }
     })
 
-    // for (let i = 0; i <= this.requests.length - 1; i++) {
-    //   if (this.requests[i].request_type === 'BATCH REQUEST' && this.requests[i].favorites == true) {
-    //     this.batchrequests.push(this.requests[i]);
-    //   } else if (this.fav_req[i].request_type === 'FILLING REQUEST' && this.requests[i].favorites == true) {
-    //     this.fillingrequests.push(this.requests[i]);
-    //   }
-    //   else if (this.fav_req[i].request_type === 'BATCH RM ORDER' && this.requests[i].favorites == true) {
-    //     this.RMrequests.push(this.requests[i]);
-    //   }
-
-    // }
-
-
     this.loader = false;
 
 
@@ -424,29 +431,34 @@ export class HomeComponent implements OnInit {
   loadrequests() {
     this.authService.getallrequests().subscribe(data => {
       this.requests = data.data;
-      console.log(data.data);
+
       if (this.requests[0] === undefined) {
         this.expanded = false;
+      };
+      for (let l = 0; l <= this.requests.length - 1; l++) {
+        if (this.requests[l].status === "New") {
+          this.requests[l].percent = 25;
+        } else if (this.requests[l].status === "Submitted") {
+          this.requests[l].percent = 50;
+        } else if (this.requests[l].status === "Reserved") {
+          this.requests[l].percent = 75;
+        } else if (this.requests[l].status === "Cancelled") {
+          this.requests[l].percent = 100;
+        } else if (this.requests[l].status === "Confirmed") {
+          this.requests[l].percent = 80;
+        } else if (this.requests[l].status === "Complete") {
+          this.requests[l].percent = 99;
+        }
+        else if (this.requests[l].status === "Pending") {
+          this.requests[l].percent = 80;
+        };
+
       }
-
-
       this.authService.getfav().subscribe(data => {
         this.fav_req = data.data;
 
 
-        for (let l = 0; l <= this.requests.length - 1; l++) {
-          if (this.requests[l].status === "New") {
-            this.requests[l].percent = 25;
-          } else if (this.requests[l].status === "Submitted") {
-            this.requests[l].percent = 50;
-          } else if (this.requests[l].status === "Reserved") {
-            this.requests[l].percent = 75;
-          } else if (this.requests[l].status === "Cancelled") {
-            this.requests[l].percent = 100;
-          } else if (this.requests[l].status === "Confirmed") {
-            this.requests[l].percent = 80;
-          }
-        }
+
 
         for (let k = 0; k <= this.requests.length - 1; k++) {
           for (let j = 0; j <= this.fav_req.length - 1; j++) {
@@ -456,7 +468,7 @@ export class HomeComponent implements OnInit {
 
             }
           }
-        }
+        };
       });
 
 
@@ -467,7 +479,7 @@ export class HomeComponent implements OnInit {
         if (this.requests[i].createdBy === this.authService.user_id) {
           this.my_req.push(this.requests[i]);
         }
-      }
+      };
 
       for (let i = 0; i <= this.requests.length - 1; i++) {
         if (this.requests[i].request_type === 'BATCH REQUEST') {
@@ -481,15 +493,85 @@ export class HomeComponent implements OnInit {
         else {
           this.RMrequests.push(data.data[i]);
         }
-      }
-
-
-
-      this.getprefrences();
+      };
       this.loader = false;
     });
   }
 
+
+  filters() {
+    let data = this.prefrences.request_filter.filter;
+    this.loader = true;
+    this.authService.filterssubmit(data).subscribe(data => {
+      if (data.success) {
+        this.requests = [];
+        this.requests = data.data;
+        if (this.requests[0] === undefined) {
+          this.expanded = false;
+        }
+
+        this.authService.getfav().subscribe(data => {
+          this.fav_req = data.data;
+
+          for (let l = 0; l <= this.requests.length - 1; l++) {
+            if (this.requests[l].status === "New") {
+              this.requests[l].percent = 25;
+            } else if (this.requests[l].status === "Submitted") {
+              this.requests[l].percent = 50;
+            } else if (this.requests[l].status === "Reserved") {
+              this.requests[l].percent = 75;
+            } else if (this.requests[l].status === "Cancelled") {
+              this.requests[l].percent = 100;
+            } else if (this.requests[l].status === "Confirmed") {
+              this.requests[l].percent = 80;
+            }
+          }
+
+          for (let k = 0; k <= this.requests.length - 1; k++) {
+            for (let j = 0; j <= this.fav_req.length - 1; j++) {
+              this.fav_req[j].favorites = true;
+              if (this.requests[k].request_id === this.fav_req[j].request_id) {
+                this.requests[k].favorites = true;
+
+              }
+            }
+          }
+        });
+
+
+
+
+
+        for (let i = 0; i <= this.requests.length - 1; i++) {
+          if (this.requests[i].createdBy === this.authService.user_id) {
+            this.my_req.push(this.requests[i]);
+          }
+        }
+        this.batchrequests = [];
+        this.fillingrequests = [];
+        this.RMrequests = [];
+
+        for (let i = 0; i <= this.requests.length - 1; i++) {
+          if (this.requests[i].request_type === 'BATCH REQUEST') {
+            this.batchrequests.push(this.requests[i]);
+          } else if (this.requests[i].request_type === 'FILLING REQUEST') {
+            this.fillingrequests.push(this.requests[i]);
+          }
+          else if (this.requests[i].request_type === 'BATCH RM ORDER') {
+            this.RMrequests.push(this.requests[i]);
+          }
+          else {
+            this.RMrequests.push(data.data[i]);
+          }
+        }
+
+
+
+
+        this.loader = false;
+      }
+    });
+  }
 
 
 
@@ -530,33 +612,164 @@ export class HomeComponent implements OnInit {
   appendtofilteritems(value, type) {
     switch (type) {
       case "type":
-        this.prefrences.request_filter.filters.batch_type.push(value);
+        if (value.substring(0, 2) === 'GxP') {
+          this.prefrences.request_filter.filter.gxp = true;
+        } else {
+          this.prefrences.request_filter.filter.gxp = false;
+        };
+
+        if (this.prefrences.request_filter.filters.batch_type.indexOf(value) === -1) {
+          this.prefrences.request_filter.filters.batch_type.push(value);
+        };
         break;
       case "site":
-        this.prefrences.request_filter.filters.site.push(value);
 
+        if (this.prefrences.request_filter.filters.site.indexOf(value) === -1) {
+          this.prefrences.request_filter.filters.site.push(value);
 
+        }
         break;
       case "leagalproduct":
-        this.prefrences.request_filter.filters.legal_product_category.push(value);
+        if (this.prefrences.request_filter.filters.legal_product_category.indexOf(value) === -1) {
+          this.prefrences.request_filter.filters.legal_product_category.push(value);
+        }
         break;
       case "status":
-        this.prefrences.request_filter.filters.status.push(value);
+        if (this.prefrences.request_filter.filters.status.indexOf(value) === -1) {
+          this.prefrences.request_filter.filters.status.push(value);
+        }
         break;
       case "project":
-        this.prefrences.request_filter.filters.project.push(value);
+        if (this.prefrences.request_filter.filters.project.indexOf(value) === -1) {
+          this.prefrences.request_filter.filters.project.push(value);
+        }
         break;
       case "partner":
-        this.prefrences.request_filter.filters.partner.push(value);
+        if (this.prefrences.request_filter.filters.partner.indexOf(value) === -1) {
+          this.prefrences.request_filter.filters.partner.push(value);
+        }
+
         break;
       case "mfgdate":
-        this.prefrences.request_filter.filters.manufacturing_date.push(value);
+        console.log(this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date);
+        let today = new Date();
+
+
+
+
+        switch (value) {
+          case "Today":
+            let y = today.getFullYear();
+            let m = today.getMonth() + 1;
+            let day = today.getDate();
+
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Yesterday":
+            let Yesterday = new Date(today);
+            Yesterday.setDate(today.getDate() - 1);
+            y = Yesterday.getFullYear();
+            m = Yesterday.getMonth() + 1;
+            day = Yesterday.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Tomorrow":
+            let tomo = new Date(today);
+            tomo.setDate(today.getDate() + 1);
+            y = tomo.getFullYear();
+            m = tomo.getMonth() + 1;
+            day = tomo.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
+            break;
+          case "After_1_month":
+            let After_1_month = new Date(today);
+            After_1_month.setDate(today.getDate() + 30);
+            y = After_1_month.getFullYear();
+            m = After_1_month.getMonth() + 1;
+            day = After_1_month.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            // this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            break;
+          case "After_2_months":
+            let After_2_months = new Date(today);
+            After_2_months.setDate(today.getDate() + 60);
+            y = After_2_months.getFullYear();
+            m = After_2_months.getMonth() + 1;
+            day = After_2_months.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            // this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Next_30_days":
+            let Next_30_days = new Date(today);
+            let y1 = today.getFullYear();
+            let m1 = today.getMonth() + 1;
+            let day1 = today.getDate();
+
+            Next_30_days.setDate(today.getDate() + 30);
+            y = Next_30_days.getFullYear();
+            m = Next_30_days.getMonth() + 1;
+            day = Next_30_days.getDate();
+            // day = day + 1;
+            // m = d.getDate()+30;
+            this.prefrences.request_filter.filter.manufacturing_date.from_date = y1 + '-' + m1 + '-' + day1;
+            this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Next_7_days":
+            let Next_7_days = new Date(today);
+            y1 = today.getFullYear();
+            m1 = today.getMonth() + 1;
+            day1 = today.getDate();
+
+            Next_7_days.setDate(today.getDate() + 30);
+            y = Next_7_days.getFullYear();
+            m = Next_7_days.getMonth() + 1;
+            day = Next_7_days.getDate();
+            this.prefrences.request_filter.filter.manufacturing_date.from_date = y1 + '-' + m1 + '-' + day1;
+            this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+
+            break;
+          default:
+        }
+
+        // if (value === 'Today') {
+
+        //   this.prefrences.request_filter.filters.manufacturing_date.from_date = y + '-' + m + '-' + d;
+        //   this.prefrences.request_filter.filters.manufacturing_date.to_date = y + '-' + m + '-' + d;
+        // } else
+        //   if (value === 'Yesterday') {
+        //     this.prefrences.request_filter.filters.manufacturing_date.from_date = y + '-' + m + '-' + d;
+        //     this.prefrences.request_filter.filters.manufacturing_date.to_date = y + '-' + m + '-' + d;
+        //   } else
+        //     if (value === 'Tomorrow') {
+        //       this.prefrences.request_filter.filters.manufacturing_date.from_date = y + '-' + m + '-' + d;
+        //       this.prefrences.request_filter.filters.manufacturing_date.to_date = y + '-' + m + '-' + d;
+        //     } else
+        //       if (value === 'After_1_month') {
+        //         this.prefrences.request_filter.filters.manufacturing_date.from_date = y + '-' + m + '-' + d;
+        //         this.prefrences.request_filter.filters.manufacturing_date.to_date = y + '-' + m + '-' + d;
+        //       } else
+        //         if (value === 'After_2_months') {
+        //           this.prefrences.request_filter.filters.manufacturing_date.from_date = y + '-' + m + '-' + d;
+        //           this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + d;
+        //         } else
+        //           if (value === 'Next_30_days') {
+        //             this.prefrences.request_filter.filter.manufacturing_date.from_date = y + '-' + m + '-' + d;
+        //             this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + d;
+        //           } else if (value === 'Next_7_days') {
+        //             this.prefrences.request_filter.filter.manufacturing_date.from_date = y + '-' + m + '-' + d;
+        //             this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + d;
+
+        //           }
         break;
       default:
     }
     console.log(value, type);
 
   }
+
 
   closefilter(item) {
     for (let i = this.filteritems.length - 1; i >= 0; i--) {
@@ -579,10 +792,10 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.prefrences.request_filter.filters.manufacturing_date = [];
-      this.prefrences.request_filter.filters.manufacturing_date.push(result.from);
-      this.prefrences.request_filter.filters.manufacturing_date.push(result.to);
-      console.log('The dialog was closed');
+
+      this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = result.from;
+      this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = result.to;
+      console.log(this.prefrences.request_filter.filters.manufacturing_date);
 
     });
   }

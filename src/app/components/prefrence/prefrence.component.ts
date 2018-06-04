@@ -45,7 +45,7 @@ export class PrefrenceComponent implements OnInit {
   filteritems: String[];
   calender_sitetype: any;
   startDate: Date = new Date;
-  partnermenu: String[];
+  partnermenu: any;
   statusmenu: String[];
   legalproductcategory: String[];
   saveload: boolean = false;
@@ -77,9 +77,14 @@ export class PrefrenceComponent implements OnInit {
           site: [
 
           ],
-          manufacturing_date: [
+          manufacturing_date: {
+            date_range: {
+              from_date: '',
+              to_date: ''
+            }
+          }
 
-          ],
+          ,
           batch_type: [
 
           ],
@@ -118,15 +123,28 @@ export class PrefrenceComponent implements OnInit {
   ngOnInit() {
     this.checked = true;
     this.partnermenu = [];
-    this.mfgdatetype = ['Today', 'Yesterday', 'Tommorow', 'After 1 month', 'After 2 months', 'Next 30 days', 'Next 7 days'];
+    this.mfgdatetype = ['Today', 'Yesterday', 'Tomorrow', 'After_1_month', 'After_2_months', 'Next_30_days', 'Next_7_days'];
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
     this.typemenu = ['Bulk Filling', 'Re-Conditioning', 'LAB', ' PILOT', 'OTHERS'];
     this.filteritems = [];
     this.statusmenu = ["NEW", "PENDING", "CONFIRMED", "REJECTED", "CANCELLED", "RESERVED"];
+    this.legalproductcategory = ['DRUG', 'COSMETIC'];
     this.getprefrence();
-    this.legalproductcategory = ['DRUG', 'COSMETIC']
+    this.getusers();
   }
 
+  getusers() {
+    console.log(this.partnermenu);
+
+    this.authService.getusers('USER').subscribe(data => {
+
+      data.data.map(e => {
+        this.partnermenu.push({ name: e.user_id });
+
+      });
+
+    });
+  }
 
   getprefrence() {
     this.authService.getprefrences().subscribe(data => {
@@ -134,39 +152,38 @@ export class PrefrenceComponent implements OnInit {
         console.log(data);
         if (data.data) {
           this.prefrences = data.data;
+
+          switch (this.prefrences.calender_view.batch_type) {
+            case "LAB":
+
+              this.lab1();
+              break;
+            case "PILOT":
+              this.pilot1();
+              break;
+            default:
+              this.other1();
+          };
+
+
+          if (this.prefrences.request_filter.mode === 'TILE') {
+            this.tile1();
+          } else {
+            this.list1();
+          };
+
+
+          switch (this.prefrences.request_filter.view) {
+            case "MY REQUEST":
+              this.request1();
+              break;
+            case "FAVOURITES":
+              this.favorites1();
+              break;
+            default:
+              this.allrequests1();
+          };
         }
-
-        switch (this.prefrences.calender_view.batch_type) {
-          case "LAB":
-
-            this.lab1();
-            break;
-          case "PILOT":
-            this.pilot1();
-            break;
-          default:
-            this.other1();
-        }
-
-
-        if (this.prefrences.request_filter.mode === 'TILE') {
-          this.tile1();
-        } else {
-          this.list1();
-        }
-
-
-        switch (this.prefrences.request_filter.view) {
-          case "MY REQUEST":
-            this.request1();
-            break;
-          case "FAVOURITES":
-            this.favorites1();
-            break;
-          default:
-            this.allrequests1();
-        }
-
       }
     });
   }
@@ -174,7 +191,14 @@ export class PrefrenceComponent implements OnInit {
 
 
   save() {
-    this.saveload = true;
+    this.snotify.simple('Prefrence Updating....', 'Please wait..', {
+      timeout: 2500,
+      position: SnotifyPosition.centerCenter,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true
+    });
+
     let data = {
       calender_view_site: this.prefrences.calender_view.site,
       calender_view_legal_product_category: this.prefrences.calender_view.legal_product_category,
@@ -194,8 +218,8 @@ export class PrefrenceComponent implements OnInit {
       request_filter_filter_manufacturing_date_next_30_days: false,
       request_filter_filter_manufacturing_date_next_1_month: false,
       request_filter_filter_manufacturing_date_next_2_month: false,
-      request_filter_filter_manufacturing_date_range_from: this.prefrences.request_filter.filters.manufacturing_date[0],
-      request_filter_filter_manufacturing_date_range_to: this.prefrences.request_filter.filters.manufacturing_date[1],
+      request_filter_filter_manufacturing_date_range_from: this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date,
+      request_filter_filter_manufacturing_date_range_to: this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date,
       request_filter_filter_manufacturing_date: this.prefrences.request_filter.filters.manufacturing_date,
       request_filter_filter_site: this.prefrences.request_filter.filters.site,
       request_filter_filter_legal_product_category: this.prefrences.request_filter.filters.legal_product_category,
@@ -212,18 +236,15 @@ export class PrefrenceComponent implements OnInit {
 
     this.authService.submitprefrences(data).subscribe(data => {
       console.log('success');
-
-      this.saveload = false;
       this.getprefrence();
       this.snotify.success('Prefrence Updated', 'Saved', {
         timeout: 2000,
-        position: SnotifyPosition.rightTop,
+        position: SnotifyPosition.centerTop,
         showProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true
       });
-      // this.router.navigate(['/home']);
-
+      this.router.navigate(['/home']);
     });
   }
 
@@ -232,8 +253,6 @@ export class PrefrenceComponent implements OnInit {
     switch (value) {
       case "type":
         this.prefrences.request_filter.filters.batch_type = [];
-        console.log(value);
-
         break;
       case "site":
         this.prefrences.request_filter.filters.site = [];
@@ -257,63 +276,135 @@ export class PrefrenceComponent implements OnInit {
 
     }
 
-    // this.prefrences.request_filter.filters.batch_type = [];
   }
 
 
   appendtofilteritems(value, type) {
     switch (type) {
       case "type":
+        // if (value.substring(0, 2) === 'GxP') {
+        //   this.prefrences.request_filter.filter.gxp = true;
+        // } else {
+        //   this.prefrences.request_filter.filter.gxp = false;
+        // };
+        console.log(this.prefrences.request_filter.filters.batch_type.indexOf(value));
 
-        if (this.prefrences.request_filter.filters.batch_type.indexOf(value) === 0) {
-
-        } else {
+        if (this.prefrences.request_filter.filters.batch_type.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.batch_type.push(value);
-        }
-
-
+        };
         break;
       case "site":
-        if (this.prefrences.request_filter.filters.site.indexOf(value) === 0) {
 
-        } else {
+        if (this.prefrences.request_filter.filters.site.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.site.push(value);
-        }
 
+        }
         break;
       case "leagalproduct":
-        if (this.prefrences.request_filter.filters.legal_product_category.indexOf(value) === 0) {
-
-        } else {
+        if (this.prefrences.request_filter.filters.legal_product_category.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.legal_product_category.push(value);
         }
-
         break;
       case "status":
-        if (this.prefrences.request_filter.filters.status.indexOf(value) === 0) {
-
-        } else {
+        if (this.prefrences.request_filter.filters.status.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.status.push(value);
         }
-
         break;
       case "project":
-        if (this.prefrences.request_filter.filters.project.indexOf(value) === 0) {
-
-        } else {
+        if (this.prefrences.request_filter.filters.project.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.project.push(value);
         }
         break;
       case "partner":
-        if (this.prefrences.request_filter.filters.partner.indexOf(value) === 0) {
-
-        } else {
+        if (this.prefrences.request_filter.filters.partner.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.partner.push(value);
         }
 
         break;
       case "mfgdate":
-        // this.prefrences.request_filter.filters.manufacturing_date.push(value);
+        console.log(this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date);
+        let today = new Date();
+
+
+
+
+        switch (value) {
+          case "Today":
+            let y = today.getFullYear();
+            let m = today.getMonth() + 1;
+            let day = today.getDate();
+
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Yesterday":
+            let Yesterday = new Date(today);
+            Yesterday.setDate(today.getDate() - 1);
+            y = Yesterday.getFullYear();
+            m = Yesterday.getMonth() + 1;
+            day = Yesterday.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Tomorrow":
+            let tomo = new Date(today);
+            tomo.setDate(today.getDate() + 1);
+            y = tomo.getFullYear();
+            m = tomo.getMonth() + 1;
+            day = tomo.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
+            break;
+          case "After_1_month":
+            let After_1_month = new Date(today);
+            After_1_month.setDate(today.getDate() + 30);
+            y = After_1_month.getFullYear();
+            m = After_1_month.getMonth() + 1;
+            day = After_1_month.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            // this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            break;
+          case "After_2_months":
+            let After_2_months = new Date(today);
+            After_2_months.setDate(today.getDate() + 60);
+            y = After_2_months.getFullYear();
+            m = After_2_months.getMonth() + 1;
+            day = After_2_months.getDate();
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y + '-' + m + '-' + day;
+            // this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Next_30_days":
+            let Next_30_days = new Date(today);
+            let y1 = today.getFullYear();
+            let m1 = today.getMonth() + 1;
+            let day1 = today.getDate();
+
+            Next_30_days.setDate(today.getDate() + 30);
+            y = Next_30_days.getFullYear();
+            m = Next_30_days.getMonth() + 1;
+            day = Next_30_days.getDate();
+            // day = day + 1;
+            // m = d.getDate()+30;
+            this.prefrences.request_filter.filter.manufacturing_date.from_date = y1 + '-' + m1 + '-' + day1;
+            this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            break;
+          case "Next_7_days":
+            let Next_7_days = new Date(today);
+            y1 = today.getFullYear();
+            m1 = today.getMonth() + 1;
+            day1 = today.getDate();
+
+            Next_7_days.setDate(today.getDate() + 30);
+            y = Next_7_days.getFullYear();
+            m = Next_7_days.getMonth() + 1;
+            day = Next_7_days.getDate();
+            this.prefrences.request_filter.filter.manufacturing_date.from_date = y1 + '-' + m1 + '-' + day1;
+            this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+
+            break;
+          default:
+        }
+
         break;
       default:
     }
@@ -432,7 +523,7 @@ export class PrefrenceComponent implements OnInit {
     this.legal_product_category = "COSMETIC"
   }
   pilot1() {
-    // this.pilot=!this.pilot;
+
     if (this.pilot = true) {
       this.pilot = true;
     }
@@ -444,7 +535,7 @@ export class PrefrenceComponent implements OnInit {
     this.batch_type = "PILOT";
   }
   other1() {
-    // this.other=!this.other;
+
     if (this.other = true) {
       this.other = true;
     }
@@ -456,7 +547,7 @@ export class PrefrenceComponent implements OnInit {
     this.batch_type = "OTHERS";
   }
   lab1() {
-    // this.lab=!this.lab;
+
     if (this.lab = true) {
       this.lab = true;
     }
@@ -479,7 +570,7 @@ export class PrefrenceComponent implements OnInit {
       this.prefrences.request_filter.filters.manufacturing_date = [];
       this.prefrences.request_filter.filters.manufacturing_date.push(result.from);
       this.prefrences.request_filter.filters.manufacturing_date.push(result.to);
-      console.log('The dialog was closed');
+
 
     });
   }

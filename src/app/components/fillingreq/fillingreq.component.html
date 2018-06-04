@@ -126,7 +126,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select [(value)]="sitetype" placeholder="Selet Site...">
+                                <mat-select [(value)]="sitetype" placeholder="Selet Site..." [disabled]="disable">
                                   <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
 
                                 </mat-select>
@@ -142,12 +142,13 @@
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
                               <div class="btn-group">
-                                <button mat-raised-button [ngClass]="{'test': bulk}" (click)="bulk1()">Bulk Filling</button>
-                                <button mat-raised-button [ngClass]="{'test': condition}" (click)="condition1()">Re-Conditioning</button>
+                                <button mat-raised-button [ngClass]="{'test': bulk}" (click)="bulk1()" [disabled]="disable">Bulk Filling</button>
+                                <button mat-raised-button [ngClass]="{'test': condition}" (click)="condition1()" [disabled]="disable">Re-Conditioning</button>
                               </div>
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                              <textarea class="form-control" type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" placeholder="Add Formula Description"></textarea>
+                              <textarea class="form-control" type="text" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" placeholder="Add Formula Description"
+                                [disabled]="disable"></textarea>
                             </div>
                           </div>
                         </div>
@@ -159,8 +160,8 @@
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
                               <div class="btn-group">
-                                <button mat-raised-button [ngClass]="{'test': destruct}" (click)="destruct1()">Destruction</button>
-                                <button mat-raised-button [ngClass]="{'test': storage}" (click)="storage1()">Storage</button>
+                                <button mat-raised-button [ngClass]="{'test': destruct}" (click)="destruct1()" [disabled]="disable">Destruction</button>
+                                <button mat-raised-button [ngClass]="{'test': storage}" (click)="storage1()" [disabled]="disable">Storage</button>
 
                               </div>
                             </div>
@@ -174,14 +175,14 @@
                               <label>Manufacturing Site*</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <div class="form-control">
-                                <mat-form-field>
-                                  <mat-select [(value)]="sitetype" placeholder="Selet Site...">
-                                    <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
 
-                                  </mat-select>
-                                </mat-form-field>
-                              </div>
+                              <mat-form-field>
+                                <mat-select [(value)]="sitetype" placeholder="Selet Site..." class="form-control" [disabled]="disable">
+                                  <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
+
+                                </mat-select>
+                              </mat-form-field>
+
                             </div>
                           </div>
                         </div>
@@ -194,7 +195,7 @@
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
                                 <input matInput ([ngModel])="mfgdate" (dateInput)="formatdatemfg($event.target.value)" [min]="startDate" [matDatepicker]="dp"
-                                  placeholder="Select date">
+                                  placeholder="Select date" [disabled]="disable">
                                 <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                 <mat-datepicker #dp></mat-datepicker>
                               </mat-form-field>
@@ -220,7 +221,7 @@
                               <label>Lab Notebook Number</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <mat-select class="form-control" (change)="getformulas()" [(value)]="labnotebook" placeholder="LABXX-168">
+                              <mat-select class="form-control" (change)="getformulas()" [(value)]="labnotebook" placeholder="LABXX-168" [disabled]="disable">
                                 <mat-option *ngFor="let num of labnotebooknums" value="{{num}}">{{num}}</mat-option>
                               </mat-select>
                             </div>
@@ -233,7 +234,7 @@
                               <label>Formula</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <mat-select class="form-control" [(value)]="formula_id" placeholder="#####">
+                              <mat-select class="form-control" [(value)]="formula_id" placeholder="#####" [disabled]="disable">
                                 <mat-option *ngFor="let id of formulaids" value="{{id}}">{{id}}</mat-option>
                               </mat-select>
                             </div>
@@ -246,7 +247,8 @@
                               <label>Batch Number*</label>
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <input class="form-control" [(ngModel)]="batch_num" [ngModelOptions]="{standalone: true}" type="text" placeholder="####">
+                              <input class="form-control" [(ngModel)]="batch_num" [ngModelOptions]="{standalone: true}" type="text" placeholder="####"
+                                [disabled]="disable">
                             </div>
                           </div>
                         </div>
@@ -258,8 +260,8 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="btn-group">
-                                <button mat-raised-button [ngClass]="{'test': drug}" (click)="drug1()">Drug</button>
-                                <button mat-raised-button [ngClass]="{'test': cosmetic}" (click)="cosmetic1()">Cosmetic</button>
+                                <button mat-raised-button [ngClass]="{'test': drug}" (click)="drug1()" [disabled]="disable">Drug</button>
+                                <button mat-raised-button [ngClass]="{'test': cosmetic}" (click)="cosmetic1()" [disabled]="disable">Cosmetic</button>
                               </div>
                             </div>
                           </div>
@@ -272,17 +274,17 @@
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
                               <div class="nav">
-                                <button mat-raised-button [ngClass]="{'test': lab}" (click)="lab1()">Lab</button>
-                                <button mat-raised-button [ngClass]="{'test': pilot}" (click)="pilot1()">Pilot</button>
-                                <button mat-raised-button [ngClass]="{'test': other}" (click)="other1()">Others</button>
+                                <button mat-raised-button [ngClass]="{'test': lab}" (click)="lab1()" [disabled]="disable">Lab</button>
+                                <button mat-raised-button [ngClass]="{'test': pilot}" (click)="pilot1()" [disabled]="disable">Pilot</button>
+                                <button mat-raised-button [ngClass]="{'test': other}" (click)="other1()" [disabled]="disable">Others</button>
                               </div>
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
                               <mat-radio-group class="example-radio-group" [(ngModel)]="gxpvalue" [ngModelOptions]="{standalone: true}">
-                                <mat-radio-button class="example-radio-button" value="true" color="primary">
+                                <mat-radio-button class="example-radio-button" value="true" color="primary" [disabled]="disable">
                                   GXP
                                 </mat-radio-button>
-                                <mat-radio-button class="example-radio-button" color="primary" value="false">
+                                <mat-radio-button class="example-radio-button" color="primary" value="false" [disabled]="disable">
                                   Not Gxp
                                 </mat-radio-button>
                               </mat-radio-group>
@@ -310,7 +312,7 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <div class="form-control">
-                                <mat-select placeholder="{{department}}" [(value)]="department">
+                                <mat-select placeholder="{{department}}" [(value)]="department" [disabled]="disable">
                                   <mat-option value="{{department}}" disabled>{{department}}</mat-option>
                                   <mat-option *ngFor="let dept of departments" value="{{dept}}" disabled>{{dept}}</mat-option>
 
@@ -328,7 +330,8 @@
                             </div>
                             <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
                               <mat-form-field>
-                                <input matInput [matDatepicker]="duedate" placeholder="Select Due Date" [min]="startDate" (dateInput)="formatduedate($event.target.value)">
+                                <input matInput [matDatepicker]="duedate" placeholder="Select Due Date" [min]="startDate" (dateInput)="formatduedate($event.target.value)"
+                                  [disabled]="disable">
                                 <mat-datepicker-toggle matSuffix [for]="duedate"></mat-datepicker-toggle>
                                 <mat-datepicker #duedate></mat-datepicker>
                               </mat-form-field>
@@ -570,7 +573,7 @@
                           <label>Name*</label>
                         </div>
                         <div class="col-sm-6 form-control">
-                          <mat-select [(ngModel)]="appr">
+                          <mat-select [(ngModel)]="appr" [disabled]="disable">
                             <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
                           </mat-select>
                         </div>
@@ -591,9 +594,9 @@
                 <br>
                 <div style="margin-top:1cm">
 
-                  <button mat-raised-button (click)="save('save')">Cancel</button>
-                  <button mat-raised-button (click)="save('save')">save</button>
-                  <button mat-raised-button (click)="save('submit')">submit</button>
+                  <button mat-raised-button (click)="save('save')" [disabled]="disable">Cancel</button>
+                  <button mat-raised-button (click)="save('save')" [disabled]="disable">save</button>
+                  <button mat-raised-button (click)="save('submit')" [disabled]="disable">submit</button>
 
                 </div>
                 <div style="margin-top:1cm" *ngIf="isapprover">
