@@ -137,6 +137,8 @@ export class BatchrequestComponent implements OnInit {
     quantity_to_order: ((this.batch_size * 1) / 100) * 2
   }];
 
+  disable: boolean = true;
+
 
   constructor(public authService: AuthService,
     public snackBar: MatSnackBar,
@@ -158,7 +160,7 @@ export class BatchrequestComponent implements OnInit {
   ngOnInit() {
 
 
-    if (this.authService.project != undefined) {
+    if (this.authService.project != undefined && !this.authService.permission) {
       this.newrequest();
     }
 
@@ -354,16 +356,16 @@ export class BatchrequestComponent implements OnInit {
 
   loadreq() {
     console.log(this.authService.req);
-
+    this.authService.permission = false;
     this.br_num = this.authService.req.request_id;
-    this.getcomments();
-    this.gethistory();
     this.submitter = this.authService.req.createdBy;
     this.department = this.authService.req.department;
     this.project = this.authService.req.project;
     this.status = this.authService.req.status;
     this.status_des = this.authService.req.status_description;
     this.sitetype = this.authService.req.site;
+    this.getcomments();
+    this.gethistory();
     if (this.authService.req.legal_product_category === 'DRUG') {
       // this.toggleColor3();
       this.legalproductcatagory = 'DRUG';
@@ -375,7 +377,6 @@ export class BatchrequestComponent implements OnInit {
     switch (this.authService.req.batch_size) {
       case "LAB":
         this.batchtype = "LAB";
-
         break;
       case "PILOT":
         this.batchtype = "PILOT";
@@ -386,12 +387,15 @@ export class BatchrequestComponent implements OnInit {
       default:
 
     }
-    this.gxpvalue = this.authService.req.gxp;
 
+
+    this.gxpvalue = this.authService.req.gxp;
     document.getElementById("overview").className = "tab-pane active";
     document.getElementById("equipment").className = "tab-pane fade";
     document.getElementById("ovrviw").className = "nav-link active";
     document.getElementById("eqpment").className = "nav-link";
+
+
 
     switch (this.authService.req.status) {
       case "New":
@@ -418,7 +422,7 @@ export class BatchrequestComponent implements OnInit {
         this.progressbar_color = '#00c00f';
         break;
       default:
-        this.percent = 0;
+        this.percent = 100;
         this.progressbar_color = '#f50910';
     }
 
@@ -426,16 +430,7 @@ export class BatchrequestComponent implements OnInit {
 
     this.updateddate = this.authService.req.lastModified.substring(0, 10);
     this.showoverview = true;
-    // switch (this.authService.req.legal_product_category) {
-    //   case "DRUG":
-    //     this.toggleColor3();
-    //     break;
-    //   case "COSMETIC":
-    //     this.toggleColor4();
-    //     break;
-    //   default:
-    //     this.toggleColor4();
-    // }
+
 
     this.authService.getspecificreq(this.br_num).subscribe(data => {
       console.log(data);
@@ -483,7 +478,6 @@ export class BatchrequestComponent implements OnInit {
       this.comment_list_team = data.data.team_communication.comments;
       this.comment_list_tech = data.data.technical_communication.comments;
 
-
       this.comment_list_team.map(e => {
         this.comment_list_team.edit = false;
       });
@@ -492,8 +486,8 @@ export class BatchrequestComponent implements OnInit {
       });
 
     });
-
   }
+
 
 
 
@@ -502,39 +496,20 @@ export class BatchrequestComponent implements OnInit {
       if (data.success) {
         if (data.data.length) {
           const results = data.data;
-
           results.map(e => {
             if (e.approver_permission) {
               this.approvers.push(e.user_id);
-            }
-            return;
+            };
           });
         }
       }
-
     });
-
-    // this.authService.getusers("ADMIN").subscribe(data => {
-    //   if (data.success) {
-    //     if (data.data.length) {
-    //       const results = data.data;
-
-    //       results.map(e => {
-    //         this.approvers.push(e.user_id);
-    //         return;
-    //       });
-
-
-
-    //     }
-
-    //   }
-    // });
-
   }
 
+
+
   newrequest() {
-    console.log('test');
+    this.disable = true;
     let request_type = "BATCH REQUEST"
     this.authService.submitnewreq(request_type).subscribe(data => {
       this.br_num = data.data.request_id;
@@ -546,9 +521,14 @@ export class BatchrequestComponent implements OnInit {
 
   }
 
+
+
+
   sitemenuload() {
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
   }
+
+
 
 
   toggleColor() {

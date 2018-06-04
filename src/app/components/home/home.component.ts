@@ -165,8 +165,8 @@ export class HomeComponent implements OnInit {
     this.sitemenuload();
     this.projectloadanddept();
     this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
-    this.statusmenu = ['Cancelled', 'Completed', 'Confirmed', 'Filled', 'New', 'Ready for Filling', 'Reserved', 'Sample Released', 'Submitted', 'Weighed'];
-    this.legalproductcategory = ['Cosmetic', 'Drug'];
+    this.statusmenu = ['Cancelled', 'Complete', 'Confirmed', 'Filled', 'New', 'Reserved', 'Submitted', 'Weighed'];
+    this.legalproductcategory = ['COSMETIC', 'DRUG'];
     this.partnermenu = [];
     this.filteritems = [];
     this.manudatemenu = ['Today', 'Yesterday', 'Tomorrow', 'After_1_month', 'After_2_months', 'Next_30_days', 'Next_7_days'];
@@ -456,16 +456,11 @@ export class HomeComponent implements OnInit {
       }
       this.authService.getfav().subscribe(data => {
         this.fav_req = data.data;
-
-
-
-
         for (let k = 0; k <= this.requests.length - 1; k++) {
           for (let j = 0; j <= this.fav_req.length - 1; j++) {
             this.fav_req[j].favorites = true;
             if (this.requests[k].request_id === this.fav_req[j].request_id) {
               this.requests[k].favorites = true;
-
             }
           }
         };
@@ -500,19 +495,19 @@ export class HomeComponent implements OnInit {
 
 
   filters() {
-    let data = this.prefrences.request_filter.filter;
+    let data = this.prefrences.request_filter.filters;
     this.loader = true;
+    console.log(data);
+
     this.authService.filterssubmit(data).subscribe(data => {
       if (data.success) {
+        console.log(data);
+
+        this.loader = false;
         this.requests = [];
         this.requests = data.data;
-        if (this.requests[0] === undefined) {
-          this.expanded = false;
-        }
-
         this.authService.getfav().subscribe(data => {
           this.fav_req = data.data;
-
           for (let l = 0; l <= this.requests.length - 1; l++) {
             if (this.requests[l].status === "New") {
               this.requests[l].percent = 25;
@@ -537,10 +532,6 @@ export class HomeComponent implements OnInit {
             }
           }
         });
-
-
-
-
 
         for (let i = 0; i <= this.requests.length - 1; i++) {
           if (this.requests[i].createdBy === this.authService.user_id) {
