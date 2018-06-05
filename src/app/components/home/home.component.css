@@ -115,7 +115,7 @@
 .pointer{
   cursor: pointer;
 }
-
+.req{ display: inline-block; vertical-align: bottom; white-space: nowrap; width: 100%; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
 
 a.req:hover{
 color: black;
@@ -125,7 +125,10 @@ text-decoration: underline;
 
 
 
+img:hover{
+  background: rgb(206, 203, 203);
 
+}
 
 
 

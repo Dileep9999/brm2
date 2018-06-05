@@ -168,6 +168,10 @@ export class FillingreqComponent implements OnInit {
         this.percent = 85;
         this.progressbar_color = '#00c00f';
         break;
+      case "Complete":
+        this.percent = 85;
+        this.progressbar_color = '#055cfc';
+        break;
       default:
         this.percent = 0;
         this.progressbar_color = '#f50910';
@@ -261,7 +265,10 @@ export class FillingreqComponent implements OnInit {
       comment_type: type
     }
     this.authService.addcomment(data).subscribe(data => {
-      this.getcomments();
+      if (data.success) {
+        this.getcomments();
+        this.newcommnet = '';
+      }
       console.log("success comments");
     });
   }

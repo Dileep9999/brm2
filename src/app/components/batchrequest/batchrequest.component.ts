@@ -4,6 +4,8 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
+import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -95,6 +97,8 @@ export class BatchrequestComponent implements OnInit {
   labnotebooknums: String[];
   formulaids: String[];
   batch_size: number;
+  apprv1: String;
+
 
   columnDefs = [
     { headerName: 'Request Number', field: 'request_id' },
@@ -107,6 +111,8 @@ export class BatchrequestComponent implements OnInit {
 
   rowData = [
   ];
+
+
 
   row_matrials: any = [{
     trade_name: 'Structural XL',
@@ -137,15 +143,29 @@ export class BatchrequestComponent implements OnInit {
     quantity_to_order: ((this.batch_size * 1) / 100) * 2
   }];
 
-  disable: boolean = true;
+  equipdisable: boolean = true;
+  fillingdisable: boolean = true;
+  formuladisable: boolean = true;
+  comments_history_class: boolean = true;
+  rejection_comment: String;
+  rejectshow: boolean = false;
+  rejectshow1: boolean = false;
+  rejectshow2: boolean = false;
+  rejection_comment1: String;
+  rejection_comment2: String;
 
 
   constructor(public authService: AuthService,
     public snackBar: MatSnackBar,
+    public route: ActivatedRoute,
     public snotify: SnotifyService,
     public router: Router) {
     if (this.authService.project === undefined && !this.authService.permission) {
       this.router.navigate(['/home']);
+
+    }
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
     }
   }
 
@@ -163,7 +183,9 @@ export class BatchrequestComponent implements OnInit {
     if (this.authService.project != undefined && !this.authService.permission) {
       this.newrequest();
     }
-
+    this.rejectshow = false;
+    this.rejectshow1 = false;
+    this.rejectshow2 = false;
     this.getlabnums();
     this.formulaids = [];
     this.comment_list_tech = [];
@@ -183,7 +205,6 @@ export class BatchrequestComponent implements OnInit {
     this.getbenches();
     this.getusers();
     if (this.authService.permission) {
-
       this.loadreq();
     }
 
@@ -222,14 +243,19 @@ export class BatchrequestComponent implements OnInit {
       comment_type: type
     }
     this.authService.addcomment(data).subscribe(data => {
-      this.getcomments();
-      console.log("success comments");
+      if (data.success) {
+        this.getcomments();
+        this.newcommnet = '';
+      }
     });
   }
 
   gethistory() {
     this.authService.gethistrory(this.br_num).subscribe(data => {
-      this.rowData = data.data;
+      if (data.success) {
+        this.comments_history_class = false;
+        this.rowData = data.data;
+      }
     });
   }
 
@@ -357,15 +383,22 @@ export class BatchrequestComponent implements OnInit {
   loadreq() {
     console.log(this.authService.req);
     this.authService.permission = false;
+    if (this.authService.req.createdBy === this.authService.user_id) {
+      this.equipdisable = false;
+      this.fillingdisable = false;
+      this.formuladisable = false;
+    };
+
     this.br_num = this.authService.req.request_id;
     this.submitter = this.authService.req.createdBy;
     this.department = this.authService.req.department;
     this.project = this.authService.req.project;
     this.status = this.authService.req.status;
     this.status_des = this.authService.req.status_description;
-    this.sitetype = this.authService.req.site;
+
     this.getcomments();
     this.gethistory();
+
     if (this.authService.req.legal_product_category === 'DRUG') {
       // this.toggleColor3();
       this.legalproductcatagory = 'DRUG';
@@ -388,8 +421,6 @@ export class BatchrequestComponent implements OnInit {
 
     }
 
-
-    this.gxpvalue = this.authService.req.gxp;
     document.getElementById("overview").className = "tab-pane active";
     document.getElementById("equipment").className = "tab-pane fade";
     document.getElementById("ovrviw").className = "nav-link active";
@@ -444,6 +475,14 @@ export class BatchrequestComponent implements OnInit {
         });
       };
       if (data.data.equipmentRequest != undefined) {
+        if (data.data.equipmentRequest.approver === this.authService.user_id) {
+          this.equipdisable = false;
+        };
+        this.reasons = data.data.equipmentRequest.reason_for_this_batch;
+        // this.reason.value = this.reasons;
+        this.sitetype = this.authService.req.site;
+        this.batchtype = this.authService.req.batch_type;
+        this.gxpvalue = this.authService.req.gxp;
         let approver = data.data.equipmentRequest.approver;
         this.appr = approver;
         this.date = data.data.equipmentRequest.manufacturing_date.substring(0, 10);
@@ -457,6 +496,32 @@ export class BatchrequestComponent implements OnInit {
           this.equipment1 = data.data.equipmentRequest.equipment;
         };
       };
+      if (data.data.fillingRequest) {
+        if (data.data.fillingRequest.approver === this.authService.user_id) {
+          this.fillingdisable = false;
+        };
+        this.apprv1 = data.data.fillingRequest.approver;
+        this.batch_num = data.data.fillingRequest.batch_number;
+        this.duedate = data.data.fillingRequest.due_date.substring(0, 10);
+        this.sitefilling = data.data.fillingRequest.manufacturing_site;
+        this.date = data.data.fillingRequest.manufacturing_date.substring(0, 10);
+        this.remaining_bulk = data.data.fillingRequest.remaining_bulk;
+
+      };
+      if (data.data.formulaAttributes) {
+        if (data.data.formulaAttributes.approver === this.authService.user_id) {
+          this.formuladisable = false;
+        };
+        this.apprv1 = data.data.formulaAttributes.approver;
+        this.batch_size = data.data.formulaAttributes.batch_size;
+        this.batch_unit = data.data.formulaAttributes.batch_unit;
+        this.description = data.data.formulaAttributes.formula_description;
+        this.formula_id = data.data.formulaAttributes.formula_id;
+        this.pr_number = data.data.formulaAttributes.formula_pr_number;
+        this.labnotebook = data.data.formulaAttributes.lab_note_book_number;
+        this.formulator = data.data.formulaAttributes.formulator;
+      };
+
     });
   }
 
@@ -473,6 +538,7 @@ export class BatchrequestComponent implements OnInit {
 
 
   getcomments() {
+    this.comments_history_class = false;
     this.authService.getcomments(this.br_num).subscribe(data => {
 
       this.comment_list_team = data.data.team_communication.comments;
@@ -509,7 +575,9 @@ export class BatchrequestComponent implements OnInit {
 
 
   newrequest() {
-    this.disable = true;
+    this.equipdisable = false;
+    this.fillingdisable = false;
+    this.formuladisable = false;
     let request_type = "BATCH REQUEST"
     this.authService.submitnewreq(request_type).subscribe(data => {
       this.br_num = data.data.request_id;
@@ -839,7 +907,7 @@ export class BatchrequestComponent implements OnInit {
 
   equipmentreq(falg) {
     this.snotify.simple('Please wait', 'Updating', {
-      timeout: 5000,
+      timeout: -1,
       position: SnotifyPosition.rightTop,
       showProgressBar: true,
       closeOnClick: false,
@@ -851,18 +919,23 @@ export class BatchrequestComponent implements OnInit {
     let reason = this.reason.value;
     if (this.reason.value === undefined) {
       reason = this.reasonpilot;
+    } else if (this.reason.value != undefined) {
+      this.reasons = this.reason.value;
     }
+
+
     let data = {
       request_id: this.br_num,
       site: this.sitetype,
       batch_type: this.batchtype,
       legal_product_category: this.legalproductcatagory,
-      reason_for_this_batch: this.reason.value,
+      reason_for_this_batch: this.reasons,
       equipment: this.equipment1,
       optional_equipment: this.optional_equipment,
       gxp: this.gxpvalue,
       bench_id: this.bench,
       request_date: this.date,
+      rejection_comment: this.rejection_comment2,
       approver: this.appr,
       flag: falg,
 
@@ -873,6 +946,7 @@ export class BatchrequestComponent implements OnInit {
     this.authService.equipmentrequest(data).subscribe(data => {
       if (data.success) {
         this.saveload = false;
+        this.snotify.clear();
         this.snotify.success(falg + 'ed', 'Success', {
           timeout: 2000,
           position: SnotifyPosition.rightTop,
@@ -893,7 +967,7 @@ export class BatchrequestComponent implements OnInit {
 
   formulareq_save(flag) {
     this.snotify.simple('Please wait', 'Updating', {
-      timeout: 5000,
+      timeout: -1,
       position: SnotifyPosition.rightTop,
       showProgressBar: true,
       closeOnClick: false,
@@ -919,34 +993,37 @@ export class BatchrequestComponent implements OnInit {
       request_type: "BATCH REQUEST",
       flag: flag,
       performed_by: this.authService.user_id,
-      approver: this.appr,
+      approver: this.apprv1,
+      rejection_comment: this.rejection_comment1,
       confirm_flag: true
     }
     console.log(data);
     this.authService.savermrequest(data).subscribe(data => {
-      this.snotify.success('Success', flag + 'ed', {
-        timeout: 2000,
-        position: SnotifyPosition.rightTop,
-        showProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true
-      });
+      if (data.success) {
+        this.snotify.clear();
+        this.snotify.success('Success', flag + 'ed', {
+          timeout: 2000,
+          position: SnotifyPosition.rightTop,
+          showProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true
+        });
+      }
     });
   }
 
 
 
 
-
-
   fillingreq_save(flag) {
     this.snotify.simple('Please wait', 'Updating', {
-      timeout: 5000,
+      timeout: -1,
       position: SnotifyPosition.rightTop,
-      showProgressBar: true,
+      showProgressBar: false,
       closeOnClick: false,
       pauseOnHover: true
-    });
+    }
+    );
     let data = {
       request_id: this.br_num,
       site: this.sitetype,
@@ -968,14 +1045,15 @@ export class BatchrequestComponent implements OnInit {
       project: this.project,
       department: this.department,
       manufacturing_date: this.date,
-      approver: this.appr,
-      // rejection_comment: this.rejection_comment,
+      approver: this.apprv1,
+      rejection_comment: this.rejection_comment,
       request_type: "BATCH REQUEST",
       flag: flag
 
     }
     console.log(data);
     this.authService.submitfilling(data).subscribe(data => {
+      this.snotify.clear();
       this.snotify.success('Success', flag + 'ed', {
         timeout: 2000,
         position: SnotifyPosition.rightTop,
@@ -985,5 +1063,4 @@ export class BatchrequestComponent implements OnInit {
       });
     });
   }
-
 }

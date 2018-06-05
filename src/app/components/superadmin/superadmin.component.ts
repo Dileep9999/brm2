@@ -45,12 +45,14 @@ export class SuperadminComponent implements OnInit {
   displayedColumns2 = ['department', 'createdAt'];
   displayedColumns3 = ['project', 'createdAt'];
   displayedColumns5 = ['equipment', 'createdAt'];
+  displayedColumns6 = ['packaging_code', 'createdAt'];
   dataSource = new MatTableDataSource();
   dataSource1 = new MatTableDataSource();
   dataSource2 = new MatTableDataSource();
   dataSource3 = new MatTableDataSource();
   dataSource4 = new MatTableDataSource();
   dataSource5 = new MatTableDataSource();
+  dataSource6 = new MatTableDataSource();
   reasons1: any;
   bench: any;
   benches1: any;
@@ -128,6 +130,8 @@ export class SuperadminComponent implements OnInit {
   }
   applyFilter1(filterValue: string) {
     this.department = filterValue;
+    console.log(this.dataSource2);
+
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource2.filter = filterValue;
@@ -146,10 +150,23 @@ export class SuperadminComponent implements OnInit {
   }
 
   applyFilter4(filterValue: string) {
-    this.packagingcode = filterValue;
+
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource4.filter = filterValue;
+
+
+
+  }
+
+  applyFilter5(filterValue: string) {
+    console.log(filterValue);
+    console.log(this.dataSource6);
+
+    this.packagingcode = filterValue;
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource6.filter = filterValue;
 
 
 
@@ -195,7 +212,7 @@ export class SuperadminComponent implements OnInit {
   getpc() {
     this.authService.getpc().subscribe(data => {
       console.log(data);
-      this.dataSource4 = data.data;
+      this.dataSource6.data = data.data;
     });
   }
 
@@ -515,6 +532,7 @@ export interface Element {
   departmentdata: string;
   projectdata: string;
   equipmentdata: string;
+  packaging_code: String;
 }
 
 

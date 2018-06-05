@@ -14,55 +14,75 @@
         </div>
         <div class="row">
           <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
-            <label class="Header-label">Submitter:</label>
-            <span class="Header-span">{{authService.user_id}}</span>
-            <label class="Header-label">Department:</label>
-            <span class="Header-span">{{department}}</span>
+            <div class="row">
+              <label class="Header-label col-sm-4">Submitter:</label>
+              <span class="Header-span col-sm-6">{{authService.user_id}}</span>
+            </div>
+            <div class="row">
+              <label class="Header-label col-sm-5">Department:</label>
+              <span class="Header-span col-sm-6 high">{{department}}</span>
+            </div>
           </div>
-          <div class="col-lg-3 col-sm-3 col-xs-3 col-md-3 center-block">
-            <label class="Header-label">Updated:</label>
-            <span class="Header-span">{{updateddate}}</span>
-            <label class="Header-label">Type:</label>
-            <span class="Header-span">Not Selected</span>
+          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4 center-block">
+            <div class="row">
+              <label class="Header-label col-sm-4">Updated:</label>
+              <span class="Header-span col-sm-7">{{updateddate}}</span>
+            </div>
+            <div class="row">
+              <label class="Header-label col-sm-3">Type:</label>
+              <span class="Header-span col-sm-8">Not Selected</span>
+            </div>
           </div>
-          <div class="col-lg-5 col-sm-5 col-xs-5 col-md-5">
-            <label class="Header-label">Project:</label>
-            <span class="Header-span">{{project}}</span>
-            <label class="Header-label">Work Order Number:</label>
-            <span class="Header-span"></span>
+          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4">
+            <div class="row">
+              <label class="Header-label col-sm-3">Project:</label>
+              <span class="Header-span col-sm-4 high">{{project}}</span>
+            </div>
+            <div class="row">
+              <label class="Header-label col-sm-10">Work Order Number:</label>
+              <span class="Header-span"></span>
+            </div>
           </div>
         </div>
 
       </div>
-      <div class="col-sm-6" style="margin-top: 10px;">
+      <div class="col-sm-6">
         <div class="row">
-          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4 card border-dark">
+          <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4 card border-dark" style="border:1px solid black;border-radius:7px;margin-top: 20px;">
             <div class="row">
-              <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;">
+              <div class="col-lg-4 col-sm-4 col-xs-4 col-md-4" style="text-align:center;margin-top:11px;">
 
                 <circle-progress [percent]="percent" id="circle" [showSubtitle]=false [titleFontSize]=8 [radius]="22" [outerStrokeWidth]="4"
                   [innerStrokeWidth]="2" [outerStrokeColor]="progressbar_color" [innerStrokeColor]="'#C7E596'" [animation]="true"
-                  [animationDuration]="800"></circle-progress>
+                  [animationDuration]="800" style="margin-left:-8px;"></circle-progress>
                 <!-- <mat-progress-spinner class="example-margin" style="margin: 20% 10%;" color="warn" [diameter]=45 [value]=18>
                         </mat-progress-spinner> -->
               </div>
-              <div class="col-lg-8 col-sm-8 col-xs-8 col-md-8" style="margin-top:15px;padding:0px 5px;">
+              <div class="col-lg-8 col-sm-8 col-xs-8 col-md-8" style="margin-top:22px;padding:0px 5px;">
                 <div class="staus-new">{{status}}</div>
                 <div class="staus-Batch">{{status_des}}</div>
               </div>
             </div>
           </div>
           <div class="nav col-sm-8">
-            <div class="col-sm-10 pilot-br">
+            <div class="col-sm-11">
               <ul class="nav">
                 <!-- <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 pilot-br" style="padding:0px;"> -->
                 <!-- <span>
                   <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">
                 </span> -->
 
-                <li class="active" style="padding-right:25px;">
+                <!-- <li class="active" style="padding-right:25px;">
                   <a data-toggle="tab" href="#BRM">
                     <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">BRM</a>
+                </li> -->
+
+                <li class="active pilot">
+                  <a data-toggle="tab" href="#BRM" style="padding-right:25px;">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/brm60x60.png">
+
+                    <label class="option" style=" padding-left: 28px;font-size:14px;">BRM</label>
+                  </a>
                 </li>
 
                 <!-- </div> -->
@@ -70,17 +90,30 @@
                   <img class="projectIcon mx-auto d-block" src="assets/Images/comment.jpg">
                 </span> -->
 
-                <li style="padding-right:25px;">
+                <!-- <li style="padding-right:25px;">
                   <a data-toggle="tab" href="#comments">
                     <img class="projectIcon mx-auto d-block" src="assets/Images/comment.jpg">Comments</a>
+                </li> -->
+                <li class="pilot" style="margin-left:10px;">
+                  <a data-toggle="tab" href="#comments" style="padding-right:25px;">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/comment.jpg">
+                    <label class="option" [ngClass]="{'option1': comments_history_class}" style="padding-left: 7px;;font-size:14px;">Comments</label>
+                  </a>
                 </li>
                 <!-- <span>
                   <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">
                 </span> -->
 
-                <li style="padding-right:25px;">
+                <!-- <li style="padding-right:25px;">
                   <a data-toggle="tab" href="#history">
                     <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">History</a>
+                </li> -->
+
+                <li class="pilot" style="margin-left:8px;">
+                  <a data-toggle="tab" href="#history" style="padding-right:25px;">
+                    <img class="projectIcon mx-auto d-block" src="assets/Images/History.png">
+                    <label class="option" [ngClass]="{'option1': comments_history_class}" style=" padding-left: 19px;font-size:14px;">History</label>
+                  </a>
                 </li>
 
               </ul>
@@ -298,15 +331,15 @@
                               <label>Batch Size*</label>
                             </div>
                             <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                              <input [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" class="form-control" style="width:1.8cm;" type="number"
-                                [disabled]="disable" placeholder="1">
+                              <input [(ngModel)]="batch_size" [ngModelOptions]="{standalone: true}" (keyup)="updaterowmatrials()" (change)="updaterowmatrials()"
+                                class="form-control" style="width:1.8cm;" type="number" [disabled]="disable" placeholder="1">
                             </div>
                             <div class="col-sm-5">
                               <button class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="kg" [disabled]="disable">{{batch_unit}}</button>
                               <div class="dropdown-menu" aria-labelledby="kg">
-                                <a (click)="batch_unit='KG'" class="dropdown-item">KG</a>
-                                <a (click)="batch_unit='G'" class="dropdown-item">G</a>
-                                <a (click)="batch_unit='OZ'" class="dropdown-item">OZ</a>
+                                <a (click)="batch_unit='KG'" (click)="updaterowmatrials()" class="dropdown-item">KG</a>
+                                <a (click)="batch_unit='G'" (click)="updaterowmatrials()" class="dropdown-item">G</a>
+                                <a (click)="batch_unit='OZ'" (click)="updaterowmatrials()" class="dropdown-item">OZ</a>
                               </div>
                             </div>
                           </div>
@@ -341,15 +374,15 @@
                         <div class="col-sm-5">
                           <button class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="kg">{{batch_unit}}</button>
                           <div class="dropdown-menu" aria-labelledby="kg">
-                            <a (click)="batch_unit='KG'" class="dropdown-item">KG</a>
-                            <a (click)="batch_unit='G'" class="dropdown-item">G</a>
-                            <a (click)="batch_unit='OZ'" class="dropdown-item">OZ</a>
+                            <a (click)="batch_unit='KG'" (click)="updaterowmatrials()" class="dropdown-item">KG</a>
+                            <a (click)="batch_unit='G'" (click)="updaterowmatrials()" class="dropdown-item">G</a>
+                            <a (click)="batch_unit='OZ'" (click)="updaterowmatrials()" class="dropdown-item">OZ</a>
                           </div>
                         </div>
                       </div>
                     </div>
                     <br>
-                    <div class="col-sm-12 font">
+                    <!-- <div class="col-sm-12 font">
                       <div class="row">
                         <div class="col-sm-2 col-md-1">
                           <label>Trade Name</label>
@@ -407,8 +440,43 @@
 
                           </div>
                         </div>
+                      </div> -->
+                    <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+                      <div class="row">
+                        <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Trade Name</th>
+                              <th>RM Number</th>
+                              <th>Percentage</th>
+                              <th>Qty Required</th>
+                              <th>Simatic lab GxP stock(g)</th>
+                              <th>Sematic pilot stock(g)</th>
+                              <th>Sematic lab stock(g)</th>
+                              <th>Qty to Order(g)</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+
+                            <tr *ngFor="let row_matrial of row_matrials">
+                              <td>{{row_matrial.trade_name}}</td>
+                              <td>{{row_matrial.rm_num}}</td>
+                              <td>{{row_matrial.percentage}}</td>
+                              <td>{{row_matrial.quantity_required}}</td>
+                              <td>{{row_matrial.simatic_lab_gxp_stock}}</td>
+                              <td>{{row_matrial.simatic_pilot_stock}}</td>
+                              <td>{{row_matrial.simatic_lab_stock}}</td>
+                              <td>
+                                <input class="form-control" type="number" [(ngModel)]="row_matrial.quantity_to_order" [ngModelOptions]="{standalone: true}">
+                              </td>
+                            </tr>
+
+                          </tbody>
+
+                        </table>
+
                       </div>
-                      <mat-divider></mat-divider>
                     </div>
                   </mat-card>
                 </div>
@@ -431,7 +499,6 @@
                         </div>
                         <div class="col-sm-6">
                           <mat-select [(ngModel)]="appr" class="form-control" [disabled]="disable">
-
                             <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
                           </mat-select>
                         </div>
@@ -450,22 +517,22 @@
                 <br>
                 <div style="margin-top:1cm;">
 
-                  <button mat-raised-button (click)="submit('save')">Cancel</button>
-                  <button (click)="submit('save')" mat-raised-button>Save</button>
-                  <button (click)="submit('submit')" mat-raised-button>Submit</button>
+                  <button mat-raised-button class="hoverButton" (click)="submit('save')">Cancel</button>
+                  <button class="hoverButton" (click)="submit('save')" mat-raised-button>Save</button>
+                  <button class="hoverButton" (click)="submit('submit')" mat-raised-button>Submit</button>
 
                 </div>
                 <div style="margin-top:1cm" *ngIf="isapprover">
 
-                  <button mat-raised-button (click)="submit('confirm')">Confirm</button>
-                  <button mat-raised-button (click)="rejectshow=!rejectshow">Reject</button>
-                  <button mat-raised-button (click)="submit('pending')">Pending</button>
+                  <button mat-raised-button class="hoverButton" (click)="submit('confirm')">Confirm</button>
+                  <button mat-raised-button class="hoverButton" (click)="rejectshow=!rejectshow">Reject</button>
+                  <button mat-raised-button class="hoverButton" (click)="submit('pending')">Pending</button>
 
                 </div>
                 <div style="margin-top:1cm" *ngIf="rejectshow">
 
                   <textarea class="form-control" type="text" [(ngModel)]="rejection_comment" [ngModelOptions]="{standalone: true}" placeholder="why ?"></textarea>
-                  <button mat-raised-button (click)="submit('reject')">Reject</button>
+                  <button mat-raised-button class="hoverButton" (click)="submit('reject')">Reject</button>
 
                 </div>
               </div>
@@ -483,12 +550,12 @@
         <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#team">Team Communication
-              <span class="badge badge-danger">0</span>
+              <span class="badge badge-danger">{{comment_list_team.length}}</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#tech">Tech Communication
-              <span class="badge badge-danger">0</span>
+              <span class="badge badge-danger">{{comment_list_tech.length}}</span>
             </a>
           </li>
         </ul>
@@ -496,147 +563,162 @@
     </div>
     <br>
     <div class="tab-content">
+
       <div id="team" class="tab-pane active">
-
-
-
         <div class="row">
-          <div class="col-sm-1 colmd-1 col-xl-1">
+          <div class="col-sm-1 col-md-1 col-xl-1">
             <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}">
           </div>
-          <div class="col-sm-7 colmd-7 col-xl-7">
+          <div class="col-sm-7 col-md-7 col-xl-7">
             <textarea placeholder="Enter Comment here...." class="form-control" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}"></textarea>
           </div>
 
         </div>
         <br>
         <div class="row">
-          <div class="col-sm-7colmd-7 col-xl-7">
+          <div class="col-sm-7 col-md-7 col-xl-7">
 
           </div>
-          <div class="col-sm-1 colmd-1 col-xl-1">
+          <div class="col-sm-1 col-md-1 col-xl-1">
             <button type="button" class="btn btn-primary" (click)="addcomment('team')">Submit</button>
           </div>
 
         </div>
         <br>
-        <mat-divider></mat-divider>
-        <div *ngFor="let comment of comment_list_tech">
-          <div class="row">
-            <div class="col-sm-1 colmd-1 col-xl-1">
-              <!-- <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}"> -->
-              <mat-icon style="font-size:35px;">account_circle</mat-icon>
+        <mat-card>
+          <div *ngFor="let comment of comment_list_team">
+
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+              <div class="row">
+                <div class="col-sm-1">
+                  <mat-icon style="font-size: 23px;">account_circle</mat-icon>
+                </div>
+                <h5 *ngIf="!comment.edit">
+                  <b style="text-transform: capitalize;color:#673ab7">{{comment.createdBy}}</b>
+                </h5>
+              </div>
             </div>
-            <div class="col-sm-7 colmd-7 col-xl-7">
-              <p style="font-size:20px;" *ngIf="!comment.edit">{{comment.createdBy|uppercase}}</p>
-              <div class="card" *ngIf="!comment.edit" style="min-height:2cm;">
-                <p style="margin:0.4cm;">{{comment.comment}}</p>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+              <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                  <div *ngIf="!comment.edit">
+                    <p style="font-size:13px;">{{comment.comment}}</p>
+                  </div>
+                  <div class="row" *ngIf="comment.edit ">
+                    <div class="col-sm-8">
+                      <textarea *ngIf="comment.edit" class="form-control" [(ngModel)]=" editvalue " [ngModelOptions]="{standalone: true} "></textarea>
+                    </div>
+                    <div class="col-sm-3">
+                      <button mat-raised-button *ngIf="comment.edit " (click)="updatecomment(comment.comment_id) ">Add
+                        <mat-icon>send</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="row">
-                <textarea *ngIf="comment.edit" class="form-control col-sm-5 col-xl-5 col-md-5" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
-                <button mat-raised-button *ngIf="comment.edit" (click)="updatecomment(comment.comment_id)">Add
-                  <mat-icon>send</mat-icon>
-                </button>
+                <div class="col-sm-8"></div>
+                <div class="col-sm-4">
+                  <a (click)="comment.edit=!comment.edit " style="cursor: pointer; ">Edit
+                    <mat-icon style="font-size:15px; ">edit</mat-icon>
+                  </a>
+                  <a (click)="delcomment(comment.comment_id) " style="cursor: pointer; ">Delete
+                    <mat-icon style="font-size:15px; ">delete</mat-icon>
+                  </a>
+                </div>
               </div>
+
             </div>
 
+
+            <mat-divider></mat-divider>
+            <br>
           </div>
-          <br>
-          <div class="row">
-            <div class="col-sm-7colmd-7 col-xl-7">
-
-            </div>
-            <div class="col-sm-2 colmd-2 col-xl-2">
-              <a (click)="comment.edit=!comment.edit" style="cursor: pointer;">Edit
-                <mat-icon style="font-size:15px;">edit</mat-icon>
-              </a>
-              <a (click)="delcomment(comment.comment_id)" style="cursor: pointer;">Delete
-                <mat-icon style="font-size:15px;">delete</mat-icon>
-              </a>
-            </div>
-
-          </div>
-          <mat-divider></mat-divider>
-          <br>
-          <br>
-        </div>
-
+        </mat-card>
 
 
 
 
 
       </div>
-      <div id="tech" class="tab-pane ">
 
 
+
+      <div id="tech" class="tab-pane fade">
         <div class="row">
-          <div class="col-sm-1 colmd-1 col-xl-1">
+          <div class="col-sm-1 col-md-1 col-xl-1">
             <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}">
           </div>
-          <div class="col-sm-7 colmd-7 col-xl-7">
+          <div class="col-sm-7 col-md-7 col-xl-7">
             <textarea placeholder="Enter Comment here...." class="form-control" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}"></textarea>
           </div>
 
         </div>
         <br>
         <div class="row">
-          <div class="col-sm-7colmd-7 col-xl-7">
+          <div class="col-sm-7 col-md-7 col-xl-7">
 
           </div>
-          <div class="col-sm-1 colmd-1 col-xl-1">
+          <div class="col-sm-1 col-md-1 col-xl-1">
             <button type="button" class="btn btn-primary" (click)="addcomment('technical')">Submit</button>
           </div>
 
         </div>
         <br>
-        <mat-divider></mat-divider>
-        <div *ngFor="let comment of comment_list_tech">
-          <div class="row">
-            <div class="col-sm-1 colmd-1 col-xl-1">
-              <!-- <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}"> -->
-              <mat-icon style="font-size:35px;">account_circle</mat-icon>
+        <mat-card>
+          <div *ngFor="let comment of comment_list_tech">
+
+
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+              <div class="row">
+                <div class="col-sm-1">
+                  <mat-icon style="font-size: 23px;">account_circle</mat-icon>
+                </div>
+                <h5 *ngIf="!comment.edit">
+                  <b style="text-transform: capitalize;color:#673ab7">{{comment.createdBy}}</b>
+                </h5>
+              </div>
             </div>
-            <div class="col-sm-7 colmd-7 col-xl-7">
-              <p style="font-size:20px;" *ngIf="!comment.edit">{{comment.createdBy|uppercase}}</p>
-              <div class="card" *ngIf="!comment.edit" style="min-height:2cm;">
-                <p style="margin:0.4cm;">{{comment.comment}}</p>
+            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+              <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                  <div *ngIf="!comment.edit">
+                    <p style="font-size:13px;">{{comment.comment}}</p>
+                  </div>
+                  <div class="row" *ngIf="comment.edit">
+                    <div class="col-sm-8">
+                      <textarea *ngIf="comment.edit" class="form-control" [(ngModel)]=" editvalue " [ngModelOptions]="{standalone: true} "></textarea>
+                    </div>
+                    <div class="col-sm-3">
+                      <button mat-raised-button *ngIf="comment.edit " (click)="updatecomment(comment.comment_id) ">Add
+                        <mat-icon>send</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="row">
-                <textarea *ngIf="comment.edit" class="form-control col-sm-5 col-xl-5 col-md-5" [(ngModel)]="editvalue" [ngModelOptions]="{standalone: true}"></textarea>
-                <button mat-raised-button *ngIf="comment.edit" (click)="updatecomment(comment.comment_id)">Add
-                  <mat-icon>send</mat-icon>
-                </button>
+                <div class="col-sm-8"></div>
+                <div class="col-sm-4">
+                  <a (click)="comment.edit=!comment.edit " style="cursor: pointer; ">Edit
+                    <mat-icon style="font-size:15px; ">edit</mat-icon>
+                  </a>
+                  <a (click)="delcomment(comment.comment_id) " style="cursor: pointer; ">Delete
+                    <mat-icon style="font-size:15px; ">delete</mat-icon>
+                  </a>
+                </div>
               </div>
+
             </div>
 
+
+            <mat-divider></mat-divider>
+            <br>
           </div>
-          <br>
-          <div class="row">
-            <div class="col-sm-7colmd-7 col-xl-7">
-
-            </div>
-            <div class="col-sm-2 colmd-2 col-xl-2">
-              <a (click)="comment.edit=!comment.edit" style="cursor: pointer;">Edit
-                <mat-icon style="font-size:15px;">edit</mat-icon>
-              </a>
-              <a (click)="delcomment(comment.comment_id)" style="cursor: pointer;">Delete
-                <mat-icon style="font-size:15px;">delete</mat-icon>
-              </a>
-            </div>
-
-          </div>
-          <mat-divider></mat-divider>
-          <br>
-          <br>
-        </div>
-
-
-
-
-
-
-
+        </mat-card>
 
       </div>
     </div>

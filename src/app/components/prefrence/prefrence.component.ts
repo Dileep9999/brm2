@@ -127,24 +127,21 @@ export class PrefrenceComponent implements OnInit {
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
     this.typemenu = ['Bulk Filling', 'Re-Conditioning', 'LAB', ' PILOT', 'OTHERS'];
     this.filteritems = [];
-    this.statusmenu = ["NEW", "PENDING", "CONFIRMED", "REJECTED", "CANCELLED", "RESERVED"];
+    this.statusmenu = ["New", "Pending", "Confirmed", "Rejected", "Cancelled", "Reserved", "Complete"];
     this.legalproductcategory = ['DRUG', 'COSMETIC'];
     this.getprefrence();
     this.getusers();
   }
 
   getusers() {
-    console.log(this.partnermenu);
-
     this.authService.getusers('USER').subscribe(data => {
-
       data.data.map(e => {
         this.partnermenu.push({ name: e.user_id });
-
       });
-
     });
   }
+
+
 
   getprefrence() {
     this.authService.getprefrences().subscribe(data => {
@@ -152,10 +149,8 @@ export class PrefrenceComponent implements OnInit {
         console.log(data);
         if (data.data) {
           this.prefrences = data.data;
-
           switch (this.prefrences.calender_view.batch_type) {
             case "LAB":
-
               this.lab1();
               break;
             case "PILOT":
@@ -164,15 +159,11 @@ export class PrefrenceComponent implements OnInit {
             default:
               this.other1();
           };
-
-
           if (this.prefrences.request_filter.mode === 'TILE') {
             this.tile1();
           } else {
             this.list1();
           };
-
-
           switch (this.prefrences.request_filter.view) {
             case "MY REQUEST":
               this.request1();

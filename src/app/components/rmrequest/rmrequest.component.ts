@@ -430,7 +430,10 @@ export class RmrequestComponent implements OnInit {
       comment_type: type
     }
     this.authService.addcomment(data).subscribe(data => {
-      this.getcomments();
+      if (data.success) {
+        this.getcomments();
+        this.newcommnet = '';
+      }
       console.log("success comments");
     });
   }

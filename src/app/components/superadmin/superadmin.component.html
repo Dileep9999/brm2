@@ -499,7 +499,7 @@
     </div>
 
   </mat-tab>
-  <mat-tab label="Create Packaging Code ">
+  <mat-tab label="Create Packaging Code">
     <br>
     <mat-card>
 
@@ -510,15 +510,15 @@
         <div class="col-sm-6 example-container mat-elevation-z8">
           <div class="example-header ">
             <mat-form-field>
-              <input matInput (keyup)="applyFilter4($event.target.value) " placeholder="Add Project ">
+              <input matInput (keyup)="applyFilter5($event.target.value)" placeholder="Add Packging Code">
             </mat-form-field>
           </div>
 
-          <mat-table #table [dataSource]="dataSource4">
+          <mat-table #table [dataSource]="dataSource6">
 
             <!-- Position Column -->
-            <ng-container matColumnDef="project">
-              <mat-header-cell *matHeaderCellDef>Projects</mat-header-cell>
+            <ng-container matColumnDef="packaging_code">
+              <mat-header-cell *matHeaderCellDef>PackagingCode</mat-header-cell>
               <mat-cell *matCellDef="let element "> {{element.packaging_code}} </mat-cell>
             </ng-container>
 
@@ -530,12 +530,12 @@
 
 
 
-            <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns3; "></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns6"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns6; "></mat-row>
           </mat-table>
         </div>
-        <div class="col-sm-1 ">
-          <button mat-fab (click)="addpc() ">ADD</button>
+        <div class="col-sm-1">
+          <button mat-fab (click)="addpc()">ADD</button>
         </div>
       </div>
 

@@ -29,11 +29,11 @@
           <div class="col-sm-1" style="padding-left:4px;">
             <p class="text-center">View</p>
             <div class="btn-group-vertical card border-dark" style="margin-top:-13px;">
-              <button style=" font-size:10px;text-overflow:ellipsis;overflow:hidden; " [ngClass]="{'test':request}
+              <button style=" font-size:10px;" [ngClass]="{'test':request}
                 " (click)="request1() " class="btn ">MyRequest</button>
-              <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': favorites}
+              <button style="font-size:11px;" [ngClass]="{ 'test': favorites}
                 " (click)="favorites1() " class="btn ">Favorites</button>
-              <button style="font-size:11px;text-overflow:ellipsis;overflow: hidden; " [ngClass]="{ 'test': allrequets}
+              <button style="font-size:11px;" [ngClass]="{ 'test': allrequets}
                 " (click)="allrequests1() " class="btn ">AllRequests</button>
             </div>
           </div>
@@ -237,7 +237,9 @@
         <div class="row ">
           <img height="35px " src="assets/Images/brm60x60.png " (click)="batchreq(request)">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
-            <a style="font-size:15px;color:rgb(46, 39, 39);" class="req" (click)="batchreq(request)">{{request.request_id}}</a>
+            <a style="font-size:15px;color:rgb(46, 39, 39);" class="req" (click)="batchreq(request)">
+              <b>{{request.request_id}}</b>
+            </a>
           </div>
           <div>
 
@@ -306,7 +308,9 @@
         <div class="row ">
           <img height="35px " (click)="fillingreq(request)" src="assets/Images/brm60x60.png ">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
-            <a style="font-size:15px;color:rgb(46, 39, 39); " class="req" (click)="fillingreq(request)">{{request.request_id}}</a>
+            <a style="font-size:15px;color:rgb(46, 39, 39); " class="req" (click)="fillingreq(request)">
+              <b>{{request.request_id}}</b>
+            </a>
           </div>
           <div>
 
@@ -374,7 +378,9 @@
         <div class="row ">
           <img height="35px " (click)="formulareq(request)" src="assets/Images/brm60x60.png ">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
-            <a style="font-size:15px;color:rgb(46, 39, 39);" class="req" (click)="formulareq(request)">{{request.request_id}}</a>
+            <a style="font-size:15px;color:rgb(46, 39, 39);" class="req" (click)="formulareq(request)">
+              <b>{{request.request_id}}</b>
+            </a>
           </div>
           <div>
 

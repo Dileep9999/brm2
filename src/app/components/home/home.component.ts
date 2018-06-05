@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   no_of_FR: any;
   no_of_RM: any;
   columnDefs = [
-    // { headerName: 'Fav', field: 'template' },
+    { headerName: 'Fav', field: 'faourites', cellRenderer: this.customCellRendererFunc },
     { headerName: 'Request Number', field: 'request_id' },
     { headerName: 'Project Name', field: 'project' },
     { headerName: 'Submitter', field: 'createdBy' },
@@ -62,6 +62,24 @@ export class HomeComponent implements OnInit {
   rowData = [
 
   ];
+  angularCompileRows: true;
+  public customCellRendererFunc(params): string {
+    let cellContent: string = '';
+    try {
+
+      if (params.data.favorites) {
+        cellContent += '<i class=" fa fa-star 2x " *ngIf="request.favorites" style="color:rgb(253, 253, 7) " (click)="delfav(request.request_id)"></i>';
+      } else if (!params.data.favorites) {
+        cellContent += '<i class="fa fa-star-o 2x" *ngIf="!request.favorites" (click)="addfav(request.request_id) "></i>';
+      }
+
+    } catch (exception) {
+
+      console.error(exception);
+    }
+
+    return cellContent
+  }
   loadcard: String[];
   panelOpenState: any;
   prefrences: any;
@@ -164,7 +182,7 @@ export class HomeComponent implements OnInit {
     this.fav_req = [];
     this.sitemenuload();
     this.projectloadanddept();
-    this.typemenu = ['Bulk Filling', 'GxP Lab Batch', 'GxP Others', 'GxP Pilot Batch', 'Not GxP Others', 'Not GxP Pilot Batch', 'Re-Conditioning'];
+    this.typemenu = ['GxP LAB', 'GxP OTHERS', 'GxP PILOT', 'Not GxP OTHERS', 'Not GxP PILOT', 'Not GxP LAB'];
     this.statusmenu = ['Cancelled', 'Complete', 'Confirmed', 'Filled', 'New', 'Reserved', 'Submitted', 'Weighed'];
     this.legalproductcategory = ['COSMETIC', 'DRUG'];
     this.partnermenu = [];
@@ -455,53 +473,76 @@ export class HomeComponent implements OnInit {
 
       }
       this.authService.getfav().subscribe(data => {
-        this.fav_req = data.data;
-        for (let k = 0; k <= this.requests.length - 1; k++) {
-          for (let j = 0; j <= this.fav_req.length - 1; j++) {
-            this.fav_req[j].favorites = true;
-            if (this.requests[k].request_id === this.fav_req[j].request_id) {
-              this.requests[k].favorites = true;
+        if (data.data) {
+          this.fav_req = data.data;
+
+
+          for (let k = 0; k <= this.requests.length - 1; k++) {
+            for (let j = 0; j <= this.fav_req.length - 1; j++) {
+              this.fav_req[j].favorites = true;
+              if (this.requests[k].request_id === this.fav_req[j].request_id) {
+                this.requests[k].favorites = true;
+              }
             }
-          }
-        };
+          };
+        }
+
+      });
+
+      this.requests.map(data => {
+        if (data.createdBy === this.authService.user_id) {
+          this.my_req.push(data);
+        }
       });
 
 
 
-
-
-      for (let i = 0; i <= this.requests.length - 1; i++) {
-        if (this.requests[i].createdBy === this.authService.user_id) {
-          this.my_req.push(this.requests[i]);
+      // for (let i = 0; i <= this.requests.length - 1; i++) {
+      //   if (this.requests[i].createdBy === this.authService.user_id) {
+      //     this.my_req.push(this.requests[i]);
+      //   }
+      // };
+      this.requests.map(data => {
+        if (data.request_type === 'BATCH REQUEST') {
+          this.batchrequests.push(data);
+        } else if (data.request_type === 'FILLING REQUEST') {
+          this.fillingrequests.push(data);
         }
-      };
-
-      for (let i = 0; i <= this.requests.length - 1; i++) {
-        if (this.requests[i].request_type === 'BATCH REQUEST') {
-          this.batchrequests.push(this.requests[i]);
-        } else if (this.requests[i].request_type === 'FILLING REQUEST') {
-          this.fillingrequests.push(this.requests[i]);
-        }
-        else if (this.requests[i].request_type === 'BATCH RM ORDER') {
-          this.RMrequests.push(this.requests[i]);
+        else if (data.request_type === 'BATCH RM ORDER') {
+          this.RMrequests.push(data);
         }
         else {
-          this.RMrequests.push(data.data[i]);
+          this.RMrequests.push(data);
         }
-      };
+      });
+
+
+      // for (let i = 0; i <= this.requests.length - 1; i++) {
+      //   if (this.requests[i].request_type === 'BATCH REQUEST') {
+      //     this.batchrequests.push(this.requests[i]);
+      //   } else if (this.requests[i].request_type === 'FILLING REQUEST') {
+      //     this.fillingrequests.push(this.requests[i]);
+      //   }
+      //   else if (this.requests[i].request_type === 'BATCH RM ORDER') {
+      //     this.RMrequests.push(this.requests[i]);
+      //   }
+      //   else {
+      //     this.RMrequests.push(data.data[i]);
+      //   }
+      // };
       this.loader = false;
     });
   }
 
 
+
+
   filters() {
     let data = this.prefrences.request_filter.filters;
     this.loader = true;
-    console.log(data);
 
     this.authService.filterssubmit(data).subscribe(data => {
       if (data.success) {
-        console.log(data);
 
         this.loader = false;
         this.requests = [];
@@ -520,17 +561,15 @@ export class HomeComponent implements OnInit {
             } else if (this.requests[l].status === "Confirmed") {
               this.requests[l].percent = 80;
             }
-          }
-
+          };
           for (let k = 0; k <= this.requests.length - 1; k++) {
             for (let j = 0; j <= this.fav_req.length - 1; j++) {
               this.fav_req[j].favorites = true;
               if (this.requests[k].request_id === this.fav_req[j].request_id) {
                 this.requests[k].favorites = true;
-
               }
             }
-          }
+          };
         });
 
         for (let i = 0; i <= this.requests.length - 1; i++) {
@@ -554,12 +593,7 @@ export class HomeComponent implements OnInit {
           else {
             this.RMrequests.push(data.data[i]);
           }
-        }
-
-
-
-
-        this.loader = false;
+        };
       }
     });
   }
@@ -577,8 +611,10 @@ export class HomeComponent implements OnInit {
   }
 
 
-  projectloadanddept() {
 
+
+
+  projectloadanddept() {
     this.authService.getprojects().subscribe(data => {
       if (data.success) {
 
@@ -600,24 +636,30 @@ export class HomeComponent implements OnInit {
   }
 
 
+
+
   appendtofilteritems(value, type) {
+    console.log(value.substring(0, 3));
+
     switch (type) {
       case "type":
-        if (value.substring(0, 2) === 'GxP') {
-          this.prefrences.request_filter.filter.gxp = true;
+        if (value.substring(0, 3) === 'GxP') {
+          this.prefrences.request_filter.filters.gxp = true;
+          if (this.prefrences.request_filter.filters.batch_type.indexOf(value.substring(4, 10)) === -1) {
+            this.prefrences.request_filter.filters.batch_type.push(value.substring(4, 10));
+          };
         } else {
-          this.prefrences.request_filter.filter.gxp = false;
+          this.prefrences.request_filter.filters.gxp = false;
+          if (this.prefrences.request_filter.filters.batch_type.indexOf(value.substring(8, 15)) === -1) {
+            this.prefrences.request_filter.filters.batch_type.push(value.substring(8, 15));
+          };
         };
 
-        if (this.prefrences.request_filter.filters.batch_type.indexOf(value) === -1) {
-          this.prefrences.request_filter.filters.batch_type.push(value);
-        };
+
         break;
       case "site":
-
         if (this.prefrences.request_filter.filters.site.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.site.push(value);
-
         }
         break;
       case "leagalproduct":
@@ -639,7 +681,6 @@ export class HomeComponent implements OnInit {
         if (this.prefrences.request_filter.filters.partner.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.partner.push(value);
         }
-
         break;
       case "mfgdate":
         console.log(this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date);
@@ -705,8 +746,8 @@ export class HomeComponent implements OnInit {
             day = Next_30_days.getDate();
             // day = day + 1;
             // m = d.getDate()+30;
-            this.prefrences.request_filter.filter.manufacturing_date.from_date = y1 + '-' + m1 + '-' + day1;
-            this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y1 + '-' + m1 + '-' + day1;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
             break;
           case "Next_7_days":
             let Next_7_days = new Date(today);
@@ -714,12 +755,12 @@ export class HomeComponent implements OnInit {
             m1 = today.getMonth() + 1;
             day1 = today.getDate();
 
-            Next_7_days.setDate(today.getDate() + 30);
+            Next_7_days.setDate(today.getDate() + 7);
             y = Next_7_days.getFullYear();
             m = Next_7_days.getMonth() + 1;
             day = Next_7_days.getDate();
-            this.prefrences.request_filter.filter.manufacturing_date.from_date = y1 + '-' + m1 + '-' + day1;
-            this.prefrences.request_filter.filter.manufacturing_date.to_date = y + '-' + m + '-' + day;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date = y1 + '-' + m1 + '-' + day1;
+            this.prefrences.request_filter.filters.manufacturing_date.date_range.to_date = y + '-' + m + '-' + day;
 
             break;
           default:
