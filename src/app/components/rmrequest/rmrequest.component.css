@@ -119,6 +119,18 @@
     border-bottom-left-radius: 8px;
 
 }
+
+.option1{
+    cursor: pointer;
+    background-color: #4c9df3;
+    color: white;
+    width: 83px;
+    height: 27px;
+    cursor: pointer;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+
+}
 .high{
     text-overflow: ellipsis;
     width:51px;

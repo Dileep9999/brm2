@@ -98,6 +98,7 @@ export class RmrequestComponent implements OnInit {
   editvalue: String;
   rejection_comment: String;
   rejectshow: boolean = false;
+  comments_history_class: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -375,6 +376,7 @@ export class RmrequestComponent implements OnInit {
 
 
   newrequest() {
+    this.comments_history_class = true;
     this.disable = false;
     this.authService.submitnewreq("BATCH RM ORDER").subscribe(data => {
       console.log(data);
