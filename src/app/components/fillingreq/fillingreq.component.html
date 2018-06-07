@@ -629,22 +629,20 @@
               </mat-card>
               <div class="row" style="margin-top: 20px;padding-left: 15px;">
 
-                <button mat-raised-button class="hoverButton" (click)="save('save')" [disabled]="disable">Cancel</button>
-                <button mat-raised-button class="hoverButton" (click)="save('save')" [disabled]="disable">save</button>
-                <button mat-raised-button class="hoverButton" (click)="save('submit')" [disabled]="disable">submit</button>
+                <button mat-raised-button (click)="save('save')" [disabled]="disable">Cancel</button>
+                <button mat-raised-button (click)="save('save')" [disabled]="disable">save</button>
+                <button mat-raised-button (click)="save('submit')" [disabled]="disable">Submit</button>
 
               </div>
               <div class="row" style="padding-left: 16px;" *ngIf="isapprover">
-
-                <button mat-raised-button class="hoverButton" (click)="save('confirm')">Confirm</button>
-                <button mat-raised-button class="hoverButton" (click)="rejectshow=!rejectshow">Reject</button>
-                <button mat-raised-button class="hoverButton" (click)="save('pending')">Pending</button>
-
+                <button mat-raised-button (click)="save('confirm')">Confirm</button>
+                <button mat-raised-button (click)="rejectshow=!rejectshow">Reject</button>
+                <button mat-raised-button (click)="save('pending')">Pending</button>
               </div>
               <div style="margin-top:1cm" *ngIf="rejectshow">
 
                 <textarea class="form-control" type="text" [(ngModel)]="rejection_comment" [ngModelOptions]="{standalone: true}" placeholder="why ?"></textarea>
-                <button mat-raised-button class="hoverButton" (click)="save('reject')">Reject</button>
+                <button mat-raised-button (click)="save('reject')">Reject</button>
 
               </div>
 
@@ -670,12 +668,12 @@
         <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#team">Team Communication
-              <span class="badge badge-danger">{{comment_list_team.length}}</span>
+              <span class="badge badge-danger">{{comment_list_team?.length}}</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#tech">Tech Communication
-              <span class="badge badge-danger">{{comment_list_tech.length}}</span>
+              <span class="badge badge-danger">{{comment_list_tech?.length}}</span>
             </a>
           </li>
         </ul>

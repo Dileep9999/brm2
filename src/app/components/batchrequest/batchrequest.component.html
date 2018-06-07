@@ -424,7 +424,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+            <div class="col-sm-3 col-lg-4 col-md-3 col-xs-4">
               <div class="batch-header nav nav-tabs">
                 <button mat-button class="batch-br" data-toggle="tab" href="#book" [ngClass]="{'test': newColor5}" (click)="toggleColor5()">Book Equipment</button>
                 <button mat-button class="batch-br" data-toggle="tab" href="#calender" [ngClass]="{'test':newColor6}" (click)="toggleColor6()">Calender</button>
@@ -432,14 +432,14 @@
                 <br>
               </div>
               <div style="margin-top:3px;padding-left:15px;" class="row">
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" (click)="equipmentreq('cancel')">
+                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" (click)="equipmentreq('cancel')">
                   <b>Cancel</b>
                 </button>
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" (click)="equipmentreq('save')">
+                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" (click)="equipmentreq('save')">
                   <b>Save</b>
                 </button>
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" *ngIf="!isapprover" (click)="equipmentreq('submit')"
-                  [disabled]="equipmentsubmitenable">
+                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" *ngIf="!isapprover"
+                  (click)="equipmentreq('submit')" [disabled]="equipmentsubmitenable">
                   <b>Submit</b>
                 </button>
 
@@ -475,7 +475,7 @@
       </div>
       <div id="overview" class="tab-pane fade">
         <div class="row">
-          <mat-card class="col-sm-8 col-lg-8 col-md-8 col-xl-8" style="margin:1cm;max-width:22cm;">
+          <mat-card class="col-sm-8 col-lg-12 col-md-8 col-xl-12 col-xs-12" style="margin:1cm;max-width:22cm;">
             <div class="row">
               <h4 class="col-sm-8">Review Request</h4>
               <br>
@@ -533,7 +533,7 @@
             <br>
             <div class="row">
               <h6 class="col-sm-4">Filling </h6>
-              <div class="col-sm-5">
+              <div class="col-sm-5 col-5">
                 <b>Date Requested</b>
 
               </div>

@@ -594,6 +594,8 @@ export class HomeComponent implements OnInit {
             this.RMrequests.push(data.data[i]);
           }
         };
+      } else {
+        this.loadrequests();
       }
     });
   }

@@ -24,7 +24,7 @@ export class AuthService {
   user_email: String;
   project: String;
   department: String;
-  host: String = "http://localhost:3000/";
+  host: String = '35.232.67.104';
   req: any;
   permission: boolean = false;
   equipmentload: boolean = false;
@@ -48,7 +48,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/overview/' + id, { headers: headers })
+    return this.http.get('http://' + this.host + '/overview/' + id, { headers: headers })
       .map(res => res.json()).catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
@@ -73,7 +73,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/requests', { headers: headers })
+    return this.http.get('http://' + this.host + '/requests', { headers: headers })
       .map(res => res.json());
   }
 
@@ -82,7 +82,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/equipmentRequests', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/equipmentRequests', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         this.equipmentload = true;
@@ -106,7 +106,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/equipment', { headers: headers })
+    return this.http.get('http://' + this.host + '/equipment', { headers: headers })
       .map(res => res.json());
   }
 
@@ -116,7 +116,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/fillingrequest', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/fillingrequest', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -142,7 +142,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/fillingrequest', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/fillingrequest', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -167,7 +167,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/formulas', { headers: headers })
+    return this.http.get('http://' + this.host + '/formulas', { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -193,7 +193,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/history/' + id, { headers: headers })
+    return this.http.get('http://' + this.host + '/history/' + id, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -221,7 +221,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/formulas/' + labid, { headers: headers })
+    return this.http.get('http://' + this.host + '/formulas/' + labid, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -247,7 +247,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.delete('http://localhost:3000/favourites/REQUEST_ID/' + id, { headers: headers })
+    return this.http.delete('http://' + this.host + '/favourites/REQUEST_ID/' + id, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -273,7 +273,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:3000/comments', data, { headers: headers })
+    return this.http.put('http://' + this.host + '/comments', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -299,7 +299,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/comments/' + id, { headers: headers })
+    return this.http.get('http://' + this.host + '/comments/' + id, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -326,7 +326,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.delete('http://localhost:3000/comments/' + id, { headers: headers })
+    return this.http.delete('http://' + this.host + '/comments/' + id, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -353,7 +353,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/comments', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/comments', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -389,8 +389,6 @@ export class AuthService {
 
   }
   redirecttofilling(project, department) {
-    console.log('redirect');
-
     this.project = project;
     this.department = department;
     this.router.navigate(['/filling']);
@@ -398,12 +396,9 @@ export class AuthService {
   }
 
   redirecttoRM(project, department) {
-    console.log('redirect');
-
     this.project = project;
     this.department = department;
     this.router.navigate(['/rm']);
-
   }
 
 
@@ -420,7 +415,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/requests', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/requests', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -445,7 +440,7 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/signup', user, { headers: headers })
+    return this.http.post('http://' + this.host + '/signup', user, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -469,7 +464,7 @@ export class AuthService {
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/signin', user, { headers: headers })
+    return this.http.post('http://' + this.host + '/signin', user, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -482,7 +477,13 @@ export class AuthService {
             pauseOnHover: true
           });
         } catch (error) {
-          this.snackBar.open('Unexpected', 'ok', { duration: 3000 });
+          this.snotify.error('Something Went Wrong', 'Error', {
+            timeout: 3000,
+            position: SnotifyPosition.centerCenter,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+          });
         }
         return Observable.throw(err)
       });
@@ -504,7 +505,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/sites', { headers: headers })
+    return this.http.get('http://' + this.host + '/sites', { headers: headers })
       .map(res => res.json());
   }
 
@@ -515,7 +516,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/reasons', { headers: headers })
+    return this.http.get('http://' + this.host + '/reasons', { headers: headers })
       .map(res => res.json());
   }
 
@@ -524,7 +525,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/departments', { headers: headers })
+    return this.http.get('http://' + this.host + '/departments', { headers: headers })
       .map(res => res.json());
   }
   getprojects() {
@@ -532,7 +533,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/projects', { headers: headers })
+    return this.http.get('http://' + this.host + '/projects', { headers: headers })
       .map(res => res.json());
   }
 
@@ -541,7 +542,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/benches', { headers: headers })
+    return this.http.get('http://' + this.host + '/benches', { headers: headers })
       .map(res => res.json());
   }
 
@@ -553,7 +554,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/users/' + USER, { headers: headers })
+    return this.http.get('http://' + this.host + '/users/' + USER, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -586,7 +587,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/rmrequest', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/rmrequest', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -625,7 +626,7 @@ export class AuthService {
 
     console.log(headers);
 
-    return this.http.post('http://localhost:3000/admins/grant/' + user, '', { headers: headers })
+    return this.http.post('http://' + this.host + '/admins/grant/' + user, '', { headers: headers })
       .map(res => res.json())
   }
   removefromadmin(user) {
@@ -633,7 +634,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/admins/revoke/' + user, '', { headers: headers })
+    return this.http.post('http://' + this.host + '/admins/revoke/' + user, '', { headers: headers })
       .map(res => res.json())
   }
 
@@ -642,7 +643,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/reasons', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/reasons', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -667,7 +668,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/projects', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/projects', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -692,7 +693,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/sites', site, { headers: headers })
+    return this.http.post('http://' + this.host + '/sites', site, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -720,7 +721,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/departments', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/departments', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
 
@@ -746,7 +747,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/benches', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/benches', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -771,7 +772,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/equipment', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/equipment', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -796,7 +797,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/packagingCodes', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/packagingCodes', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -821,7 +822,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/favourites/REQUEST_ID', { headers: headers })
+    return this.http.get('http://' + this.host + '/favourites/REQUEST_ID', { headers: headers })
       .map(res => res.json());
   }
 
@@ -832,7 +833,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/packagingCodes', { headers: headers })
+    return this.http.get('http://' + this.host + '/packagingCodes', { headers: headers })
       .map(res => res.json());
   }
 
@@ -848,7 +849,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/favourites', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/favourites', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {
@@ -873,7 +874,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/filterRequests', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/filterRequests', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         console.log(err);
@@ -906,7 +907,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/preferences', data, { headers: headers })
+    return this.http.post('http://' + this.host + '/preferences', data, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         console.log(err);
@@ -947,7 +948,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/preferences', { headers: headers })
+    return this.http.get('http://' + this.host + '/preferences', { headers: headers })
       .map(res => res.json());
   }
 
@@ -966,7 +967,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/approvers/grant/' + USER, '', { headers: headers })
+    return this.http.post('http://' + this.host + '/approvers/grant/' + USER, '', { headers: headers })
       .map(res => res.json());
   }
 
@@ -975,7 +976,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/approvers/revoke/' + USER, '', { headers: headers })
+    return this.http.post('http://' + this.host + '/approvers/revoke/' + USER, '', { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         try {

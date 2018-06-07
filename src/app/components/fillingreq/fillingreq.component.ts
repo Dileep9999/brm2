@@ -87,30 +87,29 @@ export class FillingreqComponent implements OnInit {
     public router: Router,
     private snotify: SnotifyService
   ) {
-
+    if (this.authService.project === undefined && !this.authService.permission) {
+      this.router.navigate(['/home']);
+    };
   }
 
   ngOnInit() {
     this.project = this.authService.project;
     this.department = this.authService.department;
-    if (this.authService.project === undefined && !this.authService.permission) {
-      this.router.navigate(['/home']);
-    };
-    if (this.authService.permission) {
-      this.loadreq();
-    } else if (!this.authService.permission && this.authService.project != undefined) {
-      this.newrequest();
-    };
-
-
     this.formulaids = [];
     this.labnotebooknums = [];
     this.packagingcodes = [];
     this.sitemenu = JSON.parse(localStorage.getItem('sites'));
     this.approvers = [];
+    this.comment_list_team = [];
+    this.comment_list_tech = [];
     this.getusers();
     this.getlabnums();
     this.getpackagingcodes();
+    if (this.authService.permission) {
+      this.loadreq();
+    } else if (!this.authService.permission && this.authService.project != undefined) {
+      this.newrequest();
+    };
   }
 
   loadreq() {
@@ -323,10 +322,6 @@ export class FillingreqComponent implements OnInit {
       data.data.map(data => {
         this.packagingcodes.push(data.packaging_code);
       });
-
-      // for (let i = 0; i <= data.data.length - 1; i++) {
-      //   this.packagingcodes.push(data.data[i].packaging_code);
-      // }
     });
   }
 

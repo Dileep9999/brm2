@@ -17,6 +17,7 @@ export class RmrequestComponent implements OnInit {
   material = false;
   approver1 = false;
   flab = false;
+  submitter: String = this.authService.user_id;
   fpilot = false;
   GxP = false;
   legal_product_category: String;
@@ -114,6 +115,8 @@ export class RmrequestComponent implements OnInit {
     this.approvers = [];
     this.labnotebooknums = [];
     this.formulaids = [];
+    this.comment_list_team = [];
+    this.comment_list_tech = [];
     this.project = this.authService.project;
     this.department = this.authService.department;
     if (this.authService.project === undefined && !this.authService.permission) {
@@ -265,7 +268,7 @@ export class RmrequestComponent implements OnInit {
     this.status = this.authService.req.status;
     this.status_des = this.authService.req.status_description;
     this.sitetype = this.authService.req.site;
-
+    this.submitter = this.authService.req.createdBy;
     if (this.authService.req.createdBy === this.authService.user_id) {
       this.disable = false;
     };
