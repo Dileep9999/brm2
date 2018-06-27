@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   Searchmenu: String[];
   Searchvalue: String;
   clear: String;
-  reqs: any;
+
 
   constructor(
     public authService: AuthService,
@@ -27,37 +27,18 @@ export class NavbarComponent implements OnInit {
     // this.value='';
     this.Searchmenu = ['All', 'Simatic Code', 'Formula code', 'Packaging Type', 'Spec num', 'Request Num', 'Request Type'];
     this.Searchvalue = 'All';
-    this.getreqs();
-    this.reqs = [];
-
-
 
   }
 
 
-  batchreq(req) {
 
-
-    this.authService.req = req;
-    this.authService.permission = true;
-    this.router.navigate(['/batchrequest']);
-
-  }
   onLogoutClick() {
     this.authService.logout();
     this.router.navigate(['/']);
     return false;
   }
 
-  getreqs() {
-    this.authService.getallrequests().subscribe(data => {
 
-
-      this.reqs = data.data;
-
-
-    });
-  }
 
   onKeydown(event) {
     //if (event.key === "Enter") {

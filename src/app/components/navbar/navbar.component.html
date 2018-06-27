@@ -29,16 +29,6 @@
       <div class="form-inline" *ngIf="authService.loggedIn()">
         <input class="form-control my-2  my-sm-0" type="text" style="min-width:9cm;" maxlength="10" [matAutocomplete]="auto" placeholder="Enter KeyWords"
           name="value" [(ngModel)]="value" />
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let req of reqs | filter:value" [value]="req.request_id" (click)="batchreq(req)">
-
-            <b style="width: 100px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;">{{ req.request_id }}</b> |
-            <small>{{req.createdBy}}</small>
-          </mat-option>
-        </mat-autocomplete>
         <a (click)="clearinput()" *ngIf="value" type="submit" style="background:rgba(255, 255, 255, 0.166);max-height:36px;margin-left:-31px;">
           <mat-icon class="close">close</mat-icon>
         </a>
@@ -103,7 +93,7 @@
         <a class="nav-link" class="nav-link dropdown-toggle" style="cursor:pointer;font-size:14px;" data-toggle="dropdown" [matMenuTriggerFor]="Requestor"
           *ngIf="authService.loggedIn()">
           <b>
-            <img height="25px" *ngIf="authService.user_type=='ADMIN'" src="assets/Images/admin.png"> {{authService.user_id| uppercase}}</b>
+            <img height="25px" *ngIf="authService.user_type=='ADMIN'" src="assets/Images/admin.png"> {{authService?.user_id| uppercase}}</b>
         </a>
         <mat-menu [overlapTrigger]="false" #Requestor="matMenu">
           <button (click)="router.navigate(['/su'])" *ngIf="authService.user_type=='ADMIN'" mat-menu-item>

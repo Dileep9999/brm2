@@ -194,8 +194,55 @@ export class HomeComponent implements OnInit {
 
 
 
+  scroll1() {
+    let a = document.getElementById('target');
+    console.log(a.className);
+    console.log(a.scrollLeft);
+    a.scrollTo({ left: a.scrollLeft - 1700, behavior: 'smooth' });
+
+  }
+  scroll2() {
+    let a = document.getElementById('target');
+    console.log(a.className);
+    console.log(a.scrollLeft);
+    a.scrollTo({ left: a.scrollLeft + 1700, behavior: 'smooth' });
+    // a.scrollLeft = a.scrollLeft + 1700;
+
+  }
+  scroll3() {
+    let a = document.getElementById('target1');
+    console.log(a.className);
+    console.log(a.scrollLeft);
+    a.scrollTo({ left: a.scrollLeft - 1700, behavior: 'smooth' });
+
+  }
+  scroll4() {
+    let a = document.getElementById('target1');
+    console.log(a.className);
+    console.log(a.scrollLeft);
+    a.scrollTo({ left: a.scrollLeft + 1700, behavior: 'smooth' });
+    // a.scrollLeft = a.scrollLeft + 1700;
+
+  }
+
+  scroll5() {
+    let a = document.getElementById('target2');
+    console.log(a.className);
+    console.log(a.scrollLeft);
+    a.scrollTo({ left: a.scrollLeft - 1700, behavior: 'smooth' });
+
+  }
+  scroll6() {
+    let a = document.getElementById('target2');
+    console.log(a.className);
+    console.log(a.scrollLeft);
+    a.scrollTo({ left: a.scrollLeft + 1700, behavior: 'smooth' });
+    // a.scrollLeft = a.scrollLeft + 1700;
+
+  }
+
   getusers() {
-    console.log(this.partnermenu);
+
 
     this.authService.getusers('USER').subscribe(data => {
 
@@ -211,7 +258,7 @@ export class HomeComponent implements OnInit {
     switch (value) {
       case "type":
         this.prefrences.request_filter.filters.batch_type = [];
-        console.log(value);
+
 
         break;
       case "site":

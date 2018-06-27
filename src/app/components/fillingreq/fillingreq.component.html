@@ -332,7 +332,7 @@
                               <label>Formulator</label>
                             </div>
                             <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4" disabled>
-                              {{authService.user_id}}
+                              {{authService?.user_id}}
                             </div>
 
                           </div>
@@ -713,7 +713,7 @@
                   <mat-icon style="font-size: 23px;">account_circle</mat-icon>
                 </div>
                 <h5 *ngIf="!comment.edit">
-                  <b style="text-transform: capitalize;color:#673ab7">{{comment.createdBy}}</b>
+                  <b style="text-transform: capitalize;color:#673ab7">{{comment?.createdBy}}</b>
                 </h5>
               </div>
             </div>
@@ -722,7 +722,7 @@
                 <div class="col-sm-1"></div>
                 <div class="col-sm-9">
                   <div *ngIf="!comment.edit">
-                    <p style="font-size:13px;">{{comment.comment}}</p>
+                    <p style="font-size:13px;">{{comment?.comment}}</p>
                   </div>
                   <div class="row" *ngIf="comment.edit ">
                     <div class="col-sm-8">
@@ -767,7 +767,7 @@
       <div id="tech" class="tab-pane fade">
         <div class="row">
           <div class="col-sm-1 col-md-1 col-xl-1">
-            <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService.user_id}}">
+            <img src="assets/Images/commentsuser.png" height="1.5cm" alt="{{authService?.user_id}}">
           </div>
           <div class="col-sm-7 col-md-7 col-xl-7">
             <textarea placeholder="Enter Comment here...." class="form-control" [(ngModel)]="newcommnet" [ngModelOptions]="{standalone: true}"></textarea>
@@ -795,7 +795,7 @@
                   <mat-icon style="font-size: 23px;">account_circle</mat-icon>
                 </div>
                 <h5 *ngIf="!comment.edit">
-                  <b style="text-transform: capitalize;color:#673ab7">{{comment.createdBy}}</b>
+                  <b style="text-transform: capitalize;color:#673ab7">{{comment?.createdBy}}</b>
                 </h5>
               </div>
             </div>
@@ -804,7 +804,7 @@
                 <div class="col-sm-1"></div>
                 <div class="col-sm-9">
                   <div *ngIf="!comment.edit">
-                    <p style="font-size:13px;">{{comment.comment}}</p>
+                    <p style="font-size:13px;">{{comment?.comment}}</p>
                   </div>
                   <div class="row" *ngIf="comment.edit">
                     <div class="col-sm-8">

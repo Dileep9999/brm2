@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatSnackBar } from '@angular/material';
@@ -179,8 +178,7 @@ export class SuperadminComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
     public snotify: SnotifyService,
-    public router: Router,
-    public flashmessage: FlashMessagesService
+    public router: Router
   ) { }
 
   ngOnInit() {

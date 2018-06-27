@@ -149,7 +149,7 @@
                 <mat-icon (click)="emptyarray('site')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
               <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.manufacturing_date.date_range.from_date">MfgDate:-
-                <b>{{prefrences.request_filter.filters.manufacturing_date.date_range.from_date}} To {{prefrences.request_filter.filters.manufacturing_date.date_range.to_date}}</b>
+                <b>{{prefrences?.request_filter?.filters.manufacturing_date.date_range.from_date}} To {{prefrences?.request_filter?.filters.manufacturing_date.date_range.to_date}}</b>
                 <mat-icon (click)="emptyarray('mfgdate')" style="cursor: pointer;padding-left:13px;">highlight_off</mat-icon>
               </mat-chip>
               <mat-chip style="margin:0.1cm;" *ngIf="prefrences.request_filter.filters.legal_product_category[0]">LeagalProductCategory:-
@@ -201,11 +201,12 @@
 
 
 
-    <h5 style="margin-left:0.9cm;">Batch Requests ( {{batchrequests.length}} )</h5>
+    <h5 style="margin-left:0.9cm;">Batch Requests ( {{batchrequests?.length}} )</h5>
     <ag-grid-angular *ngIf="!Tile" style="height:500px; " class="ag-theme-material" [enableColResize]="true
             " [enableSorting]="true " [enableFilter]="true " [rowData]="batchrequests" [columnDefs]="columnDefs ">
     </ag-grid-angular>
-    <div class="row " *ngIf="loader" style="margin-left:1cm; ">
+
+    <div class="row flex-row flex-nowrap " *ngIf="loader" style="margin-left:1cm; ">
 
       <div class=" col-sm-4 timeline-wrapper example-card1 " *ngFor="let load of loadcard ">
         <mat-card class="timeline-item">
@@ -231,14 +232,14 @@
     </div>
 
 
-    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;margin-left:1cm; ">
+    <div class="row flex-row flex-nowrap" *ngIf="!loader && Tile " style=" overflow-x: auto;margin-left:1cm;" id="target">
 
-      <mat-card *ngFor="let request of batchrequests " class="example-card ">
+      <mat-card *ngFor="let request of batchrequests " class="example-card col-sm-2">
         <div class="row ">
           <img height="35px " src="assets/Images/brm60x60.png " (click)="batchreq(request)">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
             <a style="font-size:15px;color:rgb(46, 39, 39);" class="req" (click)="batchreq(request)">
-              <b>{{request.request_id}}</b>
+              <b>{{request?.request_id}}</b>
             </a>
           </div>
           <div>
@@ -248,7 +249,7 @@
           </div>
         </div>
 
-        <div style="font-size:13px;max-width:2cm; " (click)="batchreq(request)">Project:{{request.project}}</div>
+        <div style="font-size:13px;max-width:2cm; " (click)="batchreq(request)">Project:{{request?.project}}</div>
         <div class="progress " style="max-height:8px; ">
           <div *ngIf="request.percent==25" class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
           <div *ngIf="request.percent==50" class="progress-bar bg-info " role="progressbar " style="width: 50% "></div>
@@ -260,10 +261,10 @@
           <div *ngIf="request.percent==99" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
         </div>
         <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
-          <b>{{request.status}}</b>
+          <b>{{request?.status}}</b>
         </div>
-        <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
-        <div style="font-size:13px; ">Modfd.Date:{{request.lastModified.substring(0, 10)}}</div>
+        <div style="font-size:13px; ">Submitter:{{request?.createdBy}} </div>
+        <div style="font-size:13px; ">Modfd.Date:{{request?.lastModified.substring(0, 10)}}</div>
         <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
           <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
           <mat-icon class="col-sm-1 ">print</mat-icon>
@@ -271,11 +272,29 @@
       </mat-card>
       <br>
     </div>
+    <div *ngIf="!loader && Tile && batchrequests.length>8" class="row" style="margin-right: 1cm;">
+      <div class="col-auto mr-auto"></div>
+      <div class="col-auto">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" mat-raised-button (click)="scroll1()">
+            <mat-icon class="leticon">play_arrow</mat-icon>
+          </button>
+
+          <button type="button" mat-raised-button (click)="scroll2()">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
+
     <br>
     <br>
     <h5 style="margin-left:0.9cm;">Filling Requests ({{fillingrequests.length}})</h5>
     <br>
-    <div class="row " *ngIf="loader " style="margin-left:1cm; ">
+    <div class="row flex-row flex-nowrap " *ngIf="loader " style="margin-left:1cm; ">
 
       <div class=" col-sm-4 timeline-wrapper example-card1 " *ngFor="let load of loadcard ">
         <mat-card class="timeline-item ">
@@ -302,14 +321,15 @@
     <ag-grid-angular *ngIf="!Tile " style="height:500px; " class="ag-theme-material" enableColResize="true
             " [enableSorting]="true " [enableFilter]="true " [rowData]="fillingrequests" [columnDefs]="columnDefs ">
     </ag-grid-angular>
-    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm; ">
+    <div class="row flex-row flex-nowrap" *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm;"
+      id="target1">
 
-      <mat-card *ngFor="let request of fillingrequests " class="example-card ">
+      <mat-card *ngFor="let request of fillingrequests " class="example-card col-2">
         <div class="row ">
           <img height="35px " (click)="fillingreq(request)" src="assets/Images/brm60x60.png ">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
             <a style="font-size:15px;color:rgb(46, 39, 39); " class="req" (click)="fillingreq(request)">
-              <b>{{request.request_id}}</b>
+              <b>{{request?.request_id}}</b>
             </a>
           </div>
           <div>
@@ -319,7 +339,7 @@
           </div>
         </div>
 
-        <div style="font-size:13px;max-width:2cm; ">Project:{{request.project}}</div>
+        <div style="font-size:13px;max-width:2cm; ">Project:{{request?.project}}</div>
         <div class="progress " style="max-height:8px; ">
           <div *ngIf="request.percent==25" class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
           <div *ngIf="request.percent==50" class="progress-bar bg-info " role="progressbar " style="width: 50% "></div>
@@ -331,8 +351,8 @@
         <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
           <b>{{request.status}}</b>
         </div>
-        <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
-        <div style="font-size:13px; ">Modfd.Date:{{request.lastModified.substring(0, 10)}}</div>
+        <div style="font-size:13px; ">Submitter:{{request?.createdBy}} </div>
+        <div style="font-size:13px; ">Modfd.Date:{{request?.lastModified.substring(0, 10)}}</div>
         <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
           <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
           <mat-icon class="col-sm-1 ">print</mat-icon>
@@ -341,7 +361,22 @@
       <br>
     </div>
     <br>
-    <h5 style="margin-left:0.9cm;">RM Requests ({{RMrequests.length}})</h5>
+    <div class="row" *ngIf="!loader && Tile && fillingrequests.length>8 " style="margin-right: 1cm;">
+      <div class="col-auto mr-auto"></div>
+      <div class="col-auto">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" mat-raised-button (click)="scroll3()">
+            <mat-icon class="leticon">play_arrow</mat-icon>
+          </button>
+
+          <button type="button" mat-raised-button (click)="scroll4()">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <h5 style="margin-left:0.9cm;">RM Requests ({{RMrequests?.length}})</h5>
     <br>
     <div class="row " *ngIf="loader " style="margin-left:1cm; ">
 
@@ -372,14 +407,15 @@
     </ag-grid-angular>
 
 
-    <div class="row " *ngIf="!loader && Tile " style=" overflow-x: auto;max-height:14cm;margin-left:1cm; ">
+    <div class="row flex-row flex-nowrap" *ngIf="!loader && Tile " style=" overflow-x: auto ;max-height:14cm;margin-left:1cm;"
+      id="target2">
 
-      <mat-card *ngFor="let request of RMrequests " class="example-card ">
+      <mat-card *ngFor="let request of RMrequests " class="example-card col-2">
         <div class="row ">
           <img height="35px " (click)="formulareq(request)" src="assets/Images/brm60x60.png ">
           <div class="col " style="max-width:4cm; text-overflow:ellipsis;overflow:hidden; ">
             <a style="font-size:15px;color:rgb(46, 39, 39);" class="req" (click)="formulareq(request)">
-              <b>{{request.request_id}}</b>
+              <b>{{request?.request_id}}</b>
             </a>
           </div>
           <div>
@@ -389,7 +425,7 @@
           </div>
         </div>
 
-        <div style="font-size:13px;max-width:2cm; ">Project:{{request.project}}</div>
+        <div style="font-size:13px;max-width:2cm; ">Project:{{request?.project}}</div>
         <div class="progress " style="max-height:8px; ">
           <div *ngIf="request.percent==25" class="progress-bar bg-info " role="progressbar " style="width: 25% "></div>
           <div *ngIf="request.percent==50" class="progress-bar bg-info " role="progressbar " style="width: 50% "></div>
@@ -399,16 +435,32 @@
           <div *ngIf="request.percent==99" class="progress-bar bg-success " role="progressbar " style="width: 100% "></div>
         </div>
         <div title="Status:{{request.status}} " class="text-sm-auto " style="font-size:13px; ">
-          <b>{{request.status}}</b>
+          <b>{{request?.status}}</b>
         </div>
-        <div style="font-size:13px; ">Submitter:{{request.createdBy}} </div>
-        <div style="font-size:13px; ">Modfd.Date:{{request.lastModified.substring(0, 10)}}</div>
+        <div style="font-size:13px; ">Submitter:{{request?.createdBy}} </div>
+        <div style="font-size:13px; ">Modfd.Date:{{request?.lastModified.substring(0, 10)}}</div>
         <div class="row " style="margin-left:3cm;color:rgb(90, 88, 88);cursor:pointer; ">
           <i class="col-sm-1 fa fa-file-pdf-o fa "></i>
           <mat-icon class="col-sm-1 ">print</mat-icon>
         </div>
       </mat-card>
       <br>
+    </div>
+    <br>
+    <div class="row" *ngIf="!loader && Tile && RMrequests.length>8" style="margin-right: 1cm;">
+      <div class="col-auto mr-auto"></div>
+      <div class="col-auto">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" mat-raised-button (click)="scroll5()">
+            <mat-icon class="leticon">play_arrow</mat-icon>
+          </button>
+
+          <button type="button" mat-raised-button (click)="scroll6()">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>

@@ -71,18 +71,18 @@
               <mat-icon style="font-size:40px;" mat-button disabled>account_circle</mat-icon>
             </div>
 
-            <mat-card-title>{{user.user_id}}
+            <mat-card-title>{{user?.user_id}}
               <mat-icon *ngIf="user.approver_permission">spellcheck</mat-icon>
 
             </mat-card-title>
 
-            <mat-card-subtitle *ngIf=" !user.approver_permission">{{user.user_type}}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf=" !user.approver_permission">{{user?.user_type}}</mat-card-subtitle>
             <mat-card-subtitle *ngIf="user.approver_permission">Approver</mat-card-subtitle>
           </mat-card-header>
           <!-- <img mat-card-image src="https://loremflickr.com/320/240" alt="Photo of a Shiba Inu"> -->
           <mat-card-content>
-            <label>Email:{{user.email}}</label>
-            <label>Created At:{{user.createdAt}}</label>
+            <label>Email:{{user?.email}}</label>
+            <label>Created At:{{user?.createdAt}}</label>
           </mat-card-content>
           <mat-card-actions>
 
@@ -106,13 +106,13 @@
             <div mat-card-avatar class="example-header-image">
               <mat-icon style="font-size:40px;" mat-button disabled>how_to_reg</mat-icon>
             </div>
-            <mat-card-title>{{admin.user_id}}</mat-card-title>
+            <mat-card-title>{{admin?.user_id}}</mat-card-title>
             <mat-card-subtitle>{{admin.user_type}}</mat-card-subtitle>
           </mat-card-header>
           <!-- <img mat-card-image src="https://loremflickr.com/220/250" alt="Photo of a Shiba Inu"> -->
           <mat-card-content>
-            <label>{{admin.email}}</label>
-            <label>{{admin.createdAt}}</label>
+            <label>{{admin?.email}}</label>
+            <label>{{admin?.createdAt}}</label>
             <a (click)="removefromadmin(admin.user_id)" *ngIf="authService.user_type=='SUPERADMIN'" class="btn btn-primary">
               Remove as admin</a>
 
@@ -144,13 +144,13 @@
             <!-- Position Column -->
             <ng-container matColumnDef="site">
               <mat-header-cell *matHeaderCellDef>Sites</mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.site}} </mat-cell>
+              <mat-cell *matCellDef="let element"> {{element?.site}} </mat-cell>
             </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="createdAt">
               <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.createdAt}} </mat-cell>
+              <mat-cell *matCellDef="let element"> {{element?.createdAt}} </mat-cell>
             </ng-container>
 
 
@@ -264,13 +264,13 @@
 
             <ng-container matColumnDef="department">
               <mat-header-cell *matHeaderCellDef>Departments</mat-header-cell>
-              <mat-cell *matCellDef="let element "> {{element.department}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element?.department}} </mat-cell>
             </ng-container>
 
 
             <ng-container matColumnDef="createdAt">
               <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element "> {{element.createdAt}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element?.createdAt}} </mat-cell>
             </ng-container>
 
 
@@ -329,7 +329,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="createdAt">
               <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element "> {{element.createdAt}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element?.createdAt}} </mat-cell>
             </ng-container>
 
 
@@ -519,13 +519,13 @@
             <!-- Position Column -->
             <ng-container matColumnDef="packaging_code">
               <mat-header-cell *matHeaderCellDef>PackagingCode</mat-header-cell>
-              <mat-cell *matCellDef="let element "> {{element.packaging_code}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element?.packaging_code}} </mat-cell>
             </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="createdAt">
               <mat-header-cell *matHeaderCellDef> Created at </mat-header-cell>
-              <mat-cell *matCellDef="let element "> {{element.createdAt}} </mat-cell>
+              <mat-cell *matCellDef="let element "> {{element?.createdAt}} </mat-cell>
             </ng-container>
 
 

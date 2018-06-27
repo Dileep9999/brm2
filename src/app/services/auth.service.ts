@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, ResponseContentType } from '@angular/http';
-import { HttpModule } from '@angular/http';
+import { Http, Headers, HttpModule, ResponseContentType } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
-import { FlashMessagesService } from 'angular2-flash-messages';
+
 import { Observable } from 'rxjs/Observable';
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
@@ -24,7 +23,7 @@ export class AuthService {
   user_email: String;
   project: String;
   department: String;
-  host: String = '35.232.67.104';
+  host: String = 'localhost:3000';
   req: any;
   permission: boolean = false;
   equipmentload: boolean = false;
@@ -32,7 +31,7 @@ export class AuthService {
 
   constructor(public http: Http,
     public router: Router,
-    public flashmessage: FlashMessagesService,
+
     public snotify: SnotifyService,
     public snackBar: MatSnackBar
 
@@ -198,7 +197,7 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          console.log(parsed_err);
+
 
           this.snotify.error(parsed_err.message, 'Error', {
             timeout: 2000,
@@ -215,7 +214,7 @@ export class AuthService {
   }
 
   getformulas(labid) {
-    console.log(labid);
+
 
     let headers = new Headers();
     this.loadToken();
@@ -226,7 +225,7 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          console.log(parsed_err);
+
 
           this.snotify.error(parsed_err.message, 'Error', {
             timeout: 2000,
@@ -253,7 +252,7 @@ export class AuthService {
         try {
           const parsed_err = JSON.parse(err._body);
           console.log(parsed_err);
-
+          this.snotify.clear();
           this.snotify.error(parsed_err.message, 'Error', {
             timeout: 2000,
             position: SnotifyPosition.rightTop,
@@ -278,7 +277,7 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          console.log(parsed_err);
+
 
           this.snotify.error(parsed_err.message, 'Error', {
             timeout: 2000,
@@ -304,7 +303,6 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
-          console.log(parsed_err);
 
           this.snotify.error(parsed_err.message, 'Error', {
             timeout: 2000,
@@ -332,7 +330,7 @@ export class AuthService {
 
         try {
           const parsed_err = JSON.parse(err._body);
-          console.log(parsed_err);
+
 
           this.snotify.error(parsed_err.message, 'Error', {
             timeout: 2000,
@@ -421,7 +419,7 @@ export class AuthService {
         try {
           const parsed_err = JSON.parse(err._body);
           console.log(parsed_err);
-
+          this.snotify.clear();
           this.snotify.error(parsed_err.message.substring(13, 50), 'Error', {
             timeout: 2000,
             position: SnotifyPosition.rightTop,
@@ -445,6 +443,7 @@ export class AuthService {
       .catch((err) => {
         try {
           const parsed_err = JSON.parse(err._body);
+          this.snotify.clear();
           this.snotify.error(parsed_err.message, 'Error', {
             timeout: 2000,
             position: SnotifyPosition.rightTop,
@@ -841,10 +840,10 @@ export class AuthService {
 
   addfav(num) {
     let data =
-      {
-        favourite_type: "REQUEST_ID",
-        favourites: [num]
-      }
+    {
+      favourite_type: "REQUEST_ID",
+      favourites: [num]
+    }
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);

@@ -146,7 +146,7 @@ export class PrefrenceComponent implements OnInit {
   getprefrence() {
     this.authService.getprefrences().subscribe(data => {
       if (data.success) {
-        console.log(data);
+
         if (data.data) {
           this.prefrences = data.data;
           switch (this.prefrences.calender_view.batch_type) {
@@ -223,10 +223,10 @@ export class PrefrenceComponent implements OnInit {
       formula_request_contents: this.prefrences.formula_request_contents
     }
 
-    console.log(this.prefrences.request_filter.view);
+
 
     this.authService.submitprefrences(data).subscribe(data => {
-      console.log('success');
+
       this.getprefrence();
       this.snotify.success('Prefrence Updated', 'Saved', {
         timeout: 2000,
@@ -278,7 +278,7 @@ export class PrefrenceComponent implements OnInit {
         // } else {
         //   this.prefrences.request_filter.filter.gxp = false;
         // };
-        console.log(this.prefrences.request_filter.filters.batch_type.indexOf(value));
+        // console.log(this.prefrences.request_filter.filters.batch_type.indexOf(value));
 
         if (this.prefrences.request_filter.filters.batch_type.indexOf(value) === -1) {
           this.prefrences.request_filter.filters.batch_type.push(value);
@@ -313,7 +313,7 @@ export class PrefrenceComponent implements OnInit {
 
         break;
       case "mfgdate":
-        console.log(this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date);
+        // console.log(this.prefrences.request_filter.filters.manufacturing_date.date_range.from_date);
         let today = new Date();
 
 
@@ -399,7 +399,7 @@ export class PrefrenceComponent implements OnInit {
         break;
       default:
     }
-    console.log(value, type);
+
 
   }
 
@@ -615,7 +615,7 @@ export class DateRange {
   }
 
   submit() {
-    console.log(this.date1, this.date2);
+
 
     this.formatdate();
     let data = {

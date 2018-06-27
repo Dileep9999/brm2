@@ -46,11 +46,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
-
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 
+import { DragScrollModule } from 'ngx-drag-scroll';
 
 
 
@@ -121,6 +122,7 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatProgressSpinnerModule,
     MatRadioModule,
+    DragScrollModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

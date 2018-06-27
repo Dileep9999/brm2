@@ -113,7 +113,6 @@ export class FillingreqComponent implements OnInit {
   }
 
   loadreq() {
-    console.log(this.authService.req);
 
 
     this.fr_num = this.authService.req.request_id;
@@ -130,7 +129,7 @@ export class FillingreqComponent implements OnInit {
 
     this.department = this.authService.req.department;
     this.project = this.authService.req.project;
-    console.log(this.department, this.project);
+
     this.status = this.authService.req.status;
     this.status_des = this.authService.req.status_description;
     this.sitetype = this.authService.req.site;
@@ -201,7 +200,7 @@ export class FillingreqComponent implements OnInit {
 
 
     this.authService.getspecificreq(this.fr_num).subscribe(data => {
-      console.log(data);
+
       this.authService.permission = false;
 
       this.labnotebook = data.data.formulaAttributes.lab_note_book_number;
@@ -210,7 +209,7 @@ export class FillingreqComponent implements OnInit {
       this.appr = approver;
       this.batch_num = data.data.fillingRequest.batch_number;
       this.mfgdate = data.data.fillingRequest.manufacturing_date;
-      console.log(this.mfgdate);
+
 
       if (approver === this.authService.user_id) {
         this.isapprover = true;
@@ -228,7 +227,6 @@ export class FillingreqComponent implements OnInit {
 
       this.comment_list_team = data.data.team_communication.comments;
       this.comment_list_tech = data.data.technical_communication.comments;
-      console.log(this.comment_list_team);
 
       this.comment_list_team.map(e => {
         this.comment_list_team.edit = false;
@@ -247,7 +245,7 @@ export class FillingreqComponent implements OnInit {
     });
   }
   delcomment(id) {
-    console.log('delete');
+
 
     this.authService.delcomment(id).subscribe(data => {
       this.snackBar.open('Deleted Success', 'ok', { duration: 3000 });
@@ -268,7 +266,7 @@ export class FillingreqComponent implements OnInit {
         this.getcomments();
         this.newcommnet = '';
       }
-      console.log("success comments");
+
     });
   }
 
@@ -294,7 +292,7 @@ export class FillingreqComponent implements OnInit {
 
   getformulas() {
     this.authService.getformulas(this.labnotebook).subscribe(data => {
-      console.log(data);
+
 
       this.formulaids = data.data;
     });

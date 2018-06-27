@@ -464,7 +464,7 @@ export class BatchrequestComponent implements OnInit {
 
 
     this.authService.getspecificreq(this.br_num).subscribe(data => {
-      console.log(data);
+
       if (data.data.equipmentRequest === undefined) {
         this.snotify.simple('User has not added any req', 'Not Submitted', {
           timeout: 5000,
@@ -527,7 +527,7 @@ export class BatchrequestComponent implements OnInit {
 
 
   delcomment(id) {
-    console.log('delete');
+
     this.authService.delcomment(id).subscribe(data => {
       this.snackBar.open('Deleted Success', 'ok', { duration: 3000 });
       this.getcomments();
@@ -832,12 +832,12 @@ export class BatchrequestComponent implements OnInit {
   }
 
   formatduedate(date: Date) {
-    console.log(date);
+
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
     this.duedate = year + '-' + month + '-' + day;
-    console.log(this.duedate);
+
 
   }
 
@@ -851,7 +851,7 @@ export class BatchrequestComponent implements OnInit {
           this.reasons = ["NO Reasons For "]
         }
         this.reasons = this.reasonsdata[i].reason;
-        console.log(this.reasons);
+
 
       }
     }
@@ -879,20 +879,19 @@ export class BatchrequestComponent implements OnInit {
 
 
   formatdatemfg(date: Date) {
-    console.log(date);
+
 
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
     this.date = year + '-' + month + '-' + day;
-    console.log(this.date);
 
   }
 
 
 
   addequipmentstolist() {
-    console.log(this.equipmentdata[2].site, this.sitetype);
+
     for (let i = 0; i <= this.equipmentdata.length - 1; i++) {
       if (this.sitetype === this.equipmentdata[i].site && this.batchtype === this.equipmentdata[i].batch_type) {
         this.equipments = this.equipmentdata[i].equipment_list;
@@ -914,8 +913,7 @@ export class BatchrequestComponent implements OnInit {
       pauseOnHover: true
     });
     this.saveload = true;
-    console.log(this.date);
-    console.log(this.bench);
+
     let reason = this.reason.value;
     if (this.reason.value === undefined) {
       reason = this.reasonpilot;
@@ -941,7 +939,7 @@ export class BatchrequestComponent implements OnInit {
 
 
     }
-    console.log(data);
+
 
     this.authService.equipmentrequest(data).subscribe(data => {
       if (data.success) {
@@ -997,7 +995,7 @@ export class BatchrequestComponent implements OnInit {
       rejection_comment: this.rejection_comment1,
       confirm_flag: true
     }
-    console.log(data);
+
     this.authService.savermrequest(data).subscribe(data => {
       if (data.success) {
         this.snotify.clear();
@@ -1051,7 +1049,7 @@ export class BatchrequestComponent implements OnInit {
       flag: flag
 
     }
-    console.log(data);
+
     this.authService.submitfilling(data).subscribe(data => {
       this.snotify.clear();
       this.snotify.success('Success', flag + 'ed', {

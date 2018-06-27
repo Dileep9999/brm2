@@ -136,6 +136,15 @@ img:hover{
 
 
 
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #FF00;
+  width: 2px;
+}
 
 
 
@@ -145,8 +154,11 @@ img:hover{
 
 
 
-
-
+.leticon{
+  -moz-transform: rotate(-180deg);
+-webkit-transform: rotate(-180deg);
+transform: rotate(-180deg);
+}
 
 
 

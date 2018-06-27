@@ -129,349 +129,349 @@
     </div>
     <div class="tab-content">
       <div id="equipment" class="tab-pane active">
-        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-          <div class="row">
-            <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9" style="padding: 20px;">
-              <div class="tab-content">
-                <div id="book" class="tab-pane active">
-                  <mat-card>
-                    <div class="row">
+        <!-- <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12"> -->
+        <div class="row">
+          <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9" style="padding: 20px;">
+            <div class="tab-content">
+              <div id="book" class="tab-pane active">
+                <mat-card>
+                  <div class="row">
+                    <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                      <div class="row">
+                        <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
+                          <h4>Book Equipment</h4>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3 float-right">
+                          <span>Required*</span>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <form class="form-horizontal">
                       <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
                         <div class="row">
-                          <div class="col-sm-9 col-lg-9 col-md-9 col-xs-9">
-                            <h4>Book Equipment</h4>
+                          <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                            <label>Site*</label>
                           </div>
-                          <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3 float-right">
-                            <span>Required*</span>
+                          <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                            <div class="form-control">
+                              <mat-select [(value)]="sitetype" placeholder="Selet Site..." (change)="bencheselect()" [disabled]="equipdisable">
+                                <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
+                              </mat-select>
+                            </div>
+                          </div>
+
+
+
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                        <div class="row">
+                          <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                            <label>Legal Product Category*</label>
+                          </div>
+                          <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                            <div class="btn-group">
+                              <button type="button" class="btn card border-dark nav-link" style="max-height:1cm;" [ngClass]="{'test': newColor3}" [disabled]="equipdisable"
+                                (click)="toggleColor3()">Drug</button>
+                              <button type="button" class="btn card border-dark nav-link" style="max-height:1cm;" [ngClass]="{'test': newColor4}" [disabled]="equipdisable"
+                                (click)="toggleColor4()">Cosmetic</button>
+                            </div>
                           </div>
                         </div>
                       </div>
                       <br>
+                      <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                        <div class="row">
+                          <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                            <label>Batch Type*</label>
+                          </div>
+                          <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                            <div class="btn-group nav">
+                              <button type="button" class="btn card border-dark nav-link" [disabled]="equipdisable" style="max-height:1cm;" href="#lab"
+                                data-toggle="tab" [ngClass]="{'test': newColor}" (click)="toggleColor()">Lab</button>
+                              <button type="button" class="btn card border-dark nav-link" [disabled]="equipdisable" style="max-height:1cm;" href="#pilot"
+                                data-toggle="tab" [ngClass]="{'test': newColor1}" (click)="toggleColor1()">Pilot</button>
+                              <button type="button" class="btn card border-dark  nav-link" [disabled]="equipdisable" style="max-height:1cm;" href="#other"
+                                data-toggle="tab" [ngClass]="{'test': newColor2}" (click)="toggleColor2()">Others</button>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
+                            <mat-radio-group class="example-radio-group" [(ngModel)]="gxpvalue" [ngModelOptions]="{standalone: true}" [disabled]="equipdisable">
+                              <mat-radio-button class="example-radio-button" [checked]="gxpvalue" value=true color="primary">
+                                Gxp
+                              </mat-radio-button>
+                              <mat-radio-button class="example-radio-button" value=false color="primary">
+                                Not Gxp
+                              </mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                        </div>
+                      </div>
                       <br>
-                      <br>
-                      <form class="form-horizontal">
-                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                          <div class="row">
-                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                              <label>Site*</label>
-                            </div>
-                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <div class="form-control">
-                                <mat-select [(value)]="sitetype" placeholder="Selet Site..." (change)="bencheselect()" [disabled]="equipdisable">
-                                  <mat-option *ngFor="let site of sitemenu" value="{{site}}">{{site}}</mat-option>
-                                </mat-select>
-                              </div>
-                            </div>
-
-
-
+                      <div class="tab-content">
+                        <div id="site" class="tab-pane">
+                          <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
+                            <input type="text">
                           </div>
+
                         </div>
-                        <br>
-                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                          <div class="row">
-                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                              <label>Legal Product Category*</label>
-                            </div>
-                            <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                              <div class="btn-group">
-                                <button type="button" class="btn card border-dark nav-link" style="max-height:1cm;" [ngClass]="{'test': newColor3}" [disabled]="equipdisable"
-                                  (click)="toggleColor3()">Drug</button>
-                                <button type="button" class="btn card border-dark nav-link" style="max-height:1cm;" [ngClass]="{'test': newColor4}" [disabled]="equipdisable"
-                                  (click)="toggleColor4()">Cosmetic</button>
+                        <div id="lab" class="tab-pane ">
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Select Bench</label>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                          <div class="row">
-                            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                              <label>Batch Type*</label>
-                            </div>
-                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                              <div class="btn-group nav">
-                                <button type="button" class="btn card border-dark nav-link" [disabled]="equipdisable" style="max-height:1cm;" href="#lab"
-                                  data-toggle="tab" [ngClass]="{'test': newColor}" (click)="toggleColor()">Lab</button>
-                                <button type="button" class="btn card border-dark nav-link" [disabled]="equipdisable" style="max-height:1cm;" href="#pilot"
-                                  data-toggle="tab" [ngClass]="{'test': newColor1}" (click)="toggleColor1()">Pilot</button>
-                                <button type="button" class="btn card border-dark  nav-link" [disabled]="equipdisable" style="max-height:1cm;" href="#other"
-                                  data-toggle="tab" [ngClass]="{'test': newColor2}" (click)="toggleColor2()">Others</button>
-                              </div>
-                            </div>
-                            <div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
-                              <mat-radio-group class="example-radio-group" [(ngModel)]="gxpvalue" [ngModelOptions]="{standalone: true}" [disabled]="equipdisable">
-                                <mat-radio-button class="example-radio-button" [checked]="gxpvalue" value=true color="primary">
-                                  Gxp
-                                </mat-radio-button>
-                                <mat-radio-button class="example-radio-button" value=false color="primary">
-                                  Not Gxp
-                                </mat-radio-button>
-                              </mat-radio-group>
-                            </div>
-                          </div>
-                        </div>
-                        <br>
-                        <div class="tab-content">
-                          <div id="site" class="tab-pane">
-                            <div class="col-sm-1 col-lg-1 col-md-1 col-xs-1">
-                              <input type="text">
-                            </div>
+                              <div class="col-sm-8 col-lg-8 col-md-8 col-xs-8">
+                                <div>
 
-                          </div>
-                          <div id="lab" class="tab-pane ">
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Select Bench</label>
-                                </div>
-                                <div class="col-sm-8 col-lg-8 col-md-8 col-xs-8">
-                                  <div>
+                                  <mat-select class="form-control" placeholder="Benches" [(value)]="bench">
 
-                                    <mat-select class="form-control" placeholder="Benches" [(value)]="bench">
-
-                                      <mat-option *ngFor="let bench1 of benches" value="{{bench1}}">{{bench1}}</mat-option>
-                                    </mat-select>
-                                    <br>
-                                    <!-- <mat-select [(value)]="reason" placeholder="Select Reason For This Batch">
+                                    <mat-option *ngFor="let bench1 of benches" value="{{bench1}}">{{bench1}}</mat-option>
+                                  </mat-select>
+                                  <br>
+                                  <!-- <mat-select [(value)]="reason" placeholder="Select Reason For This Batch">
                                       <mat-option *ngFor="let reason of reasons" value="{{reason}}">{{reason}}</mat-option>
 
                                     </mat-select> -->
-                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <br>
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Reason For This Batch*:</label>
-                                </div>
-                                <div class="col-sm-8 col-lg-8 col-md-8 col-xs-8">
-                                  <div class="form-control">
+                          </div>
+                          <br>
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Reason For This Batch*:</label>
+                              </div>
+                              <div class="col-sm-8 col-lg-8 col-md-8 col-xs-8">
+                                <div class="form-control">
 
-                                    <mat-select placeholder="Reasons" [formControl]="reason" multiple>
-                                      <mat-select-trigger>
-                                        {{reason.value ? reason.value[0] : ''}}
-                                        <span *ngIf="reason.value?.length > 1" class="example-additional-selection">
-                                          (+{{reason.value.length - 1}} others)
-                                        </span>
-                                      </mat-select-trigger>
-                                      <mat-option *ngFor="let reason1 of reasons" value="{{reason1}}">{{reason1}}</mat-option>
-                                    </mat-select>
+                                  <mat-select placeholder="Reasons" [formControl]="reason" multiple>
+                                    <mat-select-trigger>
+                                      {{reason.value ? reason.value[0] : ''}}
+                                      <span *ngIf="reason.value?.length > 1" class="example-additional-selection">
+                                        (+{{reason.value.length - 1}} others)
+                                      </span>
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let reason1 of reasons" value="{{reason1}}">{{reason1}}</mat-option>
+                                  </mat-select>
 
-                                    <!-- <mat-select [(value)]="reason" placeholder="Select Reason For This Batch">
+                                  <!-- <mat-select [(value)]="reason" placeholder="Select Reason For This Batch">
                                   <mat-option *ngFor="let reason of reasons" value="{{reason}}">{{reason}}</mat-option>
 
                                 </mat-select> -->
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <br>
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Date*:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <mat-form-field>
-                                    <input matInput #equipdate ([ngModel])="date" [disabled]="equipdisable" (dateInput)="formatdatemfg($event.target.value)"
-                                      [min]="startDate" [matDatepicker]="lab" placeholder="Choose a date">
-                                    <mat-datepicker-toggle matSuffix [for]="lab"></mat-datepicker-toggle>
-                                    <mat-datepicker #lab></mat-datepicker>
-                                  </mat-form-field>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <br>
-                          <div id="pilot" class="tab-pane fade">
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Equipment:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <div class="form-control">
-                                    <mat-select placeholder="Select Equipment" [(value)]="equipment1">
-                                      <mat-option *ngFor="let equipment of equipments" value="{{equipment}}" [disabled]="equipdisable">{{equipment}}</mat-option>
-                                    </mat-select>
-                                  </div>
-                                </div>
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Date*:</label>
                               </div>
-                            </div>
-                            <br>
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Optional Equipment:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <div class="form-control">
-                                    <mat-select placeholder="Select Optional Equipment" [(value)]="optional_equipment">
-                                      <mat-option *ngFor="let equipment of optionalequip" value="{{equipment}}">{{equipment}}</mat-option>
-                                    </mat-select>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <br>
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Reason For This Batch*:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <textarea class="form-control" [(ngModel)]="reasonpilot" [ngModelOptions]="{standalone: true}" placeholder="Enter Reasons..">
-
-                              </textarea>
-                                </div>
-                              </div>
-                            </div>
-                            <br>
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Date*:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <mat-form-field>
-                                    <input matInput ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [min]="startDate" [matDatepicker]="pilot"
-                                      placeholder="Choose a date">
-                                    <mat-datepicker-toggle matSuffix [for]="pilot"></mat-datepicker-toggle>
-                                    <mat-datepicker #pilot></mat-datepicker>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <br>
-                          <div id="other" class="tab-pane fade">
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Equipment:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <div class="form-control">
-                                    <mat-select placeholder="Select Optional Equipment" [(value)]="equipment1" [disabled]="equipdisable">
-                                      <mat-option *ngFor="let equipment of equipments" value="{{equipment}}">{{equipment}}</mat-option>
-                                    </mat-select>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <br>
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Reason For This Batch*:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <textarea class="form-control" [(ngModel)]="reasonpilot" [disabled]="equipdisable" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Enter Reasons..">
-
-                              </textarea>
-                                </div>
-                              </div>
-                            </div>
-                            <br>
-                            <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
-                              <div class="row">
-                                <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
-                                  <label>Date*:</label>
-                                </div>
-                                <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
-                                  <mat-form-field>
-                                    <input matInput ([ngModel])="date" [disabled]="equipdisable" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="others"
-                                      [min]="startDate" placeholder="Choose a date">
-                                    <mat-datepicker-toggle matSuffix [for]="others"></mat-datepicker-toggle>
-                                    <mat-datepicker #others></mat-datepicker>
-                                  </mat-form-field>
-                                </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <mat-form-field>
+                                  <input matInput #equipdate ([ngModel])="date" [disabled]="equipdisable" (dateInput)="formatdatemfg($event.target.value)"
+                                    [min]="startDate" [matDatepicker]="lab" placeholder="Choose a date">
+                                  <mat-datepicker-toggle matSuffix [for]="lab"></mat-datepicker-toggle>
+                                  <mat-datepicker #lab></mat-datepicker>
+                                </mat-form-field>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <br>
+                        <div id="pilot" class="tab-pane fade">
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Equipment:</label>
+                              </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <div class="form-control">
+                                  <mat-select placeholder="Select Equipment" [(value)]="equipment1">
+                                    <mat-option *ngFor="let equipment of equipments" value="{{equipment}}" [disabled]="equipdisable">{{equipment}}</mat-option>
+                                  </mat-select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Optional Equipment:</label>
+                              </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <div class="form-control">
+                                  <mat-select placeholder="Select Optional Equipment" [(value)]="optional_equipment">
+                                    <mat-option *ngFor="let equipment of optionalequip" value="{{equipment}}">{{equipment}}</mat-option>
+                                  </mat-select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Reason For This Batch*:</label>
+                              </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <textarea class="form-control" [(ngModel)]="reasonpilot" [ngModelOptions]="{standalone: true}" placeholder="Enter Reasons..">
 
+                              </textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Date*:</label>
+                              </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <mat-form-field>
+                                  <input matInput ([ngModel])="date" (dateInput)="formatdatemfg($event.target.value)" [min]="startDate" [matDatepicker]="pilot"
+                                    placeholder="Choose a date">
+                                  <mat-datepicker-toggle matSuffix [for]="pilot"></mat-datepicker-toggle>
+                                  <mat-datepicker #pilot></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div id="other" class="tab-pane fade">
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Equipment:</label>
+                              </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <div class="form-control">
+                                  <mat-select placeholder="Select Optional Equipment" [(value)]="equipment1" [disabled]="equipdisable">
+                                    <mat-option *ngFor="let equipment of equipments" value="{{equipment}}">{{equipment}}</mat-option>
+                                  </mat-select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Reason For This Batch*:</label>
+                              </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <textarea class="form-control" [(ngModel)]="reasonpilot" [disabled]="equipdisable" [ngModelOptions]="{standalone: true}"
+                                  placeholder="Enter Reasons..">
 
-                      </form>
-                    </div>
-                  </mat-card>
-                </div>
-                <div id="calender" class="tab-pane fade">
-
-
-
-
-
-
-
-                </div>
-                <div id="approver" class="tab-pane fade">
-                  <mat-card>
-                    <div class="row">
-                      <label class="col-sm-3">Approver</label>
-                      <div class="col-sm-6 form-control">
-                        <mat-select [(ngModel)]="appr" (change)="sumitenable()" [disabled]="equipdisable">
-                          <mat-option selected disabled value="None">None</mat-option>
-                          <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
-                        </mat-select>
+                              </textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                          <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">
+                            <div class="row">
+                              <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+                                <label>Date*:</label>
+                              </div>
+                              <div class="col-sm-6 col-lg-6 col-md-6 col-xs-6">
+                                <mat-form-field>
+                                  <input matInput ([ngModel])="date" [disabled]="equipdisable" (dateInput)="formatdatemfg($event.target.value)" [matDatepicker]="others"
+                                    [min]="startDate" placeholder="Choose a date">
+                                  <mat-datepicker-toggle matSuffix [for]="others"></mat-datepicker-toggle>
+                                  <mat-datepicker #others></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
+
+
+                    </form>
+                  </div>
+                </mat-card>
+              </div>
+              <div id="calender" class="tab-pane fade">
+
+
+
+
+
+
+
+              </div>
+              <div id="approver" class="tab-pane fade">
+                <mat-card>
+                  <div class="row">
+                    <label class="col-sm-3">Approver</label>
+                    <div class="col-sm-6 form-control">
+                      <mat-select [(ngModel)]="appr" (change)="sumitenable()" [disabled]="equipdisable">
+                        <mat-option selected disabled value="None">None</mat-option>
+                        <mat-option *ngFor="let approver of approvers " value="{{approver}}">{{approver}}</mat-option>
+                      </mat-select>
                     </div>
-                  </mat-card>
-                </div>
+                  </div>
+                </mat-card>
               </div>
-            </div>
-            <div class="col-sm-3 col-lg-4 col-md-3 col-xs-4">
-              <div class="batch-header nav nav-tabs">
-                <button mat-button class="batch-br" data-toggle="tab" href="#book" [ngClass]="{'test': newColor5}" (click)="toggleColor5()">Book Equipment</button>
-                <button mat-button class="batch-br" data-toggle="tab" href="#calender" [ngClass]="{'test':newColor6}" (click)="toggleColor6()">Calender</button>
-                <button mat-button class="batch-br" data-toggle="tab" href="#approver" [ngClass]="{'test':newColor7}" (click)="toggleColor7()">Approver</button>
-                <br>
-              </div>
-              <div style="margin-top:3px;padding-left:15px;" class="row">
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" (click)="equipmentreq('cancel')">
-                  <b>Cancel</b>
-                </button>
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" (click)="equipmentreq('save')">
-                  <b>Save</b>
-                </button>
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" *ngIf="!isapprover"
-                  (click)="equipmentreq('submit')" [disabled]="equipmentsubmitenable">
-                  <b>Submit</b>
-                </button>
-
-
-              </div>
-              <div style="margin-top:0.1cm;">
-
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;" (click)="rejectshow2=!rejectshow2" *ngIf="isapprover">
-                  <b>Reject</b>
-                </button>
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;" (click)="equipmentreq('confirm')" *ngIf="isapprover">
-                  <b>Confirm</b>
-                </button>
-                <button mat-raised-button class="hoverButton" style="margin:0.1cm;" (click)="equipmentreq('pending')" *ngIf="isapprover">
-                  <b>Pending</b>
-                </button>
-
-
-
-
-              </div>
-              <div style="margin-top:1cm" *ngIf="rejectshow2">
-
-                <textarea class="form-control" type="text" [(ngModel)]="rejection_comment2" [ngModelOptions]="{standalone: true}" placeholder="why ?"></textarea>
-                <button mat-raised-button class="hoverButton" (click)="equipmentreq('reject')">Reject</button>
-
-              </div>
-
             </div>
           </div>
+          <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3">
+            <div class="batch-header nav nav-tabs">
+              <button mat-button class="batch-br" data-toggle="tab" href="#book" [ngClass]="{'test': newColor5}" (click)="toggleColor5()">Book Equipment</button>
+              <button mat-button class="batch-br" data-toggle="tab" href="#calender" [ngClass]="{'test':newColor6}" (click)="toggleColor6()">Calender</button>
+              <button mat-button class="batch-br" data-toggle="tab" href="#approver" [ngClass]="{'test':newColor7}" (click)="toggleColor7()">Approver</button>
+              <br>
+            </div>
+            <div style="margin-top:3px;padding-left:15px;" class="row">
+              <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" (click)="equipmentreq('cancel')">
+                <b>Cancel</b>
+              </button>
+              <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" (click)="equipmentreq('save')">
+                <b>Save</b>
+              </button>
+              <button mat-raised-button class="hoverButton" style="margin:0.1cm;min-width:90px;" [disabled]="equipdisable" *ngIf="!isapprover"
+                (click)="equipmentreq('submit')" [disabled]="equipmentsubmitenable">
+                <b>Submit</b>
+              </button>
 
+
+            </div>
+            <div style="margin-top:0.1cm;">
+
+              <button mat-raised-button class="hoverButton" style="margin:0.1cm;" (click)="rejectshow2=!rejectshow2" *ngIf="isapprover">
+                <b>Reject</b>
+              </button>
+              <button mat-raised-button class="hoverButton" style="margin:0.1cm;" (click)="equipmentreq('confirm')" *ngIf="isapprover">
+                <b>Confirm</b>
+              </button>
+              <button mat-raised-button class="hoverButton" style="margin:0.1cm;" (click)="equipmentreq('pending')" *ngIf="isapprover">
+                <b>Pending</b>
+              </button>
+
+
+
+
+            </div>
+            <div style="margin-top:1cm" *ngIf="rejectshow2">
+
+              <textarea class="form-control" type="text" [(ngModel)]="rejection_comment2" [ngModelOptions]="{standalone: true}" placeholder="why ?"></textarea>
+              <button mat-raised-button class="hoverButton" (click)="equipmentreq('reject')">Reject</button>
+
+            </div>
+
+          </div>
         </div>
+
+        <!-- </div> -->
       </div>
       <div id="overview" class="tab-pane fade">
         <div class="row">

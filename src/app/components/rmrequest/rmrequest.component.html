@@ -460,13 +460,13 @@
                           <tbody>
 
                             <tr *ngFor="let row_matrial of row_matrials">
-                              <td>{{row_matrial.trade_name}}</td>
-                              <td>{{row_matrial.rm_num}}</td>
-                              <td>{{row_matrial.percentage}}</td>
-                              <td>{{row_matrial.quantity_required}}</td>
-                              <td>{{row_matrial.simatic_lab_gxp_stock}}</td>
-                              <td>{{row_matrial.simatic_pilot_stock}}</td>
-                              <td>{{row_matrial.simatic_lab_stock}}</td>
+                              <td>{{row_matrial?.trade_name}}</td>
+                              <td>{{row_matrial?.rm_num}}</td>
+                              <td>{{row_matrial?.percentage}}</td>
+                              <td>{{row_matrial?.quantity_required}}</td>
+                              <td>{{row_matrial?.simatic_lab_gxp_stock}}</td>
+                              <td>{{row_matrial?.simatic_pilot_stock}}</td>
+                              <td>{{row_matrial?.simatic_lab_stock}}</td>
                               <td>
                                 <input class="form-control" type="number" [(ngModel)]="row_matrial.quantity_to_order" [ngModelOptions]="{standalone: true}">
                               </td>
@@ -550,12 +550,12 @@
         <ul class="nav nav-tabs" role="tablist" style="padding-top:10px;padding-left: 9px;">
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#team">Team Communication
-              <span class="badge badge-danger">{{comment_list_team.length}}</span>
+              <span class="badge badge-danger">{{comment_list_team?.length}}</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#tech">Tech Communication
-              <span class="badge badge-danger">{{comment_list_tech.length}}</span>
+              <span class="badge badge-danger">{{comment_list_tech?.length}}</span>
             </a>
           </li>
         </ul>
@@ -595,7 +595,7 @@
                   <mat-icon style="font-size: 23px;">account_circle</mat-icon>
                 </div>
                 <h5 *ngIf="!comment.edit">
-                  <b style="text-transform: capitalize;color:#673ab7">{{comment.createdBy}}</b>
+                  <b style="text-transform: capitalize;color:#673ab7">{{comment?.createdBy}}</b>
                 </h5>
               </div>
             </div>
@@ -604,7 +604,7 @@
                 <div class="col-sm-1"></div>
                 <div class="col-sm-9">
                   <div *ngIf="!comment.edit">
-                    <p style="font-size:13px;">{{comment.comment}}</p>
+                    <p style="font-size:13px;">{{comment?.comment}}</p>
                   </div>
                   <div class="row" *ngIf="comment.edit ">
                     <div class="col-sm-8">
@@ -677,7 +677,7 @@
                   <mat-icon style="font-size: 23px;">account_circle</mat-icon>
                 </div>
                 <h5 *ngIf="!comment.edit">
-                  <b style="text-transform: capitalize;color:#673ab7">{{comment.createdBy}}</b>
+                  <b style="text-transform: capitalize;color:#673ab7">{{comment?.createdBy}}</b>
                 </h5>
               </div>
             </div>
@@ -686,7 +686,7 @@
                 <div class="col-sm-1"></div>
                 <div class="col-sm-9">
                   <div *ngIf="!comment.edit">
-                    <p style="font-size:13px;">{{comment.comment}}</p>
+                    <p style="font-size:13px;">{{comment?.comment}}</p>
                   </div>
                   <div class="row" *ngIf="comment.edit">
                     <div class="col-sm-8">
