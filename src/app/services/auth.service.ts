@@ -548,7 +548,6 @@ export class AuthService {
 
 
   getusers(USER) {
-    console.log(USER);
     let headers = new Headers();
     this.loadToken();
     headers.append('Authorization', this.authToken);

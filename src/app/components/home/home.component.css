@@ -152,7 +152,22 @@ img:hover{
 
 
 
-
+.cbtn{
+  left:0;
+  position: absolute;
+  z-index: 1;
+  margin-top:1.8cm;
+  max-width: 1cm;
+  min-height: 2cm;
+}
+.cbtn1{
+  right:0;
+  position: absolute;
+  z-index: 1;
+  margin-top:1.8cm;
+  max-width: 1cm;
+  min-height: 2cm;
+}
 
 .leticon{
   -moz-transform: rotate(-180deg);
